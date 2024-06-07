@@ -53,6 +53,7 @@
         android:layout_height="53dp"
         android:ems="10"
         android:inputType="text"
+        android:background="@drawable/style_borde_edittext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
@@ -80,12 +81,20 @@
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="parent"
         tools:layout_editor_absoluteX="19dp" />
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="401dp" />
 
     <Button
         android:id="@+id/btnNoRecibido"
         android:layout_width="376dp"
         android:layout_height="50dp"
+
         android:backgroundTint="#F1EEEE"
+        android:text="¿No recibiste el código?"
+        android:textColor="#0C0A0A"
+
+        android:backgroundTint="#ffffffff"
+        android:background="@drawable/style_borde_boton"
         android:text="¿No recibiste el código?"
         android:textColor="#0C0A0A"
         app:barrierMargin="2sp"

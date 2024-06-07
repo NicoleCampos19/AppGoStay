@@ -13,6 +13,7 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".activity_iniciar_sesion"
             android:exported="false" />
         <activity
@@ -21,6 +22,8 @@
             android:label="@string/title_activity_registrarse"
             android:theme="@style/Theme.GoStay" />
         <activity
+=======
+>>>>>>> ecb0d26ba2c6eb7695e8c5054023d6e6b805d0f5
             android:name=".CreacionContrasenaActivity"
             android:exported="false" />
         <activity

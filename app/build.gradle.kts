@@ -15,9 +15,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+<<<<<<< HEAD
         vectorDrawables {
             useSupportLibrary = true
         }
+=======
+>>>>>>> ecb0d26ba2c6eb7695e8c5054023d6e6b805d0f5
     }
 
     buildTypes {
@@ -36,6 +39,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+<<<<<<< HEAD
     buildFeatures {
         compose = true
     }
@@ -47,6 +51,8 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+=======
+>>>>>>> ecb0d26ba2c6eb7695e8c5054023d6e6b805d0f5
 }
 
 dependencies {
@@ -56,6 +62,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+<<<<<<< HEAD
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -70,4 +77,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+=======
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+>>>>>>> ecb0d26ba2c6eb7695e8c5054023d6e6b805d0f5
 }

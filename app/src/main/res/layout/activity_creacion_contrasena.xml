@@ -53,6 +53,7 @@
         android:layout_height="61dp"
         android:layout_marginTop="28dp"
         android:ems="10"
+        android:background="@drawable/style_borde_edittext"
         android:hint="Contraseña nueva"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
