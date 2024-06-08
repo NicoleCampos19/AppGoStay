@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GoStay!</string>
+    <string name="title_activity_registrarse">activity_registrarse</string>
 </resources>
