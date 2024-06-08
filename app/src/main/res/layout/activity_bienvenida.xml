@@ -11,54 +11,56 @@
         android:id="@+id/textView"
         android:layout_width="331dp"
         android:layout_height="100dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/poppins"
         android:text="Encuentra y explora tu próximo destino"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.518" />
+        app:layout_constraintVertical_bias="0.654" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="314dp"
         android:layout_height="55dp"
+        android:fontFamily="@font/poppins"
         android:text="¡Tu mejor opción para encontrar un hotel que se ajuste a tu preferencia!"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.419" />
+        app:layout_constraintVertical_bias="0.468" />
 
     <Button
         android:id="@+id/btnContinuar"
         android:layout_width="239dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="#49A8B5"
+        android:fontFamily="@font/poppins"
         android:text="Continuar"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="426dp"
-        android:layout_height="741dp"
-        android:layout_marginBottom="220dp"
+        android:layout_width="597dp"
+        android:layout_height="1030dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/fondo" />
 
