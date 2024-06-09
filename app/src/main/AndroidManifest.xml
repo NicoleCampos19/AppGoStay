@@ -33,10 +33,10 @@
             android:name=".RecuperacionCuentaActivity"
             android:exported="false" />
         <activity
-            android:name=".PrimerUsoActivity2"
+            android:name=".Bienvenida"
             android:exported="false" />
         <activity
-            android:name=".PrimerUsoActivity1"
+            android:name=".Splash_Screen"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
