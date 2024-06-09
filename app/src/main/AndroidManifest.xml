@@ -13,6 +13,12 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+            android:name=".Favoritos"
+            android:exported="false" />
+        <activity
+            android:name=".PaginaInicio"
+            android:exported="false" />
+        <activity
             android:name=".Confirmacion_Cuenta"
             android:exported="false" />
         <activity
