@@ -130,7 +130,7 @@
     <EditText
         android:id="@+id/txtContraseña"
         android:layout_width="246dp"
-        android:layout_height="52"
+        android:layout_height="52dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"

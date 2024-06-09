@@ -9,41 +9,40 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="331dp"
-        android:layout_height="100dp"
+        android:layout_width="365dp"
+        android:layout_height="101dp"
+        android:layout_marginTop="488dp"
         android:fontFamily="@font/poppins"
         android:text="Encuentra y explora tu próximo destino"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.347"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.654" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="314dp"
         android:layout_height="55dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins"
         android:text="¡Tu mejor opción para encontrar un hotel que se ajuste a tu preferencia!"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.391"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.468" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/btnContinuar"
         android:layout_width="239dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="52dp"
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppins"
         android:text="Continuar"
@@ -52,13 +51,15 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="597dp"
-        android:layout_height="1030dp"
-        android:layout_marginBottom="32dp"
+        android:id="@+id/imageView9"
+        android:layout_width="655dp"
+        android:layout_height="870dp"
+        android:layout_marginBottom="156dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
