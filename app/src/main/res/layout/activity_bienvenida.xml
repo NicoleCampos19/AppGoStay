@@ -33,6 +33,7 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinuarBienvenida"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.391"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,12 +57,14 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
+
         android:id="@+id/imageView9"
         android:layout_width="655dp"
         android:layout_height="870dp"
         android:layout_marginBottom="156dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.381"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/fondo" />
 

@@ -18,12 +18,15 @@ class Bienvenida : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+<<<<<<< HEAD
         val btn = findViewById<Button>(R.id.btnContinuarBienvenida)
 
         btn.setOnClickListener {
             val siguientepantalla = Intent(this, activity_registrarse::class.java)
             startActivity(siguientepantalla)
         }
+=======
+>>>>>>> Gabriela
 
     }
 }
