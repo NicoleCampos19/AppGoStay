@@ -32,7 +32,7 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinuarBienvenida"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         app:layout_constraintVertical_bias="0.468" />
 
     <Button
-        android:id="@+id/btnContinuar"
+        android:id="@+id/btnContinuarBienvenida"
         android:layout_width="239dp"
         android:layout_height="56dp"
         android:layout_marginBottom="60dp"
@@ -58,9 +58,10 @@
         android:id="@+id/imageView"
         android:layout_width="597dp"
         android:layout_height="1030dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.381"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/fondo" />
 
