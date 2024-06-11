@@ -8,7 +8,7 @@
     tools:context=".Confirmacion_Cuenta">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imvAtrasc"
         android:layout_width="52dp"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,13 +69,13 @@
         android:fontFamily="@font/poppins"
         android:text="Enviamos un código por gmail. Ingrésalo para confirmar tu cuenta."
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btnConfirmaCuenta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.301"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnConfirmaCuenta"
         android:layout_width="332dp"
         android:layout_height="50dp"
         android:layout_marginBottom="24dp"

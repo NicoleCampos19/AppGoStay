@@ -30,6 +30,18 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/fondo_transparente_iniciar" />
 
+    <ImageView
+        android:id="@+id/imvAtrasc"
+        android:layout_width="52dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        app:srcCompat="@drawable/ic_back" />
+
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
@@ -47,13 +59,14 @@
         app:layout_constraintVertical_bias="0.327" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/txtOlvidasteContrasena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="340dp"
         android:fontFamily="@font/poppins"
         android:text="¿olvidaste tu contraseña?"
         android:textColor="#000000"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +113,7 @@
         android:hint="Contraseña"
         android:inputType="text"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView11"
+        app:layout_constraintBottom_toTopOf="@+id/txtOlvidasteContrasena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toStartOf="parent"
