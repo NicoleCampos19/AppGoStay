@@ -5,22 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Favoritos">
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:fontFamily="@font/poppins"
-        android:text="Favoritos"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    tools:context=".Reservas">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="322dp"
@@ -49,20 +34,20 @@
                 app:srcCompat="@drawable/iconinicio" />
 
             <ImageView
-                android:id="@+id/imvFavoritoa"
+                android:id="@+id/imvFavoritos"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:layout_marginTop="6dp"
-                app:srcCompat="@drawable/favoritos" />
+                app:srcCompat="@drawable/iconfavoritos" />
 
             <ImageView
-                android:id="@+id/imvReservas"
+                android:id="@+id/imvReservaa"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:layout_marginTop="6dp"
-                app:srcCompat="@drawable/iconreservas" />
+                app:srcCompat="@drawable/reservas" />
 
             <ImageView
                 android:id="@+id/imvPerfil"
@@ -73,6 +58,5 @@
                 app:srcCompat="@drawable/iconperfil" />
         </LinearLayout>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
