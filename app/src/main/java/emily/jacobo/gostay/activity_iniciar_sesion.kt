@@ -38,5 +38,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
         }
+
     }
 }

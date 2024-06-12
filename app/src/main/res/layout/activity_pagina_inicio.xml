@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".PaginaInicio">
 
+    <ScrollView
+        android:layout_width="111dp"
+        android:layout_height="175dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="685dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
     <TextView
         android:id="@+id/textView13"
         android:layout_width="282dp"
@@ -74,6 +86,13 @@
                 app:srcCompat="@drawable/iconperfil" />
         </LinearLayout>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvHoteles"
+        android:layout_width="409dp"
+        android:layout_height="507dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="177dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
