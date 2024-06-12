@@ -24,7 +24,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="322dp"
-        android:layout_height="46dp"
+        android:layout_height="60dp"
         android:layout_gravity="bottom"
         android:background="@drawable/negro_menu"
         app:layout_constraintBottom_toBottomOf="parent"
