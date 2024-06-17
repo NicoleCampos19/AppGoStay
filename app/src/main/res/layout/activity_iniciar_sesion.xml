@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="458dp"
-        android:layout_height="847dp"
+        android:layout_width="479dp"
+        android:layout_height="870dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,28 +19,28 @@
         app:srcCompat="@drawable/fondo_registrarse" />
 
     <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="434dp"
-        android:layout_height="789dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/fondo_transparente_iniciar" />
-
-    <ImageView
         android:id="@+id/imvAtrasc"
-        android:layout_width="52dp"
-        android:layout_height="60dp"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
+        app:layout_constraintVertical_bias="0.03"
         app:srcCompat="@drawable/ic_back" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="302dp"
+        android:layout_height="376dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44"
+        app:srcCompat="@drawable/cuadrotransparente" />
 
     <TextView
         android:id="@+id/textView14"
@@ -53,16 +53,15 @@
         android:tooltipText="popp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.327" />
+        app:layout_constraintVertical_bias="0.306" />
 
     <TextView
         android:id="@+id/txtOlvidasteContrasena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="340dp"
+        android:layout_marginBottom="368dp"
         android:fontFamily="@font/poppins"
         android:text="¿olvidaste tu contraseña?"
         android:textColor="#000000"
@@ -70,7 +69,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.719"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -80,11 +79,12 @@
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppins"
         android:text="Iniciar"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.614" />
+        app:layout_constraintVertical_bias="0.631" />
 
     <EditText
         android:id="@+id/editTextText2"
@@ -98,10 +98,10 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.391" />
+        app:layout_constraintVertical_bias="0.39" />
 
     <EditText
         android:id="@+id/editTextText3"
@@ -115,10 +115,10 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtOlvidasteContrasena"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText2"
-        app:layout_constraintVertical_bias="0.189" />
+        app:layout_constraintVertical_bias="0.564" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

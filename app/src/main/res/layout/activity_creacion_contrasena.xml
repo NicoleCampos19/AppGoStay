@@ -9,35 +9,35 @@
 
     <ImageView
         android:id="@+id/imvAtrasc"
-        android:layout_width="52dp"
-        android:layout_height="60dp"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
+        app:layout_constraintVertical_bias="0.045"
         app:srcCompat="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="376dp"
-        android:layout_height="80dp"
+        android:layout_width="379dp"
+        android:layout_height="45dp"
         android:fontFamily="@font/poppins"
         android:text="Crea una nueva contraseña"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.432"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.184" />
+        app:layout_constraintVertical_bias="0.204" />
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="374dp"
-        android:layout_height="89dp"
+        android:layout_width="371dp"
+        android:layout_height="72dp"
         android:fontFamily="@font/poppins"
         android:text="Crea una contraseña que contenga al menos 12 dígitos. Debes incluir caracteres especiales, mayúsculas y minúsculas."
         android:textAlignment="textStart"
@@ -45,23 +45,23 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintHorizontal_bias="0.422"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.028" />
 
     <EditText
         android:id="@+id/editTextText"
         android:layout_width="369dp"
         android:layout_height="61dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/style_borde_edittext"
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:hint="Contraseña nueva"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.404"
+        app:layout_constraintHorizontal_bias="0.382"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -72,11 +72,12 @@
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppins"
         android:text="Continuar"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
+        app:layout_constraintHorizontal_bias="0.372"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintVertical_bias="0.055" />
 </androidx.constraintlayout.widget.ConstraintLayout>
