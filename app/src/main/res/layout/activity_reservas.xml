@@ -8,8 +8,8 @@
     tools:context=".Reservas">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="322dp"
-        android:layout_height="60dp"
+        android:layout_width="340dp"
+        android:layout_height="70dp"
         android:layout_gravity="bottom"
         android:background="@drawable/negro_menu"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.872">
+        app:layout_constraintVertical_bias="0.972">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,34 +27,34 @@
 
             <ImageView
                 android:id="@+id/imvBuscarb"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="6dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:layout_marginTop="6dp"
                 app:srcCompat="@drawable/iconinicio" />
 
             <ImageView
                 android:id="@+id/imvFavoritos"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="6dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:layout_marginTop="6dp"
                 app:srcCompat="@drawable/iconfavoritos" />
 
             <ImageView
                 android:id="@+id/imvReservaa"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="6dp"
+                android:layout_marginTop="12dp"
+                android:layout_height="32dp"
                 android:layout_weight="1"
-                android:layout_marginTop="6dp"
                 app:srcCompat="@drawable/reservas" />
 
             <ImageView
                 android:id="@+id/imvPerfil"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="6dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:layout_marginTop="6dp"
                 app:srcCompat="@drawable/iconperfil" />
         </LinearLayout>
     </com.google.android.material.bottomnavigation.BottomNavigationView>

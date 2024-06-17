@@ -29,21 +29,25 @@ class Reservas : AppCompatActivity() {
         imvBuscar.setOnClickListener {
             val siguientepantalla = Intent(this, PaginaInicio::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
         imvFavorito.setOnClickListener {
             val siguientepantalla = Intent(this, Favoritos::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
         imvReseva.setOnClickListener {
             val siguientepantalla = Intent(this, Reservas::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
         imvPerfil.setOnClickListener {
             val siguientepantalla = Intent(this, Perfil::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
     }
 }
