@@ -59,7 +59,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtApellido"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView8"
         app:layout_constraintVertical_bias="0.0" />
@@ -68,7 +68,8 @@
         android:id="@+id/txtApellido"
         android:layout_width="246dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="11dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -77,14 +78,16 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/dTxtFechaNacimiento"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
 
     <EditText
         android:id="@+id/dTxtFechaNacimiento"
         android:layout_width="246dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="13dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -93,13 +96,15 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtCorreoElectronico"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtApellido" />
 
     <EditText
         android:id="@+id/txtCorreoElectronico"
         android:layout_width="246dp"
         android:layout_height="52dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
@@ -110,12 +115,14 @@
         app:layout_constraintBottom_toTopOf="@+id/txtTelefono"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dTxtFechaNacimiento" />
 
     <EditText
         android:id="@+id/txtTelefono"
         android:layout_width="246dp"
         android:layout_height="52dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
@@ -123,15 +130,17 @@
         android:hint="Numero de telefóno"
         android:inputType="phone"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtContraseña"
+        app:layout_constraintBottom_toTopOf="@+id/txtContrasena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreoElectronico" />
 
     <EditText
-        android:id="@+id/txtContraseña"
+        android:id="@+id/txtContrasena"
         android:layout_width="246dp"
         android:layout_height="52dp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
@@ -142,7 +151,8 @@
         app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
     <Button
         android:id="@+id/btnRegistrarse"
@@ -154,7 +164,8 @@
         android:text="Registrarse"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtContrasena" />
 
     <ImageView
         android:id="@+id/imageView13"

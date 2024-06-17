@@ -62,7 +62,8 @@
         android:id="@+id/txtOlvidasteContrasena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="340dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="312dp"
         android:fontFamily="@font/poppins"
         android:text="¿olvidaste tu contraseña?"
         android:textColor="#000000"
@@ -70,8 +71,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.719"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.737"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtContrasenaIniciarSesion" />
 
     <Button
         android:id="@+id/btnIniciar"
@@ -87,7 +89,7 @@
         app:layout_constraintVertical_bias="0.614" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/txtCorreoIniciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
         android:background="@drawable/cuadritos_registrarse"
@@ -101,10 +103,10 @@
         app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.391" />
+        app:layout_constraintVertical_bias="0.362" />
 
     <EditText
-        android:id="@+id/editTextText3"
+        android:id="@+id/txtContrasenaIniciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
         android:background="@drawable/cuadritos_registrarse"
@@ -117,7 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText2"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreoIniciarSesion"
         app:layout_constraintVertical_bias="0.189" />
 
 
