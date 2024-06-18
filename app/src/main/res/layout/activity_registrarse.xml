@@ -86,13 +86,13 @@
         android:hint="Apellidos"
         android:inputType="text"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/dTxtFechaNacimiento"
+        app:layout_constraintBottom_toTopOf="@+id/txtFechaNacimiento"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/dTxtFechaNacimiento"
+        android:id="@+id/txtFechaNacimiento"
         android:layout_width="246dp"
         android:layout_height="52dp"
         android:layout_marginBottom="16dp"
@@ -134,13 +134,13 @@
         android:hint="Numero de telefóno"
         android:inputType="phone"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtContraseña"
+        app:layout_constraintBottom_toTopOf="@+id/txtContrasenaRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/txtContraseña"
+        android:id="@+id/txtContrasenaRegistrarse"
         android:layout_width="246dp"
         android:layout_height="52dp"
         android:layout_marginBottom="12dp"
@@ -222,5 +222,6 @@
         app:layout_constraintEnd_toStartOf="@+id/txtIniciaSesion"
         app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

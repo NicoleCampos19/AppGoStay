@@ -43,13 +43,13 @@
         android:fontFamily="@font/poppins"
         android:text="Ingresa el código."
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText2"
+        app:layout_constraintBottom_toTopOf="@+id/txtCorreoInciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/txtCorreoInciarSesion"
         android:layout_width="364dp"
         android:layout_height="51dp"
         android:layout_marginBottom="16dp"
@@ -106,5 +106,4 @@
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="#49A8B5" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

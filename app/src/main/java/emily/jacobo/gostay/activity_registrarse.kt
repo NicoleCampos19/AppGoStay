@@ -11,6 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import emily.jacobo.gostay.R.id.txtIniciaSesion
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import modelo.ClaseConexion
+import java.security.MessageDigest
 
 class activity_registrarse : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -25,11 +30,32 @@ class activity_registrarse : AppCompatActivity() {
         }
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtIniciarsesion = findViewById<TextView>(R.id.txtIniciaSesion)
+        val txtNombre = findViewById<TextView>(R.id.txtNombre)
+        val txtApellido = findViewById<TextView>(R.id.txtApellido)
+        val txtFechaNacimiento = findViewById<TextView>(R.id.txtFechaNacimiento)
+        val txtCorreoElectronico = findViewById<TextView>(R.id.txtCorreoElectronico)
+        val txtTelefono = findViewById<TextView>(R.id.txtTelefono)
+        val txtContrasena = findViewById<TextView>(R.id.txtContrasenaRegistrarse)
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
+
+        fun hashSHA256(contraseniaEscrita: String): String {
+            val bytes = MessageDigest.getInstance("SHA-256").digest(contraseniaEscrita.toByteArray())
+            return bytes.joinToString("") { "%02x".format(it) }
+        }
 
         btnRegistrarse.setOnClickListener {
             val Registrarse = Intent(this, PaginaInicio::class.java)
             startActivity(Registrarse)
+
+            GlobalScope.launch(Dispatchers.IO) {
+
+                val objConexion = ClaseConexion().cadenaConexion()
+                    //se declara incriptada la contrasena para la base
+                val contraseniaEncriptada = hashSHA256(txtContrasena.text.toString())
+                // aqui abajo va la conexion a la base
+            }
+
+
         }
 
         txtIniciarsesion.setOnClickListener {
@@ -41,5 +67,8 @@ class activity_registrarse : AppCompatActivity() {
             val volverAtras = Intent(this, Bienvenida::class.java)
             startActivity(volverAtras)
         }
+
+
+
     }
 }

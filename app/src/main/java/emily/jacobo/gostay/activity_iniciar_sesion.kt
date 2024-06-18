@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -9,8 +10,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import modelo.ClaseConexion
+import java.security.MessageDigest
 
 class activity_iniciar_sesion : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,12 +28,28 @@ class activity_iniciar_sesion : AppCompatActivity() {
             insets
         }
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
+        val txtCorreoIniciarSesion = findViewById<TextView>(R.id.txtCorreoInciarSesion)
+        val txtContrasenaIniciarSesion = findViewById<TextView>(R.id.txtContrasenaIniciarSesion)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
+
+        fun hashSHA256(input: String): String {
+            val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+            return bytes.joinToString("") { "%02x".format(it) }
+        }
 
         btnIniciar.setOnClickListener {
             val IniciarSesion = Intent(this, PaginaInicio::class.java)
             startActivity(IniciarSesion)
+
+            GlobalScope.launch(Dispatchers.IO) {
+
+                val objConexion = ClaseConexion().cadenaConexion()
+                //se manda la contrasena incriptada
+                val contraseniaEncriptada = hashSHA256(txtContrasenaIniciarSesion.text.toString())
+                    //aqui empieza la conexion con la base
+            }
+
         }
 
         txtOlvidasteContrasena.setOnClickListener {

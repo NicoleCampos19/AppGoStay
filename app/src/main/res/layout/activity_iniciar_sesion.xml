@@ -87,7 +87,7 @@
         app:layout_constraintVertical_bias="0.631" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/txtCorreoInciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
         android:background="@drawable/cuadritos_registrarse"
@@ -104,7 +104,7 @@
         app:layout_constraintVertical_bias="0.39" />
 
     <EditText
-        android:id="@+id/editTextText3"
+        android:id="@+id/txtContrasenaIniciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
         android:background="@drawable/cuadritos_registrarse"
@@ -117,7 +117,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText2"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreoInciarSesion"
         app:layout_constraintVertical_bias="0.564" />
 
 
