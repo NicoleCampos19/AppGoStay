@@ -9,20 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class Favoritos : AppCompatActivity() {
+class Reservas : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_favoritos)
+        setContentView(R.layout.activity_reservas)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscarb)
-        val imvFavorito = findViewById<ImageView>(R.id.imvFavoritoa)
-        val imvReseva = findViewById<ImageView>(R.id.imvReservas)
+        val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
+        val imvReseva = findViewById<ImageView>(R.id.imvReservaa)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
 
 

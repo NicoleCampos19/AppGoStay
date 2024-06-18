@@ -14,6 +14,7 @@ import emily.jacobo.gostay.R.id.txtIniciaSesion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import modelo.ClaseConexion
 import java.security.MessageDigest
 
 class activity_registrarse : AppCompatActivity() {
@@ -30,7 +31,7 @@ class activity_registrarse : AppCompatActivity() {
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtIniciarsesion = findViewById<TextView>(R.id.txtIniciaSesion)
         val txtNombre = findViewById<TextView>(R.id.txtNombre)
-        val txtApellido = findViewById<TxtView>(R.id.txtApellido)
+        val txtApellido = findViewById<TextView>(R.id.txtApellido)
         val txtFechaNacimiento = findViewById<TextView>(R.id.txtFechaNacimiento)
         val txtCorreoElectronico = findViewById<TextView>(R.id.txtCorreoElectronico)
         val txtTelefono = findViewById<TextView>(R.id.txtTelefono)

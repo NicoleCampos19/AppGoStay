@@ -5,23 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PaginaInicio">
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="282dp"
-        android:layout_height="115dp"
-        android:fontFamily="@font/poppins"
-        android:text="Descubre tu próximo destino"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.124"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.084" />
-
+    tools:context=".Reservas">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="340dp"
@@ -42,39 +26,37 @@
 
 
             <ImageView
-                android:id="@+id/imvBuscar"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:id="@+id/imvBuscarb"
+                android:layout_width="6dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:layout_margin="15dp"
-                app:srcCompat="@drawable/inicio" />
+                app:srcCompat="@drawable/iconinicio" />
 
             <ImageView
                 android:id="@+id/imvFavoritos"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="6dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:layout_margin="15dp"
                 app:srcCompat="@drawable/iconfavoritos" />
 
             <ImageView
-                android:id="@+id/imvReservas"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:id="@+id/imvReservaa"
+                android:layout_width="6dp"
+                android:layout_marginTop="12dp"
+                android:layout_height="32dp"
                 android:layout_weight="1"
-                android:layout_margin="15dp"
-                app:srcCompat="@drawable/iconreservas" />
+                app:srcCompat="@drawable/reservas" />
 
             <ImageView
                 android:id="@+id/imvPerfil"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="6dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:layout_margin="15dp"
                 app:srcCompat="@drawable/iconperfil" />
         </LinearLayout>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import modelo.ClaseConexion
 import java.security.MessageDigest
 
 class activity_iniciar_sesion : AppCompatActivity() {
@@ -58,5 +59,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
         }
+
     }
 }
