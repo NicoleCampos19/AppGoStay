@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import java.security.MessageDigest
 
@@ -43,11 +45,24 @@ class activity_iniciar_sesion : AppCompatActivity() {
             startActivity(IniciarSesion)
 
             GlobalScope.launch(Dispatchers.IO) {
-
                 val objConexion = ClaseConexion().cadenaConexion()
-                //se manda la contrasena incriptada
+
                 val contraseniaEncriptada = hashSHA256(txtContrasenaIniciarSesion.text.toString())
-                    //aqui empieza la conexion con la base
+
+                val comprobarUsuario = objConexion?.prepareStatement("SELECT * FROM tbusuarios WHERE correo = ? AND contraseña = ?")!!
+                comprobarUsuario.setString(1, txtCorreoIniciarSesion.text.toString())
+                comprobarUsuario.setString(2, contraseniaEncriptada)
+                val resultado = comprobarUsuario.executeQuery()
+                //Si encuentra un resultado
+                if (resultado.next()) {
+                    startActivity(IniciarSesion)
+                } else {
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(this@activity_iniciar_sesion, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                        println("contraseña $contraseniaEncriptada")
+                    }
+
+                }
             }
 
         }

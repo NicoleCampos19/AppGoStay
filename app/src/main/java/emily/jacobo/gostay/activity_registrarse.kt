@@ -81,6 +81,7 @@ class activity_registrarse : AppCompatActivity() {
                     txtCorreoElectronico.setText("")
                     txtContrasena.setText("")
 
+
                 }
 
             }
