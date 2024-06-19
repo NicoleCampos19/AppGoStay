@@ -170,7 +170,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView13"
+        android:id="@+id/imvIniciarGoogle"
         android:layout_width="40dp"
         android:layout_height="29dp"
         android:layout_marginBottom="20dp"
@@ -203,7 +203,7 @@
         android:text="or"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView13"
+        app:layout_constraintBottom_toTopOf="@+id/imvIniciarGoogle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent" />

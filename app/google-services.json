@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "607710276924",
+    "project_id": "gostay-a22d4",
+    "storage_bucket": "gostay-a22d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607710276924:android:cd19ecc64a1f9c7b8c8239",
+        "android_client_info": {
+          "package_name": "emily.jacobo.gostay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607710276924-11eqrne7qitqbc892udgjrfcfha2s80r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "emily.jacobo.gostay",
+            "certificate_hash": "45acc6ee44eb40377b51e07150c4b85a72699819"
+          }
+        },
+        {
+          "client_id": "607710276924-bnb0ue0okpqlm1v0nqrda2otvrfe6e42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlsAfeacUYjZRTkeFWoZ8_dxJEoUKy_zM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607710276924-bnb0ue0okpqlm1v0nqrda2otvrfe6e42.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
