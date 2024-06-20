@@ -44,8 +44,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvServiciosHotel"
-                android:layout_width="409dp"
-                android:layout_height="81dp"
+                android:layout_width="408dp"
+                android:layout_height="106dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.018"
                 app:layout_constraintStart_toStartOf="parent"
