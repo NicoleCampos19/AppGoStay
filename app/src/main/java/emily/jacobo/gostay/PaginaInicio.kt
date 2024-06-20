@@ -49,5 +49,13 @@ class PaginaInicio : AppCompatActivity() {
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
+
+        val imgHotel1: ImageView = findViewById(R.id.imgHotel1)
+        imgHotel1.setOnClickListener {
+            val intent = Intent(this, Activity_MostrarHotel::class.java)
+            startActivity(intent)
+        }
+
+
     }
 }

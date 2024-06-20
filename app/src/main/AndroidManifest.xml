@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.CAMERA"
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
+        <activity
+            android:name=".item_card"
+            android:exported="false" />
+        <activity
+            android:name=".Activity_MostrarHotel"
+            android:exported="false" />
         <activity
             android:name=".Perfil"
             android:exported="false" />

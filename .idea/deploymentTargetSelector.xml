@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-06-19T05:53:56.215389300Z">
+        <DropdownSelection timestamp="2024-06-19T20:40:50.051339200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Latitude E5470\.android\avd\Pixel_6_Pro_API_31.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=ZY22HSMFBB" />
             </handle>
           </Target>
         </DropdownSelection>
