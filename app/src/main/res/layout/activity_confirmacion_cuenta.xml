@@ -84,14 +84,14 @@
         android:text="Continuar"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/btnReenviar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="#3F51B5" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnReenviar"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="365dp"
         android:layout_height="50dp"
