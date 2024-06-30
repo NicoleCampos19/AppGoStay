@@ -3,59 +3,28 @@ package emily.jacobo.gostay
 import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
-import modelo.Hotel
-import java.sql.Connection
-import java.sql.ResultSet
+import modelo.tbHotel
 
 class PaginaInicio : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var hotelAdapter: HotelAdapter
-    private lateinit var hotelList: MutableList<Hotel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_inicio)
-
-// Inicializar RecyclerView
-        recyclerView = findViewById(R.id.rcvHotel)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Usar coroutine para obtener lista de hoteles desde la base de datos
-        CoroutineScope(Dispatchers.Main).launch {
-            hotelList = obtenerListaHotelesDesdeBaseDeDatos()
-
-            // Verifica si la lista no está vacía antes de asignar el adaptador
-            if (hotelList.isNotEmpty()) {
-                hotelAdapter = HotelAdapter(hotelList)
-                recyclerView.adapter = hotelAdapter
-            } else {
-                // Maneja el caso donde no hay datos
-                println("La lista de hoteles está vacía.")
-            }
-        }
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-
-
         }
 
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscar)
@@ -88,41 +57,47 @@ class PaginaInicio : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
+        val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
 
+        fun obtenerHoteles(): List<tbHotel>{
+            val objConexion = ClaseConexion().cadenaConexion()
 
-    }
+            val statement = objConexion?.createStatement()
+            val resultSet = statement?.executeQuery("select * from tbHoteles")!!
 
-    private suspend fun obtenerListaHotelesDesdeBaseDeDatos(): MutableList<Hotel> {
-        return withContext(Dispatchers.IO) {
-            val hoteles = mutableListOf<Hotel>()
-            val conexion: Connection? = ClaseConexion().cadenaConexion()
+            val listaHoteles = mutableListOf<tbHotel>()
 
-            if (conexion != null) {
-                val statement = conexion.createStatement()
-                val resultSet: ResultSet = statement.executeQuery("SELECT id_hoteles, nombre, img_url FROM tbHoteles")
+            while (resultSet.next()){
+                val id_hoteles = resultSet.getInt("id_hoteles")
+                val nombre = resultSet.getString("nombre")
+                val descripcion = resultSet.getString("descripcion")
+                val direccion = resultSet.getString("direccion")
+                val correo = resultSet.getString("correo")
+                val cantidad_habitaciones = resultSet.getInt("cantidad_habitaciones")
+                val img_url = resultSet.getString("img_url")
+                val id_habitacion = resultSet.getInt("id_habitacion")
+                val id_servicio_hotel = resultSet.getInt("id_servicio_hotel")
 
-                while (resultSet.next()) {
-                    val hotel = Hotel(
-                        resultSet.getInt("id_hoteles"),
-                        resultSet.getString("nombre"),
-                        "", // Descripción vacía
-                        "", // Dirección vacía
-                        "", // Correo vacío
-                        0, // Cantidad de habitaciones 0
-                        resultSet.getString("img_url"),
-                        null, // ID habitación nulo
-                        null  // ID servicio hotel nulo
-                    )
-                    hoteles.add(hotel)
-                }
+                val valoresJuntos = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_habitacion, id_servicio_hotel)
 
-                resultSet.close()
-                statement.close()
-                conexion.close()
+                listaHoteles.add(valoresJuntos)
             }
+            return listaHoteles
 
-            hoteles
         }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val hotelDB = obtenerHoteles()
+            withContext(Dispatchers.Main){
+                val adapter = HotelAdapter(hotelDB)
+                rcvHotel.adapter = adapter
+            }
+        }
+
+
+
     }
-}
+
+    }
+
 

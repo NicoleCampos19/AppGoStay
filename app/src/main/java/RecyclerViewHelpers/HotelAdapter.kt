@@ -1,38 +1,23 @@
 package RecyclerViewHelpers
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
-import modelo.Hotel
+import modelo.tbHotel
 
-class HotelAdapter(private val hoteles: List<Hotel>) : RecyclerView.Adapter<HotelAdapter.HotelViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_hotel, parent, false)
-        return HotelViewHolder(view)
+class HotelAdapter(var Datos: List<tbHotel>): RecyclerView.Adapter<ViewHolderHotel>(){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHotel {
+        val vista = LayoutInflater.from(parent.context).inflate(R.layout.item_hotel, parent, false)
+        return ViewHolderHotel(vista)
     }
 
-    override fun onBindViewHolder(holder: HotelViewHolder, position: Int) {
-        val hotel = hoteles[position]
-        holder.tvNombreHotel.text = hotel.nombre
+    override fun getItemCount() = Datos.size
 
-        // Cargar imagen con Glide
-        Glide.with(holder.itemView.context)
-            .load(hotel.imgUrl)
-            .into(holder.imgHotel)
+    override fun onBindViewHolder(holder: ViewHolderHotel, position: Int) {
+        val item = Datos[position]
+        holder.txtNombreHotelCard.text = item.nombre
     }
 
-    override fun getItemCount(): Int {
-        return hoteles.size
-    }
 
-    class HotelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgHotel: ImageView = itemView.findViewById(R.id.imgHotel)
-        val tvNombreHotel: TextView = itemView.findViewById(R.id.tvNombreHotel)
-    }
 }
