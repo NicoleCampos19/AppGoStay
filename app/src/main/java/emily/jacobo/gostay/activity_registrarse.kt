@@ -110,7 +110,7 @@ class activity_registrarse : AppCompatActivity() {
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken("AIzaSyDlsAfeacUYjZRTkeFWoZ8_dxJEoUKy_zM").requestEmail()
+                    .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
                     .build()
 
             val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)

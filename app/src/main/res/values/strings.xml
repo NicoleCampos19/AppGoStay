@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GoStay!</string>
     <string name="title_activity_registrarse">activity_registrarse</string>
+    <string name="default_web_client_id">AIzaSyDlsAfeacUYjZRTkeFWoZ8_dxJEoUKy_zM</string>
 </resources>

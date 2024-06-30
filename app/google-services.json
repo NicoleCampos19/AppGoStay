@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "607710276924-11eqrne7qitqbc892udgjrfcfha2s80r.apps.googleusercontent.com",
+          "client_id": "607710276924-bv34qais1t156dklckjsp653er60bsv8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "emily.jacobo.gostay",
-            "certificate_hash": "45acc6ee44eb40377b51e07150c4b85a72699819"
+            "certificate_hash": "5ef59b727757290d6dd5542dc7befea081e48961"
           }
         },
         {
