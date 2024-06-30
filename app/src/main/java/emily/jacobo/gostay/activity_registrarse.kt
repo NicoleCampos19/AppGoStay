@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.DatePickerDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -23,6 +24,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import java.security.MessageDigest
+import java.util.Calendar
+import android.app.DatePickerDialog
 import java.util.UUID
 
 class activity_registrarse : AppCompatActivity() {
@@ -53,6 +56,23 @@ class activity_registrarse : AppCompatActivity() {
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
+        }
+
+        //Mostrar calendario en el txtFechaNacimiento
+        txtFechaNacimiento.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val año = calendario.get(Calendar.YEAR)
+            val mes = calendario.get(Calendar.MONTH)
+            val día = calendario.get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { view, añoSeleccionado, mesSeleccionado, díaSeleccionado ->
+                    val fechaSeleccionada = "$díaSeleccionado/${mesSeleccionado + 1}/$añoSeleccionado"
+                    txtFechaNacimiento.setText(fechaSeleccionada)
+                },
+                año, mes, día
+            )
+            datePickerDialog.show()
         }
 
         btnRegistrarse.setOnClickListener {
