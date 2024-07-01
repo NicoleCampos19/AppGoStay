@@ -3,6 +3,7 @@ package emily.jacobo.gostay
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -63,6 +64,21 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
 
                 }
+
+                //Validación de campos
+                val txtCorreoIniciarSesion: TextView = findViewById(R.id.txtCorreoInciarSesion)
+                val txtContraseñaIniciarSesion: TextView = findViewById(R.id.txtContrasenaIniciarSesion)
+                val context = applicationContext
+
+                // VALIDACIÓN DEL CORREO
+                if (!Patterns.EMAIL_ADDRESS.matcher(txtCorreoIniciarSesion.text.toString()).matches()) {
+                    Toast.makeText(context, "Correo inválido", Toast.LENGTH_SHORT).show()
+                    txtCorreoIniciarSesion.requestFocus()
+                } else if (txtContraseñaIniciarSesion.text.length < 12) {
+                    Toast.makeText(context, "Contraseña debe ser mayor o igual a 12", Toast.LENGTH_SHORT).show()
+                    txtContraseñaIniciarSesion.requestFocus()
+                }
+
             }
 
         }
