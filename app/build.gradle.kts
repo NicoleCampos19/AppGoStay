@@ -76,7 +76,12 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+    //libreria de glide imagenes
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    //libreria de circleimage
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

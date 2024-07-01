@@ -2,7 +2,7 @@ package modelo
 
 data class tbHotel(
     val id_hoteles: Int,
-    val nombre: String,
+    val nombreHotel: String,
     val descripcion: String,
     val direccion: String,
     val correo: String,

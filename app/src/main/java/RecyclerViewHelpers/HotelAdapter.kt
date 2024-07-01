@@ -3,20 +3,27 @@ package RecyclerViewHelpers
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
 import modelo.tbHotel
 
 class HotelAdapter(var Datos: List<tbHotel>): RecyclerView.Adapter<ViewHolderHotel>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHotel {
-        val vista = LayoutInflater.from(parent.context).inflate(R.layout.item_hotel, parent, false)
-        return ViewHolderHotel(vista)
+        val vistaHotel = LayoutInflater.from(parent.context).inflate(R.layout.item_hotel, parent, false)
+        return ViewHolderHotel(vistaHotel)
     }
 
     override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolderHotel, position: Int) {
-        val item = Datos[position]
-        holder.txtNombreHotelCard.text = item.nombre
+        val itemHotel = Datos[position]
+        holder.txtNombreHotelCard.text = itemHotel.nombreHotel
+
+        Glide.with(holder.itemView)
+            .load(itemHotel.img_url)
+            .into(holder.imgHotelCard)
+        
+
     }
 
 

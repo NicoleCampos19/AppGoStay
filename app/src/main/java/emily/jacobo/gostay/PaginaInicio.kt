@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +59,7 @@ class PaginaInicio : AppCompatActivity() {
         }
 
         val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
+        rcvHotel.layoutManager = LinearLayoutManager(this)
 
         fun obtenerHoteles(): List<tbHotel>{
             val objConexion = ClaseConexion().cadenaConexion()
