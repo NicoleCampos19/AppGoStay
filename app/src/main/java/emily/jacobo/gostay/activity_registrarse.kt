@@ -26,6 +26,9 @@ import modelo.ClaseConexion
 import java.security.MessageDigest
 import java.util.Calendar
 import android.app.DatePickerDialog
+import android.text.TextUtils
+import android.util.Patterns
+import emily.jacobo.gostay.R.id.txtContrasenaRegistrarse
 import java.util.UUID
 
 class activity_registrarse : AppCompatActivity() {
@@ -67,7 +70,8 @@ class activity_registrarse : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(
                 this,
                 { view, añoSeleccionado, mesSeleccionado, díaSeleccionado ->
-                    val fechaSeleccionada = "$díaSeleccionado/${mesSeleccionado + 1}/$añoSeleccionado"
+                    val fechaSeleccionada =
+                        "$díaSeleccionado/${mesSeleccionado + 1}/$añoSeleccionado"
                     txtFechaNacimiento.setText(fechaSeleccionada)
                 },
                 año, mes, día
@@ -104,6 +108,7 @@ class activity_registrarse : AppCompatActivity() {
 
                 }
 
+
             }
         }
 
@@ -131,6 +136,64 @@ class activity_registrarse : AppCompatActivity() {
         }
 
     }
+
+    /*
+    private fun vaidateTextView() {
+
+        val txtNombre = findViewById<TextView>(R.id.txtNombre)
+        val txtApellido = findViewById<TextView>(R.id.txtApellido)
+        val txtFechaNacimiento = findViewById<TextView>(R.id.txtFechaNacimiento)
+        val txtCorreoElectronico = findViewById<TextView>(R.id.txtCorreoElectronico)
+        val txtTelefono = findViewById<TextView>(R.id.txtTelefono)
+        val txtContrasena = findViewById<TextView>(txtContrasenaRegistrarse)
+
+
+        //Validando txtNombre
+        if (TextUtils.isEmpty(txtNombre.toString())) {
+            println("El campo no puede estar vacío")
+        } else {
+            println("El campo contiene: $txtNombre")
+        }
+
+        //Validando txtApellido
+        if (TextUtils.isEmpty(txtApellido.toString())) {
+            Toast.makeText(this, "El campo no puede estar vacío", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "El campo contiene: $txtApellido", Toast.LENGTH_SHORT).show()
+        }
+
+        //Validando txtFechaNacimiento
+        if (TextUtils.isEmpty(txtFechaNacimiento.toString())) {
+            Toast.makeText(this, "El campo no puede estar vacío", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "El campo contiene: $txtFechaNacimiento", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        //Validando txtCorreoElectronico
+        if (!Patterns.EMAIL_ADDRESS.matcher(txtCorreoElectronico.text.toString()).matches()) {
+            Toast.makeText(this, "Correo inválido", Toast.LENGTH_SHORT).show()
+            txtCorreoElectronico.requestFocus()
+        }
+
+
+        //Validando txtTelefono
+        if (TextUtils.isEmpty(txtTelefono.toString())) {
+            Toast.makeText(this, "El campo no puede estar vacío", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "El campo contiene: $txtTelefono", Toast.LENGTH_SHORT).show()
+        }
+
+        if (TextUtils.isEmpty(txtContrasenaRegistrarse.toString())) {
+            Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show()
+        } else if (txtContrasenaRegistrarse.toString().length < 11) {
+            Toast.makeText(
+                this,
+                "La contraseña debe contener al menos 12 caracteres",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+}*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
