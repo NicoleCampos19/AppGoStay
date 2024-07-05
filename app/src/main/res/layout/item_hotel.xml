@@ -22,7 +22,7 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
 
-        <TextView
+         <TextView
             android:id="@+id/txtNombreHotelCard"
             android:layout_width="378dp"
             android:layout_height="wrap_content"
