@@ -1,5 +1,7 @@
 package modelo
 
+import java.io.Serializable
+
 data class tbHotel(
     val id_hoteles: Int,
     val nombreHotel: String,
@@ -10,4 +12,4 @@ data class tbHotel(
     val img_url: String,
     val id_habitacion: Int,
     val id_servicio_hotel: Int
-)
+) : Serializable
