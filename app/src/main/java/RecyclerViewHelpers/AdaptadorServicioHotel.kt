@@ -3,6 +3,7 @@ package RecyclerViewHelpers
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
 import modelo.tbServiciosHotel
 
@@ -17,6 +18,8 @@ class AdaptadorServicioHotel(var Datos: List<tbServiciosHotel>): RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = Datos[position]
         holder.txtServicioHotelCard.text = item.nombre_servicio
+
+
     }
 
 

@@ -21,9 +21,9 @@ class HotelAdapter(var Datos: List<tbHotel>, val clickListener: (tbHotel) -> Uni
         holder.bind(itemHotel, clickListener)
 
 
-        /*Glide.with(holder.itemView)
+        Glide.with(holder.itemView)
             .load(itemHotel.img_url)
             .into(holder.imgHotelCard)
-           */
+
     }
 }
