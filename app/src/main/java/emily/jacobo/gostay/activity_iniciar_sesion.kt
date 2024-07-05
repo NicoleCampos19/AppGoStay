@@ -45,12 +45,39 @@ class activity_iniciar_sesion : AppCompatActivity() {
             val IniciarSesion = Intent(this, PaginaInicio::class.java)
             startActivity(IniciarSesion)
 
+            //Validación de campos
+            val correo = txtCorreoIniciarSesion.text.toString()
+            val contrasena = txtContrasenaIniciarSesion.text.toString()
+            var hayErrores = false
+
+
+            if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                txtCorreoIniciarSesion.error = "El correo no tiene un formato válido"
+                hayErrores = true
+            } else {
+                txtCorreoIniciarSesion.error = null
+            }
+
+            if (contrasena.length <= 12) {
+                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
+                hayErrores = true
+            } else {
+                txtContrasenaIniciarSesion.error = null
+            }
+
+            // Si hay errores, no procede a guardar los datos
+            if (hayErrores) {
+                //Hacer algo si hay errores
+            } else {
+
+
             GlobalScope.launch(Dispatchers.IO) {
                 val objConexion = ClaseConexion().cadenaConexion()
 
                 val contraseniaEncriptada = hashSHA256(txtContrasenaIniciarSesion.text.toString())
 
-                val comprobarUsuario = objConexion?.prepareStatement("SELECT * FROM tbusuarios WHERE correo = ? AND contraseña = ?")!!
+                val comprobarUsuario =
+                    objConexion?.prepareStatement("SELECT * FROM tbusuarios WHERE correo = ? AND contraseña = ?")!!
                 comprobarUsuario.setString(1, txtCorreoIniciarSesion.text.toString())
                 comprobarUsuario.setString(2, contraseniaEncriptada)
                 val resultado = comprobarUsuario.executeQuery()
@@ -58,28 +85,21 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 if (resultado.next()) {
                     startActivity(IniciarSesion)
                 } else {
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(this@activity_iniciar_sesion, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@activity_iniciar_sesion,
+                            "Usuario o contraseña incorrectos",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         println("contraseña $contraseniaEncriptada")
                     }
 
                 }
 
-                //Validación de campos
-                val txtCorreoIniciarSesion: TextView = findViewById(R.id.txtCorreoInciarSesion)
-                val txtContraseñaIniciarSesion: TextView = findViewById(R.id.txtContrasenaIniciarSesion)
-                val context = applicationContext
-
-                // VALIDACIÓN DEL CORREO
-                if (!Patterns.EMAIL_ADDRESS.matcher(txtCorreoIniciarSesion.text.toString()).matches()) {
-                    Toast.makeText(context, "Correo inválido", Toast.LENGTH_SHORT).show()
-                    txtCorreoIniciarSesion.requestFocus()
-                } else if (txtContraseñaIniciarSesion.text.length < 12) {
-                    Toast.makeText(context, "Contraseña debe ser mayor o igual a 12", Toast.LENGTH_SHORT).show()
-                    txtContraseñaIniciarSesion.requestFocus()
-                }
 
             }
+            }
+
 
         }
 

@@ -28,7 +28,10 @@ import java.util.Calendar
 import android.app.DatePickerDialog
 import android.text.TextUtils
 import android.util.Patterns
+import android.widget.EditText
+import androidx.core.content.ContentProviderCompat.requireContext
 import emily.jacobo.gostay.R.id.txtContrasenaRegistrarse
+import emily.jacobo.gostay.R.id.txtFechaNacimiento
 import java.util.UUID
 
 class activity_registrarse : AppCompatActivity() {
@@ -81,6 +84,63 @@ class activity_registrarse : AppCompatActivity() {
 
         btnRegistrarse.setOnClickListener {
 
+            val Nombre = txtNombre.text.toString()
+            val Apellido = txtApellido.text.toString()
+            val FechaNacimiento = txtFechaNacimiento.text.toString()
+            val correo = txtCorreoElectronico.text.toString()
+            val Telefono = txtTelefono.text.toString()
+            val Contrasena = txtContrasena.text.toString()
+            var hayErrores = false
+
+            if (Nombre.isEmpty()) {
+                txtNombre.error = "El nombre es obligatorio"
+                hayErrores = true
+            } else {
+                txtNombre.error = null
+            }
+
+            if (Apellido.isEmpty()) {
+                txtApellido.error = "El apellido es obligatorio"
+                hayErrores = true
+            } else {
+                txtApellido.error = null
+            }
+
+            if (FechaNacimiento.isEmpty()) {
+                txtFechaNacimiento.error = "La fecha de nacimiento es obligatoria"
+                hayErrores = true
+            } else {
+                txtFechaNacimiento.error = null
+            }
+
+            if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                txtCorreoElectronico.error = "El correo no tiene un formato válido"
+                hayErrores = true
+            } else {
+                txtCorreoElectronico.error = null
+            }
+
+            if (Telefono.isEmpty()) {
+                txtTelefono.error = "El teléfono es obligatorio"
+                hayErrores = true
+            } else {
+                txtTelefono.error = null
+            }
+
+            if (Contrasena.length <= 12) {
+                txtContrasena.error = "La contraseña debe tener al menos 12 caracteres"
+                hayErrores = true
+            } else {
+                txtContrasena.error = null
+            }
+
+
+            // Si hay errores, no procede a guardar los datos
+            if (hayErrores) {
+                //Hacer algo si hay errores
+            } else {
+
+
             GlobalScope.launch(Dispatchers.IO) {
 
                 val objConexion = ClaseConexion().cadenaConexion()
@@ -108,9 +168,14 @@ class activity_registrarse : AppCompatActivity() {
 
                 }
 
-
             }
+            }
+
+
+
         }
+
+
 
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
@@ -137,63 +202,7 @@ class activity_registrarse : AppCompatActivity() {
 
     }
 
-    /*
-    private fun vaidateTextView() {
 
-        val txtNombre = findViewById<TextView>(R.id.txtNombre)
-        val txtApellido = findViewById<TextView>(R.id.txtApellido)
-        val txtFechaNacimiento = findViewById<TextView>(R.id.txtFechaNacimiento)
-        val txtCorreoElectronico = findViewById<TextView>(R.id.txtCorreoElectronico)
-        val txtTelefono = findViewById<TextView>(R.id.txtTelefono)
-        val txtContrasena = findViewById<TextView>(txtContrasenaRegistrarse)
-
-
-        //Validando txtNombre
-        if (TextUtils.isEmpty(txtNombre.toString())) {
-            println("El campo no puede estar vacío")
-        } else {
-            println("El campo contiene: $txtNombre")
-        }
-
-        //Validando txtApellido
-        if (TextUtils.isEmpty(txtApellido.toString())) {
-            Toast.makeText(this, "El campo no puede estar vacío", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "El campo contiene: $txtApellido", Toast.LENGTH_SHORT).show()
-        }
-
-        //Validando txtFechaNacimiento
-        if (TextUtils.isEmpty(txtFechaNacimiento.toString())) {
-            Toast.makeText(this, "El campo no puede estar vacío", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "El campo contiene: $txtFechaNacimiento", Toast.LENGTH_SHORT)
-                .show()
-        }
-
-        //Validando txtCorreoElectronico
-        if (!Patterns.EMAIL_ADDRESS.matcher(txtCorreoElectronico.text.toString()).matches()) {
-            Toast.makeText(this, "Correo inválido", Toast.LENGTH_SHORT).show()
-            txtCorreoElectronico.requestFocus()
-        }
-
-
-        //Validando txtTelefono
-        if (TextUtils.isEmpty(txtTelefono.toString())) {
-            Toast.makeText(this, "El campo no puede estar vacío", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "El campo contiene: $txtTelefono", Toast.LENGTH_SHORT).show()
-        }
-
-        if (TextUtils.isEmpty(txtContrasenaRegistrarse.toString())) {
-            Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show()
-        } else if (txtContrasenaRegistrarse.toString().length < 11) {
-            Toast.makeText(
-                this,
-                "La contraseña debe contener al menos 12 caracteres",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-}*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
