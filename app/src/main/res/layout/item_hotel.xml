@@ -6,28 +6,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    card_view:cardCornerRadius="8dp"
+    card_view:cardCornerRadius="10dp"
     card_view:cardElevation="4dp">
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imgHotelCard"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtNombreHotelCard"
-        android:layout_width="378dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/poppins"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        tools:layout_marginTop="165dp" />
+        <TextView
+            android:id="@+id/txtNombreHotelCard"
+            android:layout_width="294dp"
+            android:layout_height="23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.712"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.96" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.cardview.widget.CardView>

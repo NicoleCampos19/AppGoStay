@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,7 +25,8 @@ class hotel_detalles : AppCompatActivity() {
 
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
 
-        val imgDetalleHotel = findViewById<ImageView>(R.id.imgDetalleHotel)
+        val imvVolverDetallesHotel = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
+        val imvDetalleHotel = findViewById<ImageView>(R.id.imvDetalleHotel)
         val tvNombreDetalleHotel = findViewById<TextView>(R.id.tvNombreDetalleHotel)
         val tvDescripcionDetalleHotel = findViewById<TextView>(R.id.tvDescripcionDetalleHotel)
 
@@ -32,9 +34,15 @@ class hotel_detalles : AppCompatActivity() {
 
         Glide.with(this)
             .load(hotel.img_url)
-            .into(imgDetalleHotel)
+            .into(imvDetalleHotel)
 
         tvNombreDetalleHotel.text = hotel.nombreHotel
         tvDescripcionDetalleHotel.text = hotel.descripcion
+
+        imvVolverDetallesHotel.setOnClickListener {
+            val volverAtras = Intent(this, PaginaInicio::class.java)
+            startActivity(volverAtras)
+        }
     }
+
 }
