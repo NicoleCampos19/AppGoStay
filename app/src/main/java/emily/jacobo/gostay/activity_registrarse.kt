@@ -26,6 +26,12 @@ import modelo.ClaseConexion
 import java.security.MessageDigest
 import java.util.Calendar
 import android.app.DatePickerDialog
+import android.text.TextUtils
+import android.util.Patterns
+import android.widget.EditText
+import androidx.core.content.ContentProviderCompat.requireContext
+import emily.jacobo.gostay.R.id.txtContrasenaRegistrarse
+import emily.jacobo.gostay.R.id.txtFechaNacimiento
 import java.util.UUID
 
 class activity_registrarse : AppCompatActivity() {
@@ -67,7 +73,8 @@ class activity_registrarse : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(
                 this,
                 { view, añoSeleccionado, mesSeleccionado, díaSeleccionado ->
-                    val fechaSeleccionada = "$díaSeleccionado/${mesSeleccionado + 1}/$añoSeleccionado"
+                    val fechaSeleccionada =
+                        "$díaSeleccionado/${mesSeleccionado + 1}/$añoSeleccionado"
                     txtFechaNacimiento.setText(fechaSeleccionada)
                 },
                 año, mes, día
@@ -76,6 +83,63 @@ class activity_registrarse : AppCompatActivity() {
         }
 
         btnRegistrarse.setOnClickListener {
+
+            val Nombre = txtNombre.text.toString()
+            val Apellido = txtApellido.text.toString()
+            val FechaNacimiento = txtFechaNacimiento.text.toString()
+            val correo = txtCorreoElectronico.text.toString()
+            val Telefono = txtTelefono.text.toString()
+            val Contrasena = txtContrasena.text.toString()
+            var hayErrores = false
+
+            if (Nombre.isEmpty()) {
+                txtNombre.error = "El nombre es obligatorio"
+                hayErrores = true
+            } else {
+                txtNombre.error = null
+            }
+
+            if (Apellido.isEmpty()) {
+                txtApellido.error = "El apellido es obligatorio"
+                hayErrores = true
+            } else {
+                txtApellido.error = null
+            }
+
+            if (FechaNacimiento.isEmpty()) {
+                txtFechaNacimiento.error = "La fecha de nacimiento es obligatoria"
+                hayErrores = true
+            } else {
+                txtFechaNacimiento.error = null
+            }
+
+            if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                txtCorreoElectronico.error = "El correo no tiene un formato válido"
+                hayErrores = true
+            } else {
+                txtCorreoElectronico.error = null
+            }
+
+            if (Telefono.isEmpty()) {
+                txtTelefono.error = "El teléfono es obligatorio"
+                hayErrores = true
+            } else {
+                txtTelefono.error = null
+            }
+
+            if (Contrasena.length <= 12) {
+                txtContrasena.error = "La contraseña debe tener al menos 12 caracteres"
+                hayErrores = true
+            } else {
+                txtContrasena.error = null
+            }
+
+
+            // Si hay errores, no procede a guardar los datos
+            if (hayErrores) {
+                //Hacer algo si hay errores
+            } else {
+
 
             GlobalScope.launch(Dispatchers.IO) {
 
@@ -105,7 +169,16 @@ class activity_registrarse : AppCompatActivity() {
                 }
 
             }
+                val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+                startActivity(siguientepantalla)
+
+            }
+
+
+
         }
+
+
 
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
@@ -131,6 +204,8 @@ class activity_registrarse : AppCompatActivity() {
         }
 
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
