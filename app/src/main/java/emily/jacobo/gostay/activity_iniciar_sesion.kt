@@ -43,7 +43,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
         btnIniciar.setOnClickListener {
             val IniciarSesion = Intent(this, PaginaInicio::class.java)
-            startActivity(IniciarSesion)
+
 
             //Validación de campos
             val correo = txtCorreoIniciarSesion.text.toString()
@@ -58,7 +58,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 txtCorreoIniciarSesion.error = null
             }
 
-            if (contrasena.length <= 12) {
+            if (contrasena.length <= 4) {
                 txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
                 hayErrores = true
             } else {
@@ -77,7 +77,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 val contraseniaEncriptada = hashSHA256(txtContrasenaIniciarSesion.text.toString())
 
                 val comprobarUsuario =
-                    objConexion?.prepareStatement("SELECT * FROM tbusuarios WHERE correo = ? AND contraseña = ?")!!
+                    objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE correo = ? AND contraseña = ?")!!
                 comprobarUsuario.setString(1, txtCorreoIniciarSesion.text.toString())
                 comprobarUsuario.setString(2, contraseniaEncriptada)
                 val resultado = comprobarUsuario.executeQuery()

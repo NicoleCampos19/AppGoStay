@@ -169,6 +169,9 @@ class activity_registrarse : AppCompatActivity() {
                 }
 
             }
+                val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+                startActivity(siguientepantalla)
+
             }
 
 
