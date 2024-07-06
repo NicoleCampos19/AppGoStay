@@ -77,10 +77,10 @@ class PaginaInicio : AppCompatActivity() {
                 val correo = resultSet.getString("correo")
                 val cantidad_habitaciones = resultSet.getInt("cantidad_habitaciones")
                 val img_url = resultSet.getString("img_url")
-                val id_habitacion = resultSet.getInt("id_habitacion")
+                val id_tipo_habitacion = resultSet.getInt("id_tipo_habitacion")
                 val id_servicio_hotel = resultSet.getInt("id_servicio_hotel")
 
-                val valoresJuntos = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_habitacion, id_servicio_hotel)
+                val valoresJuntos = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_tipo_habitacion, id_servicio_hotel)
 
                 listaHoteles.add(valoresJuntos)
             }
