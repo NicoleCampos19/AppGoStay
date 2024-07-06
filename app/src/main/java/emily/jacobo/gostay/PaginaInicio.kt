@@ -91,7 +91,12 @@ class PaginaInicio : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val hotelDB = obtenerHoteles()
             withContext(Dispatchers.Main){
-                val adapter = HotelAdapter(hotelDB)
+                val adapter = HotelAdapter(hotelDB){ hotel ->
+                    val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
+                        putExtra("hotel", hotel)
+                    }
+                    startActivity(intent)
+                }
                 rcvHotel.adapter = adapter
             }
         }
