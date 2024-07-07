@@ -58,12 +58,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 txtCorreoIniciarSesion.error = null
             }
 
-            if (contrasena.length <= 4) {
-                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
-                hayErrores = true
-            } else {
-                txtContrasenaIniciarSesion.error = null
-            }
+
 
             // Si hay errores, no procede a guardar los datos
             if (hayErrores) {
@@ -100,7 +95,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
             }
 
-
+            git statu
         }
 
         txtOlvidasteContrasena.setOnClickListener {
