@@ -3,6 +3,7 @@ package modelo
 import java.sql.Connection
 import java.sql.DriverManager
 
+
 class ClaseConexion {
 
     fun cadenaConexion(): Connection?{
@@ -16,10 +17,10 @@ class ClaseConexion {
             val ipDaniel = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
             val ipprueba = "jdbc:oracle:thin:@10.10.0.236:1521:xe"
 
-            val usuario = "system"
-            val contrasena = "ITR2024"
+            val usuario = "GoStay"
+            val contrasena = "ricaldone2024e"
             
-            val conexion = DriverManager.getConnection(ipprueba, usuario, contrasena)
+            val conexion = DriverManager.getConnection(ipEmily, usuario, contrasena)
 
             return conexion
         }catch (e: Exception){

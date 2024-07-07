@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.DatePickerDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -17,7 +16,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import emily.jacobo.gostay.R.id.txtIniciaSesion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -26,13 +24,9 @@ import modelo.ClaseConexion
 import java.security.MessageDigest
 import java.util.Calendar
 import android.app.DatePickerDialog
-import android.text.TextUtils
-import android.util.Patterns
-import android.widget.EditText
-import androidx.core.content.ContentProviderCompat.requireContext
-import emily.jacobo.gostay.R.id.txtContrasenaRegistrarse
-import emily.jacobo.gostay.R.id.txtFechaNacimiento
-import java.util.UUID
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 
 class activity_registrarse : AppCompatActivity() {
 
@@ -48,6 +42,7 @@ class activity_registrarse : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        //Mando a llamar todos los elementos
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtIniciarsesion = findViewById<TextView>(R.id.txtIniciaSesion)
         val txtNombre = findViewById<TextView>(R.id.txtNombre)
@@ -59,6 +54,7 @@ class activity_registrarse : AppCompatActivity() {
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
         val imvIniciargoogle = findViewById<ImageView>(R.id.imvIniciarGoogle)
 
+        //Encriptación
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
@@ -82,72 +78,95 @@ class activity_registrarse : AppCompatActivity() {
             datePickerDialog.show()
         }
 
+        //Validación de campos
         btnRegistrarse.setOnClickListener {
-
+            //Guardo en una variable los datos que el usuario guardará
             val Nombre = txtNombre.text.toString()
             val Apellido = txtApellido.text.toString()
             val FechaNacimiento = txtFechaNacimiento.text.toString()
-            val correo = txtCorreoElectronico.text.toString()
+            val Correo = txtCorreoElectronico.text.toString()
             val Telefono = txtTelefono.text.toString()
             val Contrasena = txtContrasena.text.toString()
             var hayErrores = false
 
-            if (Nombre.isEmpty()) {
-                txtNombre.error = "El nombre es obligatorio"
-                hayErrores = true
-            } else {
-                txtNombre.error = null
+            //Validación para campos vacíos
+            @RequiresApi(Build.VERSION_CODES.P)
+            fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+                val typeface = ResourcesCompat.getFont(this, fontResId)
+                val spannableString = android.text.SpannableString(errorMessage)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    spannableString.setSpan(
+                        typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                editText.error = spannableString
             }
+            //Para el campo de nombre
+            btnRegistrarse.setOnClickListener {
+                //Para el campo de nombre
+                if(txtNombre.text.isEmpty()){
+                    setErrorWithCustomFont(txtNombre, "Llena este campo", R.font.poppins)
+                } else {
+                    txtNombre.error = null
+                }
 
-            if (Apellido.isEmpty()) {
-                txtApellido.error = "El apellido es obligatorio"
-                hayErrores = true
-            } else {
-                txtApellido.error = null
+                //Para el campo de apellido
+                if(txtApellido.text.isEmpty()){
+                    setErrorWithCustomFont(txtApellido, "Llena este campo", R.font.poppins)
+                } else {
+                    txtApellido.error = null
+                }
+
+                //Para el campo de fecha de nacimiento
+                if(txtFechaNacimiento.text.isEmpty()){
+                    setErrorWithCustomFont(txtFechaNacimiento, "Llena este campo", R.font.poppins)
+                } else {
+                    txtFechaNacimiento.error = null
+                }
+
+                //Para el campo de correo
+                if(txtCorreoElectronico.text.isEmpty()){
+                    setErrorWithCustomFont(txtCorreoElectronico, "Llena este campo", R.font.poppins)
+                    hayErrores = true
+                } else {
+                    txtCorreoElectronico.error = null
+                }
+
+                //Para el campo de teléfono
+                if(txtTelefono.text.isEmpty()){
+                    setErrorWithCustomFont(txtTelefono, "Llena este campo", R.font.poppins)
+                } else {
+                    txtFechaNacimiento.error = null
+                }
+
+                //Para el campo de contraseña
+                if(txtContrasena.text.isEmpty()){
+                    setErrorWithCustomFont(txtContrasena, "Llena este campo", R.font.poppins)
+                    hayErrores = true
+                } else {
+                    txtFechaNacimiento.error = null
+                }
+
+                //Validación para el correo
+                if (!Correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                    setErrorWithCustomFont(txtCorreoElectronico, "El correo no tiene un formato válido", R.font.poppins)
+                    hayErrores = true
+                } else {
+                    txtCorreoElectronico.error = null
+                }
+                //Si hay errores, no procede a guardar los datos
+                if (hayErrores) {
+                    //Hacer algo si hay errores
+                } else {
             }
+                
 
-            if (FechaNacimiento.isEmpty()) {
-                txtFechaNacimiento.error = "La fecha de nacimiento es obligatoria"
-                hayErrores = true
-            } else {
-                txtFechaNacimiento.error = null
-            }
-
-            if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                txtCorreoElectronico.error = "El correo no tiene un formato válido"
-                hayErrores = true
-            } else {
-                txtCorreoElectronico.error = null
-            }
-
-            if (Telefono.isEmpty()) {
-                txtTelefono.error = "El teléfono es obligatorio"
-                hayErrores = true
-            } else {
-                txtTelefono.error = null
-            }
-
-            if (Contrasena.length <= 12) {
-                txtContrasena.error = "La contraseña debe tener al menos 12 caracteres"
-                hayErrores = true
-            } else {
-                txtContrasena.error = null
-            }
-
-
-            // Si hay errores, no procede a guardar los datos
-            if (hayErrores) {
-                //Hacer algo si hay errores
-            } else {
-
-
+            //Proceso de registrar un usuario
             GlobalScope.launch(Dispatchers.IO) {
 
                 val objConexion = ClaseConexion().cadenaConexion()
 
-
                 val contrasenaEncriptada = hashSHA256(txtContrasena.text.toString())
-
 
                 val crearUsuario =
                     objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre, apellido, fecha_nacimiento, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)")!!
@@ -164,21 +183,13 @@ class activity_registrarse : AppCompatActivity() {
                         .show()
                     txtCorreoElectronico.setText("")
                     txtContrasena.setText("")
-
-
                 }
-
             }
                 val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                 startActivity(siguientepantalla)
 
             }
-
-
-
         }
-
-
 
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
@@ -191,8 +202,6 @@ class activity_registrarse : AppCompatActivity() {
             startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
         }
 
-
-
         txtIniciarsesion.setOnClickListener {
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(siguientepantalla)
@@ -204,8 +213,6 @@ class activity_registrarse : AppCompatActivity() {
         }
 
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
