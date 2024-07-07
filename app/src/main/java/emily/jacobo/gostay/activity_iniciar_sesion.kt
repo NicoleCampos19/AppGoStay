@@ -71,49 +71,47 @@ class activity_iniciar_sesion : AppCompatActivity() {
             } else {
 
 
-            GlobalScope.launch(Dispatchers.IO) {
-                val objConexion = ClaseConexion().cadenaConexion()
+                GlobalScope.launch(Dispatchers.IO) {
+                    val objConexion = ClaseConexion().cadenaConexion()
 
-                val contraseniaEncriptada = hashSHA256(txtContrasenaIniciarSesion.text.toString())
+                    val contraseniaEncriptada = hashSHA256(txtContrasenaIniciarSesion.text.toString())
 
-                val comprobarUsuario =
-                    objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE correo = ? AND contraseña = ?")!!
-                comprobarUsuario.setString(1, txtCorreoIniciarSesion.text.toString())
-                comprobarUsuario.setString(2, contraseniaEncriptada)
-                val resultado = comprobarUsuario.executeQuery()
-                //Si encuentra un resultado
-                if (resultado.next()) {
-                    startActivity(IniciarSesion)
-                } else {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            this@activity_iniciar_sesion,
-                            "Usuario o contraseña incorrectos",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        println("contraseña $contraseniaEncriptada")
+                    val comprobarUsuario =
+                        objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE correo = ? AND contraseña = ?")!!
+                    comprobarUsuario.setString(1, txtCorreoIniciarSesion.text.toString())
+                    comprobarUsuario.setString(2, contraseniaEncriptada)
+                    val resultado = comprobarUsuario.executeQuery()
+                    //Si encuentra un resultado
+                    if (resultado.next()) {
+                        startActivity(IniciarSesion)
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@activity_iniciar_sesion,
+                                "Usuario o contraseña incorrectos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            println("contraseña $contraseniaEncriptada")
+                        }
+
                     }
 
+
                 }
-
-
             }
 
 
         }
 
-
         txtOlvidasteContrasena.setOnClickListener {
             val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
         }
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
-            overridePendingTransition(0, 0)
         }
+
     }
- }
 }
