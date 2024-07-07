@@ -11,7 +11,7 @@ import modelo.tbComentarios
 class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<ViewHolderComentario>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderComentario {
 
-        val vista = LayoutInflater.from(parent.context).inflate(R.layout.item_comentario, parent, false)
+        val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_comentario, parent, false)
         return ViewHolderComentario(vista)
     }
 
