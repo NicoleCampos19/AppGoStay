@@ -58,7 +58,6 @@ class Activity_MostrarHotel : AppCompatActivity() {
         imgRegresarServiciosHotel.setOnClickListener {
             val intent = Intent(this, PaginaInicio::class.java)
             startActivity(intent)
-            overridePendingTransition(0, 0)
         }
     }
 }
