@@ -61,6 +61,7 @@
         android:id="@+id/txtOlvidasteContrasena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:layout_marginBottom="368dp"
         android:fontFamily="@font/poppins"
         android:text="¿olvidaste tu contraseña?"
@@ -70,7 +71,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.594"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtContrasenaIniciarSesion" />
 
     <Button
         android:id="@+id/btnIniciar"

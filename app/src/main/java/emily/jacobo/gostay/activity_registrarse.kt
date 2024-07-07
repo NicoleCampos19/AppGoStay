@@ -184,12 +184,27 @@ class activity_registrarse : AppCompatActivity() {
                     txtCorreoElectronico.setText("")
                     txtContrasena.setText("")
                 }
+                withContext(Dispatchers.Main){
+                    //mostrar mensaje y limpiar campos
+                    Toast.makeText(this@activity_registrarse, "Usuario registrado", Toast.LENGTH_SHORT).show()
+                    txtNombre.setText("")
+                    txtApellido.setText("")
+                    txtFechaNacimiento.setText("")
+                    txtCorreoElectronico.setText("")
+                    txtTelefono.setText("")
+                    txtContrasena.setText("")
+
+
+                }
             }
                 val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                 startActivity(siguientepantalla)
 
+
             }
-        }
+
+
+
 
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
@@ -211,6 +226,9 @@ class activity_registrarse : AppCompatActivity() {
             val volverAtras = Intent(this, Bienvenida::class.java)
             startActivity(volverAtras)
         }
+
+    }
+
 
     }
 
