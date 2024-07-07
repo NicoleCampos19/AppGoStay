@@ -54,7 +54,6 @@ class activity_registrarse : AppCompatActivity() {
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
         val imvIniciargoogle = findViewById<ImageView>(R.id.imvIniciarGoogle)
 
-        //Encriptación
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
@@ -78,132 +77,101 @@ class activity_registrarse : AppCompatActivity() {
             datePickerDialog.show()
         }
 
-        //Validación de campos
         btnRegistrarse.setOnClickListener {
-            //Guardo en una variable los datos que el usuario guardará
+
             val Nombre = txtNombre.text.toString()
             val Apellido = txtApellido.text.toString()
             val FechaNacimiento = txtFechaNacimiento.text.toString()
-            val Correo = txtCorreoElectronico.text.toString()
+            val correo = txtCorreoElectronico.text.toString()
             val Telefono = txtTelefono.text.toString()
             val Contrasena = txtContrasena.text.toString()
             var hayErrores = false
 
-            //Validación para campos vacíos
-            @RequiresApi(Build.VERSION_CODES.P)
-            fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
-                val typeface = ResourcesCompat.getFont(this, fontResId)
-                val spannableString = android.text.SpannableString(errorMessage)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    spannableString.setSpan(
-                        typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                editText.error = spannableString
+            if (Nombre.isEmpty()) {
+                txtNombre.error = "El nombre es obligatorio"
+                hayErrores = true
+            } else {
+                txtNombre.error = null
             }
-            //Para el campo de nombre
-            btnRegistrarse.setOnClickListener {
-                //Para el campo de nombre
-                if(txtNombre.text.isEmpty()){
-                    setErrorWithCustomFont(txtNombre, "Llena este campo", R.font.poppins)
-                } else {
-                    txtNombre.error = null
-                }
 
-                //Para el campo de apellido
-                if(txtApellido.text.isEmpty()){
-                    setErrorWithCustomFont(txtApellido, "Llena este campo", R.font.poppins)
-                } else {
-                    txtApellido.error = null
-                }
-
-                //Para el campo de fecha de nacimiento
-                if(txtFechaNacimiento.text.isEmpty()){
-                    setErrorWithCustomFont(txtFechaNacimiento, "Llena este campo", R.font.poppins)
-                } else {
-                    txtFechaNacimiento.error = null
-                }
-
-                //Para el campo de correo
-                if(txtCorreoElectronico.text.isEmpty()){
-                    setErrorWithCustomFont(txtCorreoElectronico, "Llena este campo", R.font.poppins)
-                    hayErrores = true
-                } else {
-                    txtCorreoElectronico.error = null
-                }
-
-                //Para el campo de teléfono
-                if(txtTelefono.text.isEmpty()){
-                    setErrorWithCustomFont(txtTelefono, "Llena este campo", R.font.poppins)
-                } else {
-                    txtFechaNacimiento.error = null
-                }
-
-                //Para el campo de contraseña
-                if(txtContrasena.text.isEmpty()){
-                    setErrorWithCustomFont(txtContrasena, "Llena este campo", R.font.poppins)
-                    hayErrores = true
-                } else {
-                    txtFechaNacimiento.error = null
-                }
-
-                //Validación para el correo
-                if (!Correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                    setErrorWithCustomFont(txtCorreoElectronico, "El correo no tiene un formato válido", R.font.poppins)
-                    hayErrores = true
-                } else {
-                    txtCorreoElectronico.error = null
-                }
-                //Si hay errores, no procede a guardar los datos
-                if (hayErrores) {
-                    //Hacer algo si hay errores
-                } else {
+            if (Apellido.isEmpty()) {
+                txtApellido.error = "El apellido es obligatorio"
+                hayErrores = true
+            } else {
+                txtApellido.error = null
             }
-                
 
-            //Proceso de registrar un usuario
-            GlobalScope.launch(Dispatchers.IO) {
-
-                val objConexion = ClaseConexion().cadenaConexion()
-
-                val contrasenaEncriptada = hashSHA256(txtContrasena.text.toString())
-
-                val crearUsuario =
-                    objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre, apellido, fecha_nacimiento, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)")!!
-                crearUsuario.setString(1, txtNombre.text.toString())
-                crearUsuario.setString(2, txtApellido.text.toString())
-                crearUsuario.setString(3, txtFechaNacimiento.text.toString())
-                crearUsuario.setString(4, txtCorreoElectronico.text.toString())
-                crearUsuario.setString(5, txtTelefono.text.toString())
-                crearUsuario.setString(6, contrasenaEncriptada)
-                crearUsuario.executeUpdate()
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_SHORT)
-                        .show()
-                    txtCorreoElectronico.setText("")
-                    txtContrasena.setText("")
-                }
-                withContext(Dispatchers.Main){
-                    //mostrar mensaje y limpiar campos
-                    Toast.makeText(this@activity_registrarse, "Usuario registrado", Toast.LENGTH_SHORT).show()
-                    txtNombre.setText("")
-                    txtApellido.setText("")
-                    txtFechaNacimiento.setText("")
-                    txtCorreoElectronico.setText("")
-                    txtTelefono.setText("")
-                    txtContrasena.setText("")
-
-
-                }
+            if (FechaNacimiento.isEmpty()) {
+                txtFechaNacimiento.error = "La fecha de nacimiento es obligatoria"
+                hayErrores = true
+            } else {
+                txtFechaNacimiento.error = null
             }
+
+            if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                txtCorreoElectronico.error = "El correo no tiene un formato válido"
+                hayErrores = true
+            } else {
+                txtCorreoElectronico.error = null
+            }
+
+            if (Telefono.isEmpty()) {
+                txtTelefono.error = "El teléfono es obligatorio"
+                hayErrores = true
+            } else {
+                txtTelefono.error = null
+            }
+
+            if (Contrasena.length <= 12) {
+                txtContrasena.error = "La contraseña debe tener al menos 12 caracteres"
+                hayErrores = true
+            } else {
+                txtContrasena.error = null
+            }
+
+
+            // Si hay errores, no procede a guardar los datos
+            if (hayErrores) {
+                //Hacer algo si hay errores
+            } else {
+
+
+                GlobalScope.launch(Dispatchers.IO) {
+
+                    val objConexion = ClaseConexion().cadenaConexion()
+
+
+                    val contrasenaEncriptada = hashSHA256(txtContrasena.text.toString())
+
+
+                    val crearUsuario =
+                        objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre, apellido, fecha_nacimiento, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)")!!
+                    crearUsuario.setString(1, txtNombre.text.toString())
+                    crearUsuario.setString(2, txtApellido.text.toString())
+                    crearUsuario.setString(3, txtFechaNacimiento.text.toString())
+                    crearUsuario.setString(4, txtCorreoElectronico.text.toString())
+                    crearUsuario.setString(5, txtTelefono.text.toString())
+                    crearUsuario.setString(6, contrasenaEncriptada)
+                    crearUsuario.executeUpdate()
+                    withContext(Dispatchers.Main) {
+
+                        Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_SHORT)
+                            .show()
+                        txtCorreoElectronico.setText("")
+                        txtContrasena.setText("")
+
+
+                    }
+
+                }
                 val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                 startActivity(siguientepantalla)
-                overridePendingTransition(0, 0)
-
 
             }
 
+
+
+        }
 
 
 
@@ -218,22 +186,20 @@ class activity_registrarse : AppCompatActivity() {
             startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
         }
 
+
+
         txtIniciarsesion.setOnClickListener {
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
         }
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Bienvenida::class.java)
             startActivity(volverAtras)
-            overridePendingTransition(0, 0)
         }
 
     }
 
-
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

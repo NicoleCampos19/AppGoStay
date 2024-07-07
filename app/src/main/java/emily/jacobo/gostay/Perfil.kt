@@ -5,11 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class Perfil : AppCompatActivity() {
+
+    val codigo_opcion_galeria = 102
+    val codigo_opcion_tomar_foto = 103
+
+    lateinit var imageView: ImageView
+    lateinit var miPath:String
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +32,19 @@ class Perfil : AppCompatActivity() {
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfila)
+        val imvInformacionPer = findViewById<ImageView>(R.id.imvInformacionPer)
+
+
+
+
+
+
+
+
+        imvInformacionPer.setOnClickListener{
+            val siguientepantalla = Intent(this, activity_editar_perfil::class.java)
+            startActivity(siguientepantalla)
+        }
 
 
         imvBuscar.setOnClickListener {
