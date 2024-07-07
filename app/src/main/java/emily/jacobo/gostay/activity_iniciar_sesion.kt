@@ -42,7 +42,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
 
         btnIniciar.setOnClickListener {
-            val IniciarSesion = Intent(this, PaginaInicio::class.java)
+
 
 
             //Validación de campos
@@ -82,8 +82,14 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     comprobarUsuario.setString(2, contraseniaEncriptada)
                     val resultado = comprobarUsuario.executeQuery()
                     //Si encuentra un resultado
-                    if (resultado.next()) {
-                        startActivity(IniciarSesion)
+                    if (resultado?.next() == true) {
+                        val esAdmin = correo == "admin@gmail.com"
+                        val siguientePantalla = if (esAdmin) {
+                            Intent(this@activity_iniciar_sesion, Favoritos::class.java)
+                        } else {
+                            Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+                        }
+                        startActivity(siguientePantalla)
                     } else {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(
