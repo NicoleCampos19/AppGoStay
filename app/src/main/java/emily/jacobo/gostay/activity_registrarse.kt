@@ -199,6 +199,7 @@ class activity_registrarse : AppCompatActivity() {
             }
                 val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                 startActivity(siguientepantalla)
+                overridePendingTransition(0, 0)
 
 
             }
@@ -220,11 +221,13 @@ class activity_registrarse : AppCompatActivity() {
         txtIniciarsesion.setOnClickListener {
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Bienvenida::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0, 0)
         }
 
     }
@@ -245,6 +248,7 @@ class activity_registrarse : AppCompatActivity() {
                             if (it.isSuccessful) {
                                 val paginaInicio = Intent(this, PaginaInicio::class.java)
                                 startActivity(paginaInicio)
+                                overridePendingTransition(0, 0)
                             } else {
                                 Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
                             }

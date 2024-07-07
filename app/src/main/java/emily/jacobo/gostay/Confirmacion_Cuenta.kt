@@ -102,6 +102,7 @@ class Confirmacion_Cuenta : AppCompatActivity() {
 
                     intent.putExtra("email", email)
                     startActivity(intent)
+                    overridePendingTransition(0, 0)
                     finish()
                 } else {
                     Toast.makeText(this, "Código incorrecto", Toast.LENGTH_SHORT).show();
@@ -119,11 +120,13 @@ class Confirmacion_Cuenta : AppCompatActivity() {
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0, 0)
         }
 
         btnConfirmaCuenta.setOnClickListener {
             val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
     }
 }

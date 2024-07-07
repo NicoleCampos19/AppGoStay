@@ -96,6 +96,7 @@ class PaginaInicio : AppCompatActivity() {
                         putExtra("hotel", hotel)
                     }
                     startActivity(intent)
+                    overridePendingTransition(0, 0)
                 }
                 rcvHotel.adapter = adapter
             }

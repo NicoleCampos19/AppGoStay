@@ -95,29 +95,30 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
 
                 }
-            }
+                withContext(Dispatchers.Main){
+                    //mostrar mensaje y limpiar campos
+                    Toast.makeText(this@activity_iniciar_sesion, "Sesion iniciada", Toast.LENGTH_SHORT).show()
+                    txtCorreoIniciarSesion.setText("")
+                    txtContrasenaIniciarSesion.setText("")
+
+                }
 
             }
-
 
         }
-
-        withContext(Dispatchers.Main){
-            //mostrar mensaje y limpiar campos
-            Toast.makeText(this@activity_registro, "Sesion iniciada", Toast.LENGTH_SHORT).show()
-            txtCorreoIniciarSesion.setText("")
-            txtContrasenaIniciarSesion.setText("")
 
 
         txtOlvidasteContrasena.setOnClickListener {
             val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0, 0)
         }
-
     }
+ }
 }
