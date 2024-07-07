@@ -95,13 +95,19 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
 
                 }
-
-
             }
+
             }
 
 
         }
+
+        withContext(Dispatchers.Main){
+            //mostrar mensaje y limpiar campos
+            Toast.makeText(this@activity_registro, "Sesion iniciada", Toast.LENGTH_SHORT).show()
+            txtCorreoIniciarSesion.setText("")
+            txtContrasenaIniciarSesion.setText("")
+
 
         txtOlvidasteContrasena.setOnClickListener {
             val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)

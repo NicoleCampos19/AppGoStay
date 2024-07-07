@@ -174,7 +174,15 @@ class activity_registrarse : AppCompatActivity() {
 
             }
 
-
+            withContext(Dispatchers.Main){
+                //mostrar mensaje y limpiar campos
+                Toast.makeText(this@activity_registro, "Usuario registrado", Toast.LENGTH_SHORT).show()
+                txtNombre.setText("")
+                txtApellido.setText("")
+                txtFechaNacimiento.setText("")
+                txtCorreoElectronico.setText("")
+                txtTelefono.setText("")
+                txtContrasena.setText("")
 
         }
 
