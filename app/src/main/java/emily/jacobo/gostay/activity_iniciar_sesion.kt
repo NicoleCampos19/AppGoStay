@@ -95,13 +95,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
 
                 }
-                withContext(Dispatchers.Main){
-                    //mostrar mensaje y limpiar campos
-                    Toast.makeText(this@activity_iniciar_sesion, "Sesion iniciada", Toast.LENGTH_SHORT).show()
-                    txtCorreoIniciarSesion.setText("")
-                    txtContrasenaIniciarSesion.setText("")
 
-                }
 
             }
 
