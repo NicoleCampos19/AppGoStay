@@ -69,11 +69,13 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         imvAtras.setOnClickListener {
             val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0, 0)
         }
 
         btnRecuperacion.setOnClickListener {
             val siguientepantalla = Intent(this, Confirmacion_Cuenta::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
     }
 }

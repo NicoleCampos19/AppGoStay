@@ -29,34 +29,34 @@
             <ImageView
                 android:id="@+id/imvBuscarb"
                 android:layout_width="6dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="30dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconinicio" />
+                app:srcCompat="@drawable/buscarblanco" />
 
             <ImageView
                 android:id="@+id/imvFavoritos"
                 android:layout_width="6dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="30dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconfavoritos" />
+                app:srcCompat="@drawable/favoritosblanco" />
 
             <ImageView
                 android:id="@+id/imvReservas"
                 android:layout_width="6dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="15dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconreservas" />
+                app:srcCompat="@drawable/reservablanca" />
 
             <ImageView
                 android:id="@+id/imvPerfila"
                 android:layout_width="6dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="15dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/perfil" />
+                app:srcCompat="@drawable/perfilamarillo" />
 
         </LinearLayout>
     </com.google.android.material.bottomnavigation.BottomNavigationView>

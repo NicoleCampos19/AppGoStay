@@ -75,10 +75,12 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         btnCrearContrasena.setOnClickListener {
             val CrearContrasena = Intent(this, PaginaInicio::class.java)
             startActivity(CrearContrasena)
+            overridePendingTransition(0, 0)
         }
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Confirmacion_Cuenta::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0, 0)
         }
     }
 }

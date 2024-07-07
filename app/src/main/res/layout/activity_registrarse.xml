@@ -13,7 +13,7 @@
         android:layout_height="902dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/fondo_registrarse" />
@@ -73,13 +73,13 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView8"
-        app:layout_constraintVertical_bias="0.811" />
+        app:layout_constraintVertical_bias="0.877" />
 
     <EditText
         android:id="@+id/txtApellido"
         android:layout_width="246dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -87,38 +87,6 @@
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtFechaNacimiento"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/txtCorreoElectronico"
-        android:layout_width="246dp"
-        android:layout_height="52dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/cuadritos_registrarse"
-        android:ems="10"
-        android:fontFamily="@font/poppins"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtTelefono"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/txtTelefono"
-        android:layout_width="246dp"
-        android:layout_height="52dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/cuadritos_registrarse"
-        android:ems="10"
-        android:fontFamily="@font/poppins"
-        android:hint="Numero de telefóno"
-        android:inputType="phone"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtContrasenaRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
@@ -136,7 +104,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -209,16 +177,49 @@
 
     <EditText
         android:id="@+id/txtFechaNacimiento"
-        android:layout_width="245dp"
-        android:layout_height="49dp"
+        android:layout_width="246dp"
+        android:layout_height="52dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
+        android:fontFamily="@font/poppins"
         android:hint="Fecha de nacimiento"
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtCorreoElectronico"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtTelefono"
+        android:layout_width="246dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/cuadritos_registrarse"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:hint="Número de teléfono"
+        android:inputType="number"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtContrasenaRegistrarse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtCorreoElectronico"
+        android:layout_width="246dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/cuadritos_registrarse"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtTelefono"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
 

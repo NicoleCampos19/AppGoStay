@@ -3,6 +3,7 @@ package modelo
 import java.sql.Connection
 import java.sql.DriverManager
 
+
 class ClaseConexion {
 
     fun cadenaConexion(): Connection?{
@@ -18,9 +19,9 @@ class ClaseConexion {
 
             val usuario = "GoStay"
             val contrasena = "ricaldone2024e"
-            
-            val conexion = DriverManager.getConnection(ipSofia, usuario, contrasena)
 
+            val conexion = DriverManager.getConnection(ipEmily, usuario, contrasena)
+            
             return conexion
         }catch (e: Exception){
             println("El error es este: $e")

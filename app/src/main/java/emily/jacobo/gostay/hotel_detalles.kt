@@ -42,6 +42,7 @@ class hotel_detalles : AppCompatActivity() {
         imvVolverDetallesHotel.setOnClickListener {
             val volverAtras = Intent(this, PaginaInicio::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0, 0)
         }
     }
 

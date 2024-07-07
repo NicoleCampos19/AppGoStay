@@ -58,7 +58,12 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 txtCorreoIniciarSesion.error = null
             }
 
-
+            if (contrasena.length <= 4) {
+                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
+                hayErrores = true
+            } else {
+                txtContrasenaIniciarSesion.error = null
+            }
 
             // Si hay errores, no procede a guardar los datos
             if (hayErrores) {
@@ -90,23 +95,31 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
 
                 }
+                withContext(Dispatchers.Main){
+                    //mostrar mensaje y limpiar campos
+                    Toast.makeText(this@activity_iniciar_sesion, "Sesion iniciada", Toast.LENGTH_SHORT).show()
+                    txtCorreoIniciarSesion.setText("")
+                    txtContrasenaIniciarSesion.setText("")
 
+                }
 
             }
-            }
 
-            git statu
+
         }
+
 
         txtOlvidasteContrasena.setOnClickListener {
             val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0, 0)
         }
-
     }
+ }
 }

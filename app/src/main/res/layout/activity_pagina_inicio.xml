@@ -29,34 +29,34 @@
             <ImageView
                 android:id="@+id/imvBuscar"
                 android:layout_width="6dp"
-                android:layout_height="25dp"
-                android:layout_margin="15dp"
+                android:layout_height="30dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/inicio" />
+                app:srcCompat="@drawable/buscaramarillo" />
 
             <ImageView
                 android:id="@+id/imvFavoritos"
                 android:layout_width="6dp"
-                android:layout_height="25dp"
-                android:layout_margin="15dp"
+                android:layout_height="30dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconfavoritos" />
+                app:srcCompat="@drawable/favoritosblanco" />
 
             <ImageView
                 android:id="@+id/imvReservas"
                 android:layout_width="6dp"
-                android:layout_height="25dp"
-                android:layout_margin="15dp"
+                android:layout_height="30dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconreservas" />
+                app:srcCompat="@drawable/reservablanca" />
 
             <ImageView
                 android:id="@+id/imvPerfil"
                 android:layout_width="6dp"
-                android:layout_height="25dp"
-                android:layout_margin="15dp"
+                android:layout_height="30dp"
+                android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconperfil" />
+                app:srcCompat="@drawable/perfilblanco" />
 
         </LinearLayout>
     </com.google.android.material.bottomnavigation.BottomNavigationView>

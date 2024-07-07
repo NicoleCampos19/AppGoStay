@@ -24,6 +24,7 @@ class Bienvenida : AppCompatActivity() {
         btn.setOnClickListener {
             val siguientepantalla = Intent(this, activity_registrarse::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
     }
