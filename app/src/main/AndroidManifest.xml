@@ -26,7 +26,9 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+
             android:name=".activity_editar_perfil"
+
             android:exported="false" />
         <activity
             android:name=".hotel_detalles"

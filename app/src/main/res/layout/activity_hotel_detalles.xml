@@ -87,13 +87,10 @@
                 android:layout_height="1dp"
                 android:background="#DAD4D4" />
 
-            <ImageView
-                android:id="@+id/imageView12"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvComentarios"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="20dp"
-                app:srcCompat="@drawable/comentariosejemplo" />
+                android:layout_height="match_parent" />
 
             <View
                 android:id="@+id/view4"
