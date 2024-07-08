@@ -49,11 +49,12 @@ class activity_editar_perfil : AppCompatActivity() {
         }
 
         val imvFoto = findViewById<ImageView>(R.id.imvFoto)
-        val imvEditPerfil = findViewById<ImageView>(R.id.imvEditPerfil)
         val txtCorreoPerfil = findViewById<TextView>(R.id.txtCorreoPerfil)
         val txtContraPerfil = findViewById<TextView>(R.id.txtContraPerfil)
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
         val btnGuardarPerfil = findViewById<Button>(R.id.btnGuardarPerfil)
+        val btnHacerFoto = findViewById<Button>(R.id.btnHacerFoto)
+        val btnGaleria = findViewById<Button>(R.id.btnGaleria)
 
         imvAtrasPerfil.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
@@ -61,28 +62,15 @@ class activity_editar_perfil : AppCompatActivity() {
         }
 
 
-        imvEditPerfil.setOnClickListener{
+        btnGaleria.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, codigo_opcion_galeria)
+        }
 
-            val context = this
-
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("Editar Perfil")
-            builder.setMessage("¿Desea cambiar la  foto de perfil?")
-
-            //Botones
-            builder.setPositiveButton("Hacer una foto") { dialog, which ->
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
-                startActivityForResult(intent, codigo_opcion_galeria)
-            }
-
-            builder.setNegativeButton("Seleccionar de Galería"){dialog, which ->
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(intent, codigo_opcion_tomar_foto)
-            }
-
-            val dialog = builder.create()
-            dialog.show()
+        btnHacerFoto.setOnClickListener {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, codigo_opcion_tomar_foto)
         }
 
 

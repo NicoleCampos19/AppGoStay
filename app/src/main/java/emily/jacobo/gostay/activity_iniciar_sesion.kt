@@ -35,6 +35,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val txtContrasenaIniciarSesion = findViewById<TextView>(R.id.txtContrasenaIniciarSesion)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
+        val imvFoto = findViewById<ImageView>(R.id.imvFoto)
 
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
@@ -106,6 +107,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 }
             }
 
+            val siguientepantalla = Intent(this, PaginaInicio::class.java)
+            startActivity(siguientepantalla)
 
         }
 
