@@ -26,6 +26,7 @@ import java.util.Calendar
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
 
 class activity_registrarse : AppCompatActivity() {
@@ -65,6 +66,11 @@ class activity_registrarse : AppCompatActivity() {
             val año = calendario.get(Calendar.YEAR)
             val mes = calendario.get(Calendar.MONTH)
             val día = calendario.get(Calendar.DAY_OF_MONTH)
+
+            // Calcular la fecha máxima (hace 18 años a partir de hoy)
+            val fechaMaxima = Calendar.getInstance()
+            fechaMaxima.set(año - 18, mes, día)
+
             val datePickerDialog = DatePickerDialog(
                 this,
                 { view, añoSeleccionado, mesSeleccionado, díaSeleccionado ->
@@ -74,6 +80,9 @@ class activity_registrarse : AppCompatActivity() {
                 },
                 año, mes, día
             )
+            // Configurar la fecha máxima a hace 18 años a partir de hoy
+            datePickerDialog.datePicker.maxDate = fechaMaxima.timeInMillis
+
             datePickerDialog.show()
         }
 

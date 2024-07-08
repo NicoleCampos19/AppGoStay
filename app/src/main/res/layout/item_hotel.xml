@@ -18,6 +18,7 @@
             android:id="@+id/imgHotelCard"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:background="@drawable/hotel2"
             android:scaleType="centerCrop"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -26,18 +27,37 @@
 
         <TextView
             android:id="@+id/txtNombreHotelCard"
-            android:layout_width="294dp"
+            android:layout_width="240dp"
             android:layout_height="23dp"
+            android:ellipsize="end"
             android:fontFamily="@font/poppins"
+            android:maxLines="1"
+            android:text="HOALLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.712"
+            card_view:layout_constraintHorizontal_bias="0.103"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.96" />
+            card_view:layout_constraintVertical_bias="0.909" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/selector_fav"
+            android:textOff=""
+            android:textOn=""
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.956"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.094" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
