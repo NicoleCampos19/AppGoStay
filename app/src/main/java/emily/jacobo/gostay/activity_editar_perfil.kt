@@ -21,6 +21,8 @@ import com.google.firebase.storage.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import modelo.ClaseConexion
 import java.io.ByteArrayOutputStream
 import java.sql.SQLException
 import java.util.UUID
@@ -34,7 +36,7 @@ class activity_editar_perfil : AppCompatActivity() {
     lateinit var miPath:String
     lateinit var txtCorreoP: EditText
     lateinit var txtContraP: EditText
-    val uuid = UUID.randomUUID().toString()
+    val id_usuario = UUID.randomUUID().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +133,7 @@ class activity_editar_perfil : AppCompatActivity() {
     //Subir la imagen a Firebase Storage
     private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit) {
         val storageRef = Firebase.storage.reference
-        val imageRef = storageRef.child("images/${uuid}.jpg")
+        val imageRef = storageRef.child("images/${id_usuario}.jpg")
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
@@ -152,9 +154,21 @@ class activity_editar_perfil : AppCompatActivity() {
     private fun guardarUsuarioConFoto(correo: String, clave: String, imageUri: String) {
         try {
             GlobalScope.launch(Dispatchers.IO) {
-
-
-
+                val objConexion = ClaseConexion().cadenaConexion()
+                val statement =
+                    objConexion?.prepareStatement("INSERT INTO tbMisUsuarios (UUID, correo, contraseña, url_imagen) VALUES (?, ?, ?, ?)")!!
+                statement.setString(1, id_usuario)
+                statement.setString(2, correo)
+                statement.setString(2, clave)
+                statement.setString(3, imageUri)
+                statement.executeUpdate()
+                withContext(Dispatchers.Main){
+                    Toast.makeText(this@activity_editar_perfil, "Datos guardados", Toast.LENGTH_SHORT).show()
+                    txtCorreoP.text.clear()
+                    txtContraP.text.clear()
+                    imageView.setImageResource(0)
+                    imageView.tag = null
+                }
 
 
             }
