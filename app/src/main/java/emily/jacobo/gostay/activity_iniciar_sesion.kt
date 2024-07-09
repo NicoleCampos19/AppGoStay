@@ -12,6 +12,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,6 +25,9 @@ import modelo.ClaseConexion
 import java.security.MessageDigest
 
 class activity_iniciar_sesion : AppCompatActivity() {
+
+    private val InicioSesionGoogle = 100
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
         val imvFoto = findViewById<ImageView>(R.id.imvFoto)
+        val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
 
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
@@ -112,6 +121,18 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
         }
 
+
+        imvIniciarconGoogle.setOnClickListener {
+            val configuracionGoogle =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
+                    .build()
+
+            val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
+
+            startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
+        }
+
         txtOlvidasteContrasena.setOnClickListener {
             val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(siguientepantalla)
@@ -122,5 +143,31 @@ class activity_iniciar_sesion : AppCompatActivity() {
             startActivity(volverAtras)
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == InicioSesionGoogle) {
+            val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val cuenta = tarea.getResult(ApiException::class.java)
+                if (cuenta != null) {
+                    val credenciales = GoogleAuthProvider.getCredential(cuenta.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credenciales)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                val paginaInicio = Intent(this, PaginaInicio::class.java)
+                                startActivity(paginaInicio)
+                                overridePendingTransition(0, 0)
+                            } else {
+                                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
+
+            }
+        }
     }
 }
