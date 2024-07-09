@@ -48,7 +48,7 @@ class activity_editar_perfil : AppCompatActivity() {
             insets
         }
 
-        val imvFoto = findViewById<ImageView>(R.id.imvFoto)
+        imageView = findViewById(R.id.imvFoto)
         val txtCorreoPerfil = findViewById<TextView>(R.id.txtCorreoPerfil)
         val txtContraPerfil = findViewById<TextView>(R.id.txtContraPerfil)
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
