@@ -116,8 +116,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 }
             }
 
-            val siguientepantalla = Intent(this, PaginaInicio::class.java)
-            startActivity(siguientepantalla)
+
 
         }
 

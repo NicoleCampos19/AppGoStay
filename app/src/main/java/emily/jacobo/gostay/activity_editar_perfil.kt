@@ -29,6 +29,7 @@ import java.util.UUID
 
 class activity_editar_perfil : AppCompatActivity() {
 
+    companion object n
     val codigo_opcion_galeria = 102
     val codigo_opcion_tomar_foto = 103
 
