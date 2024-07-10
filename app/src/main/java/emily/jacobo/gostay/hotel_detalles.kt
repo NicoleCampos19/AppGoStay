@@ -55,11 +55,10 @@ class hotel_detalles : AppCompatActivity() {
                 val id_valoracion = resultSet.getInt("id_valoracion")
                 val nombre_valoracion = resultSet.getString("nombre_valoracion")
                 val comentario = resultSet.getString("comentario")
-                val id_hoteles = resultSet.getInt("id_hoteles")
                 val id_usuario = resultSet.getInt("id_usuario")
 
 
-                val valoresJuntos = tbComentarios(id_valoracion, nombre_valoracion, comentario, id_hoteles, id_usuario)
+                val valoresJuntos = tbComentarios(id_valoracion, nombre_valoracion, comentario, id_usuario)
 
                 listaComentarios.add(valoresJuntos)
             }
