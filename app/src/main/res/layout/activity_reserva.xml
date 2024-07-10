@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_reserva">
+
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/txtCantidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="46dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="31dp"
+                android:layout_marginEnd="338dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView23"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Necesitamos la siguiente información"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView12" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/poppins"
+                android:text="Cantidad"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/textView25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="102dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginEnd="58dp"
+                android:fontFamily="@font/poppins"
+                android:text="Departamento"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView24"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <Spinner
+                android:id="@+id/txtDepartamento"
+                android:layout_width="158dp"
+                android:layout_height="34dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/txtCantidadH"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+            <Spinner
+                android:id="@+id/txtCantidadH"
+                android:layout_width="131dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="47dp"
+                app:layout_constraintEnd_toStartOf="@+id/txtDepartamento"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="43dp"
+                android:layout_marginEnd="231dp"
+                android:layout_marginBottom="13dp"
+                android:fontFamily="@font/poppins"
+                android:text="Entrada y Salida"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/txtEntradaSalida"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtCantidadH" />
+
+            <EditText
+                android:id="@+id/txtEntradaSalida"
+                android:layout_width="210dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="162dp"
+                android:ems="10"
+                android:inputType="date"
+                app:layout_constraintBottom_toTopOf="@+id/textView27"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="222dp"
+                android:fontFamily="@font/poppins"
+                android:text="Método de pago"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/txtMetodoPago"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtEntradaSalida" />
+
+            <Spinner
+                android:id="@+id/txtMetodoPago"
+                android:layout_width="244dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="127dp"
+                android:layout_marginBottom="23dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView28"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="38dp"
+                android:layout_marginEnd="227dp"
+                android:text="Número de tarjeta"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/txtNumeroTarjeta"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMetodoPago" />
+
+            <EditText
+                android:id="@+id/txtNumeroTarjeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="37dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="105dp"
+                android:ems="10"
+                android:fontFamily="@font/poppins"
+                android:hint="Número de tarjeta"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="190dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="42dp"
+                android:fontFamily="@font/poppins"
+                android:text="Fecha de caducidad"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/textView30"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtNumeroTarjeta" />
+
+            <EditText
+                android:id="@+id/txtFechaCaducidad"
+                android:layout_width="194dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="17dp"
+                android:ems="10"
+                android:inputType="date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtCVV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView29"
+                app:layout_constraintVertical_bias="0.021" />
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="103dp"
+                android:fontFamily="@font/poppins"
+                android:text="CVV"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView29"
+                app:layout_constraintTop_toBottomOf="@+id/txtNumeroTarjeta" />
+
+            <EditText
+                android:id="@+id/txtCVV"
+                android:layout_width="118dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="44dp"
+                android:ems="10"
+                android:inputType="numberSigned"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/txtFechaCaducidad"
+                app:layout_constraintTop_toBottomOf="@+id/textView30"
+                app:layout_constraintVertical_bias="0.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
