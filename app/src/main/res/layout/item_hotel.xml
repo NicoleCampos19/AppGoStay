@@ -9,7 +9,6 @@
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="4dp">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,7 +31,6 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins"
             android:maxLines="1"
-            android:text="HOALLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -44,7 +42,7 @@
             card_view:layout_constraintVertical_bias="0.909" />
 
         <ToggleButton
-            android:id="@+id/toggleButton"
+            android:id="@+id/tbFavoritosHotel"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerInParent="true"

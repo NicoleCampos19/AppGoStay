@@ -33,7 +33,6 @@ class PaginaInicio : AppCompatActivity() {
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
 
-
         imvBuscar.setOnClickListener {
             val siguientepantalla = Intent(this, PaginaInicio::class.java)
             startActivity(siguientepantalla)

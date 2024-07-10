@@ -7,6 +7,4 @@ data class tbComentarios(
     val comentario: String,
     val id_hoteles: Int,
     val id_usuario: Int
-
-
 )

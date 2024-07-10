@@ -14,6 +14,8 @@ class HotelAdapter(var Datos: List<tbHotel>, val clickListener: (tbHotel) -> Uni
         return ViewHolderHotel(vistaHotel)
     }
 
+
+
     override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolderHotel, position: Int) {
