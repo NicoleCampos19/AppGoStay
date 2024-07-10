@@ -38,7 +38,6 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/poppins"
                 android:paddingLeft="20dp"
-                android:paddingTop="10dp"
                 android:text="Servicios de Hotel"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -150,18 +149,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/imvVolverDetallesHotel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/imvDetalleHotel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imvDetalleHotel"
-        app:layout_constraintVertical_bias="0.087"
-        app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
-
     <TextView
         android:id="@+id/tvNombreDetalleHotel"
         android:layout_width="335dp"
@@ -176,4 +163,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.932" />
+
+    <ImageView
+        android:id="@+id/imvVolverDetallesHotel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imvDetalleHotel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.065"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
