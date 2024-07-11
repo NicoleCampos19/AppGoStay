@@ -26,7 +26,6 @@ import java.util.Calendar
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
 
 class activity_registrarse : AppCompatActivity() {
@@ -96,47 +95,20 @@ class activity_registrarse : AppCompatActivity() {
             val Contrasena = txtContrasena.text.toString()
             var hayErrores = false
 
-            if (Nombre.isEmpty()) {
-                txtNombre.error = "El nombre es obligatorio"
-                hayErrores = true
-            } else {
-                txtNombre.error = null
+            //Validación para campos vacíos
+            @RequiresApi(Build.VERSION_CODES.P)
+            fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+                val typeface = ResourcesCompat.getFont(this, fontResId)
+                val spannableString = android.text.SpannableString(errorMessage)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    spannableString.setSpan(
+                        typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                editText.error = spannableString
             }
 
-            if (Apellido.isEmpty()) {
-                txtApellido.error = "El apellido es obligatorio"
-                hayErrores = true
-            } else {
-                txtApellido.error = null
-            }
 
-            if (FechaNacimiento.isEmpty()) {
-                txtFechaNacimiento.error = "La fecha de nacimiento es obligatoria"
-                hayErrores = true
-            } else {
-                txtFechaNacimiento.error = null
-            }
-
-            if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                txtCorreoElectronico.error = "El correo no tiene un formato válido"
-                hayErrores = true
-            } else {
-                txtCorreoElectronico.error = null
-            }
-
-            if (Telefono.isEmpty()) {
-                txtTelefono.error = "El teléfono es obligatorio"
-                hayErrores = true
-            } else {
-                txtTelefono.error = null
-            }
-
-            if (Contrasena.length <= 12) {
-                txtContrasena.error = "La contraseña debe tener al menos 12 caracteres"
-                hayErrores = true
-            } else {
-                txtContrasena.error = null
-            }
 
 
             // Si hay errores, no procede a guardar los datos
