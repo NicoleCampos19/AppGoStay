@@ -152,15 +152,11 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
                 }
 
-                if (correo.isNotEmpty() && clave.isNotEmpty() && imageUri != null) {
-                    guardarUsuarioConFoto(correo, clave, imageUri)
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Completa todos los campos y selecciona una foto",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                if (correo.isNotEmpty() && clave.isNotEmpty() && imageUri != null) guardarUsuarioConFoto(correo, clave, imageUri) else Toast.makeText(
+                    this,
+                    "Completa todos los campos y selecciona una foto",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

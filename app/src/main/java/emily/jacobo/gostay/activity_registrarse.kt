@@ -34,6 +34,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
+import emily.jacobo.gostay.activity_iniciar_sesion.variableGloalLogin
 import java.io.ByteArrayOutputStream
 import java.sql.SQLException
 import java.util.UUID
@@ -64,6 +65,8 @@ class activity_registrarse : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
         //Mando a llamar todos los elementos
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtIniciarsesion = findViewById<TextView>(R.id.txtIniciaSesion)
@@ -75,14 +78,33 @@ class activity_registrarse : AppCompatActivity() {
         val txtContrasena = findViewById<TextView>(R.id.txtContrasenaRegistrarse)
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
         val imvIniciargoogle = findViewById<ImageView>(R.id.imvIniciarGoogle)
+        val imvCamaraIni = findViewById<ImageView>(R.id.imvCamaraIni)
+        val imvGaleriaIni = findViewById<ImageView>(R.id.imvGaleriaIni)
+        activity_iniciar_sesion.imageView = findViewById(R.id.imvFotoIni)
 
+
+        imvGaleriaIni.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent,
+                emily.jacobo.gostay.activity_iniciar_sesion.codigo_opcion_galeria
+            )
+        }
+
+        imvCamaraIni.setOnClickListener {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent,
+                emily.jacobo.gostay.activity_iniciar_sesion.codigo_opcion_tomar_foto
+            )
+        }
 
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
         }
 
-
+        txtCorreoI = findViewById(R.id.txtCorreoElectronico)
+        txtContraI = findViewById(R.id.txtContrasenaRegistrarse)
         //Mostrar calendario en el txtFechaNacimiento
         txtFechaNacimiento.setOnClickListener {
             val calendario = Calendar.getInstance()
@@ -114,10 +136,12 @@ class activity_registrarse : AppCompatActivity() {
             val Nombre = txtNombre.text.toString()
             val Apellido = txtApellido.text.toString()
             val FechaNacimiento = txtFechaNacimiento.text.toString()
-            val correo = txtCorreoElectronico.text.toString()
             val Telefono = txtTelefono.text.toString()
             val Contrasena = txtContrasena.text.toString()
             var hayErrores = false
+            val correo = txtCorreoI.text.toString().trim()
+            val clave = txtContraI.text.toString().trim()
+            val imageUri = miPath
 
 
             //Validación para campos vacíos
@@ -159,7 +183,7 @@ class activity_registrarse : AppCompatActivity() {
                     crearUsuario.setString(4, txtCorreoElectronico.text.toString())
                     crearUsuario.setString(5, txtTelefono.text.toString())
                     crearUsuario.setString(6, contrasenaEncriptada)
-                    //crearUsuario.setString(7, miPath)
+                    crearUsuario.setString(7, miPath)
 
                     crearUsuario.executeUpdate()
                     withContext(Dispatchers.Main) {
@@ -211,6 +235,93 @@ class activity_registrarse : AppCompatActivity() {
             startActivity(volverAtras)
         }
 
-    }
+
+
 
 }
+
+    private fun guardarUsuarioConFoto(correo: String, clave: String, imageUri: String) {
+        try {
+            GlobalScope.launch(Dispatchers.IO) {
+                val objConexion = ClaseConexion().cadenaConexion()
+                val statement =
+                    objConexion?.prepareStatement("INSERT INTO tbUsuarios (UUID, correo, contraseña, url_imagen) VALUES (?, ?, ?, ?)")!!
+                statement.setString(1, uuid)
+                statement.setString(2, correo)
+                statement.setString(3, clave)
+                statement.setString(4, imageUri)
+                statement.executeUpdate()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@activity_registrarse,
+                        "Datos guardados",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    txtCorreoI.text.clear()
+                }
+            }
+        } catch (e: SQLException) {
+            println("Error al guardar usuario: $e")
+        }
+    }
+
+
+    //Esta función onActivityResult se encarga de capturar lo que pasa al abrir la geleria o la camara
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+
+                codigo_opcion_galeria -> {
+                    val imageUri: Uri? = data?.data
+                    imageUri?.let {
+                        val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
+                        subirimagenFirebase(imageBitmap) { url ->
+                            miPath = url
+                            imageView.setImageURI(it)
+                        }
+                    }
+                }
+
+
+                codigo_opcion_tomar_foto -> {
+                    val imageBitmap = data?.extras?.get("data") as? Bitmap
+                    imageBitmap?.let {
+                        subirimagenFirebase(it) { url ->
+                            miPath = url
+                            imageView.setImageBitmap(it)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Subir la imagen a Firebase Storage
+    private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit) {
+        val storageRef = Firebase.storage.reference
+        val imageRef = storageRef.child("images/${uuid}.jpg")
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+        val uploadTask = imageRef.putBytes(data)
+
+        val addOnSuccessListener = uploadTask.addOnFailureListener {
+            Toast.makeText(
+                this@activity_registrarse,
+                "Error al subir la imagen",
+                Toast.LENGTH_SHORT
+            ).show()
+
+        }.addOnSuccessListener { taskSnapshot ->
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                onSuccess(uri.toString())
+            }
+        }
+    }
+
+
+
+}
+
+
