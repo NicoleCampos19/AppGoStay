@@ -96,7 +96,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     if (resultado?.next() == true) {
                         val esAdmin = correo == "admin@gmail.com"
                         val siguientePantalla = if (esAdmin) {
-                            Intent(this@activity_iniciar_sesion, Favoritos::class.java)
+                            Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         } else {
                             Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                         }
