@@ -3,6 +3,7 @@ package emily.jacobo.gostay
 import RecyclerViewHelpers.ComentarioAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,7 @@ import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbComentarios
 import modelo.tbHotel
+import java.util.UUID
 
 class hotel_detalles : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,39 +40,71 @@ class hotel_detalles : AppCompatActivity() {
         val imvDetalleHotel = findViewById<ImageView>(R.id.imvDetalleHotel)
         val tvNombreDetalleHotel = findViewById<TextView>(R.id.tvNombreDetalleHotel)
         val tvDescripcionDetalleHotel = findViewById<TextView>(R.id.tvDescripcionDetalleHotel)
+        val txtComentario = findViewById<EditText>(R.id.txtComentario)
+        val imvEnviar = findViewById<ImageView>(R.id.imvEnviar)
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
 
 
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        fun obtenerComentarios(): List<tbComentarios> {
 
+
+        fun obtenerComentarios(): List<tbComentarios> {
+            //1- Creo un objeto de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
+
+            //2- Creo un Statement
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones")!!
 
+            //Voy a guardar all lo que me traiga el Select
             val listaComentarios = mutableListOf<tbComentarios>()
 
             while (resultSet.next()){
-                val id_valoracion = resultSet.getInt("id_valoracion")
-                val nombre_valoracion = resultSet.getString("nombre_valoracion")
+
                 val comentario = resultSet.getString("comentario")
-                val id_usuario = resultSet.getInt("id_usuario")
 
+                val comentarios = tbComentarios(comentario)
 
-                val valoresJuntos = tbComentarios(id_valoracion, nombre_valoracion, comentario, id_usuario)
-
-                listaComentarios.add(valoresJuntos)
+                listaComentarios.add(comentarios)
             }
             return listaComentarios
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        //Asignar el adapter al RecyclerView
+        //Ejecutar la funcion para mostrar datos
+        CoroutineScope(Dispatchers.IO).launch{
+            //Creo una variable que ejecute la funcion de mostrar datos
             val comentariosDB = obtenerComentarios()
-            withContext(Dispatchers.Main) {
-                val adapter = ComentarioAdapter(comentariosDB)
-                rcvComentarios.adapter = adapter
+            withContext(Dispatchers.Main){
+                val miAdaptador = ComentarioAdapter(comentariosDB)
+                rcvComentarios.adapter = miAdaptador
             }
+        }
+
+        imvEnviar.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                //1- Crear un objeto de la clase conexion
+                val objConexion = ClaseConexion().cadenaConexion()
+
+                //2- Crear una variable que contenga un PrepareStatement
+                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario) values(?)")!!
+                addComentario.setString(1, txtComentario.text.toString())
+
+                        addComentario.executeUpdate()
+
+                val nuevocomentario = obtenerComentarios()
+                withContext(Dispatchers.Main){
+                    //Actualizo al adaptador con los datos nuevos
+                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
+                    txtComentario.setText("")
+
+                }
+
+
+            }
+
+
         }
 
         Glide.with(this)
