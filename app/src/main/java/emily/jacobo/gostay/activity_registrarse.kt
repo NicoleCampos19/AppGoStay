@@ -26,7 +26,6 @@ import java.util.Calendar
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
 
 class activity_registrarse : AppCompatActivity() {

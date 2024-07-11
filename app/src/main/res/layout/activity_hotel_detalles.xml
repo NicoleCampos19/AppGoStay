@@ -86,6 +86,53 @@
                 android:layout_height="1dp"
                 android:background="#DAD4D4" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/imvEstrella"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/iconoestrella"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/txtCalificacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="4.7"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/txtComentario"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/cuadrito_comentario"
+                    android:fontFamily="@font/poppins"
+                    android:hint="Opina sobre nuestro hotel"
+                    android:inputType="text"
+                    android:padding="8dp" />
+
+                <ImageView
+                    android:id="@+id/imvEnviar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/iconoenviar"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
+
+
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvComentarios"
                 android:layout_width="match_parent"
