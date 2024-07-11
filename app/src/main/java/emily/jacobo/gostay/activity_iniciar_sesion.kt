@@ -44,12 +44,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
         val imvFoto = findViewById<ImageView>(R.id.imvFoto)
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
-        val btnMientras = findViewById<Button>(R.id.btnmientrasxd)
 
-        btnMientras.setOnClickListener {
-            val siguientePantalla = Intent(this, PaginaInicio::class.java)
-            startActivity(siguientePantalla)
-        }
+
 
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
