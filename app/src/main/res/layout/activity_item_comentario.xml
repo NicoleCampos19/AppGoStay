@@ -32,6 +32,7 @@
             android:layout_width="95dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins"
             android:text="Hace 1 mes"
             android:textSize="14sp" />
 
@@ -50,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/poppins"
         android:text="Sin duda el mejor hotel que he visitado. Recomendado!"
         android:textSize="16sp" />
 
@@ -82,6 +84,7 @@
                 android:id="@+id/txtUsuarioCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
                 android:text="Elizabeth Woolridge"
                 android:textSize="16sp"
                 android:textStyle="bold" />
