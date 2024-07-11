@@ -50,8 +50,8 @@ class activity_editar_perfil : AppCompatActivity() {
         }
 
         imageView = findViewById(R.id.imvFoto)
-        val txtCorreoPerfil = findViewById<TextView>(R.id.txtCorreoPerfil)
-        val txtContraPerfil = findViewById<TextView>(R.id.txtContraPerfil)
+        txtCorreoP = findViewById(R.id.txtCorreoPerfil)
+        txtContraP = findViewById(R.id.txtContraPerfil)
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
         val btnGuardarPerfil = findViewById<Button>(R.id.btnGuardarPerfil)
         val btnHacerFoto = findViewById<Button>(R.id.btnHacerFoto)
