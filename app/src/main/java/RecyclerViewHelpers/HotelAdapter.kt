@@ -7,14 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
-<<<<<<< HEAD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import modelo.ClaseConexion
-=======
-import emily.jacobo.gostay.hotel_detalles
->>>>>>> origin/Leonardo
 import modelo.tbHotel
 import java.util.UUID
 
@@ -30,21 +26,21 @@ class HotelAdapter(var Datos: List<tbHotel>, val clickListener: (tbHotel) -> Uni
 
 
         //holder.tbToogleFavoritos.setOnCheckedChangeListener { buttonView, isChecked ->
-            //Si el corazoncito esta lleno
-            //if (isChecked){
-                GlobalScope.launch(Dispatchers.Main){
+        //Si el corazoncito esta lleno
+        //if (isChecked){
+        GlobalScope.launch(Dispatchers.Main){
 
-                   // val objConexion = ClaseConexion().cadenaConexion()
+            // val objConexion = ClaseConexion().cadenaConexion()
 
-                    //2- Crear una variable que sea igual a un PrepareStatement
-                   // val agregarFavoritos = objConexion?.prepareStatement("insert into tbPreferenciales where id_preferencial = ?, id_hoteles = ?, id_usuario = ?) values(?, ?, ?)")!!
-                    //agregarFavoritos.setInt(1, txtPrecio.text.toString().toInt())
+            //2- Crear una variable que sea igual a un PrepareStatement
+            // val agregarFavoritos = objConexion?.prepareStatement("insert into tbPreferenciales where id_preferencial = ?, id_hoteles = ?, id_usuario = ?) values(?, ?, ?)")!!
+            //agregarFavoritos.setInt(1, txtPrecio.text.toString().toInt())
 
-                }
-           // } else{
+        }
+        // } else{
 
-          //  }
-       // }
+        //  }
+        // }
 
         val itemHotel = Datos[position]
         holder.bind(itemHotel, clickListener)
@@ -53,13 +49,5 @@ class HotelAdapter(var Datos: List<tbHotel>, val clickListener: (tbHotel) -> Uni
             .load(itemHotel.img_url)
             .into(holder.imgHotelCard)
 
-        holder.itemView.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, hotel_detalles::class.java).apply {
-                putExtra("id_hoteles", itemHotel.id_hoteles)
-                putExtra("hotel", itemHotel)
-            }
-            context.startActivity(intent)
-        }
     }
 }

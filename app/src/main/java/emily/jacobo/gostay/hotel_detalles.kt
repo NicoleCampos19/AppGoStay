@@ -4,10 +4,13 @@ import RecyclerViewHelpers.AdaptadorServicioHotel
 import RecyclerViewHelpers.ComentarioAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -21,11 +24,12 @@ import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbComentarios
 import modelo.tbHotel
-<<<<<<< HEAD
+
 import java.util.UUID
-=======
+
 import modelo.tbServiciosHotel
->>>>>>> origin/Leonardo
+
+
 
 class hotel_detalles : AppCompatActivity() {
 
@@ -102,7 +106,7 @@ hotel?.let {
         .load(hotel.img_url)
         .into(imvDetalleHotel)
 
-<<<<<<< HEAD
+
         imvEnviar.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 //1- Crear un objeto de la clase conexion
@@ -135,11 +139,11 @@ hotel?.let {
         tvNombreDetalleHotel.text = hotel.nombreHotel
         tvDescripcionDetalleHotel.text = hotel.descripcion
 
-=======
+
     tvNombreDetalleHotel.text = hotel.nombreHotel
     tvDescripcionDetalleHotel.text = hotel.descripcion
 }
->>>>>>> origin/Leonardo
+
         imvVolverDetallesHotel.setOnClickListener {
             val volverAtras = Intent(this, PaginaInicio::class.java)
             startActivity(volverAtras)
@@ -179,5 +183,17 @@ hotel?.let {
         statement?.close()
         conexion?.close()
         return listaServicios
+    }
+
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(this, v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+
+        popup.setOnDismissListener {
+            // Respond to popup being dismissed.
+        }
+        // Show the popup menu.
+        popup.show()
     }
 }

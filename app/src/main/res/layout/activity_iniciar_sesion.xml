@@ -42,8 +42,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="301dp"
-        android:layout_height="412dp"
+        android:layout_width="306dp"
+        android:layout_height="402dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -66,7 +66,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtOlvidasteContrasena"
-        app:layout_constraintVertical_bias="0.152" />
+        app:layout_constraintVertical_bias="0.333" />
 
     <TextView
         android:id="@+id/textView14"
@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.758" />
+        app:layout_constraintVertical_bias="0.97" />
 
     <TextView
         android:id="@+id/txtOlvidasteContrasena"
@@ -97,15 +97,16 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintHorizontal_bias="0.655"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtContrasenaIniciarSesion" />
+        app:layout_constraintTop_toBottomOf="@+id/txtContrasenaIniciarSesion"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnIniciar"
         android:layout_width="107dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="272dp"
+        android:layout_marginBottom="288dp"
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppins"
         android:text="Iniciar"
@@ -118,7 +119,7 @@
         android:id="@+id/txtCorreoInciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -134,7 +135,7 @@
         android:id="@+id/txtContrasenaIniciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
-        android:layout_marginTop="384dp"
+        android:layout_marginTop="280dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -142,7 +143,7 @@
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -153,10 +154,17 @@
         android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/imvIniciarGoogle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
         app:srcCompat="@drawable/ic_google" />
 
+    <Button
+        android:id="@+id/btnmientrasxd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,15 @@
 package RecyclerViewHelpers
 
+import android.content.Context
 import android.database.SQLException
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import androidx.annotation.MenuRes
 import androidx.recyclerview.widget.RecyclerView
 import emily.jacobo.gostay.R
+
 import modelo.ClaseConexion
 import modelo.tbComentarios
 
@@ -27,10 +32,14 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
 
     override fun onBindViewHolder(holder: ViewHolderComentario, position: Int) {
         val item = Datos[position]
-
+val context = holder.itemView.context
         val comentario = item.comentario
         holder.txtComentarioCard.text = comentario
 
+
+        holder.ImageView.setOnClickListener { v: View ->
+            showMenu(v, R.menu.popup_menu,context )
+        }
 
 
     }
@@ -53,6 +62,18 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
         conexion?.close()
 
         return nombreUsuario
+    }
+
+    private fun showMenu(v: View, @MenuRes menuRes: Int, context: Context) {
+
+        val popup = PopupMenu(context, v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+        popup.setOnDismissListener {
+            // Respond to popup being dismissed.
+        }
+        // Show the popup menu.
+        popup.show()
     }
 
 
