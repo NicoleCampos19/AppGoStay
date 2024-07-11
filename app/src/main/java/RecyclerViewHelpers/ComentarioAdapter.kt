@@ -9,6 +9,13 @@ import modelo.ClaseConexion
 import modelo.tbComentarios
 
 class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<ViewHolderComentario>() {
+
+    fun actualizarListado(nuevocomentario: List<tbComentarios>) {
+            Datos = nuevocomentario
+            notifyDataSetChanged()
+
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderComentario {
 
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_comentario, parent, false)
@@ -20,10 +27,10 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
 
     override fun onBindViewHolder(holder: ViewHolderComentario, position: Int) {
         val item = Datos[position]
-        val nombreUsuario = obtenerNombreUsuario(item.id_usuario)
+
         val comentario = item.comentario
         holder.txtComentarioCard.text = comentario
-        holder.txtUsuarioCard.text = nombreUsuario ?: "Usuario Desconocido"
+
 
 
     }
@@ -47,6 +54,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
 
         return nombreUsuario
     }
+
 
 
 }

@@ -119,7 +119,8 @@
                     android:fontFamily="@font/poppins"
                     android:hint="Opina sobre nuestro hotel"
                     android:inputType="text"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/imvEnviar"
