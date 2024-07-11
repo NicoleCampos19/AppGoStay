@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.AdaptadorServicioHotel
 import RecyclerViewHelpers.ComentarioAdapter
 import android.content.Intent
 import android.os.Bundle
@@ -20,9 +21,16 @@ import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbComentarios
 import modelo.tbHotel
+<<<<<<< HEAD
 import java.util.UUID
+=======
+import modelo.tbServiciosHotel
+>>>>>>> origin/Leonardo
 
 class hotel_detalles : AppCompatActivity() {
+
+    private lateinit var rcvServicioHotel: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,8 +41,16 @@ class hotel_detalles : AppCompatActivity() {
             insets
         }
 
+        rcvServicioHotel = findViewById(R.id.rcvServiciosHotel)
+        rcvServicioHotel.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
+        if (idHotel != -1) {
+            obtenerServiciosHotel(idHotel)
+        }
+
+
 
         val imvVolverDetallesHotel = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         val imvDetalleHotel = findViewById<ImageView>(R.id.imvDetalleHotel)
@@ -81,7 +97,12 @@ class hotel_detalles : AppCompatActivity() {
                 rcvComentarios.adapter = miAdaptador
             }
         }
+hotel?.let {
+    Glide.with(this)
+        .load(hotel.img_url)
+        .into(imvDetalleHotel)
 
+<<<<<<< HEAD
         imvEnviar.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 //1- Crear un objeto de la clase conexion
@@ -114,10 +135,49 @@ class hotel_detalles : AppCompatActivity() {
         tvNombreDetalleHotel.text = hotel.nombreHotel
         tvDescripcionDetalleHotel.text = hotel.descripcion
 
+=======
+    tvNombreDetalleHotel.text = hotel.nombreHotel
+    tvDescripcionDetalleHotel.text = hotel.descripcion
+}
+>>>>>>> origin/Leonardo
         imvVolverDetallesHotel.setOnClickListener {
             val volverAtras = Intent(this, PaginaInicio::class.java)
             startActivity(volverAtras)
         }
+        
     }
 
+    private fun obtenerServiciosHotel(idHotel: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val servicios = cargarServiciosHotel(idHotel)
+            withContext(Dispatchers.Main) {
+                val adapter = AdaptadorServicioHotel(servicios)
+                rcvServicioHotel.adapter = adapter
+            }
+        }
+    }
+    private fun cargarServiciosHotel(idHotel: Int): List<tbServiciosHotel> {
+        val listaServicios = mutableListOf<tbServiciosHotel>()
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+            SELECT sh.id_servicio_hotel, sh.nombre_servicio, sh.img_icono_hotel 
+            FROM tbServiciosHotel sh 
+            JOIN tbHoteles h ON h.id_servicio_hotel = sh.id_servicio_hotel 
+            WHERE h.id_hoteles = ?
+        """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setInt(1, idHotel)
+        val resultSet = statement?.executeQuery()
+        while (resultSet?.next() == true) {
+            val idServicioHotel = resultSet.getInt("id_servicio_hotel")
+            val nombreServicio = resultSet.getString("nombre_servicio")
+            val imgIconoHotel = resultSet.getString("img_icono_hotel")
+            listaServicios.add(tbServiciosHotel(idServicioHotel, nombreServicio, imgIconoHotel))
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return listaServicios
+    }
 }

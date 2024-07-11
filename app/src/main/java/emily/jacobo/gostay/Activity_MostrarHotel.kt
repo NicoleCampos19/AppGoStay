@@ -27,37 +27,7 @@ class Activity_MostrarHotel : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val rcvServiciosHotel = findViewById<RecyclerView>(R.id.rcvServiciosHotel)
 
-        rcvServiciosHotel.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        fun obtenerServiciosHotel(): List<tbServiciosHotel>{
-            val objConexion = ClaseConexion().cadenaConexion()
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbServiciosHotel")!!
 
-            val listaServiciosHotel = mutableListOf<tbServiciosHotel>()
-
-            while (resultSet.next()){
-                val id_servicio_hotel = resultSet.getInt("id_servicio_hotel")
-                val nombre_servicio = resultSet.getString("nombre_servicio")
-
-                val valoresJuntos = tbServiciosHotel(id_servicio_hotel, nombre_servicio)
-
-                listaServiciosHotel.add(valoresJuntos)
-            }
-            return  listaServiciosHotel
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            val serviciosHotelDB = obtenerServiciosHotel()
-            withContext(Dispatchers.Main){
-                val adapter = AdaptadorServicioHotel(serviciosHotelDB)
-                rcvServiciosHotel.adapter = adapter
-            }
-        }
-        val imgRegresarServiciosHotel: ImageView = findViewById(R.id.imgRegresarServiciosHotel)
-        imgRegresarServiciosHotel.setOnClickListener {
-            val intent = Intent(this, PaginaInicio::class.java)
-            startActivity(intent)
-        }
     }
 }
