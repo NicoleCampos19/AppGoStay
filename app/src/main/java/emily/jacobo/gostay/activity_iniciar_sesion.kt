@@ -41,13 +41,13 @@ class activity_iniciar_sesion : AppCompatActivity() {
 <<<<<<< HEAD
         val correoIngresado = "nico@gmail.com"
 
-=======
+
         val correoIngresado = "leo_monte@gmail.com"
         lateinit var imageView: ImageView
         lateinit var miPath: String
         lateinit var txtCorreoI: EditText
         lateinit var txtContraI: EditText
->>>>>>> d9b636ea37a487bbdadfa813c2f648feea2053e8
+
 
         val uuid = UUID.randomUUID().toString()
     }
