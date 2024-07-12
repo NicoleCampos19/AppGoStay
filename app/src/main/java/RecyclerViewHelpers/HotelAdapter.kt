@@ -1,18 +1,17 @@
 package RecyclerViewHelpers
 
-import android.content.Intent
-import android.provider.Settings.Global
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.activity_iniciar_sesion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbHotel
-import java.util.UUID
 
 class HotelAdapter(var Datos: List<tbHotel>, val clickListener: (tbHotel) -> Unit): RecyclerView.Adapter<ViewHolderHotel>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHotel {
@@ -23,31 +22,56 @@ class HotelAdapter(var Datos: List<tbHotel>, val clickListener: (tbHotel) -> Uni
     override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolderHotel, position: Int) {
+        val item = Datos[position]
+        val correoIngresado = activity_iniciar_sesion.correoIngresado
 
-
-        //holder.tbToogleFavoritos.setOnCheckedChangeListener { buttonView, isChecked ->
-        //Si el corazoncito esta lleno
-        //if (isChecked){
-        GlobalScope.launch(Dispatchers.Main){
-
-            // val objConexion = ClaseConexion().cadenaConexion()
-
-            //2- Crear una variable que sea igual a un PrepareStatement
-            // val agregarFavoritos = objConexion?.prepareStatement("insert into tbPreferenciales where id_preferencial = ?, id_hoteles = ?, id_usuario = ?) values(?, ?, ?)")!!
-            //agregarFavoritos.setInt(1, txtPrecio.text.toString().toInt())
-
+        suspend fun obtenerIdUsuario(correo: String): Int? {
+            return withContext(Dispatchers.IO) {
+                val objConexion = ClaseConexion().cadenaConexion()
+                val getId = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
+                getId?.setString(1, correo)
+                val resultSet = getId?.executeQuery()
+                if (resultSet != null && resultSet.next()) {
+                    resultSet.getInt("id_usuario")
+                } else {
+                    null
+                }
+            }
         }
-        // } else{
+        holder.tbToogleFavoritos.setOnCheckedChangeListener { buttonView, isChecked ->
+            //Si el corazón esta lleno
+            if (isChecked) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    val idUsuario = obtenerIdUsuario(correoIngresado)
+                    if (idUsuario != null) {
+                        withContext(Dispatchers.IO) {
+                            val objConexion = ClaseConexion().cadenaConexion()
+                            val agregarFavoritos = objConexion?.prepareStatement("INSERT INTO tbPreferenciales (id_hoteles, id_usuario) VALUES (?, ?)")
+                            agregarFavoritos?.setInt(1, item.id_hoteles)
+                            agregarFavoritos?.setInt(2, idUsuario)
+                            agregarFavoritos?.executeUpdate()
+                        }
+                    }
+                }
+                //Si el corazón esta vacío
+            } else {
+                    GlobalScope.launch(Dispatchers.IO){
+                        val objConexion = ClaseConexion().cadenaConexion()
 
-        //  }
-        // }
+                        val deleteFavorito = objConexion?.prepareStatement("delete tbPreferenciales where id_hoteles = ?")!!
+                        deleteFavorito.setInt(1, item.id_hoteles)
+                        deleteFavorito.executeUpdate()
 
+                        val commit = objConexion.prepareStatement("commit")
+                        commit.executeUpdate()
+                    }
+            }
+        }
         val itemHotel = Datos[position]
         holder.bind(itemHotel, clickListener)
 
         Glide.with(holder.itemView)
             .load(itemHotel.img_url)
             .into(holder.imgHotelCard)
-
     }
 }

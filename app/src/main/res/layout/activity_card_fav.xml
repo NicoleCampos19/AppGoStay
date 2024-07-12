@@ -48,7 +48,7 @@
             card_view:layout_constraintVertical_bias="0.094" />
 
         <ImageView
-            android:id="@+id/imageView26"
+            android:id="@+id/imgFav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             card_view:layout_constraintBottom_toBottomOf="parent"

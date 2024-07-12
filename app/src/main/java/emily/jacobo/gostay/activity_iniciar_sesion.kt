@@ -40,6 +40,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val codigo_opcion_galeria = 102
         val codigo_opcion_tomar_foto = 103
 
+        val correoIngresado = "nico@gmail.com"
         lateinit var imageView: ImageView
         lateinit var miPath: String
         lateinit var txtCorreoI: EditText
@@ -47,7 +48,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
         val uuid = UUID.randomUUID().toString()
     }
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,11 +98,11 @@ class activity_iniciar_sesion : AppCompatActivity() {
             // Validación de campos
             var hayErrores = false
 
-            val correo = txtCorreoI.text.toString().trim()
+            val correoIngreado = txtCorreoI.text.toString().trim()
             val clave = txtContraI.text.toString().trim()
             val imageUri = miPath
 
-            if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+            if (!correoIngresado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
                 txtCorreoI.error = "El correo no tiene un formato válido"
                 hayErrores = true
             } else {
@@ -133,7 +133,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     val resultado = comprobarUsuario.executeQuery()
                     // Si encuentra un resultado
                     if (resultado?.next() == true) {
-                        val esAdmin = correo == "admin@gmail.com"
+                        val esAdmin = correoIngresado == "admin@gmail.com"
                         val siguientePantalla = if (esAdmin) {
                             Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         } else {
@@ -152,7 +152,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
                 }
 
-                if (correo.isNotEmpty() && clave.isNotEmpty() && imageUri != null) guardarUsuarioConFoto(correo, clave, imageUri) else Toast.makeText(
+                if (correoIngresado.isNotEmpty() && clave.isNotEmpty() && imageUri != null) guardarUsuarioConFoto(
+                    correoIngresado, clave, imageUri) else Toast.makeText(
                     this,
                     "Completa todos los campos y selecciona una foto",
                     Toast.LENGTH_SHORT
