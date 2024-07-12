@@ -38,7 +38,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
     companion object variableGloalLogin{
         private val InicioSesionGoogle = 100
 
-        val correoIngresado = "nico@gmail.com"
+        val correoIngresado = "leo_monte@gmail.com"
 
         lateinit var imageView: ImageView
         lateinit var miPath: String

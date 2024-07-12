@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.activity_iniciar_sesion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +22,9 @@ class AdaptadorFavoritos (var Datos: List<tbFavoritos>, val clickListener: (tbFa
     override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolderFavoritos, position: Int) {
+        val item = Datos[position]
+
+        val correoIngresado = activity_iniciar_sesion.correoIngresado
 
         //Función para que el recycleview se me actualice automáticamente
         fun actualizarRecyclerView(nuevaLista: List<tbFavoritos>){
@@ -28,6 +32,20 @@ class AdaptadorFavoritos (var Datos: List<tbFavoritos>, val clickListener: (tbFa
             notifyDataSetChanged() //Notifica que hay datos nuevos
         }
 
+        suspend fun obtenerIdUsuario(correo: String): Int? {
+            return withContext(Dispatchers.IO) {
+                val objConexion = ClaseConexion().cadenaConexion()
+                val getId =
+                    objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
+                getId?.setString(1, correo)
+                val resultSet = getId?.executeQuery()
+                if (resultSet != null && resultSet.next()) {
+                    resultSet.getInt("id_usuario")
+                } else {
+                    null
+                }
+            }
+        }
         //Función para mostrar los datos
         fun obtenerFavoritos(): List<tbFavoritos> {
 
