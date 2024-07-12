@@ -69,39 +69,62 @@ class hotel_detalles : AppCompatActivity() {
 
 
 
+
         fun obtenerComentarios(): List<tbComentarios> {
             //1- Creo un objeto de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
 
-            //2- Creo un Statement
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones")!!
 
-            //Voy a guardar all lo que me traiga el Select
             val listaComentarios = mutableListOf<tbComentarios>()
 
             while (resultSet.next()){
-
+                val id_valoracion = resultSet.getInt("id_valoracion")
                 val comentario = resultSet.getString("comentario")
 
-                val comentarios = tbComentarios(comentario)
+
+
+                val comentarios = tbComentarios(id_valoracion, comentario)
 
                 listaComentarios.add(comentarios)
             }
             return listaComentarios
         }
 
-        //Asignar el adapter al RecyclerView
-        //Ejecutar la funcion para mostrar datos
+
         CoroutineScope(Dispatchers.IO).launch{
-            //Creo una variable que ejecute la funcion de mostrar datos
             val comentariosDB = obtenerComentarios()
             withContext(Dispatchers.Main){
                 val miAdaptador = ComentarioAdapter(comentariosDB)
                 rcvComentarios.adapter = miAdaptador
             }
         }
-hotel?.let {
+
+        imvEnviar.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val objConexion = ClaseConexion().cadenaConexion()
+
+                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario) values(?)")!!
+                addComentario.setString(1, txtComentario.text.toString())
+
+
+                addComentario.executeUpdate()
+
+                val nuevocomentario = obtenerComentarios()
+                withContext(Dispatchers.Main){
+                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
+                    txtComentario.setText("")
+
+                }
+
+
+            }
+
+
+        }
+
+        hotel?.let {
     Glide.with(this)
         .load(hotel.img_url)
         .into(imvDetalleHotel)
