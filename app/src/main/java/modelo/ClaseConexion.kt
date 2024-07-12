@@ -15,19 +15,15 @@ class ClaseConexion {
             val ipSofia = "jdbc:oracle:thin:@172.24.192.1:1521:xe"
             val ipDaniel = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
             val ipprueba = "jdbc:oracle:thin:@172.20.10.2:1521:xe"
-            val iprical = "jdbc:oracle:thin:@10.10.1.24:1521:xe"
+            val ipBryan = "jdbc:oracle:thin:@10.10.1.24:1521:xe"
+            val ipMirna = "jdbc:oracle:thin:@10.10.0.57:1521:xe"
 
             val usuario = "GoStay"
             val contrasena = "ricaldone2024e"
 
-            val conexion = DriverManager.getConnection(iprical, usuario, contrasena)
+            val conexion = DriverManager.getConnection(ipMirna, usuario, contrasena)
 
-<<<<<<< HEAD
-            val conexion = DriverManager.getConnection(iprical, usuario, contrasena)
 
-            
-=======
->>>>>>> d9b636ea37a487bbdadfa813c2f648feea2053e8
             return conexion
         }catch (e: Exception){
             println("El error es este: $e")
