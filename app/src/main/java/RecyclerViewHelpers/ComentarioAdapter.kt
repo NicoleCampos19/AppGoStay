@@ -61,6 +61,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
             commit.executeUpdate()
 
         }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderComentario {

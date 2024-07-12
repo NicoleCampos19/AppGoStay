@@ -38,18 +38,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
     companion object variableGloalLogin{
         private val InicioSesionGoogle = 100
 
-<<<<<<< HEAD
         val correoIngresado = "nico@gmail.com"
 
-
-        val correoIngresado = "leo_monte@gmail.com"
-        lateinit var imageView: ImageView
-        lateinit var miPath: String
-        lateinit var txtCorreoI: EditText
-        lateinit var txtContraI: EditText
-
-
-        val uuid = UUID.randomUUID().toString()
     }
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
