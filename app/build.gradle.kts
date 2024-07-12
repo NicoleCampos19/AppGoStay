@@ -83,6 +83,9 @@ dependencies {
     //libreria de circleimage
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation(libs.firebase.storage.ktx)
+    implementation(files("libs\\activation.jar"))
+    implementation(files("libs\\additionnal.jar"))
+    implementation(files("libs\\mail.jar"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

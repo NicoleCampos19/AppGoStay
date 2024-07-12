@@ -37,14 +37,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin{
         private val InicioSesionGoogle = 100
-        val codigo_opcion_galeria = 102
-        val codigo_opcion_tomar_foto = 103
 
         val correoIngresado = "nico@gmail.com"
-        lateinit var imageView: ImageView
-        lateinit var miPath: String
-        lateinit var txtCorreoI: EditText
-        lateinit var txtContraI: EditText
+
 
         val uuid = UUID.randomUUID().toString()
     }
@@ -60,28 +55,16 @@ class activity_iniciar_sesion : AppCompatActivity() {
             insets
         }
 
-        txtCorreoI = findViewById(R.id.txtCorreoInciarSesion)
-        txtContraI = findViewById(R.id.txtContrasenaIniciarSesion)
 
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
         val btnMientras = findViewById<Button>(R.id.btnmientrasxd)
-        val imvCamaraIni = findViewById<ImageView>(R.id.imvCamaraIni)
-        val imvGaleriaIni = findViewById<ImageView>(R.id.imvGaleriaIni)
-        imageView = findViewById(R.id.imvFotoIni)
+        val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoInciarSesion)
+        val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
 
-        imvGaleriaIni.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, codigo_opcion_galeria)
-        }
 
-        imvCamaraIni.setOnClickListener {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, codigo_opcion_tomar_foto)
-        }
 
         btnMientras.setOnClickListener {
             val siguientePantalla = Intent(this, PaginaInicio::class.java)
@@ -98,22 +81,22 @@ class activity_iniciar_sesion : AppCompatActivity() {
             // Validación de campos
             var hayErrores = false
 
-            val correoIngreado = txtCorreoI.text.toString().trim()
-            val clave = txtContraI.text.toString().trim()
-            val imageUri = miPath
+            val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
+            val clave = txtCorreoInciarSesion.text.toString().trim()
+
 
             if (!correoIngresado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                txtCorreoI.error = "El correo no tiene un formato válido"
+                txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
                 hayErrores = true
             } else {
-                txtCorreoI.error = null
+                txtCorreoInciarSesion.error = null
             }
 
             if (clave.length <= 4) {
-                txtContraI.error = "La contraseña debe tener al menos 12 caracteres"
+                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
                 hayErrores = true
             } else {
-                txtContraI.error = null
+                txtContrasenaIniciarSesion.error = null
             }
 
             // Si hay errores, no procede a guardar los datos
@@ -124,11 +107,11 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     val objConexion = ClaseConexion().cadenaConexion()
 
                     val contraseniaEncriptada =
-                        hashSHA256(txtContraI.text.toString())
+                        hashSHA256(txtContrasenaIniciarSesion.text.toString())
 
                     val comprobarUsuario =
                         objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE correo = ? AND contraseña = ?")!!
-                    comprobarUsuario.setString(1, txtCorreoI.text.toString())
+                    comprobarUsuario.setString(1, txtCorreoInciarSesion.text.toString())
                     comprobarUsuario.setString(2, contraseniaEncriptada)
                     val resultado = comprobarUsuario.executeQuery()
                     // Si encuentra un resultado
@@ -152,12 +135,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
                 }
 
-                if (correoIngresado.isNotEmpty() && clave.isNotEmpty() && imageUri != null) guardarUsuarioConFoto(
-                    correoIngresado, clave, imageUri) else Toast.makeText(
-                    this,
-                    "Completa todos los campos y selecciona una foto",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
 
@@ -182,78 +159,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                codigo_opcion_galeria -> {
-                    val imageUri: Uri? = data?.data
-                    imageUri?.let {
-                        val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
-                        subirimagenFirebase(imageBitmap) { url ->
-                            miPath = url
-                            imageView.setImageURI(it)
-                        }
-                    }
-                }
 
-                codigo_opcion_tomar_foto -> {
-                    val imageBitmap = data?.extras?.get("data") as? Bitmap
-                    imageBitmap?.let {
-                        subirimagenFirebase(it) { url ->
-                            miPath = url
-                            imageView.setImageBitmap(it)
-                        }
-                    }
-                }
-            }
-        }
-    }
 
-    private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit) {
-        val storageRef = Firebase.storage.reference
-        val imageRef = storageRef.child("images/${uuid}.jpg")
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-        val uploadTask = imageRef.putBytes(data)
 
-        uploadTask.addOnFailureListener {
-            Toast.makeText(
-                this@activity_iniciar_sesion,
-                "Error al subir la imagen",
-                Toast.LENGTH_SHORT
-            ).show()
-        }.addOnSuccessListener { taskSnapshot ->
-            imageRef.downloadUrl.addOnSuccessListener { uri ->
-                onSuccess(uri.toString())
-            }
-        }
-    }
 
-    private fun guardarUsuarioConFoto(correo: String, clave: String, imageUri: String) {
-        try {
-            GlobalScope.launch(Dispatchers.IO) {
-                val objConexion = ClaseConexion().cadenaConexion()
-                val statement =
-                    objConexion?.prepareStatement("INSERT INTO tbMisUsuarios (UUID, correo, contraseña, url_imagen) VALUES (?, ?, ?, ?)")!!
-                statement.setString(1, uuid)
-                statement.setString(2, correo)
-                statement.setString(3, clave)
-                statement.setString(4, imageUri)
-                statement.executeUpdate()
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@activity_iniciar_sesion,
-                        "Datos guardados",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    txtCorreoI.text.clear()
-                }
-            }
-        } catch (e: SQLException) {
-            println("Error al guardar usuario: $e")
-        }
-    }
 
 }

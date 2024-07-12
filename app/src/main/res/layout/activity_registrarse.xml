@@ -70,36 +70,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.362" />
-
-            <ImageView
-                android:id="@+id/imvFotoIni"
-                android:layout_width="93dp"
-                android:layout_height="87dp"
-                android:layout_marginBottom="28dp"
-                app:layout_constraintBottom_toTopOf="@+id/imvGaleriaIni"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/cuadrotransparente" />
-
-            <ImageView
-                android:id="@+id/imvCamaraIni"
-                android:layout_width="49dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="140dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/iconcamera"
-                tools:layout_editor_absoluteY="265dp" />
-
-            <ImageView
-                android:id="@+id/imvGaleriaIni"
-                android:layout_width="49dp"
-                android:layout_height="38dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.258"
-                app:layout_constraintStart_toEndOf="@+id/imvCamaraIni"
-                app:srcCompat="@drawable/icongaleria"
-                tools:layout_editor_absoluteY="267dp" />
+                app:layout_constraintVertical_bias="0.583" />
 
             <EditText
                 android:id="@+id/txtNombre"
