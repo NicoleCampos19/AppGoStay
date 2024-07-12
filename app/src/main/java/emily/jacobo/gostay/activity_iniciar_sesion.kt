@@ -40,7 +40,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val codigo_opcion_galeria = 102
         val codigo_opcion_tomar_foto = 103
 
-        val correoIngresado = "nico@gmail.com"
+        val correoIngresado = "leo_monte@gmail.com"
         lateinit var imageView: ImageView
         lateinit var miPath: String
         lateinit var txtCorreoI: EditText

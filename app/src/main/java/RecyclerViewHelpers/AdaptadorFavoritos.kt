@@ -35,8 +35,7 @@ class AdaptadorFavoritos (var Datos: List<tbFavoritos>, val clickListener: (tbFa
 
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery("select * from tbPreferenciales")!!
-
-            val tbFavortitos = mutableListOf<tbFavoritos>()
+            val tbFavoritos = mutableListOf<tbFavoritos>()
 
             //Recorrer todos los datos que me trajo el select
             while (resultSet.next()){
@@ -44,9 +43,9 @@ class AdaptadorFavoritos (var Datos: List<tbFavoritos>, val clickListener: (tbFa
                 val id_hoteles = resultSet.getInt("id_hoteles")
                 val id_usuario = resultSet.getInt("id_usuario")
                 val favorito = tbFavoritos(id_preferenciales, id_hoteles, id_usuario)
-                tbFavortitos.add(favorito)
+                tbFavoritos.add(favorito)
             }
-            return tbFavortitos
+            return tbFavoritos
         }
 
         //Ejecutamos la función
@@ -57,7 +56,7 @@ class AdaptadorFavoritos (var Datos: List<tbFavoritos>, val clickListener: (tbFa
                 //Asigno el adaptador mi RecyclerView
                 //(Uno mi Adaptador con el RecyclerView)
                // val miAdaptador = AdaptadorFavoritos(ejecutarFuncion)
-               // rvcFavoritos.AdaptadorFavoritos = miAdaptador
+               //rvcFavoritos.AdaptadorFavoritos = miAdaptador
             }
         }
     }
