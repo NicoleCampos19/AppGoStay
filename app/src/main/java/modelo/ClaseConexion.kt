@@ -20,10 +20,14 @@ class ClaseConexion {
             val usuario = "GoStay"
             val contrasena = "ricaldone2024e"
 
+            val conexion = DriverManager.getConnection(iprical, usuario, contrasena)
 
+<<<<<<< HEAD
             val conexion = DriverManager.getConnection(iprical, usuario, contrasena)
 
             
+=======
+>>>>>>> d9b636ea37a487bbdadfa813c2f648feea2053e8
             return conexion
         }catch (e: Exception){
             println("El error es este: $e")

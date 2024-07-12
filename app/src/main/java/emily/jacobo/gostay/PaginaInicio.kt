@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
+import modelo.tbFavoritos
 import modelo.tbHotel
 
 class PaginaInicio : AppCompatActivity() {
@@ -87,10 +88,33 @@ class PaginaInicio : AppCompatActivity() {
 
         }
 
+        fun obtenerFavoritos(): List<tbFavoritos>{
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            val statement = objConexion?.createStatement()
+            val resultSet = statement?.executeQuery("select * from tbPreferenciales")!!
+
+            val listaFav2 = mutableListOf<tbFavoritos>()
+
+            while (resultSet.next()){
+                val id_preferenciales = resultSet.getInt("id_preferencial")
+                val id_hoteles = resultSet.getInt("id_hoteles")
+                val id_usuario = resultSet.getInt("id_usuario")
+
+
+                val valoresJuntosFav = tbFavoritos(id_preferenciales, id_hoteles, id_usuario )
+
+                listaFav2.add(valoresJuntosFav)
+            }
+            return listaFav2
+
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             val hotelDB = obtenerHoteles()
+            val favDB = obtenerFavoritos()
             withContext(Dispatchers.Main){
-                val adapter = HotelAdapter(hotelDB){ hotel ->
+                val adapter = HotelAdapter(hotelDB, favDB){ hotel ->
                     val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
                     }
