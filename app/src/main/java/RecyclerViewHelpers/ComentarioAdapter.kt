@@ -46,7 +46,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
         notifyDataSetChanged()
     }
 
-    fun actualizarDato(comentario: String, idValoracion: Int){
+    fun actualizarDato(comentario: String, idValoracion: Int, position: Int){
         GlobalScope.launch(Dispatchers.IO){
             //1- Creo un obj de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
@@ -60,10 +60,19 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
             val commit = objConexion.prepareStatement("commit")
             commit.executeUpdate()
 
+            Datos = Datos.toMutableList().apply {
+                this[position].comentario = comentario
+            }
+
+            launch(Dispatchers.Main) {
+                notifyItemChanged(position)
+            }
+
         }
 
         notifyDataSetChanged()
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderComentario {
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_comentario, parent, false)
@@ -111,7 +120,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.option_1 -> {
-                    actualizarDato(item.comentario, item.id_valoracion)
+                    actualizarDato(item.comentario, item.id_valoracion, position)
 
 
                     val builder = AlertDialog.Builder(context)
@@ -124,7 +133,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
 
                     builder.setPositiveButton("Actualizar"){
                             dialog, wich ->
-                        actualizarDato(cuadroTexto.text.toString(), item.id_valoracion)
+                        actualizarDato(cuadroTexto.text.toString(), item.id_valoracion, position)
                     }
                     builder.setNegativeButton("Cancelar"){
                             dialog, wich ->
@@ -140,8 +149,8 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
                     true
                 }
                 else -> false
+                    }
             }
-        }
 
         popup.setOnDismissListener {
             // Respond to popup being dismissed.
