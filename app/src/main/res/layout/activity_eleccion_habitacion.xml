@@ -42,7 +42,7 @@
                 android:layout_width="291dp"
                 android:layout_height="118dp"
                 android:layout_marginStart="59dp"
-                android:layout_marginTop="66dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="59dp"
                 android:layout_marginBottom="1dp"
                 android:fontFamily="@font/poppins"
@@ -52,13 +52,14 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/rcvTiposHabitaciones"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvTiposHabitaciones"
-                android:layout_width="416dp"
-                android:layout_height="544dp"
+                android:layout_width="408dp"
+                android:layout_height="579dp"
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="1dp"
