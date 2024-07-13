@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.783" />
+        app:layout_constraintVertical_bias="0.785" />
 
     <EditText
         android:id="@+id/txtNombre"
@@ -76,7 +76,7 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView8"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.787" />
 
     <EditText
         android:id="@+id/txtApellido"
@@ -139,8 +139,8 @@
         android:id="@+id/txtIniciaSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="92dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="76dp"
         android:fontFamily="@font/poppins"
         android:text="Inicia sesión"
         android:textColor="#000000"
@@ -167,7 +167,7 @@
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="92dp"
+        android:layout_marginBottom="76dp"
         android:fontFamily="@font/poppins"
         android:text="¿Ya tienes una cuenta?"
         android:textColor="#000000"
@@ -175,7 +175,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/txtIniciaSesion"
-        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
