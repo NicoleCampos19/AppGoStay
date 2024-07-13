@@ -42,14 +42,14 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="306dp"
-        android:layout_height="402dp"
+        android:layout_width="303dp"
+        android:layout_height="439dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.44"
+        app:layout_constraintVertical_bias="0.354"
         app:srcCompat="@drawable/cuadrotransparente" />
 
     <TextView
@@ -66,7 +66,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtOlvidasteContrasena"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintVertical_bias="0.378" />
 
     <TextView
         android:id="@+id/textView14"
@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.97" />
+        app:layout_constraintVertical_bias="0.831" />
 
     <TextView
         android:id="@+id/txtOlvidasteContrasena"
@@ -97,16 +97,16 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtContrasenaIniciarSesion"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.119" />
 
     <Button
         android:id="@+id/btnIniciar"
         android:layout_width="107dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="288dp"
+        android:layout_marginBottom="276dp"
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppins"
         android:text="Iniciar"
@@ -119,7 +119,7 @@
         android:id="@+id/txtCorreoInciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -135,7 +135,7 @@
         android:id="@+id/txtContrasenaIniciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="332dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -143,7 +143,7 @@
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

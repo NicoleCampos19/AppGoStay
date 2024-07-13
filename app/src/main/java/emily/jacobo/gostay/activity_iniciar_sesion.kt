@@ -38,7 +38,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
     companion object variableGloalLogin{
         private val InicioSesionGoogle = 100
 
-        val correoIngresado = "leo_monte@gmail.com"
+        val correoIngresado = "admin@gmail.com"
 
     }
     @SuppressLint("MissingInflatedId")
