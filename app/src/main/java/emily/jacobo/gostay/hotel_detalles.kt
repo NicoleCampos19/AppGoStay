@@ -5,6 +5,7 @@ import RecyclerViewHelpers.ComentarioAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
@@ -34,6 +35,7 @@ import modelo.tbServiciosHotel
 class hotel_detalles : AppCompatActivity() {
 
     private lateinit var rcvServicioHotel: RecyclerView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +70,11 @@ class hotel_detalles : AppCompatActivity() {
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
+        val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
+        btnTipoHabitacion.setOnClickListener {
+            val intent = Intent(this, activity_eleccion_habitacion::class.java)
+            startActivity(intent)
+        }
 
         fun obtenerComentarios(): List<tbComentarios> {
             //1- Creo un objeto de la clase conexion
