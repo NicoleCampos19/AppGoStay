@@ -157,9 +157,4 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
     }
 
-
-
-
-
-
 }
