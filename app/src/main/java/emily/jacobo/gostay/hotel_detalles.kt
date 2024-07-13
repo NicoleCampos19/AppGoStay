@@ -69,7 +69,6 @@ class hotel_detalles : AppCompatActivity() {
 
 
 
-
         fun obtenerComentarios(): List<tbComentarios> {
             //1- Creo un objeto de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
@@ -123,6 +122,7 @@ class hotel_detalles : AppCompatActivity() {
 
 
         }
+
 
         hotel?.let {
     Glide.with(this)
