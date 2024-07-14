@@ -1,12 +1,8 @@
 package emily.jacobo.gostay
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -18,20 +14,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.storage.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
-import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
-import java.sql.SQLException
-import java.util.UUID
 
 class activity_iniciar_sesion : AppCompatActivity() {
 
@@ -59,7 +47,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
         val btnMientras = findViewById<Button>(R.id.btnmientrasxd)
-        val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoInciarSesion)
+        val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
 
 

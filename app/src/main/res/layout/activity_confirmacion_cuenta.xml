@@ -39,27 +39,13 @@
         android:id="@+id/textView8"
         android:layout_width="166dp"
         android:layout_height="28dp"
-        android:layout_marginBottom="12dp"
         android:fontFamily="@font/poppins"
         android:text="Ingresa el código."
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtCorreoInciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.065"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/txtCorreoInciarSesion"
-        android:layout_width="364dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/style_borde_edittext"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="112dp" />
 
     <TextView
         android:id="@+id/textView12"
@@ -106,4 +92,18 @@
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="#49A8B5" />
+
+    <EditText
+        android:id="@+id/txtCodigoConf"
+        android:layout_width="359dp"
+        android:layout_height="47dp"
+        android:background="@drawable/style_borde_edittext"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.326"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.562" />
 </androidx.constraintlayout.widget.ConstraintLayout>
