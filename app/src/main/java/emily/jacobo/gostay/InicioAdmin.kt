@@ -5,6 +5,7 @@ import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.MenuRes
@@ -31,6 +32,20 @@ class InicioAdmin : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val imvHotelNavegacion = findViewById<ImageView>(R.id.imvHotelNavegacion)
+        val imvDenunciasNavegacion = findViewById<ImageView>(R.id.imvDenunciasNavegacion)
+
+        imvHotelNavegacion.setOnClickListener {
+            val siguientePantalla = Intent(this, InicioAdmin::class.java)
+            startActivity(siguientePantalla)
+        }
+
+        imvDenunciasNavegacion.setOnClickListener {
+            val siguientePantalla = Intent(this, Denuncias::class.java)
+            startActivity(siguientePantalla)
+        }
+
         val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
         rcvHotel.layoutManager = LinearLayoutManager(this)
 

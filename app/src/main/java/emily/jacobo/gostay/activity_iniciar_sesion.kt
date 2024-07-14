@@ -38,10 +38,13 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin{
         private val InicioSesionGoogle = 100
-
         val correoIngresado = "admin@gmail.com"
-
     }
+
+
+    private lateinit var txtCorreoInciarSesionV: EditText
+    private lateinit var txtContrasenaIniciarSesionV: EditText
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +57,10 @@ class activity_iniciar_sesion : AppCompatActivity() {
             insets
         }
 
+
+        txtCorreoInciarSesionV = findViewById(R.id.txtCorreoRecu)
+        txtContrasenaIniciarSesionV = findViewById(R.id.txtContrasenaIniciarSesion)
+
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
@@ -61,8 +68,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val btnMientras = findViewById<Button>(R.id.btnmientrasxd)
         val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
-        val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
-        val clave = txtContrasenaIniciarSesion.text.toString().trim()
+
+        val correoIngreado = txtCorreoInciarSesionV.text.toString().trim()
+        val clave = txtContrasenaIniciarSesionV.text.toString().trim()
 
         btnMientras.setOnClickListener {
             val siguientePantalla = Intent(this, PaginaInicio::class.java)
@@ -85,59 +93,74 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
             editText.error = spannableString
         }
+
+
+
+        val contrasenaEncriptada = hashSHA256(clave)
+
+
+
+
+
+
+
+
+
         btnIniciar.setOnClickListener {
-            val correo = txtCorreoInciarSesion.text.toString()
-            val contrasena = txtContrasenaIniciarSesion.text.toString()
-            var hayErrores = false
+            // Validación de campos
 
-            //Para el campo de correo electrónico
-            if(correo.isEmpty()){
-                setErrorWithCustomFont(txtCorreoInciarSesion, "Llena este campo", R.font.poppins)
-            }
-            // if (txtCorreoInciarSesion.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-            //setErrorWithCustomFont(txtCorreoInciarSesion, "El correo no tiene un formato válido", R.font.poppins)
-            //}
 
-            //Para el campo de contraseña
-            if(contrasena.isEmpty()){
-                setErrorWithCustomFont(txtContrasenaIniciarSesion, "Llena este campo", R.font.poppins)
+            val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
+            val clave = txtContrasenaIniciarSesion.text.toString().trim()
+
+            if (correoIngresado.isEmpty() || clave.isEmpty()) {
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
             }
 
-            // Si hay errores, no procede a guardar los datos
-            if (hayErrores) {
+            if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
+                return@setOnClickListener
+            }
 
-                // Hacer algo si hay errores
-            } else {
-                GlobalScope.launch(Dispatchers.IO) {
-                    val objConexion = ClaseConexion().cadenaConexion()
+            if (clave.length <= 4) {
+                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
+                return@setOnClickListener
+            }
 
-                    val contraseniaEncriptada =
-                        hashSHA256(txtContrasenaIniciarSesion.text.toString())
+            val contrasenaEncriptada = hashSHA256(clave)
 
-                    val comprobarUsuario =
-                        objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE correo = ? AND contraseña = ?")!!
-                    comprobarUsuario.setString(1, txtCorreoInciarSesion.text.toString())
-                    comprobarUsuario.setString(2, contraseniaEncriptada)
-                    val resultado = comprobarUsuario.executeQuery()
-                    // Si encuentra un resultado
-                    if (resultado?.next() == true) {
-                        val esAdmin = correoIngresado == "admin@gmail.com"
-                        val siguientePantalla = if (esAdmin) {
-                            Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
-                        } else {
-                            Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
-                        }
-                        startActivity(siguientePantalla)
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@activity_iniciar_sesion,
-                                "Usuario o contraseña incorrectos",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            println("contraseña $contraseniaEncriptada")
-                        }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val conexion = ClaseConexion().cadenaConexion()
+
+                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
+
+                val statement = conexion?.prepareStatement(query)
+                statement?.setString(1, correoIngreado)
+                statement?.setString(2, contrasenaEncriptada)
+                val resultSet = statement?.executeQuery()
+
+                if (resultSet?.next() == true) {
+                    val nombreTipoUsuario = resultSet.getString("nombre_usuario")
+
+                    // Determinar a qué Activity dirigirse
+                    val siguientePantalla = when (nombreTipoUsuario) {
+                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
+                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
+
+                    startActivity(siguientePantalla)
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@activity_iniciar_sesion,
+                            "Usuario o contraseña incorrectos",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                 }
 
             }

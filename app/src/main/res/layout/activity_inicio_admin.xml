@@ -27,7 +27,7 @@
 
 
             <ImageView
-                android:id="@+id/imageView24"
+                android:id="@+id/imvHotelNavegacion"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="18dp"
@@ -35,7 +35,7 @@
                 app:srcCompat="@drawable/iconohotelamarillo" />
 
             <ImageView
-                android:id="@+id/imageView26"
+                android:id="@+id/imvDenunciasNavegacion"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="18dp"
