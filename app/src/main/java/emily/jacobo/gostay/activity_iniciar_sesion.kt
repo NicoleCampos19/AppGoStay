@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
@@ -13,7 +14,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -23,6 +26,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.storage.storage
+import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtContraI
+import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtCorreoI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -66,31 +71,38 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val btnMientras = findViewById<Button>(R.id.btnmientrasxd)
 
 
-
-
-
+        val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
+        val clave = txtContrasenaIniciarSesion.text.toString().trim()
+        //Validación para campos
+        @RequiresApi(Build.VERSION_CODES.P)
+        fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+            val typeface = ResourcesCompat.getFont(this, fontResId)
+            val spannableString = android.text.SpannableString(errorMessage)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                spannableString.setSpan(
+                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            editText.error = spannableString
+        }
+        //Para el campo de nombre
         btnIniciar.setOnClickListener {
-            // Validación de campos
+            val correo = txtCorreoInciarSesion.text.toString()
+            val contrasena = txtContrasenaIniciarSesion.text.toString()
+            var hayErrores = false
 
+            //Para el campo de correo electrónico
+            if(correo.isEmpty()){
+                setErrorWithCustomFont(txtCorreoInciarSesion, "Llena este campo", R.font.poppins)
+            }
+           // if (txtCorreoInciarSesion.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                //setErrorWithCustomFont(txtCorreoInciarSesion, "El correo no tiene un formato válido", R.font.poppins)
+           //}
 
-            val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
-            val clave = txtContrasenaIniciarSesion.text.toString().trim()
-
-            if (correoIngresado.isEmpty() || clave.isEmpty()) {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+                //Para el campo de contraseña
+            if(contrasena.isEmpty()){
+                setErrorWithCustomFont(txtContrasenaIniciarSesion, "Llena este campo", R.font.poppins)
             }
 
-            if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
-                return@setOnClickListener
-            }
-
-            if (clave.length <= 4) {
-                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
-                return@setOnClickListener
-            }
 
             val contrasenaEncriptada = hashSHA256(clave)
 
