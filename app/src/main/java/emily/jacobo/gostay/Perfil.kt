@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -32,12 +33,26 @@ class Perfil : AppCompatActivity() {
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfila)
         val imvInformacionPer = findViewById<ImageView>(R.id.imvInformacionPer)
+        val imvPoliticas = findViewById<ImageView>(R.id.imvPoliticas)
+        val txtInformaciónPer = findViewById<TextView>(R.id.txtInformaciónPer)
+        val txtPoliticas = findViewById<TextView>(R.id.txtPoliticas)
 
 
 
+        imvPoliticas.setOnClickListener{
+            val siguientepantalla = Intent(this, activity_politicas::class.java)
+            startActivity(siguientepantalla)
+        }
 
+        txtPoliticas.setOnClickListener{
+            val siguientepantalla = Intent(this, activity_politicas::class.java)
+            startActivity(siguientepantalla)
+        }
 
-
+        txtInformaciónPer.setOnClickListener{
+            val siguientepantalla = Intent(this, activity_editar_perfil::class.java)
+            startActivity(siguientepantalla)
+        }
 
 
         imvInformacionPer.setOnClickListener{

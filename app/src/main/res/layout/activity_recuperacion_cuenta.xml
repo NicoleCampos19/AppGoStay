@@ -85,7 +85,7 @@
         android:id="@+id/btnRecuperacion"
         android:layout_width="358dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="360dp"
+        android:layout_marginBottom="308dp"
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppins"
         android:text="Continuar"
@@ -93,7 +93,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

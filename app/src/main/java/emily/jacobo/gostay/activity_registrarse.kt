@@ -111,14 +111,9 @@ class activity_registrarse : AppCompatActivity() {
 
         btnRegistrarse.setOnClickListener {
 
-            val Nombre = txtNombre.text.toString()
-            val Apellido = txtApellido.text.toString()
-            val FechaNacimiento = txtFechaNacimiento.text.toString()
-            val Telefono = txtTelefono.text.toString()
             var hayErrores = false
-            val correo = txtCorreoI.text.toString().trim()
-            val clave = txtContraI.text.toString().trim()
-         //   val ImageView = miPath
+
+
 
 
 
@@ -163,12 +158,8 @@ class activity_registrarse : AppCompatActivity() {
                     crearUsuario.setString(4, txtCorreoI.text.toString())
                     crearUsuario.setString(5, txtTelefono.text.toString())
                     crearUsuario.setString(6, contrasenaEncriptada)
-
-
                     crearUsuario.executeUpdate()
                     withContext(Dispatchers.Main) {
-
-
                         Toast.makeText(
                             this@activity_registrarse,
                             "Usuario creado",

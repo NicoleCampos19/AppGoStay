@@ -56,6 +56,7 @@ class activity_editar_perfil : AppCompatActivity() {
         val btnHacerFoto = findViewById<Button>(R.id.btnHacerFoto)
         val btnGaleria = findViewById<Button>(R.id.btnGaleria)
 
+
         imvAtrasPerfil.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)

@@ -30,12 +30,16 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
 
 
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
+        val txtCorreo = findViewById<TextView>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
 
         btnRecuperacion.setOnClickListener{
             CoroutineScope(Dispatchers.Main).launch {
                 val codigoRecuperacion = (100000..999999).random()
-                enviarCorreo("verosofpalacioss@gmail.com", "Recuperacion de contraseña", "Este es el codigo de recuperacion $codigoRecuperacion" )
+                enviarCorreo(
+                    "verosofpalacioss@gmail.com",
+                    "Recuperacion de contraseña",
+                    "Este es el codigo de recuperacion $codigoRecuperacion" )
             }
         }
 
