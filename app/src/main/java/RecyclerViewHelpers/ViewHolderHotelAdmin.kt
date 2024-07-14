@@ -11,6 +11,7 @@ import modelo.tbHotel
 class ViewHolderHotelAdmin (view: View): RecyclerView.ViewHolder(view){
     val imgHotelCard = view.findViewById<ImageView>(R.id.imgHotelCard)
     val txtNombreHotelCard = view.findViewById<TextView>(R.id.txtNombreHotelCard)
+    val ImageView = view.findViewById<ImageView>(R.id.menu_button)
 
     fun bind(hotel: tbHotel, clickListener: (tbHotel) -> Unit) {
 

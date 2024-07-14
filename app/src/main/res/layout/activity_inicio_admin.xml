@@ -27,21 +27,20 @@
 
 
             <ImageView
-                android:id="@+id/imvBuscar"
+                android:id="@+id/imageView24"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/buscaramarillo" />
+                app:srcCompat="@drawable/iconohotelamarillo" />
 
             <ImageView
-                android:id="@+id/imvFavoritos"
+                android:id="@+id/imageView26"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/favoritosblanco" />
-
+                app:srcCompat="@drawable/iconodenunciasblanco" />
 
 
         </LinearLayout>
