@@ -27,6 +27,9 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+            android:name=".itemHotelAdmin"
+            android:exported="false" />
+        <activity
             android:name=".activity_politicas"
             android:exported="false" />
         <activity
