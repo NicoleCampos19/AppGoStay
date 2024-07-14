@@ -28,94 +28,46 @@ class Confirmacion_Cuenta : AppCompatActivity() {
             insets
         }
 
-        class VerifyCodeActivity : AppCompatActivity() {
-
-            private lateinit var txtCorreoInciarSesion : TextView
-            private lateinit var btnConfirmaCuenta: Button
-            private var codeEditText: EditText? = null
-            private var databaseReference: DatabaseReference? = null
-            private lateinit var btnReenviar: Button
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
+        val txtCodigoConf = findViewById<TextView>(R.id.txtCodigoConf)
+        val btnConfirmaCuenta = findViewById<Button>(R.id.btnConfirmaCuenta)
+        val codigoRecuperacion = RecuperacionCuentaActivity.variablesGobalesRecuperacion.codigoRecuperacion
 
 
+        btnConfirmaCuenta.setOnClickListener {
+            try {
+                val codigoIngresado = txtCodigoConf.text.toString().toInt()
 
-            override fun onCreate(savedInstanceState: Bundle?) {
-                super.onCreate(savedInstanceState)
-                setContentView(R.layout.activity_confirmacion_cuenta)
-
-                // Inicializar vistas
-                txtCorreoInciarSesion = findViewById(R.id.txtCorreoInciarSesion)
-                btnConfirmaCuenta = findViewById(R.id.btnConfirmaCuenta)
-                btnReenviar = findViewById(R.id.btnReenviar)
-                databaseReference = FirebaseDatabase.getInstance().getReference()
-
-                codeEditText = findViewById(R.id.txtCorreoInciarSesion);
-                databaseReference = FirebaseDatabase.getInstance().getReference("verificationCodes");
-
-
-                // Configurar onClickListener para el botón de Confirmar Cuenta
-                btnConfirmaCuenta.setOnClickListener {
-                    val code = btnConfirmaCuenta.getText().toString().trim { it <= ' ' }
-                    if (!code.isEmpty()) {
-                        verifycode(code)
-                    } else {
-                        Toast.makeText(
-                            this@VerifyCodeActivity,
-                            "Por favor, introduce el código",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                if (codigoIngresado == codigoRecuperacion) {
+                    val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
+                    startActivity(siguientepantalla)
+                } else if (codigoIngresado != codigoRecuperacion) {
+                    Toast.makeText(this, "Código Incorrecto", Toast.LENGTH_SHORT).show()
+                    val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
+                    startActivity(siguientepantalla)
                 }
-
-                // Configurar onClickListener para el botón de Reenviar código
-                btnReenviar.setOnClickListener{
-                    val email = txtCorreoInciarSesion.text.toString().trim()
-                    resendVerificationCode(email)
-                }
-
-
+            } catch (e: NumberFormatException) {
+                // Manejar el caso donde el texto ingresado no es un número válido
+                Toast.makeText(this, "Ingrese un código válido", Toast.LENGTH_SHORT).show()
             }
-
-            // Función para reenviar el correo electrónico de verificación al usuario en caso de que no lo haya recibido
-            private fun resendVerificationCode(email: String) {
-
-                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show()
-                            finish() // Regresar a la pantalla anterior después de enviar el correo
-                        } else {
-                            Toast.makeText(this, "Error al actualizar la contraseña", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-            }
-
-            // Función para verificar que el código sea igual al enviado al correo
-            private fun verifycode(code: String) {
-
-                val email = txtCorreoInciarSesion.text.toString().trim()
-                val correctCode = String
-                if (code.equals(correctCode)) {
-                    val intent = Intent(
-                        this@Confirmacion_Cuenta,
-                        CreacionContrasenaActivity::class.java
-                    )
-
-                    intent.putExtra("email", email)
-                    startActivity(intent)
-                    overridePendingTransition(0, 0)
-                    finish()
-                } else {
-                    Toast.makeText(this, "Código incorrecto", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-
-
         }
 
-        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
-        val btnConfirmaCuenta = findViewById<Button>(R.id.btnConfirmaCuenta)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)

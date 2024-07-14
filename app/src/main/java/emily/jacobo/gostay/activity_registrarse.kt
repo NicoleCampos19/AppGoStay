@@ -73,9 +73,6 @@ class activity_registrarse : AppCompatActivity() {
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
         val imvIniciargoogle = findViewById<ImageView>(R.id.imvIniciarGoogle)
 
-
-
-
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
@@ -108,47 +105,67 @@ class activity_registrarse : AppCompatActivity() {
 
             datePickerDialog.show()
         }
-
-        btnRegistrarse.setOnClickListener {
-
-            var hayErrores = false
-
-
-
-
-
-            //Validación para campos vacíos
+            //Validación para campos
             @RequiresApi(Build.VERSION_CODES.P)
             fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
                 val typeface = ResourcesCompat.getFont(this, fontResId)
                 val spannableString = android.text.SpannableString(errorMessage)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     spannableString.setSpan(
-                        typeface?.let { android.text.style.TypefaceSpan(it) },
-                        0,
-                        spannableString.length,
-                        android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
+                        typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
                 editText.error = spannableString
             }
+            //Para el campo de nombre
+        btnRegistrarse.setOnClickListener {
+            val nombre = txtNombre.text.toString()
+            val apellido = txtApellido.text.toString()
+            val telefono = txtTelefono.text.toString()
+            val fechanacimiento = txtFechaNacimiento.text.toString()
+            val correo = txtCorreoI.text.toString()
+            val contrasena = txtContraI.text.toString()
 
+                var hayErrores = false
 
+                //Para el campo de nombre
+                if(nombre.isEmpty()){
+                    setErrorWithCustomFont(txtNombre, "Llena este campo", R.font.poppins)
+                }
+
+            //Para el campo de apellido
+            if(apellido.isEmpty()){
+                setErrorWithCustomFont(txtApellido, "Llena este campo", R.font.poppins)
+            }
+
+            //Para el campo de fecha nacimiento
+            if(fechanacimiento.isEmpty()){
+                setErrorWithCustomFont(txtFechaNacimiento, "Llena este campo", R.font.poppins)
+            }
+
+            //Para el campo de telefono
+            if(telefono.isEmpty()){
+                setErrorWithCustomFont(txtTelefono, "Llena este campo", R.font.poppins)
+            }
+
+            //Para el campo de correo
+            if(correo.isEmpty()){
+                setErrorWithCustomFont(txtCorreoI, "Llena este campo", R.font.poppins)
+            }
+
+            //Para el campo de contraseña
+            if(contrasena.isEmpty()){
+                setErrorWithCustomFont(txtContraI, "Llena este campo", R.font.poppins)
+            }
 
             // Si hay errores, no procede a guardar los datos
             if (hayErrores) {
                 //Hacer algo si hay errores
             } else {
-
-
                 GlobalScope.launch(Dispatchers.IO) {
 
                     val objConexion = ClaseConexion().cadenaConexion()
 
-
-
                     val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
-
 
                     val crearUsuario =
                         objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre, apellido, fecha_nacimiento, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)")!!
@@ -169,7 +186,6 @@ class activity_registrarse : AppCompatActivity() {
                         txtCorreoI.setText("")
                         txtContraI.setText("")
 
-
                     }
 
                 }
@@ -178,10 +194,7 @@ class activity_registrarse : AppCompatActivity() {
 
             }
 
-
         }
-
-
 
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
@@ -194,8 +207,6 @@ class activity_registrarse : AppCompatActivity() {
             startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
         }
 
-
-
         txtIniciarsesion.setOnClickListener {
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(siguientepantalla)
@@ -205,15 +216,7 @@ class activity_registrarse : AppCompatActivity() {
             val volverAtras = Intent(this, Bienvenida::class.java)
             startActivity(volverAtras)
         }
-
-
-
-
-}
-
-
-
-
-}
+        }
+    }
 
 

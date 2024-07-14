@@ -4,7 +4,10 @@ import RecyclerViewHelpers.AdaptadorHotelAdmin
 import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.PopupMenu
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -74,5 +77,18 @@ class InicioAdmin : AppCompatActivity() {
             }
         }
 
+
+
+    }
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(this, v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+
+        popup.setOnDismissListener {
+            // Respond to popup being dismissed.
+        }
+        // Show the popup menu.
+        popup.show()
     }
 }
