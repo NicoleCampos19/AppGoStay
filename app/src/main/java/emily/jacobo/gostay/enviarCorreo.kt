@@ -25,7 +25,7 @@ suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = wi
     // Iniciamos Sesión
     val session = Session.getInstance(props, object : javax.mail.Authenticator() {
         override fun getPasswordAuthentication(): PasswordAuthentication {
-            return PasswordAuthentication("verosofpalacioss@gmail.com", "xrvb yxsl cgfe wrgl")
+            return PasswordAuthentication("gostay2024@gmail.com", "dekt szbp iwoe swut")
         }
     })
 
@@ -33,7 +33,7 @@ suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = wi
     try {
         val message = MimeMessage(session).apply {
             //Con que correo enviaré el mensaje
-            setFrom(InternetAddress("verosofpalacioss@gmail.com"))
+            setFrom(InternetAddress("gostay2024@gmail.com"))
             addRecipient(Message.RecipientType.TO, InternetAddress(receptor))
             subject = sujeto
             setText(mensaje)
