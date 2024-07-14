@@ -35,6 +35,7 @@ import modelo.tbServiciosHotel
 class hotel_detalles : AppCompatActivity() {
 
     private lateinit var rcvServicioHotel: RecyclerView
+    private lateinit var prevActivity: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +50,15 @@ class hotel_detalles : AppCompatActivity() {
 
         rcvServicioHotel = findViewById(R.id.rcvServiciosHotel)
         rcvServicioHotel.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        prevActivity = intent.getStringExtra("prev_activity") ?: "PaginaInicio"
+
+        val imageViewBack = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
+        imageViewBack.setOnClickListener {
+            navigateBack()
+        }
+
+
 
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
@@ -174,11 +184,27 @@ class hotel_detalles : AppCompatActivity() {
     tvDescripcionDetalleHotel.text = hotel.descripcion
 }
 
-        imvVolverDetallesHotel.setOnClickListener {
-            val volverAtras = Intent(this, PaginaInicio::class.java)
-            startActivity(volverAtras)
-        }
+
         
+    }
+
+    private fun navigateBack() {
+        when (prevActivity) {
+            "PaginaInicio" -> {
+                val intent = Intent(this, PaginaInicio::class.java)
+                startActivity(intent)
+            }
+            "InicioAdmin" -> {
+                val intent = Intent(this, InicioAdmin::class.java)
+                startActivity(intent)
+            }
+            else -> {
+                // En caso de que no se reconozca la Activity previa, regresar a una Activity por defecto
+                val intent = Intent(this, PaginaInicio::class.java)
+                startActivity(intent)
+            }
+        }
+        finish()
     }
 
     private fun obtenerServiciosHotel(idHotel: Int) {

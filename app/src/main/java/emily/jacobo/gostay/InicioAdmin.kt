@@ -69,6 +69,7 @@ class InicioAdmin : AppCompatActivity() {
                 val adapter = AdaptadorHotelAdmin(hotelDB){ hotel ->
                     val intent = Intent(this@InicioAdmin, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
+                        putExtra("prev_activity", "InicioAdmin")
                     }
                     startActivity(intent)
                     overridePendingTransition(0, 0)
