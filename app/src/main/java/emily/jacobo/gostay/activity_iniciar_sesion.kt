@@ -54,7 +54,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
             insets
         }
 
-
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
@@ -64,35 +63,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
         val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
         val clave = txtContrasenaIniciarSesion.text.toString().trim()
-        //Validación para campos
-        @RequiresApi(Build.VERSION_CODES.P)
-        fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
-            val typeface = ResourcesCompat.getFont(this, fontResId)
-            val spannableString = android.text.SpannableString(errorMessage)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                spannableString.setSpan(
-                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            editText.error = spannableString
-        }
-        //Para el campo de nombre
-        btnIniciar.setOnClickListener {
-            val correo = txtCorreoInciarSesion.text.toString()
-            val contrasena = txtContrasenaIniciarSesion.text.toString()
-            var hayErrores = false
-
-            //Para el campo de correo electrónico
-            if(correo.isEmpty()){
-                setErrorWithCustomFont(txtCorreoInciarSesion, "Llena este campo", R.font.poppins)
-            }
-           // if (txtCorreoInciarSesion.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                //setErrorWithCustomFont(txtCorreoInciarSesion, "El correo no tiene un formato válido", R.font.poppins)
-           //}
-
-                //Para el campo de contraseña
-            if(contrasena.isEmpty()){
-                setErrorWithCustomFont(txtContrasenaIniciarSesion, "Llena este campo", R.font.poppins)
-            }
 
         btnMientras.setOnClickListener {
             val siguientePantalla = Intent(this, PaginaInicio::class.java)
@@ -104,29 +74,38 @@ class activity_iniciar_sesion : AppCompatActivity() {
             return bytes.joinToString("") { "%02x".format(it) }
         }
 
+        //Validación para campos
+        @RequiresApi(Build.VERSION_CODES.P)
+        fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+            val typeface = ResourcesCompat.getFont(this, fontResId)
+            val spannableString = android.text.SpannableString(errorMessage)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                spannableString.setSpan(
+                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            editText.error = spannableString
+        }
         btnIniciar.setOnClickListener {
-            // Validación de campos
+            val correo = txtCorreoInciarSesion.text.toString()
+            val contrasena = txtContrasenaIniciarSesion.text.toString()
             var hayErrores = false
 
-            val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
-            val clave = txtCorreoInciarSesion.text.toString().trim()
-
-            if (!correoIngresado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
-                hayErrores = true
-            } else {
-                txtCorreoInciarSesion.error = null
+            //Para el campo de correo electrónico
+            if(correo.isEmpty()){
+                setErrorWithCustomFont(txtCorreoInciarSesion, "Llena este campo", R.font.poppins)
             }
+            // if (txtCorreoInciarSesion.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+            //setErrorWithCustomFont(txtCorreoInciarSesion, "El correo no tiene un formato válido", R.font.poppins)
+            //}
 
-            if (clave.length <= 4) {
-                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
-                hayErrores = true
-            } else {
-                txtContrasenaIniciarSesion.error = null
+            //Para el campo de contraseña
+            if(contrasena.isEmpty()){
+                setErrorWithCustomFont(txtContrasenaIniciarSesion, "Llena este campo", R.font.poppins)
             }
 
             // Si hay errores, no procede a guardar los datos
             if (hayErrores) {
+
                 // Hacer algo si hay errores
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
@@ -185,7 +164,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
         }
     }
-}
+
+
 
 
 
