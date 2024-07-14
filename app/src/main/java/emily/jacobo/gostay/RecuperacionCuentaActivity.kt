@@ -40,7 +40,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                     "verosofpalacioss@gmail.com",
                     "Recuperacion de contraseña",
                     "Este es el codigo de recuperacion $codigoRecuperacion" )
-            }git 
+            }
         }
 
         imvAtras.setOnClickListener {
