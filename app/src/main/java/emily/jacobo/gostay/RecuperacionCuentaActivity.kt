@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -17,6 +18,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RecuperacionCuentaActivity : AppCompatActivity() {
+
+    companion object variablesGobalesRecuperacion{
+        val codigoRecuperacion = (100000..999999).random()
+    }
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,17 +36,21 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
 
 
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
-        val txtCorreo = findViewById<TextView>(R.id.txtCorreo)
+        val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
 
         btnRecuperacion.setOnClickListener{
             CoroutineScope(Dispatchers.Main).launch {
-                val codigoRecuperacion = (100000..999999).random()
                 enviarCorreo(
-                    "verosofpalacioss@gmail.com",
+                    "${txtCorreo.text.toString()}",
                     "Recuperacion de contraseña",
-                    "Este es el codigo de recuperacion $codigoRecuperacion" )
+                    "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
+
+
             }
+            val siguientepantalla = Intent(this, Confirmacion_Cuenta::class.java)
+            startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
         }
 
         imvAtras.setOnClickListener {
@@ -49,11 +59,9 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
-        btnRecuperacion.setOnClickListener {
-            val siguientepantalla = Intent(this, Confirmacion_Cuenta::class.java)
-            startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
-        }
+
+
+
     }
 
 }
