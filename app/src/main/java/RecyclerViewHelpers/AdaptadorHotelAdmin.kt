@@ -55,7 +55,7 @@ val vistaHotelAdmin = LayoutInflater.from(parent.context).inflate(R.layout.activ
         val item = Datos[position]
         val context = holder.itemView.context
         holder.ImageView.setOnClickListener { v: View ->
-            showMenu(v, R.menu.popup_menu, context, item, position)
+            showMenu(v, R.menu.popup_menuu, context, item, position)
         }
 
 
