@@ -1,9 +1,13 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.AdaptadorHotelAdmin
 import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.PopupMenu
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -27,7 +31,7 @@ class InicioAdmin : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
+        val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
         rcvHotel.layoutManager = LinearLayoutManager(this)
 
         fun obtenerHoteles(): List<tbHotel>{
@@ -48,42 +52,21 @@ class InicioAdmin : AppCompatActivity() {
                 val img_url = resultSet.getString("img_url")
                 val id_tipo_habitacion = resultSet.getInt("id_tipo_habitacion")
                 val id_servicio_hotel = resultSet.getInt("id_servicio_hotel")
+                val id_valoracion = resultSet.getInt("id_valoracion")
 
-                val valoresJuntos = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_tipo_habitacion, id_servicio_hotel)
+                val valoresJuntos = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_tipo_habitacion, id_servicio_hotel, id_valoracion)
 
                 listaHoteles.add(valoresJuntos)
             }
             return listaHoteles
-
         }
 
-        fun obtenerFavoritos(): List<tbFavoritos>{
-            val objConexion = ClaseConexion().cadenaConexion()
-
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("select * from tbPreferenciales")!!
-
-            val listaFav2 = mutableListOf<tbFavoritos>()
-
-            while (resultSet.next()){
-                val id_preferenciales = resultSet.getInt("id_preferencial")
-                val id_hoteles = resultSet.getInt("id_hoteles")
-                val id_usuario = resultSet.getInt("id_usuario")
-
-
-                val valoresJuntosFav = tbFavoritos(id_preferenciales, id_hoteles, id_usuario )
-
-                listaFav2.add(valoresJuntosFav)
-            }
-            return listaFav2
-
-        }
 
         CoroutineScope(Dispatchers.IO).launch {
             val hotelDB = obtenerHoteles()
-            val favDB = obtenerFavoritos()
+
             withContext(Dispatchers.Main){
-                val adapter = HotelAdapter(hotelDB, favDB){ hotel ->
+                val adapter = AdaptadorHotelAdmin(hotelDB){ hotel ->
                     val intent = Intent(this@InicioAdmin, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
                     }
@@ -94,5 +77,18 @@ class InicioAdmin : AppCompatActivity() {
             }
         }
 
+
+
+    }
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(this, v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+
+        popup.setOnDismissListener {
+            // Respond to popup being dismissed.
+        }
+        // Show the popup menu.
+        popup.show()
     }
 }
