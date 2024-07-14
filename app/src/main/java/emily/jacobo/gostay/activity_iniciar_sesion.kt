@@ -23,11 +23,13 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.storage.storage
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
+import modelo.tbTipoUsuarios
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.sql.SQLException
@@ -36,11 +38,13 @@ import java.util.UUID
 class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin{
-        private val InicioSesionGoogle = 100
-
+        private const val InicioSesionGoogle = 100
         val correoIngresado = "admin@gmail.com"
-
     }
+
+    private lateinit var txtCorreoInciarSesion: EditText
+    private lateinit var txtContrasenaIniciarSesion: EditText
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,108 +57,111 @@ class activity_iniciar_sesion : AppCompatActivity() {
             insets
         }
 
-
-        val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
-        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
+        txtCorreoInciarSesion = findViewById(R.id.txtCorreoInciarSesion)
+        txtContrasenaIniciarSesion = findViewById(R.id.txtContrasenaIniciarSesion)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
+        val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnMientras = findViewById<Button>(R.id.btnmientrasxd)
-        val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoInciarSesion)
-        val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
 
 
 
-        btnMientras.setOnClickListener {
-            val siguientePantalla = Intent(this, PaginaInicio::class.java)
-            startActivity(siguientePantalla)
-        }
 
-
-        fun hashSHA256(input: String): String {
-            val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
-            return bytes.joinToString("") { "%02x".format(it) }
-        }
 
         btnIniciar.setOnClickListener {
             // Validación de campos
-            var hayErrores = false
+
 
             val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
-            val clave = txtCorreoInciarSesion.text.toString().trim()
+            val clave = txtContrasenaIniciarSesion.text.toString().trim()
 
+            if (correoIngresado.isEmpty() || clave.isEmpty()) {
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
 
-            if (!correoIngresado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+            if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
                 txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
-                hayErrores = true
-            } else {
-                txtCorreoInciarSesion.error = null
+                return@setOnClickListener
             }
 
             if (clave.length <= 4) {
                 txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
-                hayErrores = true
-            } else {
-                txtContrasenaIniciarSesion.error = null
+                return@setOnClickListener
             }
 
-            // Si hay errores, no procede a guardar los datos
-            if (hayErrores) {
-                // Hacer algo si hay errores
-            } else {
-                GlobalScope.launch(Dispatchers.IO) {
-                    val objConexion = ClaseConexion().cadenaConexion()
+            val contrasenaEncriptada = hashSHA256(clave)
 
-                    val contraseniaEncriptada =
-                        hashSHA256(txtContrasenaIniciarSesion.text.toString())
 
-                    val comprobarUsuario =
-                        objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE correo = ? AND contraseña = ?")!!
-                    comprobarUsuario.setString(1, txtCorreoInciarSesion.text.toString())
-                    comprobarUsuario.setString(2, contraseniaEncriptada)
-                    val resultado = comprobarUsuario.executeQuery()
-                    // Si encuentra un resultado
-                    if (resultado?.next() == true) {
-                        val esAdmin = correoIngresado == "admin@gmail.com"
-                        val siguientePantalla = if (esAdmin) {
-                            Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
-                        } else {
-                            Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val conexion = ClaseConexion().cadenaConexion()
+
+                    val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
+
+                    val statement = conexion?.prepareStatement(query)
+                    statement?.setString(1, correoIngreado)
+                    statement?.setString(2, contrasenaEncriptada)
+                    val resultSet = statement?.executeQuery()
+
+                    if (resultSet?.next() == true) {
+                        val nombreTipoUsuario = resultSet.getString("nombre_usuario")
+
+                        // Determinar a qué Activity dirigirse
+                        val siguientePantalla = when (nombreTipoUsuario) {
+                            "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
+                            else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                         }
+
                         startActivity(siguientePantalla)
                     } else {
-                        withContext(Dispatchers.Main) {
+                        runOnUiThread {
                             Toast.makeText(
                                 this@activity_iniciar_sesion,
                                 "Usuario o contraseña incorrectos",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            println("contraseña $contraseniaEncriptada")
                         }
+
                     }
+
                 }
+        }
 
+
+            imvIniciarconGoogle.setOnClickListener {
+                val configuracionGoogle =
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
+                        .build()
+
+                val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
+                startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
             }
-        }
 
-        imvIniciarconGoogle.setOnClickListener {
-            val configuracionGoogle =
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
-                    .build()
+            txtOlvidasteContrasena.setOnClickListener {
+                val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
+                startActivity(siguientepantalla)
+            }
 
-            val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
-            startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
-        }
+            imvAtrasc.setOnClickListener {
+                val volverAtras = Intent(this, activity_registrarse::class.java)
+                startActivity(volverAtras)
+            }
 
-        txtOlvidasteContrasena.setOnClickListener {
-            val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
-            startActivity(siguientepantalla)
-        }
+            btnMientras.setOnClickListener {
+                val siguientePantalla = Intent(this, PaginaInicio::class.java)
+                startActivity(siguientePantalla)
+            }
 
-        imvAtrasc.setOnClickListener {
-            val volverAtras = Intent(this, activity_registrarse::class.java)
-            startActivity(volverAtras)
         }
+    private fun hashSHA256(input: String): String {
+        val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+        return bytes.joinToString("") { "%02x".format(it) }
     }
 
 }
+
+
+
