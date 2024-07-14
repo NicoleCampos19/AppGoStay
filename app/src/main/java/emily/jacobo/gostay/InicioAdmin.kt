@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.AdaptadorHotelAdmin
 import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
@@ -27,7 +28,7 @@ class InicioAdmin : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
+        val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
         rcvHotel.layoutManager = LinearLayoutManager(this)
 
         fun obtenerHoteles(): List<tbHotel>{
@@ -55,36 +56,14 @@ class InicioAdmin : AppCompatActivity() {
                 listaHoteles.add(valoresJuntos)
             }
             return listaHoteles
-
         }
 
-        fun obtenerFavoritos(): List<tbFavoritos>{
-            val objConexion = ClaseConexion().cadenaConexion()
-
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("select * from tbPreferenciales")!!
-
-            val listaFav2 = mutableListOf<tbFavoritos>()
-
-            while (resultSet.next()){
-                val id_preferenciales = resultSet.getInt("id_preferencial")
-                val id_hoteles = resultSet.getInt("id_hoteles")
-                val id_usuario = resultSet.getInt("id_usuario")
-
-
-                val valoresJuntosFav = tbFavoritos(id_preferenciales, id_hoteles, id_usuario )
-
-                listaFav2.add(valoresJuntosFav)
-            }
-            return listaFav2
-
-        }
 
         CoroutineScope(Dispatchers.IO).launch {
             val hotelDB = obtenerHoteles()
-            val favDB = obtenerFavoritos()
+
             withContext(Dispatchers.Main){
-                val adapter = HotelAdapter(hotelDB, favDB){ hotel ->
+                val adapter = AdaptadorHotelAdmin(hotelDB){ hotel ->
                     val intent = Intent(this@InicioAdmin, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
                     }
