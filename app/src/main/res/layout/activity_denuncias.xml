@@ -32,7 +32,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconohotelamarillo" />
+                app:srcCompat="@drawable/iconohotelblanco" />
 
             <ImageView
                 android:id="@+id/imageView26"
@@ -40,7 +40,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="18dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/iconodenunciasblanco" />
+                app:srcCompat="@drawable/iconodenunciasamarillo" />
 
 
         </LinearLayout>
@@ -66,15 +66,15 @@
                 android:layout_height="64dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/poppins"
-                android:text="Hoteles disponibles"
-                android:textColor="#000000"
-                android:textSize="27sp"
+                android:text="Denuncias"
+                android:textColor="#CE0808"
+                android:textSize="34sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvHotelAdmin"
+                android:id="@+id/rcvDenuncias"
                 android:layout_width="match_parent"
-                android:layout_height="557dp" />
+                android:layout_height="556dp" />
 
         </LinearLayout>
     </ScrollView>

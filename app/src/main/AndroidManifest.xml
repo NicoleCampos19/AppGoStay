@@ -27,6 +27,9 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+            android:name=".detalle_denuncias"
+            android:exported="false" />
+        <activity
             android:name=".itemDenuncias"
             android:exported="false" />
         <activity
