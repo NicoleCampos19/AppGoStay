@@ -14,11 +14,13 @@ import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+
 import kotlinx.coroutines.launch
 import modelo.ClaseConexion
 import modelo.tbComentarios
 import modelo.tbFavoritos
 import modelo.tbHotel
+
 
 class AdaptadorHotelAdmin(var Datos: List<tbHotel>, val clickListener: (tbHotel) -> Unit): RecyclerView.Adapter<ViewHolderHotelAdmin>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHotelAdmin {
@@ -51,6 +53,11 @@ val vistaHotelAdmin = LayoutInflater.from(parent.context).inflate(R.layout.activ
 
     override fun onBindViewHolder(holder: ViewHolderHotelAdmin, position: Int) {
         val item = Datos[position]
+        val context = holder.itemView.context
+        holder.ImageView.setOnClickListener { v: View ->
+            showMenu(v, R.menu.popup_menu, context, item, position)
+        }
+
 
         val itemHotelAdmin = Datos[position]
         holder.bind(itemHotelAdmin, clickListener)
@@ -63,6 +70,8 @@ val vistaHotelAdmin = LayoutInflater.from(parent.context).inflate(R.layout.activ
     private fun showMenu(v: View, @MenuRes menuRes: Int, context: Context, item: tbHotel, position: Int) {
         val popup = PopupMenu(context, v)
         popup.menuInflater.inflate(menuRes, popup.menu)
+
+
 
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {

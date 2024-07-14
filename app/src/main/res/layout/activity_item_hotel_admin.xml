@@ -41,11 +41,10 @@
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="0.909" />
 
-
         <ImageView
-            android:id="@+id/imageView20"
-            android:layout_width="49dp"
-            android:layout_height="29dp"
+            android:id="@+id/menu_buttonn"
+            android:layout_width="71dp"
+            android:layout_height="52dp"
             android:layout_centerInParent="true"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +53,7 @@
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="0.093"
             card_view:srcCompat="@drawable/iconotrespuntos" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
