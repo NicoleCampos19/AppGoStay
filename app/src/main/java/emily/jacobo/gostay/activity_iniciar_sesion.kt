@@ -83,6 +83,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
             return bytes.joinToString("") { "%02x".format(it) }
         }
 
+
+        val contrasenaEncriptada = hashSHA256(clave)
+
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
         fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
@@ -94,44 +97,39 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
             editText.error = spannableString
         }
-
-
-
-        val contrasenaEncriptada = hashSHA256(clave)
-
-
-
-
-
-
-
-
-
         btnIniciar.setOnClickListener {
-            // Validación de campos
+            val contrasenaEncriptada = hashSHA256(clave)
 
+            // Validación de campos
 
             val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
+            var hayVacios = false
+            var hayErrores = false
 
-            if (correoIngresado.isEmpty() || clave.isEmpty()) {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+            if (correoIngreado.isEmpty() || correoIngreado.isEmpty()) {
+                setErrorWithCustomFont(txtCorreoInciarSesion, "Llena este campo", R.font.poppins)
+                hayVacios = true
             }
 
-            if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
-                return@setOnClickListener
+            else if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                setErrorWithCustomFont(txtCorreoInciarSesion, "El correo no tiene un formato válido", R.font.poppins)
+                hayErrores = true
             }
 
-            if (clave.length <= 4) {
-                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
-                return@setOnClickListener
+            else if (clave.isEmpty() || clave.isEmpty()) {
+                setErrorWithCustomFont(txtContrasenaIniciarSesion, "Llena este campo", R.font.poppins)
+                hayVacios = true
             }
 
-            val contrasenaEncriptada = hashSHA256(clave)
+            else if (clave.length < 12) {
+                setErrorWithCustomFont(txtContrasenaIniciarSesion, "La contraseña debe contener al menos 12 carácteres", R.font.poppins)
+                hayErrores = true
+            }
 
+            if (hayVacios || hayErrores) {
+                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
+            } else {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
@@ -187,6 +185,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             startActivity(volverAtras)
         }
         }
+    }
     }
 
 
