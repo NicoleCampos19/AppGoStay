@@ -21,6 +21,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
 
     companion object variablesGobalesRecuperacion{
         val codigoRecuperacion = (100000..999999).random()
+        lateinit var Correo: String
     }
 
     @SuppressLint("MissingInflatedId")
@@ -39,10 +40,13 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
 
+
         btnRecuperacion.setOnClickListener{
+
             CoroutineScope(Dispatchers.Main).launch {
+                Correo = txtCorreo.text.toString()
                 enviarCorreo(
-                    "${txtCorreo.text.toString()}",
+                    "${Correo}",
                     "Recuperacion de contraseña",
                     "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
 

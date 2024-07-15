@@ -36,8 +36,24 @@ class Perfil : AppCompatActivity() {
         val imvPoliticas = findViewById<ImageView>(R.id.imvPoliticas)
         val txtInformaciónPer = findViewById<TextView>(R.id.txtInformaciónPer)
         val txtPoliticas = findViewById<TextView>(R.id.txtPoliticas)
+        val txtCerrarSesion = findViewById<TextView>(R.id.txtCerrarSesion)
+        val txtComentarios = findViewById<TextView>(R.id.txtComentarios)
+        val imvComentarios = findViewById<ImageView>(R.id.imvComentarios)
 
+        imvComentarios.setOnClickListener{
+            val siguientepantalla = Intent(this, hotel_detalles::class.java)
+            startActivity(siguientepantalla)
+        }
 
+        txtComentarios.setOnClickListener{
+            val siguientepantalla = Intent(this, hotel_detalles::class.java)
+            startActivity(siguientepantalla)
+        }
+
+        txtCerrarSesion.setOnClickListener{
+            val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+            startActivity(siguientepantalla)
+        }
 
         imvPoliticas.setOnClickListener{
             val siguientepantalla = Intent(this, activity_politicas::class.java)

@@ -15,6 +15,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import emily.jacobo.gostay.RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Confirmacion_Cuenta : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -31,8 +35,22 @@ class Confirmacion_Cuenta : AppCompatActivity() {
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtCodigoConf = findViewById<TextView>(R.id.txtCodigoConf)
         val btnConfirmaCuenta = findViewById<Button>(R.id.btnConfirmaCuenta)
+        val btnReenviar = findViewById<Button>(R.id.btnReenviar)
         val codigoRecuperacion = RecuperacionCuentaActivity.variablesGobalesRecuperacion.codigoRecuperacion
+        val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 
+
+        btnReenviar.setOnClickListener {
+
+            CoroutineScope(Dispatchers.Main).launch {
+                enviarCorreo(
+                    "${Correo}",
+                    "Recuperacion de contraseña",
+                    "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
+
+
+            }
+        }
 
         btnConfirmaCuenta.setOnClickListener {
             try {
