@@ -139,13 +139,12 @@ class activity_registrarse : AppCompatActivity() {
                 setErrorWithCustomFont(txtNombre, "El nombre contiene solo letras", R.font.poppins)
                 hayErrores = true
             }
-
             else if(apellido.isEmpty()){
                 setErrorWithCustomFont(txtApellido, "Llena este campo", R.font.poppins)
                 hayVacios = true
             }
             else if (!apellido.matches(Regex("^[a-zA-Z]+$"))) {
-                txtApellido.error = "El apellido debe contener solo letras"
+                setErrorWithCustomFont(txtApellido, "El apellido solo debe contener letras", R.font.poppins)
                 hayErrores = true
             }
 
@@ -162,7 +161,7 @@ class activity_registrarse : AppCompatActivity() {
 
                 }
             else if (!correo.matches (Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
-                    txtCorreoI.error = "El correo no tiene un formato válido"
+                setErrorWithCustomFont(txtCorreoI, "El formato del correo no es válido", R.font.poppins)
                     hayErrores = true
                 }
 
@@ -172,7 +171,7 @@ class activity_registrarse : AppCompatActivity() {
                 hayVacios = true
             }
             else if (telefono.length != 8) {
-                txtTelefono.error = "El telefono debe tener 8 caracteres"
+                setErrorWithCustomFont(txtTelefono, "El teléfono solo debe contener 8 carácteres", R.font.poppins)
                 hayErrores = true
             }
 
@@ -182,7 +181,7 @@ class activity_registrarse : AppCompatActivity() {
                 hayVacios = true
             }
             else if (contrasena.length < 12) {
-                txtContraI.error = "La contraseña debe tener más de 11 caracteres"
+                setErrorWithCustomFont(txtContraI, "La contraseña debe contener más de 11 carácteres", R.font.poppins)
                 hayErrores = true
             }
 
