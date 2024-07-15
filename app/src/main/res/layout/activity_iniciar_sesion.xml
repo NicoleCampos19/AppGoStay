@@ -42,8 +42,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="305dp"
-        android:layout_height="410dp"
+        android:layout_width="300dp"
+        android:layout_height="414dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,31 +66,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.822" />
+        app:layout_constraintVertical_bias="0.86" />
 
     <TextView
         android:id="@+id/txtOlvidasteContrasena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="368dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins"
         android:text="¿olvidaste tu contraseña?"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtContrasenaIniciarSesion"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/txtContrasenaIniciarSesion" />
 
     <Button
         android:id="@+id/btnIniciar"
         android:layout_width="107dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="268dp"
+        android:layout_marginBottom="264dp"
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppins"
         android:text="Iniciar"
@@ -103,7 +100,7 @@
         android:id="@+id/txtCorreoRecu"
         android:layout_width="244dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -112,14 +109,14 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtContrasenaIniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/txtContrasenaIniciarSesion"
         android:layout_width="244dp"
         android:layout_height="52dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="368dp"
         android:background="@drawable/cuadritos_registrarse"
         android:ems="10"
         android:fontFamily="@font/poppins"
@@ -127,7 +124,7 @@
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -145,7 +142,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtOlvidasteContrasena"
-        app:layout_constraintVertical_bias="0.359" />
+        app:layout_constraintVertical_bias="0.287" />
 
     <ImageView
         android:id="@+id/imvIniciarconGoogle"

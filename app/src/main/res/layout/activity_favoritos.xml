@@ -86,9 +86,9 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvcFavoritos"
-        android:layout_width="296dp"
-        android:layout_height="509dp"
+        android:id="@+id/rcvFavoritos"
+        android:layout_width="327dp"
+        android:layout_height="523dp"
         android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

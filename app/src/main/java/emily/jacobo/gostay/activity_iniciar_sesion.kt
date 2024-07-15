@@ -82,6 +82,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             return bytes.joinToString("") { "%02x".format(it) }
         }
 
+
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
         fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
@@ -93,25 +94,15 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
             editText.error = spannableString
         }
-
-
-
         val contrasenaEncriptada = hashSHA256(clave)
-
-
-
-
-
-
-
-
 
         btnIniciar.setOnClickListener {
             // Validación de campos
 
-
             val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
+            var hayVacios = false
+            var hayErrores = false
 
             if (correoIngresado.isEmpty() || clave.isEmpty()) {
                 Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
@@ -124,7 +115,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (clave.length <= 4) {
+            if (clave.length < 12) {
                 txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
                 return@setOnClickListener
             }
