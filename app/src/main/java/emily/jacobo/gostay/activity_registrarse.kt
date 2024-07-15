@@ -35,6 +35,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import emily.jacobo.gostay.activity_iniciar_sesion.variableGloalLogin
+import org.checkerframework.checker.regex.qual.Regex
 import java.io.ByteArrayOutputStream
 import java.sql.SQLException
 import java.util.UUID
@@ -81,30 +82,31 @@ class activity_registrarse : AppCompatActivity() {
         txtCorreoI = findViewById(R.id.txtCorreoElectronico)
         txtContraI = findViewById(R.id.txtContrasenaRegistrarse)
         //Mostrar calendario en el txtFechaNacimiento
+
         txtFechaNacimiento.setOnClickListener {
             val calendario = Calendar.getInstance()
-            val año = calendario.get(Calendar.YEAR)
+            val anio = calendario.get(Calendar.YEAR)
             val mes = calendario.get(Calendar.MONTH)
-            val día = calendario.get(Calendar.DAY_OF_MONTH)
+            val dia = calendario.get(Calendar.DAY_OF_MONTH)
 
             // Calcular la fecha máxima (hace 18 años a partir de hoy)
             val fechaMaxima = Calendar.getInstance()
-            fechaMaxima.set(año - 18, mes, día)
+            fechaMaxima.set(anio - 18, mes, dia)
 
             val datePickerDialog = DatePickerDialog(
                 this,
-                { view, añoSeleccionado, mesSeleccionado, díaSeleccionado ->
-                    val fechaSeleccionada =
-                        "$díaSeleccionado/${mesSeleccionado + 1}/$añoSeleccionado"
+                { view, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
+                    val fechaSeleccionada = "$diaSeleccionado/${mesSeleccionado + 1}/$anioSeleccionado"
                     txtFechaNacimiento.setText(fechaSeleccionada)
                 },
-                año, mes, día
+                anio, mes, dia
             )
+
             // Configurar la fecha máxima a hace 18 años a partir de hoy
             datePickerDialog.datePicker.maxDate = fechaMaxima.timeInMillis
-
             datePickerDialog.show()
         }
+
             //Validación para campos
             @RequiresApi(Build.VERSION_CODES.P)
             fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
@@ -125,41 +127,68 @@ class activity_registrarse : AppCompatActivity() {
             val correo = txtCorreoI.text.toString()
             val contrasena = txtContraI.text.toString()
 
+                var hayVacios = false
                 var hayErrores = false
 
                 //Para el campo de nombre
-                if(nombre.isEmpty()){
-                    setErrorWithCustomFont(txtNombre, "Llena este campo", R.font.poppins)
-                }
+            if(nombre.isEmpty()){
+                setErrorWithCustomFont(txtNombre, "Llena este campo", R.font.poppins)
+                hayVacios = true
+            }
+            else if (!nombre.matches(Regex("^[a-zA-Z]+$"))) {
+                setErrorWithCustomFont(txtNombre, "El nombre contiene solo letras", R.font.poppins)
+                hayErrores = true
+            }
 
-            //Para el campo de apellido
-            if(apellido.isEmpty()){
+            else if(apellido.isEmpty()){
                 setErrorWithCustomFont(txtApellido, "Llena este campo", R.font.poppins)
+                hayVacios = true
+            }
+            else if (!apellido.matches(Regex("^[a-zA-Z]+$"))) {
+                txtApellido.error = "El apellido debe contener solo letras"
+                hayErrores = true
             }
 
             //Para el campo de fecha nacimiento
-            if(fechanacimiento.isEmpty()){
+            else if(fechanacimiento.isEmpty()){
                 setErrorWithCustomFont(txtFechaNacimiento, "Llena este campo", R.font.poppins)
+                hayVacios = true
             }
+
+                //Para el campo de correo
+                else if(correo.isEmpty()){
+                    setErrorWithCustomFont(txtCorreoI, "Llena este campo", R.font.poppins)
+                    hayVacios = true
+
+                }
+            else if (!correo.matches (Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
+                    txtCorreoI.error = "El correo no tiene un formato válido"
+                    hayErrores = true
+                }
 
             //Para el campo de telefono
-            if(telefono.isEmpty()){
+            else if(telefono.isEmpty()){
                 setErrorWithCustomFont(txtTelefono, "Llena este campo", R.font.poppins)
+                hayVacios = true
             }
-
-            //Para el campo de correo
-            if(correo.isEmpty()){
-                setErrorWithCustomFont(txtCorreoI, "Llena este campo", R.font.poppins)
+            else if (telefono.length != 8) {
+                txtTelefono.error = "El telefono debe tener 8 caracteres"
+                hayErrores = true
             }
 
             //Para el campo de contraseña
-            if(contrasena.isEmpty()){
+            else if(contrasena.isEmpty()){
                 setErrorWithCustomFont(txtContraI, "Llena este campo", R.font.poppins)
+                hayVacios = true
+            }
+            else if (contrasena.length < 12) {
+                txtContraI.error = "La contraseña debe tener más de 11 caracteres"
+                hayErrores = true
             }
 
             // Si hay errores, no procede a guardar los datos
-            if (hayErrores) {
-                //Hacer algo si hay errores
+            if (hayVacios || hayErrores) {
+                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
 
@@ -180,18 +209,16 @@ class activity_registrarse : AppCompatActivity() {
                         Toast.makeText(
                             this@activity_registrarse,
                             "Usuario creado",
-                            Toast.LENGTH_SHORT
+                            Toast.LENGTH_LONG
                         )
                             .show()
                         txtCorreoI.setText("")
                         txtContraI.setText("")
-
                     }
 
                 }
                 val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                 startActivity(siguientepantalla)
-
             }
 
         }

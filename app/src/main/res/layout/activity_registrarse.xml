@@ -187,12 +187,14 @@
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:hint="Fecha de nacimiento"
-        android:inputType="text"
+        android:inputType="none"
+        android:editable="false"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtCorreoElectronico"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <EditText
         android:id="@+id/txtTelefono"
