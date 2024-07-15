@@ -37,7 +37,7 @@ import java.security.MessageDigest
 class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin{
-        private val InicioSesionGoogle = 100
+        val InicioSesionGoogle = 100
         val correoIngresado = "admin@gmail.com"
         lateinit var txtCorreoInciarSesionV: EditText
         private lateinit var txtContrasenaIniciarSesionV: EditText
@@ -66,17 +66,13 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
-        val btnMientras = findViewById<Button>(R.id.btnmientrasxd)
         val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
 
         val correoIngreado = txtCorreoInciarSesionV.text.toString().trim()
         val clave = txtContrasenaIniciarSesionV.text.toString().trim()
 
-        btnMientras.setOnClickListener {
-            val siguientePantalla = Intent(this, PaginaInicio::class.java)
-            startActivity(siguientePantalla)
-        }
+
 
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
@@ -84,7 +80,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
 
 
-        val contrasenaEncriptada = hashSHA256(clave)
+
 
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
@@ -98,38 +94,30 @@ class activity_iniciar_sesion : AppCompatActivity() {
             editText.error = spannableString
         }
         btnIniciar.setOnClickListener {
-            val contrasenaEncriptada = hashSHA256(clave)
-
             // Validación de campos
+
 
             val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
-            var hayVacios = false
-            var hayErrores = false
 
-            if (correoIngreado.isEmpty() || correoIngreado.isEmpty()) {
-                setErrorWithCustomFont(txtCorreoInciarSesion, "Llena este campo", R.font.poppins)
-                hayVacios = true
+            if (correoIngresado.isEmpty() || clave.isEmpty()) {
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
             }
 
-            else if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                setErrorWithCustomFont(txtCorreoInciarSesion, "El correo no tiene un formato válido", R.font.poppins)
-                hayErrores = true
+            if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
+                return@setOnClickListener
             }
 
-            else if (clave.isEmpty() || clave.isEmpty()) {
-                setErrorWithCustomFont(txtContrasenaIniciarSesion, "Llena este campo", R.font.poppins)
-                hayVacios = true
+            if (clave.length <= 12) {
+                txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
+                return@setOnClickListener
             }
 
-            else if (clave.length < 12) {
-                setErrorWithCustomFont(txtContrasenaIniciarSesion, "La contraseña debe contener al menos 12 carácteres", R.font.poppins)
-                hayErrores = true
-            }
+            val contrasenaEncriptada = hashSHA256(clave)
 
-            if (hayVacios || hayErrores) {
-                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
-            } else {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
@@ -184,9 +172,37 @@ class activity_iniciar_sesion : AppCompatActivity() {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
         }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == InicioSesionGoogle) {
+            val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val cuenta = tarea.getResult(ApiException::class.java)
+                if (cuenta != null) {
+                    val credenciales = GoogleAuthProvider.getCredential(cuenta.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credenciales)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                val paginaInicio = Intent(this, PaginaInicio::class.java)
+                                startActivity(paginaInicio)
+                                overridePendingTransition(0, 0)
+                            } else {
+                                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
+
+            }
         }
+
     }
-    }
+
+
+}
 
 
 

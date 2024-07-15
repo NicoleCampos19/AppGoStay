@@ -243,6 +243,34 @@ class activity_registrarse : AppCompatActivity() {
             startActivity(volverAtras)
         }
         }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == emily.jacobo.gostay.activity_iniciar_sesion.InicioSesionGoogle) {
+            val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val cuenta = tarea.getResult(ApiException::class.java)
+                if (cuenta != null) {
+                    val credenciales = GoogleAuthProvider.getCredential(cuenta.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credenciales)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                val paginaInicio = Intent(this, PaginaInicio::class.java)
+                                startActivity(paginaInicio)
+                                overridePendingTransition(0, 0)
+                            } else {
+                                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
+
+            }
+        }
     }
+}
+
 
 
