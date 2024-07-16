@@ -21,8 +21,10 @@
             android:scaleType="centerCrop"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txtNombreHotelCard"
@@ -43,15 +45,15 @@
 
         <ImageView
             android:id="@+id/menu_buttonn"
-            android:layout_width="71dp"
-            android:layout_height="52dp"
+            android:layout_width="38dp"
+            android:layout_height="31dp"
             android:layout_centerInParent="true"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="1.0"
+            card_view:layout_constraintHorizontal_bias="0.954"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.093"
+            card_view:layout_constraintVertical_bias="0.095"
             card_view:srcCompat="@drawable/iconotrespuntos" />
 
 

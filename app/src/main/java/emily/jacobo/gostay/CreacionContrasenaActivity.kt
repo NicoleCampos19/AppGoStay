@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtContraI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ import java.sql.Statement
 
 class CreacionContrasenaActivity : AppCompatActivity() {
 
-
+    lateinit var txtNewContra: EditText
     lateinit var Correo: String
 
     @SuppressLint("MissingInflatedId")
@@ -50,7 +51,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
 
 
 
-        val txtNewContra = findViewById<EditText>(R.id.txtNewContra)
+        txtNewContra = findViewById<EditText>(R.id.txtNewContra)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnCrearContrasena = findViewById<Button>(R.id.btnCrearcontrasena)
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
@@ -76,13 +77,12 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         }
     }
 
-/*
-    private fun encriptarSHA256(input: String): String {
-        val digest = MessageDigest.getInstance("SHA-256")
-        val hashBytes = digest.digest(input.toByteArray(Charsets.UTF_8))
-        return hashBytes.joinToString("") { "%02x".format(it) }
+
+    fun hashSHA256(contrasenaEscrita: String): String {
+        val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
+        return bytes.joinToString("") { "%02x".format(it) }
     }
-*/
+
 
     private fun actualizarContraseña(correo: String, contraseña: String) {
 
@@ -90,19 +90,23 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
 
             try {
+
+                val contrasenaEncriptada = hashSHA256(txtNewContra.text.toString())
+
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val query =
                         "UPDATE tbUsuarios SET contraseña = ? WHERE correo = ?"
                     val preparedStatement: PreparedStatement = objConexion.prepareStatement(query)
-                    preparedStatement.setString(1, contraseña)
+                    preparedStatement.setString(1, contrasenaEncriptada)
                     preparedStatement.setString(2, correo)
                     preparedStatement.executeUpdate()
                     preparedStatement.close()
-                    objConexion.close()
+
 
                     val commit = objConexion.prepareStatement("commit")
                     commit.executeUpdate()
+                    objConexion.close()
                 } else {
                     println("No se pudo actualizar la contraseña")
                 }
