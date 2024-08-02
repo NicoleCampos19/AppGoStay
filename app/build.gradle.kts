@@ -72,6 +72,7 @@ dependencies {
 
     //libreria de oracle
     implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
+
     //libreria de firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")

@@ -49,7 +49,6 @@ class activity_registrarse : AppCompatActivity() {
     }
     private val InicioSesionGoogle = 100
 
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +59,6 @@ class activity_registrarse : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
 
         //Mando a llamar todos los elementos
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
@@ -266,7 +264,6 @@ class activity_registrarse : AppCompatActivity() {
                 }
             } catch (e: ApiException) {
                 Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
-
             }
         }
     }
