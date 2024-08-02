@@ -43,9 +43,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
         private lateinit var txtContrasenaIniciarSesionV: EditText
     }
 
-
-
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +54,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
 
         txtCorreoInciarSesionV = findViewById(R.id.txtCorreoRecu)
         txtContrasenaIniciarSesionV = findViewById(R.id.txtContrasenaIniciarSesion)
@@ -72,15 +68,10 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val correoIngreado = txtCorreoInciarSesionV.text.toString().trim()
         val clave = txtContrasenaIniciarSesionV.text.toString().trim()
 
-
-
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
         }
-
-
-
 
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
@@ -94,9 +85,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
             editText.error = spannableString
         }
         btnIniciar.setOnClickListener {
+
             // Validación de campos
-
-
             val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
 
@@ -137,7 +127,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
-
                     startActivity(siguientePantalla)
                 } else {
                     runOnUiThread {
@@ -149,7 +138,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
 
                 }
-
             }
         }
 
@@ -195,13 +183,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 }
             } catch (e: ApiException) {
                 Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
-
             }
         }
-
     }
-
-
 }
 
 
