@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RealizarDenuncia">
+
+    <ImageView
+        android:id="@+id/imvAtrasc"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03"
+        app:srcCompat="@drawable/ic_back" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="251dp"
+        android:layout_height="86dp"
+        android:layout_marginTop="96dp"
+        android:fontFamily="@font/poppins"
+        android:text="¿Por qué quieres reportarlo?"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:checkedButton="@+id/radio_button_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18">
+
+        <RadioButton
+            android:id="@+id/radio_button_1"
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="El hotel no existe" />
+
+        <RadioButton
+            android:id="@+id/radio_button_2"
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="La información no es real" />
+
+        <RadioButton
+            android:id="@+id/radio_button_3"
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Es ofensivo" />
+
+        <RadioButton
+            android:id="@+id/radio_button_4"
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="El anuncio está duplicado" />
+
+        <RadioButton
+            android:id="@+id/radio_button_5"
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:enabled="false"
+            android:text="El anuncio no es sobre un hotel" />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

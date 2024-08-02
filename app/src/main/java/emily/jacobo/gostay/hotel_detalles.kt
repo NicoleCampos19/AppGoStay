@@ -75,7 +75,19 @@ class hotel_detalles : AppCompatActivity() {
         val txtComentario = findViewById<EditText>(R.id.txtComentario)
         val imvEnviar = findViewById<ImageView>(R.id.imvEnviar)
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
+        val imvReportar = findViewById<ImageView>(R.id.imvReportar)
+        val btnReportar = findViewById<Button>(R.id.btnReportar)
 
+
+        imvReportar.setOnClickListener {
+            val irADenuncias = Intent(this, RealizarDenuncia::class.java)
+            startActivity(irADenuncias)
+        }
+
+        btnReportar.setOnClickListener {
+            val irADenuncias = Intent(this, RealizarDenuncia::class.java)
+            startActivity(irADenuncias)
+        }
 
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
