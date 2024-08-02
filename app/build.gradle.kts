@@ -81,6 +81,9 @@ dependencies {
     //libreria de glide imagenes
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
+    //libreria de material design
+    implementation ("com.google.android.material:material:1.10.0")
+
     //libreria de circleimage
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation(libs.firebase.storage.ktx)

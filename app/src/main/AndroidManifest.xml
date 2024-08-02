@@ -27,6 +27,12 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+            android:name=".RealizarDenuncia"
+            android:exported="false" />
+        <activity
+            android:name=".Denuncia"
+            android:exported="false" />
+        <activity
             android:name=".detalle_denuncias"
             android:exported="false" />
         <activity
