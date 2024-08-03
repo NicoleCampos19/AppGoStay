@@ -29,6 +29,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.text.InputType
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
@@ -71,6 +72,9 @@ class activity_registrarse : AppCompatActivity() {
         txtContraI = findViewById(R.id.txtContrasenaRegistrarse)
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
         val imvIniciargoogle = findViewById<ImageView>(R.id.imvIniciarGoogle)
+        val imvVerContra1 = findViewById<ImageView>(R.id.imvVerContra1)
+        val imvVerContra2 = findViewById<ImageView>(R.id.imvVerContra2)
+        val txtConfirmarContraRegis = findViewById<TextView>(R.id.txtConfirmarContraRegis)
 
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
@@ -124,6 +128,8 @@ class activity_registrarse : AppCompatActivity() {
             val fechanacimiento = txtFechaNacimiento.text.toString()
             val correo = txtCorreoI.text.toString()
             val contrasena = txtContraI.text.toString()
+            val password = txtContraI.text.toString()
+            val confirmPassword = txtConfirmarContraRegis.text.toString()
 
                 var hayVacios = false
                 var hayErrores = false
@@ -183,6 +189,14 @@ class activity_registrarse : AppCompatActivity() {
                 hayErrores = true
             }
 
+
+            // Validar que las contraseñas coinciden
+            if (password != confirmPassword) {
+                setErrorWithCustomFont(txtConfirmarContraRegis, "Las contraseñas no coinciden", R.font.poppins)
+                hayErrores = true
+            }
+
+
             // Si hay errores, no procede a guardar los datos
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
@@ -240,7 +254,27 @@ class activity_registrarse : AppCompatActivity() {
             val volverAtras = Intent(this, Bienvenida::class.java)
             startActivity(volverAtras)
         }
+
+        imvVerContra1.setOnClickListener {
+            if (txtContraI.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                txtContraI.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else {
+                txtContraI.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
         }
+
+        imvVerContra2.setOnClickListener {
+            if (txtConfirmarContraRegis.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                txtConfirmarContraRegis.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else {
+                txtConfirmarContraRegis.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
