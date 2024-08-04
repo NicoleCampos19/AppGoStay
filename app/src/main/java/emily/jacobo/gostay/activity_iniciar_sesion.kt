@@ -62,6 +62,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
+        val btnPrueba = findViewById<Button>(R.id.btnPrueba)
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
         val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
@@ -141,6 +142,11 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
                 }
             }
+        }
+
+        btnPrueba.setOnClickListener {
+            val siguientepantalla = Intent(this, PaginaInicio::class.java)
+            startActivity(siguientepantalla)
         }
 
         imvIniciarconGoogle.setOnClickListener {
