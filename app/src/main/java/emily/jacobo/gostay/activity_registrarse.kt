@@ -51,14 +51,15 @@ class activity_registrarse : AppCompatActivity() {
     val CAMERA_REQUEST_CODE = 0
     val STORAGE_REQUEST_CODE = 1
 
-    lateinit var imageView: ImageView
-    lateinit var miPath: String
+
 
     val uuid = UUID.randomUUID().toString()
 
     companion object variableGloalLogin{
         lateinit var txtCorreoI: EditText
         lateinit var txtContraI: EditText
+        lateinit var imageView: ImageView
+        lateinit var miPath: String
 
     }
     private val InicioSesionGoogle = 100

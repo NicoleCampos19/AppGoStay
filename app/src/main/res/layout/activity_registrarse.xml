@@ -36,7 +36,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="329dp"
-        android:layout_height="775dp"
+        android:layout_height="757dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.311" />
+        app:layout_constraintVertical_bias="0.196" />
 
     <EditText
         android:id="@+id/txtNombre"
@@ -144,7 +144,7 @@
         android:id="@+id/imvIniciarGoogle"
         android:layout_width="40dp"
         android:layout_height="29dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/txtIniciaSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -155,8 +155,8 @@
         android:id="@+id/txtIniciaSesion"
         android:layout_width="100dp"
         android:layout_height="26dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins"
         android:text="Inicia sesión"
         android:textColor="#000000"
@@ -183,7 +183,7 @@
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins"
         android:text="¿Ya tienes una cuenta?"
         android:textColor="#000000"
@@ -269,13 +269,13 @@
 
     <ImageView
         android:id="@+id/imvPerfilRegis"
-        android:layout_width="97dp"
-        android:layout_height="91dp"
+        android:layout_width="73dp"
+        android:layout_height="67dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.128"
+        app:layout_constraintVertical_bias="0.104"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
@@ -284,10 +284,10 @@
         android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.203"
+        app:layout_constraintVertical_bias="0.165"
         app:srcCompat="@drawable/iconcamera" />
 
     <ImageView
@@ -296,9 +296,9 @@
         android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintHorizontal_bias="0.404"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.202"
+        app:layout_constraintVertical_bias="0.165"
         app:srcCompat="@drawable/icongaleria" />
 </androidx.constraintlayout.widget.ConstraintLayout>
