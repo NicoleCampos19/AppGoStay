@@ -143,6 +143,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
         }
 
+
         imvIniciarconGoogle.setOnClickListener {
             val configuracionGoogle =
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
