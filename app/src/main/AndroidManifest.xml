@@ -27,6 +27,12 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+            android:name=".item_ofertas"
+            android:exported="false" />
+        <activity
+            android:name=".Ofertas"
+            android:exported="false" />
+        <activity
             android:name=".RealizarDenuncia"
             android:exported="false" />
         <activity
@@ -94,7 +100,8 @@
             android:exported="false" />
         <activity
             android:name=".PaginaInicio"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
         <activity
             android:name=".Confirmacion_Cuenta"
             android:exported="false" />

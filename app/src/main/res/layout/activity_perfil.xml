@@ -116,7 +116,7 @@
         app:layout_constraintVertical_bias="0.568" />
 
     <ImageView
-        android:id="@+id/imvNotificaciones"
+        android:id="@+id/imvOfertas"
         android:layout_width="27sp"
         android:layout_height="27sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -214,11 +214,11 @@
         app:srcCompat="@drawable/ichistorial" />
 
     <TextView
-        android:id="@+id/txtNotificaciones"
+        android:id="@+id/txtOfertas"
         android:layout_width="250dp"
         android:layout_height="42dp"
         android:fontFamily="@font/poppins"
-        android:text="Notificaciones"
+        android:text="Ofertas"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -256,7 +256,7 @@
         app:layout_constraintVertical_bias="0.719" />
 
     <ImageView
-        android:id="@+id/imvNotificacion"
+        android:id="@+id/imvOferta"
         android:layout_width="27sp"
         android:layout_height="27sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -265,7 +265,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.632"
-        app:srcCompat="@drawable/icnotification" />
+        app:srcCompat="@drawable/ofertas" />
 
     <ImageView
         android:id="@+id/imvInformacionPer"
