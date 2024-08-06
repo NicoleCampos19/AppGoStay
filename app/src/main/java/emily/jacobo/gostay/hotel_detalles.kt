@@ -81,11 +81,13 @@ class hotel_detalles : AppCompatActivity() {
 
         imvReportar.setOnClickListener {
             val irADenuncias = Intent(this, RealizarDenuncia::class.java)
+            irADenuncias.putExtra("idHotel", idHotel)
             startActivity(irADenuncias)
         }
 
         btnReportar.setOnClickListener {
             val irADenuncias = Intent(this, RealizarDenuncia::class.java)
+            irADenuncias.putExtra("idHotel", idHotel)
             startActivity(irADenuncias)
         }
 
