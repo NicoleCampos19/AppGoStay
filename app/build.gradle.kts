@@ -92,7 +92,7 @@ dependencies {
     implementation(files("libs\\mail.jar"))
 
     //libreria lottie files
-    implementation("com.airbnb.android:lottie:6.4.1")
+    implementation("com.airbnb.android:lottie:6.5.0")
 
 
     testImplementation(libs.junit)

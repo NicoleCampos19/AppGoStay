@@ -157,4 +157,15 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_google" />
 
+    <ImageView
+        android:id="@+id/imvVerContra3"
+        android:layout_width="28dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtContrasenaIniciarSesion"
+        app:layout_constraintEnd_toEndOf="@+id/txtContrasenaIniciarSesion"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="@+id/txtContrasenaIniciarSesion"
+        app:layout_constraintTop_toTopOf="@+id/txtContrasenaIniciarSesion"
+        app:srcCompat="@drawable/ojo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

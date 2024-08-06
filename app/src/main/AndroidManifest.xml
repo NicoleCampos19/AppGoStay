@@ -30,6 +30,12 @@
             android:name=".opcionesdebusquedad"
             android:exported="false"/>
         <activity
+            android:name=".item_ofertas"
+            android:exported="false" />
+        <activity
+            android:name=".Ofertas"
+            android:exported="false" />
+        <activity
             android:name=".RealizarDenuncia"
             android:exported="false" />
         <activity
