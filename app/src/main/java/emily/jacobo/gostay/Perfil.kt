@@ -39,9 +39,23 @@ class Perfil : AppCompatActivity() {
         val txtCerrarSesion = findViewById<TextView>(R.id.txtCerrarSesion)
         val txtComentarios = findViewById<TextView>(R.id.txtComentarios)
         val imvComentarios = findViewById<ImageView>(R.id.imvComentarios)
-        val imvNotificaciones = findViewById<ImageView>(R.id.imvNotificaciones)
-        val imvNotificacion = findViewById<ImageView>(R.id.imvNotificacion)
-        val txtNotificaciones = findViewById<TextView>(R.id.txtNotificaciones)
+        val imvOfertas = findViewById<ImageView>(R.id.imvOfertas)
+        val imvOferta = findViewById<ImageView>(R.id.imvOferta)
+        val txtOfertas = findViewById<TextView>(R.id.txtOfertas)
+
+        imvOfertas.setOnClickListener {
+            val siguientepantalla = Intent(this, Ofertas::class.java)
+            startActivity(siguientepantalla)
+        }
+
+        imvOferta.setOnClickListener {
+            val siguientepantalla = Intent(this, Ofertas::class.java)
+            startActivity(siguientepantalla)
+        }
+        txtOfertas.setOnClickListener {
+            val siguientepantalla = Intent(this, Ofertas::class.java)
+            startActivity(siguientepantalla)
+        }
 
         imvComentarios.setOnClickListener{
             val siguientepantalla = Intent(this, hotel_detalles::class.java)

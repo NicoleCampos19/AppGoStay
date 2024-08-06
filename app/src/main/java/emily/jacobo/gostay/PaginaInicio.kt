@@ -64,6 +64,7 @@ class PaginaInicio : AppCompatActivity() {
 
 
         fun obtenerHoteles(): List<tbHotel>{
+
             val objConexion = ClaseConexion().cadenaConexion()
 
             val statement = objConexion?.createStatement()
