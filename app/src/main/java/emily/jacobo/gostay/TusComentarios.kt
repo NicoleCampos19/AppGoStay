@@ -1,9 +1,7 @@
 package emily.jacobo.gostay
 
-import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.ComentarioAdapter
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,53 +13,53 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
-import modelo.tbHotel
-import modelo.tbOfertas
+import modelo.tbComentarios
 
-class Ofertas : AppCompatActivity() {
+class TusComentarios : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_ofertas)
+        setContentView(R.layout.activity_tus_comentarios)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val rcvOfertas = findViewById<RecyclerView>(R.id.rcvOfertas)
-        rcvOfertas.layoutManager = LinearLayoutManager(this)
+
+        val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
 
 
+        rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        fun obtenerOfertas(): List<tbOfertas>{
+
+        fun obtenerComentarios(): List<tbComentarios> {
+            //1- Creo un objeto de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
 
             val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT tof.nombre_oferta, th.nombre\n" +
-                    "FROM tbOfertas tof\n" +
-                    "INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles")!!
+            val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones where correoUsuario = txtCorreoInciarSesionV")!!
 
-            val listaOfertas = mutableListOf<tbOfertas>()
+            val listaComentarios = mutableListOf<tbComentarios>()
 
             while (resultSet.next()){
-
-                val nombre = resultSet.getString("nombre")
-               val nombre_oferta = resultSet.getString("nombre_oferta")
-
+                val id_valoracion = resultSet.getInt("id_valoracion")
+                val comentario = resultSet.getString("comentario")
 
 
-                val valoresJuntos = tbOfertas(nombre, nombre_oferta)
 
-                listaOfertas.add(valoresJuntos)
+                val comentarios = tbComentarios(id_valoracion, comentario)
+
+                listaComentarios.add(comentarios)
             }
-            return listaOfertas
-
+            return listaComentarios
         }
+
+
         CoroutineScope(Dispatchers.IO).launch{
-            val ofertasDB = obtenerOfertas()
+            val comentariosDB = obtenerComentarios()
             withContext(Dispatchers.Main){
-                val miAdaptador = AdaptadorOfertas(ofertasDB)
-                rcvOfertas.adapter = miAdaptador
+                val miAdaptador = ComentarioAdapter(comentariosDB)
+                rcvComentarios.adapter = miAdaptador
             }
         }
 

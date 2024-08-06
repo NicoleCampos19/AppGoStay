@@ -37,11 +37,29 @@ class Perfil : AppCompatActivity() {
         val txtInformaciónPer = findViewById<TextView>(R.id.txtInformaciónPer)
         val txtPoliticas = findViewById<TextView>(R.id.txtPoliticas)
         val txtCerrarSesion = findViewById<TextView>(R.id.txtCerrarSesion)
-        val txtComentarios = findViewById<TextView>(R.id.txtComentarios)
-        val imvComentarios = findViewById<ImageView>(R.id.imvComentarios)
         val imvOfertas = findViewById<ImageView>(R.id.imvOfertas)
         val imvOferta = findViewById<ImageView>(R.id.imvOferta)
         val txtOfertas = findViewById<TextView>(R.id.txtOfertas)
+        val imvComentario = findViewById<ImageView>(R.id.imvComentario)
+        val txtComentarios = findViewById<TextView>(R.id.txtComentarios)
+        val imvComentarios = findViewById<ImageView>(R.id.imvComentarios)
+
+
+
+        imvComentario.setOnClickListener {
+                val siguientepantalla = Intent(this, TusComentarios::class.java)
+            startActivity(siguientepantalla)
+        }
+
+        imvComentarios.setOnClickListener {
+            val siguientepantalla = Intent(this, TusComentarios::class.java)
+            startActivity(siguientepantalla)
+        }
+        txtComentarios.setOnClickListener {
+            val siguientepantalla = Intent(this, TusComentarios::class.java)
+            startActivity(siguientepantalla)
+        }
+
 
         imvOfertas.setOnClickListener {
             val siguientepantalla = Intent(this, Ofertas::class.java)
@@ -57,15 +75,21 @@ class Perfil : AppCompatActivity() {
             startActivity(siguientepantalla)
         }
 
-        imvComentarios.setOnClickListener{
-            val siguientepantalla = Intent(this, hotel_detalles::class.java)
+        imvOfertas.setOnClickListener {
+            val siguientepantalla = Intent(this, Ofertas::class.java)
             startActivity(siguientepantalla)
         }
 
-        txtComentarios.setOnClickListener{
-            val siguientepantalla = Intent(this, hotel_detalles::class.java)
+        imvOferta.setOnClickListener {
+            val siguientepantalla = Intent(this, Ofertas::class.java)
             startActivity(siguientepantalla)
         }
+        txtOfertas.setOnClickListener {
+            val siguientepantalla = Intent(this, Ofertas::class.java)
+            startActivity(siguientepantalla)
+        }
+
+
 
         txtCerrarSesion.setOnClickListener{
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
