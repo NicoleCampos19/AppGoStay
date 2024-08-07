@@ -92,7 +92,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/imvPerfilInicio"
                     android:layout_width="69dp"
                     android:layout_height="71dp"
                     android:layout_weight="1"

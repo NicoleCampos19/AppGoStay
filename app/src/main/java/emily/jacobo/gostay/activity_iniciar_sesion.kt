@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -43,9 +44,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
         private lateinit var txtContrasenaIniciarSesionV: EditText
     }
 
-
-
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +56,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
             insets
         }
 
-
         txtCorreoInciarSesionV = findViewById(R.id.txtCorreoRecu)
         txtContrasenaIniciarSesionV = findViewById(R.id.txtContrasenaIniciarSesion)
 
@@ -68,19 +65,15 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
         val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
+        val imvVerContra3 = findViewById<ImageView>(R.id.imvVerContra3)
 
         val correoIngreado = txtCorreoInciarSesionV.text.toString().trim()
         val clave = txtContrasenaIniciarSesionV.text.toString().trim()
-
-
 
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
         }
-
-
-
 
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
@@ -94,9 +87,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
             editText.error = spannableString
         }
         btnIniciar.setOnClickListener {
+
             // Validación de campos
-
-
             val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
 
@@ -137,7 +129,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
-
                     startActivity(siguientePantalla)
                 } else {
                     runOnUiThread {
@@ -149,9 +140,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
 
                 }
-
             }
         }
+
 
         imvIniciarconGoogle.setOnClickListener {
             val configuracionGoogle =
@@ -171,6 +162,16 @@ class activity_iniciar_sesion : AppCompatActivity() {
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
+        }
+
+        imvVerContra3.setOnClickListener {
+            if (txtContrasenaIniciarSesion.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                txtContrasenaIniciarSesion.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else {
+                txtContrasenaIniciarSesion.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -195,13 +196,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 }
             } catch (e: ApiException) {
                 Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
-
             }
         }
-
     }
-
-
 }
 
 

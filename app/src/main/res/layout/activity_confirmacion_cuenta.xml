@@ -7,6 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".Confirmacion_Cuenta">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="346dp"
+        android:layout_height="254dp"
+
+        android:layout_marginTop="51dp"
+        android:layout_marginBottom="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:lottie_rawRes="@raw/uno">
+
+    </com.airbnb.lottie.LottieAnimationView>
+
     <ImageView
         android:id="@+id/imvAtrasc"
         android:layout_width="31dp"
@@ -30,68 +46,38 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.228"
+        app:layout_constraintHorizontal_bias="0.357"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.856" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="166dp"
-        android:layout_height="28dp"
-        android:fontFamily="@font/poppins"
-        android:text="Ingresa el código."
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="112dp" />
+        app:layout_constraintVertical_bias="0.972" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="340dp"
         android:layout_height="44dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/poppins"
         android:text="Enviamos un código por gmail. Ingrésalo para confirmar tu cuenta."
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/btnConfirmaCuenta"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.239"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnConfirmaCuenta"
-        android:layout_width="365dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="#49A8B5"
-        android:fontFamily="@font/poppins"
-        android:text="Continuar"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnReenviar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintHorizontal_bias="0.366"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="#3F51B5" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCodigoConf" />
 
-    <Button
-        android:id="@+id/btnReenviar"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="365dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="332dp"
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="166dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="9dp"
         android:fontFamily="@font/poppins"
-        android:text="¿No recibiste el código?"
-        android:textColor="@color/black"
+        android:text="Ingresa el código."
         android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="#49A8B5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
         android:id="@+id/txtCodigoConf"
@@ -102,8 +88,44 @@
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/textView12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.562" />
+        app:layout_constraintVertical_bias="0.6" />
+
+    <Button
+        android:id="@+id/btnConfirmaCuenta"
+        android:layout_width="365dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="23dp"
+        android:backgroundTint="#49A8B5"
+        android:fontFamily="@font/poppins"
+        android:text="Continuar"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnReenviar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:strokeColor="#3F51B5" />
+
+    <Button
+        android:id="@+id/btnReenviar"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="365dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="64dp"
+        android:fontFamily="@font/poppins"
+        android:text="¿No recibiste el código?"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnConfirmaCuenta"
+        app:strokeColor="#49A8B5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

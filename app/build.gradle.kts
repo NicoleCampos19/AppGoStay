@@ -71,6 +71,7 @@ dependencies {
 
     //libreria de oracle
     implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
+
     //libreria de firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
@@ -79,12 +80,19 @@ dependencies {
     //libreria de glide imagenes
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
+    //libreria de material design
+    implementation ("com.google.android.material:material:1.10.0")
+
     //libreria de circleimage
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation(libs.firebase.storage.ktx)
     implementation(files("libs\\activation.jar"))
     implementation(files("libs\\additionnal.jar"))
     implementation(files("libs\\mail.jar"))
+
+    //libreria lottie files
+    implementation("com.airbnb.android:lottie:6.5.0")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
