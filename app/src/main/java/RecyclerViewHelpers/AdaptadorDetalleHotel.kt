@@ -8,10 +8,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
-import emily.jacobo.gostay.hotel_detalles
-import kotlinx.coroutines.withContext
 
-class AdaptadorDetalleHotel(private val imageUrls: List<String>) : RecyclerView.Adapter<AdaptadorDetalleHotel.HotelViewHolder>() {
+class AdaptadorDetalleHotel(private val imageUrls: List<String>, holder: Any) : RecyclerView.Adapter<AdaptadorDetalleHotel.HotelViewHolder>() {
 
     class HotelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
@@ -24,8 +22,10 @@ class AdaptadorDetalleHotel(private val imageUrls: List<String>) : RecyclerView.
 
     override fun onBindViewHolder(holder: HotelViewHolder, position: Int) {
         val imageUrl = imageUrls[position]
-        Glide.with(Context).load(imageUrl).into(holder.imageView)
+        Glide.with(context).load(imageUrl).into(holder.imageView)
     }
+
+
 
     override fun getItemCount(): Int {
         return imageUrls.size
