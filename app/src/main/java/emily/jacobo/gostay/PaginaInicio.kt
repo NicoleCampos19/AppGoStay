@@ -64,6 +64,7 @@ class PaginaInicio : AppCompatActivity() {
 
 
         fun obtenerHoteles(): List<tbHotel>{
+
             val objConexion = ClaseConexion().cadenaConexion()
 
             val statement = objConexion?.createStatement()
@@ -120,6 +121,7 @@ class PaginaInicio : AppCompatActivity() {
                 val adapter = HotelAdapter(hotelDB, favDB){ hotel ->
                     val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
+                        putExtra("id_hoteles", hotel.id_hoteles)
                         putExtra("prev_activity", "PaginaInicio")
                     }
                     startActivity(intent)
