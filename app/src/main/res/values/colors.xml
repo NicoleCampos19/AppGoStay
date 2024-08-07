@@ -3,4 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="semi_transparent_white">#99FFFFFF</color>
+    <color name="amarillo">#ffe68f</color>
+    <color name="tuquesa">#5CB5C4</color>
+    <color name="gris">#ebeaea</color>
+    <color name="letrainicio">#737373</color>
 </resources>

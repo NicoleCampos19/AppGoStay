@@ -149,7 +149,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView14"
+                    android:id="@+id/imvReportar"
                     android:layout_width="84dp"
                     android:layout_height="46dp"
                     android:layout_marginTop="15dp"
@@ -158,7 +158,7 @@
                     app:srcCompat="@drawable/baseline_flag_24" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnReportar"
                     android:layout_width="374dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"

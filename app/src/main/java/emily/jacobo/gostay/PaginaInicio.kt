@@ -4,6 +4,7 @@ import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -34,6 +35,13 @@ class PaginaInicio : AppCompatActivity() {
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
+        val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
+
+        txtAggBusquedad.setOnClickListener {
+            val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
+            startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
+        }
 
         imvBuscar.setOnClickListener {
             val siguientepantalla = Intent(this, PaginaInicio::class.java)
@@ -64,6 +72,7 @@ class PaginaInicio : AppCompatActivity() {
 
 
         fun obtenerHoteles(): List<tbHotel>{
+
             val objConexion = ClaseConexion().cadenaConexion()
 
             val statement = objConexion?.createStatement()
@@ -120,6 +129,7 @@ class PaginaInicio : AppCompatActivity() {
                 val adapter = HotelAdapter(hotelDB, favDB){ hotel ->
                     val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
+                        putExtra("id_hoteles", hotel.id_hoteles)
                         putExtra("prev_activity", "PaginaInicio")
                     }
                     startActivity(intent)
