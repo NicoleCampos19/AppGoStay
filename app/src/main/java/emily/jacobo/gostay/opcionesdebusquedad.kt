@@ -1,8 +1,11 @@
 package emily.jacobo.gostay
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -18,6 +21,24 @@ class opcionesdebusquedad : AppCompatActivity() {
         //Mando a llamar al botón
         val btnHotelCerca = findViewById<Button>(R.id.btnHotelCerca)
         val btnProxDestino = findViewById<ImageButton>(R.id.btnProxDestino)
+        val txtProxDestino = findViewById<TextView>(R.id.txtProxDestino)
+
+        val btnAtras = findViewById<ImageView>(R.id.RegresarInicio)
+
+        btnAtras.setOnClickListener {
+            val volverAtras = Intent(this, PaginaInicio::class.java)
+            startActivity(volverAtras)
+        }
+
+        btnProxDestino.setOnClickListener {
+            val siguientepantallita = Intent(this, proximo_destino::class.java)
+            startActivity(siguientepantallita)
+        }
+
+        txtProxDestino.setOnClickListener {
+            val siguientepantallita = Intent(this, proximo_destino::class.java)
+            startActivity(siguientepantallita)
+        }
 
         //Para que al darle click cambie de color
         btnHotelCerca.setOnClickListener {
