@@ -69,7 +69,6 @@ class hotel_detalles : AppCompatActivity() {
 
 
         val imvVolverDetallesHotel = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
-        val imvDetalleHotel = findViewById<ImageView>(R.id.imvDetalleHotel)
         val tvNombreDetalleHotel = findViewById<TextView>(R.id.tvNombreDetalleHotel)
         val tvDescripcionDetalleHotel = findViewById<TextView>(R.id.tvDescripcionDetalleHotel)
         val txtComentario = findViewById<EditText>(R.id.txtComentario)
@@ -158,7 +157,6 @@ class hotel_detalles : AppCompatActivity() {
         hotel?.let {
     Glide.with(this)
         .load(hotel.img_url)
-        .into(imvDetalleHotel)
 
 
         imvEnviar.setOnClickListener {
@@ -188,7 +186,6 @@ class hotel_detalles : AppCompatActivity() {
 
         Glide.with(this)
             .load(hotel.img_url)
-            .into(imvDetalleHotel)
 
         tvNombreDetalleHotel.text = hotel.nombreHotel
         tvDescripcionDetalleHotel.text = hotel.descripcion
