@@ -8,6 +8,18 @@
     android:background="#5CB5C4"
     tools:context=".Ofertas">
 
+    <ImageView
+        android:id="@+id/imvAtrasc"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03"
+        app:srcCompat="@drawable/ic_back" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView2"
         android:layout_width="351dp"
@@ -18,7 +30,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/ofertas"></com.airbnb.lottie.LottieAnimationView>
+        app:lottie_rawRes="@raw/ofertas">
+
+    </com.airbnb.lottie.LottieAnimationView>
 
     <View
         android:id="@+id/view8"
