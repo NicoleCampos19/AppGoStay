@@ -158,6 +158,7 @@ class hotel_detalles : AppCompatActivity() {
     Glide.with(this)
         .load(hotel.img_url)
 
+
         imvEnviar.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 //1- Crear un objeto de la clase conexion

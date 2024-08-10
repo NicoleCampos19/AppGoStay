@@ -44,7 +44,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/denuncias"></com.airbnb.lottie.LottieAnimationView>
+        app:lottie_rawRes="@raw/denuncias">
+
+    </com.airbnb.lottie.LottieAnimationView>
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -63,6 +65,7 @@
 
         <RadioButton
             android:id="@+id/radio_button_1"
+            style="@style/Widget.App.RadioButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"
@@ -71,6 +74,7 @@
 
         <RadioButton
             android:id="@+id/radio_button_2"
+            style="@style/Widget.App.RadioButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"
@@ -79,6 +83,7 @@
 
         <RadioButton
             android:id="@+id/radio_button_3"
+            style="@style/Widget.App.RadioButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"
@@ -87,6 +92,7 @@
 
         <RadioButton
             android:id="@+id/radio_button_4"
+            style="@style/Widget.App.RadioButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"
@@ -95,6 +101,7 @@
 
         <RadioButton
             android:id="@+id/radio_button_5"
+            style="@style/Widget.App.RadioButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"

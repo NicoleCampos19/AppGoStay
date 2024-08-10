@@ -2,7 +2,9 @@ package emily.jacobo.gostay
 
 import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.ComentarioAdapter
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -31,8 +33,13 @@ class Ofertas : AppCompatActivity() {
         val rcvOfertas = findViewById<RecyclerView>(R.id.rcvOfertas)
         rcvOfertas.layoutManager = LinearLayoutManager(this)
 
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
 
 
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, Perfil::class.java)
+            startActivity(volverAtras)
+        }
         fun obtenerOfertas(): List<tbOfertas>{
             val objConexion = ClaseConexion().cadenaConexion()
 
