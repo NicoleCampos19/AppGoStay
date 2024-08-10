@@ -96,7 +96,6 @@ dependencies {
     //libreria lottie files
     implementation("com.airbnb.android:lottie:6.5.0")
 
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
