@@ -2,6 +2,8 @@ package emily.jacobo.gostay
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -19,7 +21,7 @@ class opcionesdebusquedad : AppCompatActivity() {
         setContentView(R.layout.activity_opciones_busquedad)
 
         //Mando a llamar al botón
-        val btnHotelCerca = findViewById<Button>(R.id.btnHotelCerca)
+        val btnHotelesCerca = findViewById<Button>(R.id.btnHotelesCerca)
         val btnProxDestino = findViewById<ImageButton>(R.id.btnProxDestino)
         val txtProxDestino = findViewById<TextView>(R.id.txtProxDestino)
 
@@ -30,24 +32,27 @@ class opcionesdebusquedad : AppCompatActivity() {
             startActivity(volverAtras)
         }
 
-        btnProxDestino.setOnClickListener {
-            val siguientepantallita = Intent(this, proximo_destino::class.java)
+        btnHotelesCerca.setOnClickListener {
+            val siguientepantallita = Intent(this, hoteles_cerca::class.java)
             startActivity(siguientepantallita)
-        }
-
-        txtProxDestino.setOnClickListener {
-            val siguientepantallita = Intent(this, proximo_destino::class.java)
-            startActivity(siguientepantallita)
-        }
-
-        //Para que al darle click cambie de color
-        btnHotelCerca.setOnClickListener {
-            btnHotelCerca.setBackgroundColor(ContextCompat.getColor(this, R.color.amarillo))
         }
 
         btnProxDestino.setOnClickListener {
             btnProxDestino.setImageResource(R.drawable.pastillaamarilla)
             btnProxDestino.backgroundTintList = ContextCompat.getColorStateList(this, R.color.gris)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                val siguientepantallita = Intent(this, proximo_destino::class.java)
+                startActivity(siguientepantallita)
+            }, 10)
+        }
+
+        txtProxDestino.setOnClickListener {
+            btnProxDestino.setImageResource(R.drawable.pastillaamarilla)
+            Handler(Looper.getMainLooper()).postDelayed({
+                val siguientepantallita = Intent(this, proximo_destino::class.java)
+                startActivity(siguientepantallita)
+            }, 10)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

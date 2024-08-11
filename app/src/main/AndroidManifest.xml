@@ -11,6 +11,8 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
@@ -27,6 +29,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <activity
+            android:name=".hoteles_cerca"
+            android:exported="false" />
         <activity
             android:name=".item_busquedas_hoteles"
             android:exported="false" />
@@ -113,13 +121,7 @@
             android:exported="false" />
         <activity
             android:name=".PaginaInicio"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Confirmacion_Cuenta"
             android:exported="false" />
@@ -142,6 +144,13 @@
             android:exported="false" />
         <activity
             android:name=".Splash_Screen"
-            android:exported="false"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
+
 </manifest>
