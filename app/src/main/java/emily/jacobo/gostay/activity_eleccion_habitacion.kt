@@ -30,43 +30,58 @@ class activity_eleccion_habitacion : AppCompatActivity() {
             insets
         }
 
-       val rcvTiposHabitaciones = findViewById<RecyclerView>(R.id.rcvTiposHabitaciones)
+        val rcvTiposHabitaciones = findViewById<RecyclerView>(R.id.rcvTiposHabitaciones)
         rcvTiposHabitaciones.layoutManager = LinearLayoutManager(this)
 
+        val idHotel = intent.getIntExtra("id_hoteles", -1)
 
-
-
-        fun loadTipoHabitacionesFromDatabase(): List<tbTipoHabitacion> {
-
-
-            val objConexion = ClaseConexion().cadenaConexion()
+        fun loadTipoHabitacionesFromDatabase(idHotel: Int): List<tbTipoHabitacion> {
             val tipoHabitacionList = mutableListOf<tbTipoHabitacion>()
+            val query = """
+        SELECT th.nombre_tipo_habitacion, th.precio_habitacion 
+        FROM tbIntermedia_Hoteles_TipoHabitacion thb  
+        INNER JOIN tbTiposHabitaciones th 
+        ON thb.id_tipo_habitacion = th.id_tipo_habitacion 
+        WHERE thb.id_hoteles = ?
+    """.trimIndent()
 
-            val statement = objConexion?.createStatement()
-            val resultSet =
-                statement?.executeQuery("SELECT nombre_tipo_habitacion, precio_habitacion FROM tbTiposHabitaciones")!!
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                objConexion?.use { connection ->
+                    val statement = connection.prepareStatement(query).apply {
+                        setInt(1, idHotel)
+                    }
 
-            while (resultSet.next()) {
-                val nombre = resultSet.getString("nombre_tipo_habitacion")
-                val precio = resultSet.getInt("precio_habitacion")
-
-                val valoresJuntos = tbTipoHabitacion(nombre, precio)
-                tipoHabitacionList.add(valoresJuntos)
-
+                    statement.use { preparedStatement ->
+                        val resultSet = preparedStatement.executeQuery()
+                        resultSet.use { rs ->
+                            while (rs.next()) {
+                                val nombre = rs.getString("nombre_tipo_habitacion")
+                                val precio = rs.getInt("precio_habitacion")
+                                tipoHabitacionList.add(tbTipoHabitacion(nombre, precio))
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace() // Log the exception to debug
             }
 
             return tipoHabitacionList
         }
+        if (idHotel != -1) {
+            // Usar el id_hoteles para cargar las habitaciones del hotel
+            CoroutineScope(Dispatchers.IO).launch {
 
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val tipoHabitacionDB = loadTipoHabitacionesFromDatabase()
-            withContext(Dispatchers.Main) {
-                val miAdaptador = AdaptorTipoHabitacion(tipoHabitacionDB)
-                rcvTiposHabitaciones.adapter = miAdaptador
+                val tipoHabitacionDB = loadTipoHabitacionesFromDatabase(idHotel)
+                withContext(Dispatchers.Main) {
+                    val miAdaptador = AdaptorTipoHabitacion(tipoHabitacionDB)
+                    rcvTiposHabitaciones.adapter = miAdaptador
+                }
             }
-
+        }else{
+            println("No se encontro el id del hotel")
         }
-    }
 
+    }
 }

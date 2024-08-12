@@ -1,11 +1,13 @@
 package RecyclerViewHelpers
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
 import emily.jacobo.gostay.activity_iniciar_sesion
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -15,23 +17,22 @@ import modelo.tbFavoritos
 import modelo.tbHotel
 
 class HotelAdapter(
-    var Datos: List<tbHotel>,
-    var DatosDos: List<tbFavoritos>,
-    val clickListener: (tbHotel) -> Unit
+    private var datos: List<tbHotel>,
+    private val esFavoritos: Boolean,
+    private val clickListener: (tbHotel) -> Unit
 ) : RecyclerView.Adapter<ViewHolderHotel>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHotel {
         val vistaHotel = LayoutInflater.from(parent.context).inflate(R.layout.item_hotel, parent, false)
         return ViewHolderHotel(vistaHotel)
     }
 
-    override fun getItemCount() = Datos.size
+    override fun getItemCount() = datos.size
 
     override fun onBindViewHolder(holder: ViewHolderHotel, position: Int) {
-        val item = Datos[position]
+        val item = datos[position]
         val correoIngresado = activity_iniciar_sesion.correoIngresado
 
-        // Verificar si `DatosDos` tiene al menos tantos elementos como `position`
-        val itemdos: tbFavoritos? = if (position < DatosDos.size) DatosDos[position] else null
 
         suspend fun obtenerIdUsuario(correo: String): Int? {
             return withContext(Dispatchers.IO) {
@@ -47,41 +48,62 @@ class HotelAdapter(
             }
         }
 
-        holder.tbToogleFavoritos.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                GlobalScope.launch(Dispatchers.Main) {
-                    val idUsuario = obtenerIdUsuario(correoIngresado)
-                    if (idUsuario != null) {
-                        withContext(Dispatchers.IO) {
-                            val objConexion = ClaseConexion().cadenaConexion()
+        suspend fun estaFavorito(id_hotel: Int, id_usuario: Int): Boolean{
+            return withContext(Dispatchers.IO) {
+                val objConexion = ClaseConexion().cadenaConexion()
+                val query = objConexion?.prepareStatement("SELECT 1 FROM tbPreferenciales WHERE id_hoteles = ? AND id_usuario = ?")!!
+                query.setInt(1, id_hotel)
+                query.setInt(2, id_usuario)
+                val resultSet = query.executeQuery()
+                if(resultSet.next()){
+                    true;
+                } else{
+                    false
+                }
+            }
+        }
+
+
+        holder.tbToogleFavoritos.setOnCheckedChangeListener { _, isChecked ->
+            CoroutineScope(Dispatchers.Main).launch {
+                val idUsuario = obtenerIdUsuario(correoIngresado)
+                if (idUsuario != null) {
+                    withContext(Dispatchers.IO) {
+                        val objConexion = ClaseConexion().cadenaConexion()
+                        if (!esFavoritos && isChecked && !estaFavorito(item.id_hoteles,idUsuario)) {
                             val agregarFavoritos = objConexion?.prepareStatement("INSERT INTO tbPreferenciales (id_hoteles, id_usuario) VALUES (?, ?)")!!
                             agregarFavoritos.setInt(1, item.id_hoteles)
                             agregarFavoritos.setInt(2, idUsuario)
                             agregarFavoritos.executeUpdate()
+                            val commit = objConexion.prepareStatement("commit")
+                            commit.executeUpdate()
+                        } else {
+                            if(!isChecked){
+                                val deleteFavorito =
+                                    objConexion?.prepareStatement("DELETE FROM tbPreferenciales WHERE id_hoteles = ? AND id_usuario = ?")!!
+                                deleteFavorito.setInt(1, item.id_hoteles)
+                                deleteFavorito.setInt(2, idUsuario)
+                                deleteFavorito.executeUpdate()
+                                val commit = objConexion.prepareStatement("commit")
+                                commit.executeUpdate()
+                                }
+                            if(esFavoritos && !isChecked)
+                                withContext(Dispatchers.Main) {
+                                    datos = datos.toMutableList().also { it.removeAt(position) }
+                                    notifyItemRemoved(position)
+                                    notifyDataSetChanged()
+                            }
                         }
-                    }
-                }
-            } else {
-                if (itemdos != null) {
-                    val listaFavoritos = DatosDos.toMutableList()
-                    listaFavoritos.removeAt(position)
-                    GlobalScope.launch(Dispatchers.IO) {
-                        val objConexion = ClaseConexion().cadenaConexion()
-                        val deleteFavorito = objConexion?.prepareStatement("DELETE FROM tbPreferenciales WHERE id_preferencial = ?")!!
-                        deleteFavorito.setInt(1, itemdos.id_preferenciales)
-                        deleteFavorito.executeUpdate()
-
-                        val commit = objConexion.prepareStatement("COMMIT")
+                        val commit = objConexion?.prepareStatement("COMMIT")!!
                         commit.executeUpdate()
                     }
-
-                    DatosDos = listaFavoritos.toList()
-                    // Notificar los cambios en el hilo principal
-                    GlobalScope.launch(Dispatchers.Main) {
-                        notifyItemRemoved(position)
-                        notifyDataSetChanged()
-                    }
                 }
+            }
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            val id_usuario = obtenerIdUsuario(correoIngresado)
+            if(id_usuario!= null){
+                holder.tbToogleFavoritos.isChecked = estaFavorito(item.id_hoteles, id_usuario)
             }
         }
         holder.bind(item, clickListener)

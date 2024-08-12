@@ -100,33 +100,53 @@ class PaginaInicio : AppCompatActivity() {
 
         }
 
-        fun obtenerFavoritos(): List<tbFavoritos>{
+        fun obtenerHotelesFavoritos(idUsuario: Int): List<tbHotel> {
+            val listaHotelesFavoritos = mutableListOf<tbHotel>()
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("select * from tbPreferenciales")!!
+            try {
+                val statement = objConexion?.prepareStatement(
+                    "SELECT h.* FROM tbPreferenciales p " +
+                            "INNER JOIN tbHoteles h ON h.id_hoteles = p.id_hoteles " +
+                            "WHERE p.id_usuario = ?"
+                )
+                statement?.setInt(1, idUsuario)
+                val resultSet = statement?.executeQuery()
 
-            val listaFav2 = mutableListOf<tbFavoritos>()
+                if (resultSet != null) {
+                    while (resultSet.next()) {
+                        val id_hoteles = resultSet.getInt("id_hoteles")
+                        val nombre = resultSet.getString("nombre")
+                        val descripcion = resultSet.getString("descripcion")
+                        val direccion = resultSet.getString("direccion")
+                        val correo = resultSet.getString("correo")
+                        val cantidad_habitaciones = resultSet.getInt("cantidad_habitaciones")
+                        val img_url = resultSet.getString("img_url")
+                        val id_tipo_habitacion = resultSet.getInt("id_tipo_habitacion")
+                        val id_servicio_hotel = resultSet.getInt("id_servicio_hotel")
+                        val id_valoracion = resultSet.getInt("id_valoracion")
 
-            while (resultSet.next()){
-                val id_preferenciales = resultSet.getInt("id_preferencial")
-                val id_hoteles = resultSet.getInt("id_hoteles")
-                val id_usuario = resultSet.getInt("id_usuario")
+                        val hotel = tbHotel(
+                            id_hoteles, nombre, descripcion, direccion, correo,
+                            cantidad_habitaciones, img_url, id_tipo_habitacion,
+                            id_servicio_hotel, id_valoracion
+                        )
 
-
-                val valoresJuntosFav = tbFavoritos(id_preferenciales, id_hoteles, id_usuario )
-
-                listaFav2.add(valoresJuntosFav)
+                        listaHotelesFavoritos.add(hotel)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                objConexion?.close()
             }
-            return listaFav2
 
+            return listaHotelesFavoritos
         }
-
         CoroutineScope(Dispatchers.IO).launch {
             val hotelDB = obtenerHoteles()
-            val favDB = obtenerFavoritos()
             withContext(Dispatchers.Main){
-                val adapter = HotelAdapter(hotelDB, favDB){ hotel ->
+                val adapter = HotelAdapter(hotelDB, false){ hotel ->
                     val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
                         putExtra("id_hoteles", hotel.id_hoteles)

@@ -36,7 +36,7 @@ class Perfil : AppCompatActivity() {
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfila)
-//        imvFotoPerfil = findViewById(R.id.imvFotoPerfil)
+//git        imvFotoPerfil = findViewById(R.id.imvFotoPerfil)
         val imvInformacionPer = findViewById<ImageView>(R.id.imvInformacionPer)
         val imvPoliticas = findViewById<ImageView>(R.id.imvPoliticas)
         val txtInformaciónPer = findViewById<TextView>(R.id.txtInformaciónPer)
