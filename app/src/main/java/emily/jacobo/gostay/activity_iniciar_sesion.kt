@@ -39,7 +39,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin{
         val InicioSesionGoogle = 100
-        val correoIngresado = "admin@gmail.com"
+        var correoIngresado = "admin@gmail.com"
         lateinit var txtCorreoInciarSesionV: EditText
         private lateinit var txtContrasenaIniciarSesionV: EditText
     }
@@ -126,10 +126,13 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     val nombreTipoUsuario = resultSet.getString("nombre_usuario")
 
                     // Determinar a qué Activity dirigirse
-                    val siguientePantalla = when (nombreTipoUsuario) {
-                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
-                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
-                    }
+                   val siguientePantalla = Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+
+                       //when (nombreTipoUsuario) {
+//                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
+//                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+//                    }
+                    correoIngresado= txtCorreoInciarSesion.text.toString()
                     startActivity(siguientePantalla)
                 } else {
                     runOnUiThread {
