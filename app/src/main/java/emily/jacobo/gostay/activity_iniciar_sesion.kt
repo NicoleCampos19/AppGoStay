@@ -103,7 +103,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (clave.length <= 12) {
+            /*le quite el igual*/
+            if (clave.length < 12) {
                 txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
                 return@setOnClickListener
             }

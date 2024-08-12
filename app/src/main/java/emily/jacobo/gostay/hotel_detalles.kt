@@ -66,6 +66,17 @@ class hotel_detalles : AppCompatActivity() {
             obtenerServiciosHotel(idHotel)
         }
 
+        val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
+        btnTipoHabitacion.setOnClickListener {
+            if (idHotel != -1) {
+                val intent = Intent(this, activity_eleccion_habitacion::class.java).apply {
+                    putExtra("id_hoteles", idHotel)
+                }
+                startActivity(intent)
+            }else{
+                println("No se encontro el id del hotel")
+            }
+        }
 
 
         val imvVolverDetallesHotel = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
@@ -93,11 +104,7 @@ class hotel_detalles : AppCompatActivity() {
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
-        val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
-        btnTipoHabitacion.setOnClickListener {
-            val intent = Intent(this, activity_eleccion_habitacion::class.java)
-            startActivity(intent)
-        }
+
 
         fun obtenerComentarios(): List<tbComentarios> {
             //1- Creo un objeto de la clase conexion
