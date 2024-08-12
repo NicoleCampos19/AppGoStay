@@ -40,8 +40,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
     companion object variableGloalLogin{
         val InicioSesionGoogle = 100
         val correoIngresado = "admin@gmail.com"
-        lateinit var txtCorreoInciarSesionV: EditText
-        private lateinit var txtContrasenaIniciarSesionV: EditText
+        lateinit var txtCorreoInciarSesionV: String
+        lateinit var txtContrasenaIniciarSesionV: String
     }
 
     @SuppressLint("MissingInflatedId")
@@ -56,19 +56,21 @@ class activity_iniciar_sesion : AppCompatActivity() {
             insets
         }
 
-        txtCorreoInciarSesionV = findViewById(R.id.txtCorreoRecu)
-        txtContrasenaIniciarSesionV = findViewById(R.id.txtContrasenaIniciarSesion)
+        // Definición de EditText
+        val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
+        val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
+
+        // Asignación de valores globales
+        variableGloalLogin.txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString().trim()
+        variableGloalLogin.txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString().trim()
+
 
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
-        val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
-        val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
         val imvVerContra3 = findViewById<ImageView>(R.id.imvVerContra3)
-
-        val correoIngreado = txtCorreoInciarSesionV.text.toString().trim()
-        val clave = txtContrasenaIniciarSesionV.text.toString().trim()
+        var isPasswordVisible = false
 
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
@@ -165,13 +167,16 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
 
         imvVerContra3.setOnClickListener {
-            if (txtContrasenaIniciarSesion.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-                txtContrasenaIniciarSesion.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            if (isPasswordVisible) {
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
+                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerContra3.setImageResource(R.drawable.ojo) // Cambia a la imagen de "ojo abierto"
             } else {
-                txtContrasenaIniciarSesion.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                // Si la contraseña es visible, la ocultamos y cambiamos la imagen
+                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                imvVerContra3.setImageResource(R.drawable.ojocerrado)
             }
+            isPasswordVisible = !isPasswordVisible
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

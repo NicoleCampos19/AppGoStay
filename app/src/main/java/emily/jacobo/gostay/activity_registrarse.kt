@@ -86,12 +86,13 @@ class activity_registrarse : AppCompatActivity() {
         txtContraI = findViewById(R.id.txtContrasenaRegistrarse)
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
         val imvIniciargoogle = findViewById<ImageView>(R.id.imvIniciarGoogle)
-        val imvVerContra1 = findViewById<ImageView>(R.id.imvVerContra1)
+        val imvVerContra1 = findViewById<ImageView>(R.id.imvVerContra4)
         val imvVerContra2 = findViewById<ImageView>(R.id.imvVerContra2)
         val txtConfirmarContraRegis = findViewById<TextView>(R.id.txtConfirmarContraRegis)
         imageView = findViewById(R.id.imvPerfilRegis)
         val imvGaleria = findViewById<ImageView>(R.id.imvGaleria)
         val imvCamara = findViewById<ImageView>(R.id.imvCamara)
+        var isPasswordVisible = false
 
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
@@ -289,23 +290,27 @@ class activity_registrarse : AppCompatActivity() {
         }
 
         imvVerContra1.setOnClickListener {
-            if (txtContraI.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-                txtContraI.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            if (isPasswordVisible) {
+                // Si la contraseña es visible, la ocultamos y cambiamos la imagen
+                txtContraI.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                imvVerContra1.setImageResource(R.drawable.ojocerrado)
             } else {
-                txtContraI.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
+                txtContraI.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerContra1.setImageResource(R.drawable.ojo) // Cambia a la imagen de "ojo abierto"
             }
+            isPasswordVisible = !isPasswordVisible
         }
 
         imvVerContra2.setOnClickListener {
-            if (txtConfirmarContraRegis.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-                txtConfirmarContraRegis.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            if (isPasswordVisible) {
+                txtConfirmarContraRegis.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                imvVerContra2.setImageResource(R.drawable.ojocerrado)
             } else {
-                txtConfirmarContraRegis.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                txtConfirmarContraRegis.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerContra2.setImageResource(R.drawable.ojo)
             }
+            isPasswordVisible = !isPasswordVisible
         }
     }
 

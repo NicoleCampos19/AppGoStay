@@ -24,12 +24,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import java.io.ByteArrayOutputStream
+import java.security.MessageDigest
 import java.sql.PreparedStatement
 import java.sql.SQLException
 import java.util.UUID
 
 class activity_editar_perfil : AppCompatActivity() {
 
+    lateinit var correoActual: String
+    lateinit var contrasenaActual: String
+    lateinit var txtNewContraP: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,23 +45,32 @@ class activity_editar_perfil : AppCompatActivity() {
             insets
         }
 
-       val txtCorreoPerfil = findViewById<EditText>(R.id.txtCorreoPerfil)
-       val txtContraPerfil = findViewById<EditText>(R.id.txtContraPerfil)
+        //  variables del companion object de activity_iniciar_sesion
+        correoActual = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
+        contrasenaActual = activity_iniciar_sesion.variableGloalLogin.txtContrasenaIniciarSesionV
+
+        // Acceder al EditText y obtener el valor de la contraseña como String
+        val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)
+        txtNewContraP = editTextContra.text.toString()
+
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
         val btnGuardarPerfil = findViewById<Button>(R.id.btnGuardarPerfil)
-        val txtCorreoInciarSesionV = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
-
 
 
         btnGuardarPerfil.setOnClickListener{
 
-            actualizarContraseña(txtCorreoInciarSesionV.text.toString(), txtContraPerfil.text.toString())
-            val intent = Intent(this, Perfil::class.java)
-            startActivity(intent)
+            val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil).text.toString()
+
+            // Actualizar el correo y la contraseña utilizando las funciones ya definidas
+            actualizarCorreo(nuevoCorreo, correoActual)
+            actualizarContraseña(correoActual, txtNewContraP)
 
 
-            val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
-            startActivity(siguientepantalla)
+
+
+           /* val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+            startActivity(siguientepantalla)*/
+
 
         }
 
@@ -68,49 +81,96 @@ class activity_editar_perfil : AppCompatActivity() {
         }
 
 
-
-
-
-
         }
-
 
     }
 
-
-
+fun hashSHA256(contrasenaEscrita: String): String {
+    val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
+    return bytes.joinToString("") { "%02x".format(it) }
+}
 
 private fun actualizarContraseña(correo: String, contraseña: String) {
 
+    CoroutineScope(Dispatchers.IO).launch {
+
+        try {
+
+            // Encripta la contraseña que se pasa como parámetro
+            val contrasenaEncriptada = hashSHA256(contraseña)
+
+            val objConexion = ClaseConexion().cadenaConexion()
+            if (objConexion != null) {
+                val query =
+                    "UPDATE tbUsuarios SET contraseña = ? WHERE correo = ?"
+                val preparedStatement: PreparedStatement = objConexion.prepareStatement(query)
+                preparedStatement.setString(1, contrasenaEncriptada)
+                preparedStatement.setString(2, correo)
+                preparedStatement.executeUpdate()
+                preparedStatement.close()
+
+                val commit = objConexion.prepareStatement("commit")
+                commit.executeUpdate()
+                objConexion.close()
+            } else {
+                println("No se pudo actualizar la contraseña")
+            }
+
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+        }
+
+    }
+}
+
+
+
+private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
     CoroutineScope(Dispatchers.IO).launch {
 
         try {
             val objConexion = ClaseConexion().cadenaConexion()
             if (objConexion != null) {
-                val query =
-                    "UPDATE tbUsuarios SET contraseña = ? WHERE correo = ?"
-                val preparedStatement: PreparedStatement = objConexion.prepareStatement(query)
-                preparedStatement.setString(1, contraseña)
-                preparedStatement.setString(2, correo)
-                preparedStatement.executeUpdate()
-                preparedStatement.close()
-                objConexion.close()
 
-                val commit = objConexion.prepareStatement("commit")
-                commit.executeUpdate()
+                // Verificar si el correo actual existe en la base de datos
+                val selectQuery = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
+                val selectStatement = objConexion.prepareStatement(selectQuery)
+                selectStatement.setString(1, correoActual)
+                val selectResult = selectStatement.executeQuery()
+
+                if (selectResult.next()) {
+                    println("Usuario encontrado con el correo: $correoActual")
+
+                    // Si el correo existe, proceder con la actualización
+                    val query =
+                        "UPDATE tbUsuarios SET correo = ? WHERE id_usuario = (SELECT id_usuario FROM tbUsuarios WHERE correo = ?)"
+                    val preparedStatement: PreparedStatement = objConexion.prepareStatement(query)
+                    preparedStatement.setString(1, nuevoCorreo)
+                    preparedStatement.setString(2, correoActual)
+                    preparedStatement.executeUpdate()
+                    preparedStatement.close()
+
+                    val commit = objConexion.prepareStatement("commit")
+                    commit.executeUpdate()
+                    objConexion.close()
+
+                } else {
+                    println("No se encontró ningún usuario con el correo: $correoActual")
+                }
+
+                selectStatement.close()
+                selectResult.close()
+
             } else {
-                println("No se pudo actualizar la contraseña")
+                println("No se pudo conectar a la base de datos")
             }
 
-        } catch (e: NumberFormatException) {
-
-
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
 
-
     }
-
-
-
 }
+
+

@@ -8,7 +8,7 @@
     tools:context=".Perfil">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView2"
+        android:id="@+id/imvFotoPerfil"
         android:layout_width="330dp"
         android:layout_height="75dp"
         android:layout_gravity="bottom"
@@ -50,6 +50,8 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/reservablanca" />
 
+
+
             <ImageView
                 android:id="@+id/imvPerfila"
                 android:layout_width="6dp"
@@ -62,28 +64,26 @@
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <ImageView
-        android:id="@+id/imageView15"
-        android:layout_width="507dp"
-        android:layout_height="136dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.001"
-        app:srcCompat="@drawable/cuadro_perfil" />
-
-    <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="459dp"
-        android:layout_height="251dp"
+        android:layout_width="443dp"
+        android:layout_height="344dp"
+        android:layout_marginBottom="96dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtInformaciónPer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/cuadro_celeste_perfil" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imvPerfilRegis"
+        android:layout_width="141dp"
+        android:layout_height="139dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.002"
-        app:srcCompat="@drawable/cuadro_celeste_perfil" />
+        app:layout_constraintVertical_bias="0.233"
+        app:shapeAppearanceOverlay="@style/RoundImage"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/textView6"
@@ -112,7 +112,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView15"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.568" />
 
     <ImageView
@@ -186,7 +186,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView15"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.416" />
 
     <ImageView
@@ -303,7 +303,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.945"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView15"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.021"
         app:srcCompat="@drawable/icnotification" />
 

@@ -2,21 +2,25 @@ package emily.jacobo.gostay
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import modelo.ClaseConexion
+import java.sql.SQLException
 
 class Perfil : AppCompatActivity() {
 
-    val codigo_opcion_galeria = 102
-    val codigo_opcion_tomar_foto = 103
-
-    lateinit var imageView: ImageView
-    lateinit var miPath:String
+    lateinit var imvFotoPerfil: ImageView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +36,7 @@ class Perfil : AppCompatActivity() {
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfila)
+//        imvFotoPerfil = findViewById(R.id.imvFotoPerfil)
         val imvInformacionPer = findViewById<ImageView>(R.id.imvInformacionPer)
         val imvPoliticas = findViewById<ImageView>(R.id.imvPoliticas)
         val txtInformaciónPer = findViewById<TextView>(R.id.txtInformaciónPer)
@@ -44,6 +49,10 @@ class Perfil : AppCompatActivity() {
         val txtComentarios = findViewById<TextView>(R.id.txtComentarios)
         val imvComentarios = findViewById<ImageView>(R.id.imvComentarios)
 
+
+
+        val correoUsuario = activity_registrarse.variableGloalLogin.txtCorreoI.text.toString()
+        //cargarImagenPerfil(correoUsuario)
 
 
         imvComentario.setOnClickListener {
@@ -143,3 +152,60 @@ class Perfil : AppCompatActivity() {
         }
     }
 }
+
+/*
+private fun cargarImagenPerfil(correoUsuario: String) {
+    CoroutineScope(Dispatchers.IO).launch {
+        var pathImagen: String? = null
+
+        try {
+            val objConexion = ClaseConexion().cadenaConexion()
+            if (objConexion != null) {
+                // Consulta SQL para seleccionar la imagen
+                val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
+                val statement = objConexion.prepareStatement(query)
+                statement.setString(1, correoUsuario)
+                val resultSet = statement.executeQuery()
+
+                // Obtiene el path de la imagen si existe
+                if (resultSet.next()) {
+                    pathImagen = resultSet.getString("imgFoto")
+                }
+
+                // Cierra los recursos
+                resultSet.close()
+                statement.close()
+                objConexion.close()
+            } else {
+                println("No se pudo conectar a la base de datos")
+            }
+        } catch (ex: SQLException) {
+            ex.printStackTrace()
+        }
+
+        // Actualiza la interfaz de usuario en el hilo principal
+        withContext(Dispatchers.Main) {
+            if (pathImagen != null) {
+                try {
+                    // Suponiendo que pathImagen es una ruta válida
+                    val uriImagen = Uri.parse(pathImagen)
+                    imvFotoPerfil.setImageURI(uriImagen)
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        /* context = */ this@withContext,
+                        /* text = */ "Error al cargar la imagen",
+                        /* duration = */ Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Toast.makeText(
+                    this@withContext,
+                    "No se encontró imagen para el usuario",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+}
+
+*/
