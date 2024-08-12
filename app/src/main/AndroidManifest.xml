@@ -30,7 +30,6 @@
             android:name=".activity_resenas"
             android:exported="false" />
         <activity
-            android:name=".RealizarDenuncia"
 
             android:name=".TusComentarios"
             android:exported="false" />

@@ -11,10 +11,14 @@ import android.widget.EditText
 import android.widget.PopupMenu
 import androidx.annotation.MenuRes
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Visibility
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.activity_iniciar_sesion
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import modelo.ClaseConexion
 import modelo.tbComentarios
@@ -79,6 +83,20 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
         return ViewHolderComentario(vista)
     }
 
+    suspend fun obtenerIdUsuario(correo: String): Int? {
+        return withContext(Dispatchers.IO) {
+            val objConexion = ClaseConexion().cadenaConexion()
+            val getId = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
+            getId?.setString(1, correo)
+            val resultSet = getId?.executeQuery()
+            if (resultSet != null && resultSet.next()) {
+                resultSet.getInt("id_usuario")
+            } else {
+                null
+            }
+        }
+    }
+
     override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolderComentario, position: Int) {
@@ -87,31 +105,20 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
         val comentario = item.comentario
         holder.txtComentarioCard.text = comentario
 
+        CoroutineScope(Dispatchers.Main).launch {
+            var correo = activity_iniciar_sesion.correoIngresado
+            val idUsuarioActivo = obtenerIdUsuario(correo)
+            if(idUsuarioActivo != item.id_usuario){
+                holder.ImageView.visibility = View.GONE
+            }
+        }
         holder.ImageView.setOnClickListener { v: View ->
             showMenu(v, R.menu.popup_menu, context, item, position)
         }
     }
 
     // Cuidado: probablemente sobrecargue la base de datos o el proyecto Kotlin. Cambiar luego.
-    fun obtenerNombreUsuario(idUsuario: Int): String? {
-        val conexion = ClaseConexion().cadenaConexion()
-        var nombreUsuario: String? = null
 
-        val query = "SELECT nombre FROM tbUsuarios WHERE id_usuario = ?"
-        val statement = conexion?.prepareStatement(query)
-        statement?.setInt(1, idUsuario)
-
-        val resultSet = statement?.executeQuery()
-        if (resultSet?.next() == true) {
-            nombreUsuario = resultSet.getString("nombre")
-        }
-
-        resultSet?.close()
-        statement?.close()
-        conexion?.close()
-
-        return nombreUsuario
-    }
 
     private fun showMenu(v: View, @MenuRes menuRes: Int, context: Context, item: tbComentarios, position: Int) {
         val popup = PopupMenu(context, v)

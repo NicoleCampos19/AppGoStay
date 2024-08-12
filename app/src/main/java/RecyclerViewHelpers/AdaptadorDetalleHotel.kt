@@ -22,7 +22,7 @@ class AdaptadorDetalleHotel(private val imageUrls: List<String>, holder: Any) : 
 
     override fun onBindViewHolder(holder: HotelViewHolder, position: Int) {
         val imageUrl = imageUrls[position]
-        Glide.with(context).load(imageUrl).into(holder.imageView)
+        Glide.with(holder.itemView.context).load(imageUrl).into(holder.imageView)
     }
 
 

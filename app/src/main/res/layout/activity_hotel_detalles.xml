@@ -70,7 +70,7 @@
                 android:background="#DAD4D4" />
 
             <ImageView
-                android:id="@+id/imageView11"
+                android:id="@+id/imvDetalleHotel"
                 android:layout_width="396dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"

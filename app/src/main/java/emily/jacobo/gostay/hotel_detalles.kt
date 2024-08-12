@@ -112,10 +112,11 @@ class hotel_detalles : AppCompatActivity() {
             while (resultSet.next()){
                 val id_valoracion = resultSet.getInt("id_valoracion")
                 val comentario = resultSet.getString("comentario")
+                val id_usuario = resultSet.getInt("id_usuario")
 
 
 
-                val comentarios = tbComentarios(id_valoracion, comentario)
+                val comentarios = tbComentarios(id_valoracion, comentario,id_usuario)
 
                 listaComentarios.add(comentarios)
             }
