@@ -99,16 +99,16 @@ class proximo_destino : AppCompatActivity() {
             val hotelDB = obtenerHoteles(query, query)
             val favDB = obtenerFavoritos()
             withContext(Dispatchers.Main) {
-                val adapter = HotelAdapter(hotelDB, favDB) { hotel ->
+                //val adapter = HotelAdapter(hotelDB, favDB, ) { hotel ->
                     val intent = Intent(this@proximo_destino, hotel_detalles::class.java).apply {
-                        putExtra("hotel", hotel)
-                        putExtra("id_hoteles", hotel.id_hoteles)
-                        putExtra("prev_activity", "PaginaInicio")
+                    //    putExtra("hotel", hotel)
+                    //    putExtra("id_hoteles", hotel.id_hoteles)
+                     //   putExtra("prev_activity", "PaginaInicio")
                     }
                     startActivity(intent)
                     overridePendingTransition(0, 0)
                 }
-                rcvHoteles.adapter = adapter
+               // rcvHoteles.adapter = adapter
             }
         }
     }
@@ -161,4 +161,4 @@ class proximo_destino : AppCompatActivity() {
         }
         return listaFav2
     }
-}
+//}

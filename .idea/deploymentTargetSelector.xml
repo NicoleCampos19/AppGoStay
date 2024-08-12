@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-08-11T21:53:35.871581900Z">
+        <DropdownSelection timestamp="2024-08-12T17:39:20.618331Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Latitude E5470\.android\avd\Pixel_8_API_31.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Estudiante\.android\avd\Pixel_6_API_30.avd" />
             </handle>
           </Target>
         </DropdownSelection>

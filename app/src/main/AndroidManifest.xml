@@ -120,8 +120,11 @@
             android:name=".Activity_MostrarHotel"
             android:exported="false" />
         <activity
-            android:name=".Perfil"
-            android:exported="false" />
+            android:name=".Splash_Screen"
+
+            android:exported="true" >
+        </activity>
+
         <activity
             android:name=".Reservas"
             android:exported="false" />
@@ -152,14 +155,8 @@
             android:name=".Bienvenida"
             android:exported="false" />
         <activity
-            android:name=".Splash_Screen"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".Perfil"
+            android:exported="false"/>
     </application>
 
 </manifest>
