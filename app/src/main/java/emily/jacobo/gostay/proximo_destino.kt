@@ -37,7 +37,7 @@ class proximo_destino : AppCompatActivity() {
             insets
         }
 
-        //Mando a llamar los elementos de la vista
+        // Mando a llamar los elementos de la vista
         val btnAtras = findViewById<ImageView>(R.id.btnAtras)
         val etBuscar = findViewById<EditText>(R.id.etBuscar)
         val btnVoz = findViewById<ImageButton>(R.id.btnVoz)
@@ -99,16 +99,17 @@ class proximo_destino : AppCompatActivity() {
             val hotelDB = obtenerHoteles(query, query)
             val favDB = obtenerFavoritos()
             withContext(Dispatchers.Main) {
-                //val adapter = HotelAdapter(hotelDB, favDB, ) { hotel ->
+                val esFavoritos = favDB.any { it.id_hoteles in hotelDB.map { hotel -> hotel.id_hoteles } }
+                val adapter = HotelAdapter(hotelDB, esFavoritos) { hotel ->
                     val intent = Intent(this@proximo_destino, hotel_detalles::class.java).apply {
-                    //    putExtra("hotel", hotel)
-                    //    putExtra("id_hoteles", hotel.id_hoteles)
-                     //   putExtra("prev_activity", "PaginaInicio")
+                        putExtra("hotel", hotel)
+                        putExtra("id_hoteles", hotel.id_hoteles)
+                        putExtra("prev_activity", "PaginaInicio")
                     }
                     startActivity(intent)
                     overridePendingTransition(0, 0)
                 }
-               // rcvHoteles.adapter = adapter
+                rcvHoteles.adapter = adapter
             }
         }
     }
@@ -161,4 +162,4 @@ class proximo_destino : AppCompatActivity() {
         }
         return listaFav2
     }
-//}
+}

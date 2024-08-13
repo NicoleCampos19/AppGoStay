@@ -30,8 +30,6 @@ import java.util.UUID
 
 import modelo.tbServiciosHotel
 
-
-
 class hotel_detalles : AppCompatActivity() {
 
     private lateinit var rcvServicioHotel: RecyclerView
@@ -57,8 +55,6 @@ class hotel_detalles : AppCompatActivity() {
         imageViewBack.setOnClickListener {
             navigateBack()
         }
-
-
 
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
@@ -204,7 +200,7 @@ class hotel_detalles : AppCompatActivity() {
 }
 
 
-        
+
     }
 
     private fun navigateBack() {
