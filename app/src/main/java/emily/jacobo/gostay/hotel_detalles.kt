@@ -67,13 +67,13 @@ class hotel_detalles : AppCompatActivity() {
         }
 
         val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
+        val idHotelRecivido = PaginaInicio.hotelIdGlobal
         btnTipoHabitacion.setOnClickListener {
-            if (idHotel != -1) {
-                val intent = Intent(this, activity_eleccion_habitacion::class.java).apply {
-                    putExtra("id_hoteles", idHotel)
-                }
+            if (idHotelRecivido != -1) {
+                val intent = Intent(this, activity_eleccion_habitacion::class.java)
                 startActivity(intent)
             }else{
+
                 println("No se encontro el id del hotel")
             }
         }
