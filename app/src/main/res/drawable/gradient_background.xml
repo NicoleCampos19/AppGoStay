@@ -7,5 +7,7 @@
         android:endColor="#FFFFFF"
         android:type="linear" />
 
+    <corners
+        android:radius="16dp" />
 </shape>
 

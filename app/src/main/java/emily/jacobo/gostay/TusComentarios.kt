@@ -1,7 +1,10 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.ComentarioAdapter
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,8 +17,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbComentarios
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 
 class TusComentarios : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,42 +33,61 @@ class TusComentarios : AppCompatActivity() {
             insets
         }
 
-        val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
+        val rcvTusComentarios = findViewById<RecyclerView>(R.id.rcvTusComentarios)
+        rcvTusComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
 
-        rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, Perfil::class.java)
+            startActivity(volverAtras)
+        }
 
         fun obtenerComentarios(): List<tbComentarios> {
-            //1- Creo un objeto de la clase conexion
-            val objConexion = ClaseConexion().cadenaConexion()
-
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones where correoUsuario = txtCorreoInciarSesionV")!!
-
             val listaComentarios = mutableListOf<tbComentarios>()
+            val correoUsuario = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
+            if (correoUsuario.isNullOrEmpty()) return listaComentarios
 
-            while (resultSet.next()){
-                val id_valoracion = resultSet.getInt("id_valoracion")
-                val comentario = resultSet.getString("comentario")
-                val id_usuario = resultSet.getInt("id_usuario")
+            val query = """
+                SELECT v.id_valoracion, v.comentario, v.id_usuario 
+                FROM tbValoraciones v 
+                INNER JOIN tbUsuarios u ON v.id_usuario = u.id_usuario 
+                WHERE u.correo = ?
+            """
 
+            var connection: Connection? = null
+            var statement: PreparedStatement? = null
+            var resultSet: ResultSet? = null
 
-                val comentarios = tbComentarios(id_valoracion, comentario, id_usuario)
+            try {
+                connection = ClaseConexion().cadenaConexion()
+                statement = connection?.prepareStatement(query)
+                statement?.setString(1, correoUsuario)
+                resultSet = statement?.executeQuery()
 
-                listaComentarios.add(comentarios)
+                while (resultSet?.next() == true) {
+                    val id_valoracion = resultSet.getInt("id_valoracion")
+                    val comentario = resultSet.getString("comentario")
+                    val id_usuario = resultSet.getInt("id_usuario")
+                    listaComentarios.add(tbComentarios(id_valoracion, comentario, id_usuario))
+                }
+            } catch (e: Exception) {
+                println("El error es este: $e")
+            } finally {
+                resultSet?.close()
+                statement?.close()
+                connection?.close()
             }
+
             return listaComentarios
         }
 
-
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             val comentariosDB = obtenerComentarios()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 val miAdaptador = ComentarioAdapter(comentariosDB)
-                rcvComentarios.adapter = miAdaptador
+                rcvTusComentarios.adapter = miAdaptador
             }
         }
-
     }
 }
