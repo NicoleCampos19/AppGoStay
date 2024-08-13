@@ -38,7 +38,7 @@ class activity_eleccion_habitacion : AppCompatActivity() {
         fun loadTipoHabitacionesFromDatabase(idHotelRecivido: Int): List<tbTipoHabitacion> {
             val tipoHabitacionList = mutableListOf<tbTipoHabitacion>()
             val query = """
-        SELECT th.nombre_tipo_habitacion, th.precio_habitacion 
+        SELECT th.id_tipo_habitacion, th.nombre_tipo_habitacion, th.precio_habitacion 
         FROM tbIntermedia_Hoteles_TipoHabitacion thb  
         INNER JOIN tbTiposHabitaciones th 
         ON thb.id_tipo_habitacion = th.id_tipo_habitacion 
@@ -56,9 +56,10 @@ class activity_eleccion_habitacion : AppCompatActivity() {
                         val resultSet = preparedStatement.executeQuery()
                         resultSet.use { rs ->
                             while (rs.next()) {
+                                val idTipoHabitacion = rs.getInt("id_tipo_habitacion")
                                 val nombre = rs.getString("nombre_tipo_habitacion")
                                 val precio = rs.getInt("precio_habitacion")
-                                tipoHabitacionList.add(tbTipoHabitacion(nombre, precio))
+                                tipoHabitacionList.add(tbTipoHabitacion(idTipoHabitacion, nombre, precio))
                             }
                         }
                     }
