@@ -1,7 +1,10 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.ComentarioAdapter
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,8 +17,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbComentarios
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 
 class TusComentarios : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,42 +33,16 @@ class TusComentarios : AppCompatActivity() {
             insets
         }
 
-        val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
+        val rcvTusComentarios = findViewById<RecyclerView>(R.id.rcvTusComentarios)
+        rcvTusComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
-        rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
 
 
-        fun obtenerComentarios(): List<tbComentarios> {
-            //1- Creo un objeto de la clase conexion
-            val objConexion = ClaseConexion().cadenaConexion()
-
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones where correoUsuario = txtCorreoInciarSesionV")!!
-
-            val listaComentarios = mutableListOf<tbComentarios>()
-
-            while (resultSet.next()){
-                val id_valoracion = resultSet.getInt("id_valoracion")
-                val comentario = resultSet.getString("comentario")
-                val id_usuario = resultSet.getInt("id_usuario")
-
-
-                val comentarios = tbComentarios(id_valoracion, comentario, id_usuario)
-
-                listaComentarios.add(comentarios)
-            }
-            return listaComentarios
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, Perfil::class.java)
+            startActivity(volverAtras)
         }
-
-
-        CoroutineScope(Dispatchers.IO).launch{
-            val comentariosDB = obtenerComentarios()
-            withContext(Dispatchers.Main){
-                val miAdaptador = ComentarioAdapter(comentariosDB)
-                rcvComentarios.adapter = miAdaptador
-            }
-        }
-
     }
 }
