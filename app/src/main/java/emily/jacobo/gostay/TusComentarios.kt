@@ -36,58 +36,13 @@ class TusComentarios : AppCompatActivity() {
         val rcvTusComentarios = findViewById<RecyclerView>(R.id.rcvTusComentarios)
         rcvTusComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
+
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
-        }
-
-        fun obtenerComentarios(): List<tbComentarios> {
-            val listaComentarios = mutableListOf<tbComentarios>()
-            val correoUsuario = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
-            if (correoUsuario.isNullOrEmpty()) return listaComentarios
-
-            val query = """
-                SELECT v.id_valoracion, v.comentario, v.id_usuario 
-                FROM tbValoraciones v 
-                INNER JOIN tbUsuarios u ON v.id_usuario = u.id_usuario 
-                WHERE u.correo = ?
-            """
-
-            var connection: Connection? = null
-            var statement: PreparedStatement? = null
-            var resultSet: ResultSet? = null
-
-            try {
-                connection = ClaseConexion().cadenaConexion()
-                statement = connection?.prepareStatement(query)
-                statement?.setString(1, correoUsuario)
-                resultSet = statement?.executeQuery()
-
-                while (resultSet?.next() == true) {
-                    val id_valoracion = resultSet.getInt("id_valoracion")
-                    val comentario = resultSet.getString("comentario")
-                    val id_usuario = resultSet.getInt("id_usuario")
-                    listaComentarios.add(tbComentarios(id_valoracion, comentario, id_usuario))
-                }
-            } catch (e: Exception) {
-                println("El error es este: $e")
-            } finally {
-                resultSet?.close()
-                statement?.close()
-                connection?.close()
-            }
-
-            return listaComentarios
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val comentariosDB = obtenerComentarios()
-            withContext(Dispatchers.Main) {
-                val miAdaptador = ComentarioAdapter(comentariosDB)
-                rcvTusComentarios.adapter = miAdaptador
-            }
         }
     }
 }
