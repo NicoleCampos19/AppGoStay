@@ -33,9 +33,9 @@ class activity_eleccion_habitacion : AppCompatActivity() {
         val rcvTiposHabitaciones = findViewById<RecyclerView>(R.id.rcvTiposHabitaciones)
         rcvTiposHabitaciones.layoutManager = LinearLayoutManager(this)
 
-        val idHotel = intent.getIntExtra("id_hoteles", -1)
+        val idHotelRecivido = PaginaInicio.hotelIdGlobal
 
-        fun loadTipoHabitacionesFromDatabase(idHotel: Int): List<tbTipoHabitacion> {
+        fun loadTipoHabitacionesFromDatabase(idHotelRecivido: Int): List<tbTipoHabitacion> {
             val tipoHabitacionList = mutableListOf<tbTipoHabitacion>()
             val query = """
         SELECT th.nombre_tipo_habitacion, th.precio_habitacion 
@@ -49,7 +49,7 @@ class activity_eleccion_habitacion : AppCompatActivity() {
                 val objConexion = ClaseConexion().cadenaConexion()
                 objConexion?.use { connection ->
                     val statement = connection.prepareStatement(query).apply {
-                        setInt(1, idHotel)
+                        setInt(1, idHotelRecivido)
                     }
 
                     statement.use { preparedStatement ->
@@ -69,11 +69,12 @@ class activity_eleccion_habitacion : AppCompatActivity() {
 
             return tipoHabitacionList
         }
-        if (idHotel != -1) {
+        if (idHotelRecivido != -1) {
             // Usar el id_hoteles para cargar las habitaciones del hotel
             CoroutineScope(Dispatchers.IO).launch {
 
-                val tipoHabitacionDB = loadTipoHabitacionesFromDatabase(idHotel)
+                val idHotelporsiacaso = idHotelRecivido ?: -1
+                val tipoHabitacionDB = loadTipoHabitacionesFromDatabase(idHotelporsiacaso)
                 withContext(Dispatchers.Main) {
                     val miAdaptador = AdaptorTipoHabitacion(tipoHabitacionDB)
                     rcvTiposHabitaciones.adapter = miAdaptador

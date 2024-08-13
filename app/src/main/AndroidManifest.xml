@@ -29,6 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
+
         <activity
             android:name=".VerMasDenuncias"
             android:exported="false" />
@@ -142,9 +143,16 @@
             android:exported="false" />
         <activity
             android:name=".activity_registrarse"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_registrarse"
-            android:theme="@style/Theme.GoStay" />
+            android:theme="@style/Theme.GoStay"
+
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".CreacionContrasenaActivity"
             android:exported="false" />

@@ -33,7 +33,6 @@ class HotelAdapter(
         val item = datos[position]
         val correoIngresado = activity_iniciar_sesion.correoIngresado
 
-
         suspend fun obtenerIdUsuario(correo: String): Int? {
             return withContext(Dispatchers.IO) {
                 val objConexion = ClaseConexion().cadenaConexion()

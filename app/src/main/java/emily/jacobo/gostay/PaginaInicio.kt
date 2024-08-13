@@ -21,6 +21,11 @@ import modelo.tbHotel
 
 class PaginaInicio : AppCompatActivity() {
 
+
+    companion object {
+        var hotelIdGlobal: Int? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -147,6 +152,7 @@ class PaginaInicio : AppCompatActivity() {
             val hotelDB = obtenerHoteles()
             withContext(Dispatchers.Main){
                 val adapter = HotelAdapter(hotelDB, false){ hotel ->
+                    hotelIdGlobal = hotel.id_hoteles
                     val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
                         putExtra("id_hoteles", hotel.id_hoteles)
