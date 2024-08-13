@@ -104,10 +104,11 @@
 
             <EditText
                 android:id="@+id/txtEntradaSalida"
-                android:layout_width="167dp"
+                android:layout_width="170dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
+                android:editable="false"
                 android:hint="Seleccionar fecha"
                 android:padding="12dp"
                 android:textColor="@color/black"
@@ -187,13 +188,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
+                android:editable="false"
                 android:hint="MM/AA"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView29"
+                app:layout_constraintEnd_toStartOf="@id/txtCVV"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/txtCVV"/>
+                app:layout_constraintTop_toBottomOf="@id/textView29" />
 
             <TextView
                 android:id="@+id/textView30"
@@ -235,14 +237,15 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <EditText
-                android:id="@+id/txtSalidaxd"
-                android:layout_width="178dp"
-                android:layout_height="44dp"
+                android:id="@+id/txtSalida"
+                android:layout_width="180dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/edittext_background"
-                android:ems="10"
+                android:editable="false"
                 android:hint="Selecciona fecha"
                 android:inputType="text"
+                android:padding="12dp"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
