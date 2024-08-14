@@ -60,9 +60,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
 
-        // Asignación de valores globales
-        variableGloalLogin.txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString().trim()
-        variableGloalLogin.txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString().trim()
+
 
 
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
@@ -89,7 +87,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
             editText.error = spannableString
         }
         btnIniciar.setOnClickListener {
-
+            // Asignación de valores globales
+            variableGloalLogin.txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString().trim()
+            variableGloalLogin.txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString().trim()
             // Validación de campos
             val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()

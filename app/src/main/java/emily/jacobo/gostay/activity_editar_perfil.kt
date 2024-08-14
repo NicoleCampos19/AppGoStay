@@ -132,7 +132,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
         try {
             val objConexion = ClaseConexion().cadenaConexion()
             if (objConexion != null) {
-
+            println("este es el correo con el que hago ele select $correoActual")
                 // Verificar si el correo actual existe en la base de datos
                 val selectQuery = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
                 val selectStatement = objConexion.prepareStatement(selectQuery)
@@ -153,8 +153,6 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
                     val commit = objConexion.prepareStatement("commit")
                     commit.executeUpdate()
-                    objConexion.close()
-
                 } else {
                     println("No se encontró ningún usuario con el correo: $correoActual")
                 }
