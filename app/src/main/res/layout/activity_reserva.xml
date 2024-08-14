@@ -63,14 +63,14 @@
                 android:id="@+id/textView25"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="96dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins"
                 android:text="Departamento"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView23"
-                app:layout_constraintStart_toEndOf="@id/textView24"/>
+                app:layout_constraintStart_toEndOf="@id/textView24"
+                app:layout_constraintTop_toBottomOf="@id/textView23" />
 
             <Spinner
                 android:id="@+id/txtCantidadH"
@@ -96,25 +96,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins"
-                android:text="Entrada y Salida"
+                android:text="Entrada"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/txtCantidadH"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCantidadH" />
 
             <EditText
                 android:id="@+id/txtEntradaSalida"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="170dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
+                android:editable="false"
                 android:hint="Seleccionar fecha"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView26"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/textView26" />
 
             <TextView
                 android:id="@+id/textView27"
@@ -122,18 +124,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins"
-                android:text="Método de pago"
+                android:text="Nombre titular tarjeta"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/txtEntradaSalida"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <Spinner
-                android:id="@+id/txtMetodoPago"
+            <EditText
+                android:id="@+id/txtNombreTitular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/spinner_background"
+                android:background="@drawable/edittext_background"
+                android:hint="Nombre del titular"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/textView27"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -147,7 +153,7 @@
                 android:text="Número de tarjeta"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/txtMetodoPago"
+                app:layout_constraintTop_toBottomOf="@id/txtNombreTitular"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <EditText
@@ -182,13 +188,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
+                android:editable="false"
                 android:hint="MM/AA"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView29"
+                app:layout_constraintEnd_toStartOf="@id/txtCVV"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/txtCVV"/>
+                app:layout_constraintTop_toBottomOf="@id/textView29" />
 
             <TextView
                 android:id="@+id/textView30"
@@ -229,6 +236,36 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <EditText
+                android:id="@+id/txtSalida"
+                android:layout_width="180dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/edittext_background"
+                android:editable="false"
+                android:hint="Selecciona fecha"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/txtEntradaSalida"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="108dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins"
+                android:text="Salida"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/textView26"
+                app:layout_constraintTop_toBottomOf="@+id/txtDepartamento" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -116,7 +116,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
 
-                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
+                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?git "
 
                 val statement = conexion?.prepareStatement(query)
                 statement?.setString(1, correoIngreado)

@@ -1,9 +1,11 @@
 package RecyclerViewHelpers
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.activity_reserva
 import modelo.tbTipoHabitacion
 
 class AdaptorTipoHabitacion (val Datos : List<tbTipoHabitacion>) : RecyclerView.Adapter<ViewHolderTipoHabitacion>() {
@@ -20,7 +22,10 @@ class AdaptorTipoHabitacion (val Datos : List<tbTipoHabitacion>) : RecyclerView.
         holder.txtPrecioTipoHabitacion.text = "$${item.precio}"
 
         holder.btnVerMas.setOnClickListener {
-            // Implementar la acción al hacer clic en "Ver más"
-        }
+            val context = holder.itemView.context
+            val intent = Intent(context, activity_reserva::class.java).apply {
+                putExtra("id_tipo_habitacion", item.id_tipo_habitacion) // Pasa el ID del tipo de habitación
+            }
+            context.startActivity(intent)        }
     }
 }
