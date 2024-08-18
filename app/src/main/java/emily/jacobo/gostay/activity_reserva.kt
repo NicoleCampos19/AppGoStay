@@ -17,7 +17,12 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
+import modelo.tbDepartamentos
 
 
 class activity_reserva : AppCompatActivity() {
@@ -37,8 +42,8 @@ class activity_reserva : AppCompatActivity() {
         }
 
         //#queremoscodigolimpio
-        setupDepartamentoSpinner()
         setupCantidadSpinner()
+        val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
         val idTipoHabitacion = intent.getIntExtra("id_tipo_habitacion", -1)
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
         val txtCorreoInciarSesionV = activity_iniciar_sesion.txtCorreoInciarSesionV
@@ -102,40 +107,44 @@ class activity_reserva : AppCompatActivity() {
 
 
 
-
-
-
-
-
-    }
-
-    fun getDepartamentosFromDatabase(): List<String> {
-        val departamentoList = mutableListOf<String>()
-        val query = "SELECT nombre_departamento FROM tbDepartamentos"
-
-        try {
+        fun obtenerDepartamentos(): List<tbDepartamentos> {
             val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.use { connection ->
-                val statement = connection.prepareStatement(query)
-                statement.use { preparedStatement ->
-                    val resultSet = preparedStatement.executeQuery()
-                    resultSet.use { rs ->
-                        while (rs.next()) {
-                            val nombreDepartamento = rs.getString("nombre_departamento")
-                            departamentoList.add(nombreDepartamento)
-                        }
-                    }
-                }
+            val statement = objConexion?.createStatement()
+            val resultSet = statement?.executeQuery("select * from tbDepartamentos")!!
+            val listaDepartamentos = mutableListOf<tbDepartamentos>()
+            while (resultSet.next()) {
+                val id_departamento = resultSet.getInt("id_departamento")
+                val nombre_departamento = resultSet.getString("nombre_departamento")
+
+                val valoresJuntos = tbDepartamentos(id_departamento, nombre_departamento)
+                listaDepartamentos.add(valoresJuntos)
+
+
             }
-        } catch (e: Exception) {
-            e.printStackTrace() // Log the exception to debug
+            return listaDepartamentos
         }
 
-        return departamentoList
+        CoroutineScope(Dispatchers.IO).launch {
+            val listaDepartamentos = obtenerDepartamentos()
+            val nombresDepartamentos = listaDepartamentos.map { it.nombre_departamento }
+
+            withContext(Dispatchers.Main) {
+                val adapter = ArrayAdapter(this@activity_reserva, android.R.layout.simple_spinner_dropdown_item, nombresDepartamentos)
+
+
+                spDepartamento.adapter = adapter
+            }
+        }
+
+
+
+
     }
 
+
+
     private fun setupCantidadSpinner() {
-        val spinner = findViewById<Spinner>(R.id.txtCantidadH)
+        val spinner = findViewById<Spinner>(R.id.spCantidadH)
 
         // Lista de números del 1 al 5
         val cantidadList = listOf(1, 2, 3, 4, 5)
@@ -150,19 +159,6 @@ class activity_reserva : AppCompatActivity() {
         spinner.adapter = adapter
     }
 
-    private fun setupDepartamentoSpinner() {
-        val spinner = findViewById<Spinner>(R.id.txtDepartamento)
-
-        // Recupera los datos desde la base de datos
-        val departamentoList = getDepartamentosFromDatabase()
-
-        // Crea un ArrayAdapter con los datos recuperados
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, departamentoList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        // Configura el adaptador al Spinner
-        spinner.adapter = adapter
-    }
 
     private fun hideKeyboard() {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager

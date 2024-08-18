@@ -73,21 +73,21 @@
                 app:layout_constraintTop_toBottomOf="@id/textView23" />
 
             <Spinner
-                android:id="@+id/txtCantidadH"
+                android:id="@+id/spCantidadH"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/spinner_background"
                 app:layout_constraintTop_toBottomOf="@id/textView24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/txtDepartamento"/>
+                app:layout_constraintEnd_toStartOf="@id/spDepartamento"/>
 
             <Spinner
-                android:id="@+id/txtDepartamento"
+                android:id="@+id/spDepartamento"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/spinner_background"
                 app:layout_constraintTop_toBottomOf="@id/textView25"
-                app:layout_constraintStart_toEndOf="@id/txtCantidadH"
+                app:layout_constraintStart_toEndOf="@id/spCantidadH"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
@@ -100,7 +100,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtCantidadH" />
+                app:layout_constraintTop_toBottomOf="@id/spCantidadH" />
 
             <EditText
                 android:id="@+id/txtEntradaSalida"
@@ -263,7 +263,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/textView26"
-                app:layout_constraintTop_toBottomOf="@+id/txtDepartamento" />
+                app:layout_constraintTop_toBottomOf="@+id/spDepartamento" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
