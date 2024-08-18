@@ -43,6 +43,7 @@ class activity_reserva : AppCompatActivity() {
 
         //#queremoscodigolimpio
         setupCantidadSpinner()
+        val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
         val idTipoHabitacion = intent.getIntExtra("id_tipo_habitacion", -1)
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
@@ -81,7 +82,6 @@ class activity_reserva : AppCompatActivity() {
             if (source.matches(Regex("\\d*"))) null else ""
         })
 
-        val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         btnSiguiente.setOnClickListener {
             val entrada = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(txtEntradaSalida.text.toString())
             val salida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(txtSalida.text.toString())
@@ -103,6 +103,10 @@ class activity_reserva : AppCompatActivity() {
             }
 
             // Procesar el formulario aquí
+
+
+
+
         }
 
 
