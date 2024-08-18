@@ -122,10 +122,12 @@
             android:exported="false" />
         <activity
             android:name=".Splash_Screen"
-
             android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
         <activity
             android:name=".Reservas"
             android:exported="false" />
@@ -143,16 +145,9 @@
             android:exported="false" />
         <activity
             android:name=".activity_registrarse"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_registrarse"
-            android:theme="@style/Theme.GoStay"
-
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.GoStay"/>
         <activity
             android:name=".CreacionContrasenaActivity"
             android:exported="false" />
