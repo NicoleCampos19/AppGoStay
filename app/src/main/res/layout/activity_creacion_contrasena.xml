@@ -22,7 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imvAtrasc"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/dos">
+        app:lottie_rawRes="@raw/creacion">
 
     </com.airbnb.lottie.LottieAnimationView>
 
