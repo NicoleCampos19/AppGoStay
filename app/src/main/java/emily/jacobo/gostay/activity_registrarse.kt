@@ -289,6 +289,8 @@ class activity_registrarse : AppCompatActivity() {
             startActivity(volverAtras)
         }
 
+        val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
+
         imvVerContra1.setOnClickListener {
             if (isPasswordVisible) {
                 // Si la contraseña es visible, la ocultamos y cambiamos la imagen
@@ -297,19 +299,25 @@ class activity_registrarse : AppCompatActivity() {
             } else {
                 // Si la contraseña está oculta, la mostramos y cambiamos la imagen
                 txtContraI.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                imvVerContra1.setImageResource(R.drawable.ojo) // Cambia a la imagen de "ojo abierto"
+                imvVerContra1.setImageResource(R.drawable.ojo)
             }
+            // Reaplica la fuente personalizada
+            txtContraI.typeface = poppinsFont
             isPasswordVisible = !isPasswordVisible
         }
 
         imvVerContra2.setOnClickListener {
             if (isPasswordVisible) {
+                // Si la contraseña es visible, la ocultamos y cambiamos la imagen
                 txtConfirmarContraRegis.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 imvVerContra2.setImageResource(R.drawable.ojocerrado)
             } else {
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
                 txtConfirmarContraRegis.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 imvVerContra2.setImageResource(R.drawable.ojo)
             }
+            // Reaplica la fuente personalizada
+            txtConfirmarContraRegis.typeface = poppinsFont
             isPasswordVisible = !isPasswordVisible
         }
     }

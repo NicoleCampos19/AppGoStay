@@ -166,18 +166,30 @@ class activity_iniciar_sesion : AppCompatActivity() {
             startActivity(volverAtras)
         }
 
+        val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
+
+
+        txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        txtContrasenaIniciarSesion.typeface = poppinsFont
+
         imvVerContra3.setOnClickListener {
             if (isPasswordVisible) {
-                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
-                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                imvVerContra3.setImageResource(R.drawable.ojo) // Cambia a la imagen de "ojo abierto"
-            } else {
                 // Si la contraseña es visible, la ocultamos y cambiamos la imagen
                 txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 imvVerContra3.setImageResource(R.drawable.ojocerrado)
+            } else {
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
+                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerContra3.setImageResource(R.drawable.ojo)
             }
+            // Reaplica la fuente personalizada
+            txtContrasenaIniciarSesion.typeface = poppinsFont
             isPasswordVisible = !isPasswordVisible
         }
+
+
+
+
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
