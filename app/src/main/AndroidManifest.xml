@@ -29,7 +29,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activity_confirmacionReserva"
+            android:exported="false" />
         <activity
             android:name=".VerMasDenuncias"
             android:exported="false" />
@@ -54,7 +56,6 @@
             android:name=".RealizarDenuncia"
             android:exported="false" />
         <activity
-
             android:name=".TusComentarios"
             android:exported="false" />
         <activity
@@ -122,9 +123,10 @@
             android:exported="false" />
         <activity
             android:name=".Splash_Screen"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -147,7 +149,7 @@
             android:name=".activity_registrarse"
             android:exported="false"
             android:label="@string/title_activity_registrarse"
-            android:theme="@style/Theme.GoStay"/>
+            android:theme="@style/Theme.GoStay" />
         <activity
             android:name=".CreacionContrasenaActivity"
             android:exported="false" />
@@ -159,7 +161,7 @@
             android:exported="false" />
         <activity
             android:name=".Perfil"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>
