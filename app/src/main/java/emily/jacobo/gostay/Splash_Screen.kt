@@ -27,7 +27,6 @@ class Splash_Screen : AppCompatActivity() {
             delay(1500)
             //Inicia la activity
             startActivity(Intent(this@Splash_Screen, Bienvenida::class.java))
-            overridePendingTransition(0, 0)
             //Para que no se pueda volver atrás la activity
             finish()
         }

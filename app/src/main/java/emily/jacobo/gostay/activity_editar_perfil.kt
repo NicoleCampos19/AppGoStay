@@ -1,8 +1,10 @@
 package emily.jacobo.gostay
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,7 +18,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
+import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.imageView
+import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.miPath
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,9 +36,15 @@ import java.util.UUID
 
 class activity_editar_perfil : AppCompatActivity() {
 
+    val codigo_opcion_galeria = 102
+    val codigo_opcion_tomar_foto = 103
+    val CAMERA_REQUEST_CODE = 0
+    val STORAGE_REQUEST_CODE = 1
+
     lateinit var correoActual: String
     lateinit var contrasenaActual: String
     lateinit var txtNewContraP: String
+    lateinit var NuevaFoto: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +55,8 @@ class activity_editar_perfil : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        NuevaFoto = activity_registrarse.variableGloalLogin.imageView
 
         //  variables del companion object de activity_iniciar_sesion
         correoActual = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
@@ -60,6 +73,7 @@ class activity_editar_perfil : AppCompatActivity() {
         btnGuardarPerfil.setOnClickListener{
 
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil).text.toString()
+            val bitmap = (NuevaFoto.drawable as BitmapDrawable).bitmap // Convertir la imagen en un Bitmap
 
             // Actualizar el correo y la contraseña utilizando las funciones ya definidas
             actualizarCorreo(nuevoCorreo, correoActual)
@@ -67,9 +81,19 @@ class activity_editar_perfil : AppCompatActivity() {
 
 
 
+            // Subir la imagen a Firebase y luego actualizar la URL en la base de datos
+            actualizarImagenFirebase(this, bitmap) { imageUrl ->
+                actualizarImagenUrlEnBD(correoActual, imageUrl)
+            }
 
-           /* val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
-            startActivity(siguientepantalla)*/
+
+            
+
+
+
+
+            /* val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+             startActivity(siguientepantalla)*/
 
 
         }
@@ -84,6 +108,54 @@ class activity_editar_perfil : AppCompatActivity() {
         }
 
     }
+
+private fun actualizarImagenFirebase(context: Context, bitmap: Bitmap, onSuccess: (String) -> Unit) {
+    val storageRef = FirebaseStorage.getInstance().reference
+    val imageRef = storageRef.child("images/${UUID.randomUUID()}.jpg")
+    val baos = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+    val data = baos.toByteArray()
+    val uploadTask = imageRef.putBytes(data)
+
+    uploadTask.addOnFailureListener { exception ->
+        Toast.makeText(context, "Error al actualizar la imagen: ${exception.message}", Toast.LENGTH_SHORT).show()
+    }.addOnSuccessListener {
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            onSuccess(uri.toString())
+        }.addOnFailureListener { exception ->
+            Toast.makeText(context, "Error al obtener la URL de la imagen: ${exception.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+private fun actualizarImagenUrlEnBD(correoActual: String, imageUrl: String) {
+    CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val objConexion = ClaseConexion().cadenaConexion()
+            if (objConexion != null) {
+                val query = "UPDATE tbUsuarios SET imgFoto = ? WHERE correo = ?"
+                val preparedStatement: PreparedStatement = objConexion.prepareStatement(query)
+                preparedStatement.setString(1, imageUrl)
+                preparedStatement.setString(2, correoActual)
+                preparedStatement.executeUpdate()
+                preparedStatement.close()
+
+                val commit = objConexion.prepareStatement("commit")
+                commit.executeUpdate()
+                objConexion.close()
+            } else {
+                println("No se pudo conectar a la base de datos")
+            }
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+    }
+}
+
+
+
+
+
 
 fun hashSHA256(contrasenaEscrita: String): String {
     val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
@@ -132,7 +204,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
         try {
             val objConexion = ClaseConexion().cadenaConexion()
             if (objConexion != null) {
-
+            println("este es el correo con el que hago ele select $correoActual")
                 // Verificar si el correo actual existe en la base de datos
                 val selectQuery = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
                 val selectStatement = objConexion.prepareStatement(selectQuery)
@@ -153,8 +225,6 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
                     val commit = objConexion.prepareStatement("commit")
                     commit.executeUpdate()
-                    objConexion.close()
-
                 } else {
                     println("No se encontró ningún usuario con el correo: $correoActual")
                 }
@@ -172,5 +242,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
     }
 }
+
+
 
 
