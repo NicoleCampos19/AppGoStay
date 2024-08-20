@@ -28,26 +28,28 @@ class activity_confirmacionReserva : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        tvEntradaR = findViewById(R.id.tvEntradaDate)
-        tvSalidaR = findViewById(R.id.tvSalidaDate)
+        //recividos de verdad XD
+        val cvv = activity_reserva.cvv
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
 
-        //trayendo los intents
 
+
+        //no recividos cambiar a variable global
+        tvEntradaR = findViewById(R.id.tvEntradaDate)
+        tvSalidaR = findViewById(R.id.tvSalidaDate)
         val idTipoHabitacion = intent.getIntExtra("id_tipo_habitacion", -1)
         val numeroTarjeta = intent.getStringExtra("numero_tarjeta")
         val nombreTitular = intent.getStringExtra("nombre_titular")
-        val cvv = intent.getStringExtra("cvv")
-        Log.d("activity_confirmacionReserva", "CVV recibido: $cvv")
         val entrada = intent.getStringExtra("entrada")
         val salida = intent.getStringExtra("salida")
         val idDepartamento = intent.getIntExtra("id_departamento", -1)
         val fechaCaducidad = intent.getStringExtra("fechaCaducidad")
         val idUsuario = intent.getIntExtra("id_usuario", -1)
-
         val nombreUsuario = intent.getStringExtra("nombre_usuario")
 
+
+
+        //funciones
         fun buscarDireccionHotelPorId(idHotel: Int): String? {
             var direccionHotel: String? = null
             val query = "SELECT direccion FROM tbHoteles WHERE id_hoteles = ?"
@@ -118,18 +120,12 @@ class activity_confirmacionReserva : AppCompatActivity() {
 
 
         //mostrar
-        findViewById<TextView>(R.id.tvHotelName).text = nombreHotel
-        findViewById<TextView>(R.id.tvHotelAddress).text = direccionHotel
-        tvEntradaR.text = entrada
-        tvSalidaR.text = salida
-        findViewById<TextView>(R.id.tvSeleccionDetails).text = buscarNombreTipoHabitacionPorId(idTipoHabitacion)
-        findViewById<TextView>(R.id.tvReservaNombre).text = nombreUsuario
 
 
 
 
-        //findViewById<TextView>(R.id.tvSeleccionDetails).text = tipoHabitacion
-        //findViewById<TextView>(R.id.tvTotalAmount).text = "$$total"
+
+        
 
     }
 }

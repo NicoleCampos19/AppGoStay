@@ -28,6 +28,10 @@ import modelo.tbDepartamentos
 
 class activity_reserva : AppCompatActivity() {
 
+    companion object {
+        var cvv: String? = null
+    }
+
     private lateinit var txtNumeroTarjeta: EditText
     private lateinit var txtEntrada: EditText
     private lateinit var txtSalida: EditText
@@ -119,16 +123,16 @@ class activity_reserva : AppCompatActivity() {
             val fechaCaducidad = txtFechaCaducidad.text.toString()
             val numeroTarjeta = txtNumeroTarjeta.text.toString()
             val nombreTitular = txtNombreTitular.text.toString()
-            val cvv = txtCvv.text.toString()
+            cvv = findViewById<EditText>(R.id.txtCVV).text.toString()
+
 
 
             if (entrada.isNotEmpty() && salida.isNotEmpty() && fechaCaducidad.isNotEmpty()&&
-                numeroTarjeta.isNotEmpty() && nombreTitular.isNotEmpty() && cvv.length == 3) {
+                numeroTarjeta.isNotEmpty() && nombreTitular.isNotEmpty()) {
                 val intent = Intent(this, activity_confirmacionReserva::class.java).apply {
                     intent.putExtra("id_tipo_habitacion", idTipoHabitacion)
                     intent.putExtra("numero_tarjeta", numeroTarjeta)
                     intent.putExtra("nombre_titular", nombreTitular)
-                    intent.putExtra("cvv", cvv)
                     intent.putExtra("id_departamento", idDepartamento)
                     intent.putExtra("entrada", entrada)
                     intent.putExtra("salida", salida)

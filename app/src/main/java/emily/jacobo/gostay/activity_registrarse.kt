@@ -76,6 +76,7 @@ class activity_registrarse : AppCompatActivity() {
         }
 
         //Mando a llamar todos los elementos
+        val tipousuario: Int = 1
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtIniciarsesion = findViewById<TextView>(R.id.txtIniciaSesion)
         val txtNombre = findViewById<TextView>(R.id.txtNombre)
@@ -152,6 +153,7 @@ class activity_registrarse : AppCompatActivity() {
             }
             //Para el campo de nombre
         btnRegistrarse.setOnClickListener {
+            val idTipoUsuario = tipousuario
             val nombre = txtNombre.text.toString()
             val apellido = txtApellido.text.toString()
             val telefono = txtTelefono.text.toString()
@@ -239,14 +241,15 @@ class activity_registrarse : AppCompatActivity() {
                     val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
 
                     val crearUsuario =
-                        objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre, apellido, fecha_nacimiento, correo, telefono, contraseña, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?)")!!
+                        objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")!!
                     crearUsuario.setString(1, txtNombre.text.toString())
                     crearUsuario.setString(2, txtApellido.text.toString())
                     crearUsuario.setString(3, txtFechaNacimiento.text.toString())
                     crearUsuario.setString(4, txtCorreoI.text.toString())
                     crearUsuario.setString(5, txtTelefono.text.toString())
                     crearUsuario.setString(6, contrasenaEncriptada)
-                    crearUsuario.setString(7, imageView.toString())
+                    crearUsuario.setInt(7, idTipoUsuario)
+                    crearUsuario.setString(8, imageView.toString())
                     crearUsuario.executeUpdate()
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
