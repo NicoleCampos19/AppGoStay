@@ -40,17 +40,18 @@
         app:layout_constraintVertical_bias="0.03"
         app:srcCompat="@drawable/ic_back" />
 
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="300dp"
         android:layout_height="414dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.442"
+        app:layout_constraintVertical_bias="0.446"
         app:srcCompat="@drawable/cuadrotransparente" />
-
 
     <TextView
         android:id="@+id/textView14"
@@ -121,7 +122,7 @@
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:hint="Contraseña"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -166,6 +167,6 @@
         app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="@+id/txtContrasenaIniciarSesion"
         app:layout_constraintTop_toTopOf="@+id/txtContrasenaIniciarSesion"
-        app:srcCompat="@drawable/ojo" />
+        app:srcCompat="@drawable/ojocerrado" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

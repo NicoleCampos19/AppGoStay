@@ -1,6 +1,7 @@
 package emily.jacobo.gostay
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.InputMethodManager
@@ -26,10 +27,23 @@ import modelo.tbDepartamentos
 
 
 class activity_reserva : AppCompatActivity() {
-    private lateinit var txtEntradaSalida: EditText
-    private lateinit var txtSalida: EditText
-    private lateinit var txtFechaCaducidad: EditText
-    private lateinit var txtCVV: EditText
+
+    companion object {
+        var cvv: Int? = null
+        var fechaCaducidad: String? = null
+        var numeroTarjeta: String? = null
+        var nombreTitular: String? = null
+        var fechaEntrada: String? = null
+        var fechaSalida: String? = null
+        lateinit  var departamento: String
+    }
+
+
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -41,25 +55,30 @@ class activity_reserva : AppCompatActivity() {
             insets
         }
 
+
+
+
+
+
         //#queremoscodigolimpio
         setupCantidadSpinner()
+
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
+        val txtFechaCaducidad = findViewById<EditText>(R.id.txtFechaCaducidad)
+
+        val txtEntrada = findViewById<EditText>(R.id.txtEntrada)
+        val txtSalida = findViewById<EditText>(R.id.txtSalida)
+
         val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
-        val idTipoHabitacion = intent.getIntExtra("id_tipo_habitacion", -1)
-        val idHotelRecivido = PaginaInicio.hotelIdGlobal
-        val txtCorreoInciarSesionV = activity_iniciar_sesion.txtCorreoInciarSesionV
 
 
 
-        txtEntradaSalida = findViewById(R.id.txtEntradaSalida)
-        txtSalida = findViewById(R.id.txtSalida)
-        txtFechaCaducidad = findViewById(R.id.txtFechaCaducidad)
-        txtCVV = findViewById(R.id.txtCVV)
+
 
         // Configura el DatePickerDialog para la fecha de entrada
-        txtEntradaSalida.setOnClickListener {
+        txtEntrada.setOnClickListener {
             showDatePickerDialog { date ->
-                txtEntradaSalida.setText(date)
+                txtEntrada.setText(date)
             }
         }
 
@@ -78,33 +97,23 @@ class activity_reserva : AppCompatActivity() {
         }
 
         // Valida el CVV para permitir solo números
-        txtCVV.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            if (source.matches(Regex("\\d*"))) null else ""
-        })
+
 
         btnSiguiente.setOnClickListener {
-            val entrada = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(txtEntradaSalida.text.toString())
-            val salida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(txtSalida.text.toString())
-            val fechaActual = Calendar.getInstance().time
+            departamento = spDepartamento.selectedItem.toString()
+            fechaCaducidad = txtFechaCaducidad.text.toString()
+            cvv = findViewById<EditText>(R.id.txtCVV).text.toString().toIntOrNull()
+            numeroTarjeta = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
+            nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
+            fechaEntrada = txtEntrada.text.toString()
+            fechaSalida = txtSalida.text.toString()
 
-            if (entrada == null || salida == null) {
-                showToast("Por favor seleccione ambas fechas.")
-                return@setOnClickListener
+            if (txtFechaCaducidad.text.isNotEmpty()) {
+                val intent = Intent(this, activity_confirmacionReserva::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Algunos campos estan mal ingresados o vacios", Toast.LENGTH_SHORT).show()
             }
-
-            if (entrada < fechaActual) {
-                showToast("La fecha de entrada no puede ser menor a la fecha actual.")
-                return@setOnClickListener
-            }
-
-            if (salida <= entrada) {
-                showToast("La fecha de salida debe ser después de la fecha de entrada.")
-                return@setOnClickListener
-            }
-
-            // Procesar el formulario aquí
-
-
 
 
         }
@@ -147,6 +156,14 @@ class activity_reserva : AppCompatActivity() {
 
 
 
+
+
+
+
+
+
+
+
     private fun setupCantidadSpinner() {
         val spinner = findViewById<Spinner>(R.id.spCantidadH)
 
@@ -164,16 +181,9 @@ class activity_reserva : AppCompatActivity() {
     }
 
 
-    private fun hideKeyboard() {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        val view = currentFocus
-        if (view != null) {
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
+
 
     private fun showDatePickerDialog(onDateSet: (String) -> Unit) {
-        hideKeyboard() // Oculta el teclado antes de mostrar el DatePickerDialog
 
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -196,9 +206,6 @@ class activity_reserva : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
 
 
 }

@@ -24,6 +24,8 @@ class PaginaInicio : AppCompatActivity() {
 
     companion object {
         var hotelIdGlobal: Int? = null
+        var nombreUsuarioGlobalL: String? = null
+        var idUsuarioGlobalL: Int? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +76,10 @@ class PaginaInicio : AppCompatActivity() {
 
         val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
         rcvHotel.layoutManager = LinearLayoutManager(this)
-
+        val idUsuario = buscarIdUsuarioPorCorreo(activity_iniciar_sesion.txtCorreoInciarSesionV)
+        val nombreUsuario = buscarNombreUsuarioPorCorreo(activity_iniciar_sesion.txtCorreoInciarSesionV)
+        idUsuarioGlobalL = idUsuario
+        nombreUsuarioGlobalL = nombreUsuario
 
         fun obtenerHoteles(): List<tbHotel>{
 
@@ -167,6 +172,49 @@ class PaginaInicio : AppCompatActivity() {
 
 
 
+    }
+    private fun buscarNombreUsuarioPorCorreo(correo: String): String? {
+        var nombreUsuario: String? = null
+        val query = "SELECT nombre FROM tbUsuarios WHERE correo = ?"
+        try {
+            val objConexion = ClaseConexion().cadenaConexion()
+            objConexion?.use { connection ->
+                val statement = connection.prepareStatement(query).apply {
+                    setString(1, correo)
+                }
+                statement.use { preparedStatement ->
+                    val resultSet = preparedStatement.executeQuery()
+                    if (resultSet.next()) {
+                        nombreUsuario = resultSet.getString("nombre")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace() // Log the exception to debug
+        }
+        return nombreUsuario
+    }
+
+    private fun buscarIdUsuarioPorCorreo(correo: String): Int {
+        var idUsuario = -1
+        val query = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
+        try {
+            val objConexion = ClaseConexion().cadenaConexion()
+            objConexion?.use { connection ->
+                val statement = connection.prepareStatement(query).apply {
+                    setString(1, correo)
+                }
+                statement.use { preparedStatement ->
+                    val resultSet = preparedStatement.executeQuery()
+                    if (resultSet.next()) {
+                        idUsuario = resultSet.getInt("id_usuario")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace() // Log the exception to debug
+        }
+        return idUsuario
     }
 
     }

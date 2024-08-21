@@ -74,7 +74,7 @@
         app:srcCompat="@drawable/cuadro_celeste_perfil" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imvPerfilRegis"
+        android:id="@+id/imvPerfilUsu"
         android:layout_width="141dp"
         android:layout_height="139dp"
         app:layout_constraintBottom_toBottomOf="parent"
