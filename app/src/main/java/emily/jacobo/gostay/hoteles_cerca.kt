@@ -10,11 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -22,6 +26,7 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
 
     companion object {
         const val LOCATION_REQUEST_CODE = 0
@@ -34,6 +39,20 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         createFragment()
+
+        //Para poder recibir actualizaciones en tiempo real
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                for (location in locationResult.locations) {
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+
+                    //Para actualizar la lista de hoteles cercanos cada vez que la ubicación cambia
+                    showNearbyHotels(currentLatLng)
+                }
+            }
+        }
     }
 
     private fun createFragment() {
@@ -44,7 +63,6 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        // Habilitar la ubicación del usuario solo si los permisos están otorgados
         if (isPermissionsGranted()) {
             enableMyLocation()
         } else {
@@ -70,11 +88,10 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
-        // Verifica nuevamente si el mapa está inicializado y los permisos están concedidos
         if (isPermissionsGranted()) {
             if (::map.isInitialized) {
                 map.isMyLocationEnabled = true
-                getCurrentLocation()
+                startLocationUpdates()
             } else {
                 Toast.makeText(this, "El mapa aún no está listo", Toast.LENGTH_SHORT).show()
             }
@@ -84,23 +101,48 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun getCurrentLocation() {
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-
-                findNearbyHotels(currentLatLng)
-            } else {
-                Toast.makeText(this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show()
-            }
+    private fun startLocationUpdates() {
+        val locationRequest = LocationRequest.create().apply {
+            //Para recibir actualizaciones (10 segundos)
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
-    private fun findNearbyHotels(currentLatLng: LatLng) {
-        // Implementación de búsqueda de hoteles cercanos
-        val nearbyHotel = LatLng(currentLatLng.latitude + 0.01, currentLatLng.longitude + 0.01)
-        map.addMarker(MarkerOptions().position(nearbyHotel).title("Hotel cercano"))
+    // Método para mostrar los hoteles cercanos con el nombre de cada hotel
+    private fun showNearbyHotels(currentLatLng: LatLng) {
+        // Aquí defines las coordenadas y nombres de tus hoteles
+        val decameron = Triple(13.5330896050397, -89.81663359936928, "Royal Decameron Salinitas")
+        val sheraton = Triple(13.532000, -89.817000, "Sheraton Presidente")
+        val oasis = Triple(13.534000, -89.818000, "Hotel Oasis")
+        val intercontinental = Triple(13.534000, -89.818000, "Real Intercontinental")
+        val resort = Triple(13.534000, -89.818000, "Las Flores Resort")
+
+        val hotels = listOf(
+            LatLng(decameron.first, decameron.second) to decameron.third,
+            LatLng(sheraton.first, sheraton.second) to sheraton.third,
+            LatLng(oasis.first, oasis.second) to oasis.third,
+            LatLng(intercontinental.first, intercontinental.second) to intercontinental.third,
+            LatLng(resort.first, resort.second) to resort.third
+        )
+
+        map.clear()
+
+        // Agrega un marcador para cada hotel en el nombre que se le puso anteriormente
+        for (hotel in hotels) {
+            map.addMarker(
+                MarkerOptions()
+                    .position(hotel.first)
+                    .title(hotel.second) // Título del hotel
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            )
+        }
+
+        // Ajusta la cámara para mostrar los hoteles
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
     }
 
     override fun onRequestPermissionsResult(
@@ -109,7 +151,6 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
         when (requestCode) {
             LOCATION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Asegúrate de que el mapa está inicializado
                     if (::map.isInitialized) {
                         enableMyLocation()
                     } else {
@@ -123,4 +164,9 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // Detener las actualizaciones de ubicación cuando se salga de la activity
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
 }
