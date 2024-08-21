@@ -29,15 +29,17 @@ import modelo.tbDepartamentos
 class activity_reserva : AppCompatActivity() {
 
     companion object {
-        var cvv: String? = null
+        var cvv: Int? = null
+        var fechaCaducidad: String? = null
+        var numeroTarjeta: String? = null
+        var nombreTitular: String? = null
+        var fechaEntrada: String? = null
+        var fechaSalida: String? = null
+        lateinit  var departamento: String
     }
 
-    private lateinit var txtNumeroTarjeta: EditText
-    private lateinit var txtEntrada: EditText
-    private lateinit var txtSalida: EditText
-    private lateinit var txtFechaCaducidad: EditText
-    private lateinit var txtNombreTitular: EditText
-    private lateinit var txtCvv: EditText
+
+
 
 
 
@@ -62,32 +64,12 @@ class activity_reserva : AppCompatActivity() {
         setupCantidadSpinner()
 
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
+        val txtFechaCaducidad = findViewById<EditText>(R.id.txtFechaCaducidad)
+
+        val txtEntrada = findViewById<EditText>(R.id.txtEntrada)
+        val txtSalida = findViewById<EditText>(R.id.txtSalida)
+
         val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
-        val idTipoHabitacion = intent.getIntExtra("id_tipo_habitacion", -1)
-        val txtCorreoInciarSesionV = activity_iniciar_sesion.txtCorreoInciarSesionV
-
-        val idHotel = PaginaInicio.hotelIdGlobal
-        val idDepartamento = spDepartamento.selectedItemPosition
-
-        txtCvv = findViewById(R.id.txtCVV)
-        txtNombreTitular = findViewById(R.id. txtNombreTitular)
-        txtNumeroTarjeta = findViewById(R.id.txtNumeroTarjeta)
-        txtEntrada = findViewById(R.id.txtEntrada)
-        txtSalida  = findViewById(R.id.txtSalida)
-        txtFechaCaducidad = findViewById(R.id.txtFechaCaducidad)
-
-
-        val nombreUsuario = buscarNombreUsuarioPorCorreo(txtCorreoInciarSesionV)
-        val idUsuario = buscarIdUsuarioPorCorreo(txtCorreoInciarSesionV)
-
-
-
-
-
-
-
-
-
 
 
 
@@ -118,29 +100,16 @@ class activity_reserva : AppCompatActivity() {
 
 
         btnSiguiente.setOnClickListener {
-            val entrada = txtEntrada.text.toString()
-            val salida = txtSalida.text.toString()
-            val fechaCaducidad = txtFechaCaducidad.text.toString()
-            val numeroTarjeta = txtNumeroTarjeta.text.toString()
-            val nombreTitular = txtNombreTitular.text.toString()
-            cvv = findViewById<EditText>(R.id.txtCVV).text.toString()
+            departamento = spDepartamento.selectedItem.toString()
+            fechaCaducidad = txtFechaCaducidad.text.toString()
+            cvv = findViewById<EditText>(R.id.txtCVV).text.toString().toIntOrNull()
+            numeroTarjeta = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
+            nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
+            fechaEntrada = txtEntrada.text.toString()
+            fechaSalida = txtSalida.text.toString()
 
-
-
-            if (entrada.isNotEmpty() && salida.isNotEmpty() && fechaCaducidad.isNotEmpty()&&
-                numeroTarjeta.isNotEmpty() && nombreTitular.isNotEmpty()) {
-                val intent = Intent(this, activity_confirmacionReserva::class.java).apply {
-                    intent.putExtra("id_tipo_habitacion", idTipoHabitacion)
-                    intent.putExtra("numero_tarjeta", numeroTarjeta)
-                    intent.putExtra("nombre_titular", nombreTitular)
-                    intent.putExtra("id_departamento", idDepartamento)
-                    intent.putExtra("entrada", entrada)
-                    intent.putExtra("salida", salida)
-                    intent.putExtra("fechaCaducidad", fechaCaducidad)
-                    intent.putExtra("id_usuario", idUsuario)
-
-                    intent.putExtra("nombre_usuario", nombreUsuario)
-                }
+            if (txtFechaCaducidad.text.isNotEmpty()) {
+                val intent = Intent(this, activity_confirmacionReserva::class.java)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Algunos campos estan mal ingresados o vacios", Toast.LENGTH_SHORT).show()
@@ -184,49 +153,16 @@ class activity_reserva : AppCompatActivity() {
 
 
     }
-    private fun buscarNombreUsuarioPorCorreo(correo: String): String? {
-        var nombreUsuario: String? = null
-        val query = "SELECT nombre FROM tbUsuarios WHERE correo = ?"
-        try {
-            val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.use { connection ->
-                val statement = connection.prepareStatement(query).apply {
-                    setString(1, correo)
-                }
-                statement.use { preparedStatement ->
-                    val resultSet = preparedStatement.executeQuery()
-                    if (resultSet.next()) {
-                        nombreUsuario = resultSet.getString("nombre")
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace() // Log the exception to debug
-        }
-        return nombreUsuario
-    }
 
-    private fun buscarIdUsuarioPorCorreo(correo: String): Int {
-        var idUsuario = -1
-        val query = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
-        try {
-            val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.use { connection ->
-                val statement = connection.prepareStatement(query).apply {
-                    setString(1, correo)
-                }
-                statement.use { preparedStatement ->
-                    val resultSet = preparedStatement.executeQuery()
-                    if (resultSet.next()) {
-                        idUsuario = resultSet.getInt("id_usuario")
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace() // Log the exception to debug
-        }
-        return idUsuario
-    }
+
+
+
+
+
+
+
+
+
 
     private fun setupCantidadSpinner() {
         val spinner = findViewById<Spinner>(R.id.spCantidadH)

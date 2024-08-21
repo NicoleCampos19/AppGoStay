@@ -9,6 +9,12 @@ import emily.jacobo.gostay.activity_reserva
 import modelo.tbTipoHabitacion
 
 class AdaptorTipoHabitacion (val Datos : List<tbTipoHabitacion>) : RecyclerView.Adapter<ViewHolderTipoHabitacion>() {
+
+    companion object{
+        var idTipoHabitacionGlobal = -1
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTipoHabitacion {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tipohabitacion, parent, false)
         return ViewHolderTipoHabitacion(view)
@@ -20,12 +26,11 @@ class AdaptorTipoHabitacion (val Datos : List<tbTipoHabitacion>) : RecyclerView.
         val item = Datos[position]
         holder.txtNombreTipoHabitacion.text = item.nombre
         holder.txtPrecioTipoHabitacion.text = "$${item.precio}"
+        idTipoHabitacionGlobal = item.id_tipo_habitacion
 
         holder.btnVerMas.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, activity_reserva::class.java).apply {
-                putExtra("id_tipo_habitacion", item.id_tipo_habitacion) // Pasa el ID del tipo de habitación
-            }
+            val intent = Intent(context, activity_reserva::class.java)
             context.startActivity(intent)        }
     }
 }
