@@ -44,6 +44,13 @@ class PaginaInicio : AppCompatActivity() {
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
+        val imgFiltros = findViewById<ImageView>(R.id.imgFiltros)
+
+        imgFiltros.setOnClickListener {
+            val siguientepantalla = Intent(this, filtros::class.java)
+            startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
+        }
 
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
