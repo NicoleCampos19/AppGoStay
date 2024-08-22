@@ -114,13 +114,8 @@ class activity_editar_perfil : AppCompatActivity() {
             }
 
 
-            
-
-
-
-
-            /* val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
-             startActivity(siguientepantalla)*/
+            val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+             startActivity(siguientepantalla)
 
 
         }

@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.ViewModelPerfil
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
@@ -26,8 +27,7 @@ import java.sql.SQLException
 
 class Perfil : AppCompatActivity() {
 
-    lateinit var imvFotoPerfil: ShapeableImageView
-    lateinit var perfilViewModel: PerfilViewModel
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class Perfil : AppCompatActivity() {
         }
 
         // Inicialización de vistas
-        imvFotoPerfil = findViewById(R.id.imvPerfilUsu)
+        val imvPerfilUsu = findViewById<ImageView>(R.id.imvPerfilUsu)
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscarb)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
@@ -60,23 +60,35 @@ class Perfil : AppCompatActivity() {
 
         val idUsuario = intent.getIntExtra("id_usuario", -1)
 
-        perfilViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
 
         val correoUsuario = activity_iniciar_sesion.correoIngresado
-        perfilViewModel.cargarImagen(correoUsuario)
 
-        // Observa los cambios en la URL de la imagen
-        perfilViewModel.urlImagen.observe(this) { url ->
-            if (url != null) {
-                // Usa Glide para cargar la imagen
-                Glide.with(this)
-                    .load(url)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imvFotoPerfil)
-            } else {
-                Log.e("PerfilActivity", "La URL de la imagen es nula.")
-            }
-        }
+
+        ViewModelPerfil.loadUserInfo(this)
+
+        /*
+        // Inicializa el ViewModelPerfil
+        val viewModelPerfil = ViewModelProvider(this).get(ViewModelPerfil::class.java)
+
+
+        // Observa los cambios en la imagen del perfil
+        viewModelPerfil.profilePicture.observe(this) { imageUrl ->
+            // Usa Glide para cargar la imagen
+            Glide.with(this)
+                .load(imageUrl)
+                .apply(RequestOptions().circleCrop()) // Ajusta el RequestOptions según tus necesidades
+                .into(imvPerfilUsu)
+        }*/
+
+        /*
+        ViewModelPerfil.profilePicture.observe(viewLifecycleOwner, {
+                profilePicture ->
+            Glide.with(this).load(profilePicture).into(imvPerfilUsu)
+        })*/
+
+        /* Carga la información del usuario
+        viewModelPerfil.loadUserInfo(this)*/
+
 
         // Configuración de click listeners
         setClickListener(imvComentario, TusComentarios::class.java, idUsuario)
@@ -94,7 +106,15 @@ class Perfil : AppCompatActivity() {
         setClickListener(imvFavorito, Favoritos::class.java, idUsuario)
         setClickListener(imvReseva, Reservas::class.java, idUsuario)
         setClickListener(imvPerfil, Perfil::class.java, idUsuario)
+
+
+
+
+
     }
+
+
+
 
     private fun <T> setClickListener(view: View, clazz: Class<T>, idUsuario: Int) {
         view.setOnClickListener {
@@ -104,6 +124,8 @@ class Perfil : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
     }
+
+
 }
 
 
