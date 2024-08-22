@@ -9,7 +9,6 @@
     android:padding="16dp">
 
 
-
     <androidx.cardview.widget.CardView
         android:layout_width="384dp"
         android:layout_height="614dp"
@@ -20,12 +19,11 @@
         app:cardElevation="4dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toTopOf="@id/btnConfirmar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Añadir un borde amarillo al CardView -->
         <androidx.constraintlayout.widget.ConstraintLayout
