@@ -42,6 +42,9 @@ class PaginaInicio : AppCompatActivity() {
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
 
+        val idUsuario = intent.getIntExtra("id_usuario", -1)
+        println("Usuario id ${idUsuario}")
+
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
             startActivity(siguientepantalla)
@@ -68,6 +71,7 @@ class PaginaInicio : AppCompatActivity() {
 
         imvPerfil.setOnClickListener {
             val siguientepantalla = Intent(this, Perfil::class.java)
+            siguientepantalla.putExtra("id_usuario", idUsuario)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
