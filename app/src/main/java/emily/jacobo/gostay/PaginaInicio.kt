@@ -3,6 +3,7 @@ package emily.jacobo.gostay
 import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -76,10 +77,16 @@ class PaginaInicio : AppCompatActivity() {
 
         val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
         rcvHotel.layoutManager = LinearLayoutManager(this)
-        val idUsuario = buscarIdUsuarioPorCorreo(activity_iniciar_sesion.txtCorreoInciarSesionV)
-        val nombreUsuario = buscarNombreUsuarioPorCorreo(activity_iniciar_sesion.txtCorreoInciarSesionV)
-        idUsuarioGlobalL = idUsuario
-        nombreUsuarioGlobalL = nombreUsuario
+
+
+        val correUsuarioRecivido = activity_iniciar_sesion.txtCorreoInciarSesionV
+        Log.d("ConfirmacionCorreo", "El correo del usuario es: $correUsuarioRecivido")
+        if (correUsuarioRecivido != null) {
+        obtenerNombreUsuarioEnGl(correUsuarioRecivido)
+        obteneridUsuarioEnGl(correUsuarioRecivido)
+        }
+
+
 
         fun obtenerHoteles(): List<tbHotel>{
 
@@ -173,49 +180,68 @@ class PaginaInicio : AppCompatActivity() {
 
 
     }
-    private fun buscarNombreUsuarioPorCorreo(correo: String): String? {
-        var nombreUsuario: String? = null
-        val query = "SELECT nombre FROM tbUsuarios WHERE correo = ?"
-        try {
-            val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.use { connection ->
-                val statement = connection.prepareStatement(query).apply {
-                    setString(1, correo)
-                }
-                statement.use { preparedStatement ->
-                    val resultSet = preparedStatement.executeQuery()
-                    if (resultSet.next()) {
-                        nombreUsuario = resultSet.getString("nombre")
-                    }
-                }
+    //buscar nombre usuario
+    private fun obtenerNombreUsuarioEnGl(correoUsuario: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val nombreUsuario = cargarNombreUsuario(correoUsuario)
+            withContext(Dispatchers.Main) {
+
+                nombreUsuarioGlobalL = nombreUsuario
+
             }
-        } catch (e: Exception) {
-            e.printStackTrace() // Log the exception to debug
         }
+    }
+    private fun cargarNombreUsuario(correoUsuario: String): String? {
+        var nombreUsuario: String? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT nombre FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            nombreUsuario = resultSet.getString("nombre")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
         return nombreUsuario
     }
 
-    private fun buscarIdUsuarioPorCorreo(correo: String): Int {
-        var idUsuario = -1
-        val query = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
-        try {
-            val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.use { connection ->
-                val statement = connection.prepareStatement(query).apply {
-                    setString(1, correo)
-                }
-                statement.use { preparedStatement ->
-                    val resultSet = preparedStatement.executeQuery()
-                    if (resultSet.next()) {
-                        idUsuario = resultSet.getInt("id_usuario")
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace() // Log the exception to debug
+//buscar id usuario
+    private fun obteneridUsuarioEnGl(correoUsuario: String) {
+    CoroutineScope(Dispatchers.IO).launch {
+        val idUsuario = cargaridUsuario(correoUsuario)
+        withContext(Dispatchers.Main) {
+
+       idUsuarioGlobalL = idUsuario
+
         }
+    }
+}
+    private fun cargaridUsuario(correoUsuario: String): Int? {
+        var idUsuario: Int? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT id_usuario FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            idUsuario = resultSet.getInt("id_usuario")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
         return idUsuario
     }
+
+
+
 
     }
 

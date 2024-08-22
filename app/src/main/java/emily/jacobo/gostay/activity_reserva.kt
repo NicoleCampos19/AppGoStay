@@ -36,6 +36,7 @@ class activity_reserva : AppCompatActivity() {
         var fechaEntrada: String? = null
         var fechaSalida: String? = null
         lateinit  var departamento: String
+        var idDepartamento: Int? = null
     }
 
 
@@ -108,11 +109,33 @@ class activity_reserva : AppCompatActivity() {
             fechaEntrada = txtEntrada.text.toString()
             fechaSalida = txtSalida.text.toString()
 
-            if (txtFechaCaducidad.text.isNotEmpty()) {
-                val intent = Intent(this, activity_confirmacionReserva::class.java)
-                startActivity(intent)
+
+
+
+            // Validación del número de tarjeta
+            if (numeroTarjeta!!.length < 16 || !numeroTarjeta!!.all { it.isDigit() }) {
+                Toast.makeText(this, "El número de tarjeta debe tener al menos 16 dígitos y solo debe contener números", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (txtFechaCaducidad.text.isNotEmpty() && departamento.isNotEmpty()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val idDepto = cargaridDepartamento(departamento) // Obtener el ID del departamento de manera síncrona
+
+                    withContext(Dispatchers.Main) {
+                        if (idDepto != null) {
+                            idDepartamento = idDepto
+                            // Si el idDepartamento se ha obtenido correctamente, procede a la siguiente Activity
+                            val intent = Intent(this@activity_reserva, activity_confirmacionReserva::class.java)
+                            startActivity(intent)
+                        } else {
+                            // Manejar el caso en el que no se pueda obtener el ID del departamento
+                            Toast.makeText(this@activity_reserva, "Error al obtener el ID del departamento", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             } else {
-                Toast.makeText(this, "Algunos campos estan mal ingresados o vacios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Algunos campos están mal ingresados o vacíos", Toast.LENGTH_SHORT).show()
             }
 
 
@@ -153,7 +176,35 @@ class activity_reserva : AppCompatActivity() {
 
 
     }
+    //buscar id departamento por nombre
+    private fun obteneridDepartamentoEnVal(departamento: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val idDepartamentoxd = cargaridDepartamento(departamento)
+            withContext(Dispatchers.Main) {
 
+                idDepartamento = idDepartamentoxd
+
+            }
+        }
+    }
+    private fun cargaridDepartamento(departamento: String): Int? {
+        var idDepartamento: Int? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT id_departamento FROM tbDepartamentos WHERE nombre_departamento = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, departamento)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            idDepartamento = resultSet.getInt("id_departamento")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return idDepartamento
+    }
 
 
 
