@@ -145,7 +145,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
 
                         withContext(Dispatchers.Main) {
                             // Redirigir a PaginaInicio si la inserción fue exitosa
-                            val intent = Intent(this@activity_confirmacionReserva, PaginaInicio::class.java)
+                            val intent = Intent(this@activity_confirmacionReserva, Reservas::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                         }

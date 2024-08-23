@@ -56,6 +56,7 @@ class hotel_detalles : AppCompatActivity() {
             navigateBack()
         }
 
+        val idUsuarioRecivido = PaginaInicio.idUsuarioGlobalL
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
         if (idHotel != -1) {

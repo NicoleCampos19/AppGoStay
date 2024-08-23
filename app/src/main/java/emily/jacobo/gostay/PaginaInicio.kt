@@ -39,6 +39,8 @@ class PaginaInicio : AppCompatActivity() {
             insets
         }
 
+
+
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscar)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
