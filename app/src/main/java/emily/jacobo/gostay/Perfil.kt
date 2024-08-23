@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.ViewModelPerfil
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
@@ -26,8 +27,7 @@ import java.sql.SQLException
 
 class Perfil : AppCompatActivity() {
 
-    lateinit var imvFotoPerfil: ShapeableImageView
-    lateinit var perfilViewModel: PerfilViewModel
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class Perfil : AppCompatActivity() {
         }
 
         // Inicialización de vistas
-        imvFotoPerfil = findViewById(R.id.imvPerfilUsu)
+        val imvPerfilUsu = findViewById<ImageView>(R.id.imvPerfilUsu)
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscarb)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
@@ -58,49 +58,74 @@ class Perfil : AppCompatActivity() {
         val txtComentarios = findViewById<TextView>(R.id.txtComentarios)
         val imvComentarios = findViewById<ImageView>(R.id.imvComentarios)
 
-        perfilViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
+        val idUsuario = intent.getIntExtra("id_usuario", -1)
+
 
         val correoUsuario = activity_iniciar_sesion.correoIngresado
-        perfilViewModel.cargarImagen(correoUsuario)
 
-        // Observa los cambios en la URL de la imagen
-        perfilViewModel.urlImagen.observe(this) { url ->
-            if (url != null) {
-                // Usa Glide para cargar la imagen
-                Glide.with(this)
-                    .load(url)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imvFotoPerfil)
-            } else {
-                Log.e("PerfilActivity", "La URL de la imagen es nula.")
-            }
-        }
+
+        ViewModelPerfil.loadUserInfo(this)
+
+        /*
+        // Inicializa el ViewModelPerfil
+        val viewModelPerfil = ViewModelProvider(this).get(ViewModelPerfil::class.java)
+
+
+        // Observa los cambios en la imagen del perfil
+        viewModelPerfil.profilePicture.observe(this) { imageUrl ->
+            // Usa Glide para cargar la imagen
+            Glide.with(this)
+                .load(imageUrl)
+                .apply(RequestOptions().circleCrop()) // Ajusta el RequestOptions según tus necesidades
+                .into(imvPerfilUsu)
+        }*/
+
+        /*
+        ViewModelPerfil.profilePicture.observe(viewLifecycleOwner, {
+                profilePicture ->
+            Glide.with(this).load(profilePicture).into(imvPerfilUsu)
+        })*/
+
+        /* Carga la información del usuario
+        viewModelPerfil.loadUserInfo(this)*/
+
 
         // Configuración de click listeners
-        setClickListener(imvComentario, TusComentarios::class.java)
-        setClickListener(imvComentarios, TusComentarios::class.java)
-        setClickListener(txtComentarios, TusComentarios::class.java)
-        setClickListener(imvOfertas, Ofertas::class.java)
-        setClickListener(imvOferta, Ofertas::class.java)
-        setClickListener(txtOfertas, Ofertas::class.java)
-        setClickListener(txtCerrarSesion, activity_iniciar_sesion::class.java)
-        setClickListener(imvPoliticas, activity_politicas::class.java)
-        setClickListener(txtPoliticas, activity_politicas::class.java)
-        setClickListener(txtInformaciónPer, activity_editar_perfil::class.java)
-        setClickListener(imvInformacionPer, activity_editar_perfil::class.java)
-        setClickListener(imvBuscar, PaginaInicio::class.java)
-        setClickListener(imvFavorito, Favoritos::class.java)
-        setClickListener(imvReseva, Reservas::class.java)
-        setClickListener(imvPerfil, Perfil::class.java)
+        setClickListener(imvComentario, TusComentarios::class.java, idUsuario)
+        setClickListener(imvComentarios, TusComentarios::class.java, idUsuario)
+        setClickListener(txtComentarios, TusComentarios::class.java, idUsuario)
+        setClickListener(imvOfertas, Ofertas::class.java, idUsuario)
+        setClickListener(imvOferta, Ofertas::class.java, idUsuario)
+        setClickListener(txtOfertas, Ofertas::class.java, idUsuario)
+        setClickListener(txtCerrarSesion, activity_iniciar_sesion::class.java, idUsuario)
+        setClickListener(imvPoliticas, activity_politicas::class.java, idUsuario)
+        setClickListener(txtPoliticas, activity_politicas::class.java, idUsuario)
+        setClickListener(txtInformaciónPer, activity_editar_perfil::class.java, idUsuario)
+        setClickListener(imvInformacionPer, activity_editar_perfil::class.java, idUsuario)
+        setClickListener(imvBuscar, PaginaInicio::class.java, idUsuario)
+        setClickListener(imvFavorito, Favoritos::class.java, idUsuario)
+        setClickListener(imvReseva, Reservas::class.java, idUsuario)
+        setClickListener(imvPerfil, Perfil::class.java, idUsuario)
+
+
+
+
+
     }
 
-    private fun <T> setClickListener(view: View, clazz: Class<T>) {
+
+
+
+    private fun <T> setClickListener(view: View, clazz: Class<T>, idUsuario: Int) {
         view.setOnClickListener {
             val intent = Intent(this, clazz)
+            intent.putExtra("id_usuario", idUsuario)
             startActivity(intent)
             overridePendingTransition(0, 0)
         }
     }
+
+
 }
 
 

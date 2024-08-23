@@ -50,7 +50,7 @@ class Denuncias : AppCompatActivity() {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery(
-                "SELECT h.img_url, h.nombre, COUNT(d.id_denuncia) AS numero_denuncias " +
+                "SELECT h.id_hoteles AS idHotel, h.img_url, h.nombre, COUNT(d.id_denuncia) AS numero_denuncias " +
                         "FROM tbHoteles h " +
                         "INNER JOIN tbDenuncias d ON h.id_hoteles = d.id_hoteles " +
                         "GROUP BY h.id_hoteles, h.img_url, h.nombre " +
@@ -60,11 +60,12 @@ class Denuncias : AppCompatActivity() {
             val listaHotelesDenunciados = mutableListOf<tbHotelConDenuncias>()
 
             while (resultSet.next()) {
-                val imgUrl = resultSet.getString("img_url") // Corrected column name
-                val nombre = resultSet.getString("nombre") // Corrected column name
-                val numeroDenuncias = resultSet.getInt("numero_denuncias") // Corrected column name
+                val idHotel = resultSet.getInt("idHotel")
+                val imgUrl = resultSet.getString("img_url")
+                val nombre = resultSet.getString("nombre")
+                val numeroDenuncias = resultSet.getInt("numero_denuncias")
 
-                val hotelDenunciadoCompleto = tbHotelConDenuncias(imgUrl, nombre, numeroDenuncias)
+                val hotelDenunciadoCompleto = tbHotelConDenuncias(idHotel, imgUrl, nombre, numeroDenuncias)
                 listaHotelesDenunciados.add(hotelDenunciadoCompleto)
             }
             return listaHotelesDenunciados

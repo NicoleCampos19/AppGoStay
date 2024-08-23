@@ -21,40 +21,35 @@
         app:layout_constraintBottom_toTopOf="@+id/lottie_animation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_animation"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/content_background"
+        android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/vertodasdenuncias" />
 
-    <RelativeLayout
-        android:id="@+id/content_background"
-        android:layout_width="407dp"
-        android:layout_height="552dp"
-        android:layout_marginTop="-50dp"
-        android:background="@drawable/content_background_rounded"
-        android:clipToOutline="true"
-        android:paddingTop="32dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvMasDenuncias"
+        android:layout_width="410dp"
+        android:layout_height="761dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="400dp"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+        app:layout_constraintVertical_bias="0.711" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
