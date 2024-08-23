@@ -138,25 +138,40 @@ class hotel_detalles : AppCompatActivity() {
         imvEnviar.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val objConexion = ClaseConexion().cadenaConexion()
+                val comentario = txtComentario.text.toString()
 
-                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario) values(?)")!!
-                addComentario.setString(1, txtComentario.text.toString())
+                if (idUsuarioRecivido != null) {
+                    try {
+                        val addComentario = objConexion?.prepareStatement(
+                            "INSERT INTO tbValoraciones(comentario, id_usuario) VALUES (?, ?)"
+                        )
+                        addComentario?.setString(1, comentario)
+                        addComentario?.setInt(2, idUsuarioRecivido)
+                        val result = addComentario?.executeUpdate()
+                        if (result != null && result > 0) {
+                            println("Comentario agregado exitosamente")
+                        } else {
+                            println("Error al agregar comentario")
+                        }
 
-
-                addComentario.executeUpdate()
-
-                val nuevocomentario = obtenerComentarios()
-                withContext(Dispatchers.Main){
-                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                    txtComentario.setText("")
-
+                        val nuevocomentario = obtenerComentarios()
+                        withContext(Dispatchers.Main) {
+                            (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
+                            txtComentario.setText("")
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        objConexion?.close()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        println("Error: idUsuarioRecivido es nulo")
+                    }
                 }
-
-
             }
-
-
         }
+
 
 
         hotel?.let {
@@ -164,30 +179,10 @@ class hotel_detalles : AppCompatActivity() {
         .load(hotel.img_url)
 
 
-        imvEnviar.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                //1- Crear un objeto de la clase conexion
-                val objConexion = ClaseConexion().cadenaConexion()
-
-                //2- Crear una variable que contenga un PrepareStatement
-                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario) values(?)")!!
-                addComentario.setString(1, txtComentario.text.toString())
-
-                        addComentario.executeUpdate()
-
-                val nuevocomentario = obtenerComentarios()
-                withContext(Dispatchers.Main){
-                    //Actualizo al adaptador con los datos nuevos
-                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                    txtComentario.setText("")
-
-                }
 
 
-            }
 
 
-        }
 
         Glide.with(this)
             .load(hotel.img_url)
@@ -268,4 +263,6 @@ class hotel_detalles : AppCompatActivity() {
         // Show the popup menu.
         popup.show()
     }
+
+
 }

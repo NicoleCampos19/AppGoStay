@@ -38,12 +38,10 @@ class TusComentarios : AppCompatActivity() {
         val rcvTusComentarios = findViewById<RecyclerView>(R.id.rcvTusComentarios)
         rcvTusComentarios.layoutManager = LinearLayoutManager(this@TusComentarios)
 
-        val idUsuario = intent.getIntExtra("id_usuario", -1)
-        println("id recibido ${idUsuario}")
 
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
 
-
+        val idUsuario = PaginaInicio.idUsuarioGlobalL ?: -1
 
         imvAtrasc.setOnClickListener {
             finish()

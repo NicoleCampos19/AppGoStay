@@ -54,8 +54,6 @@ class PaginaInicio : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
-        val idUsuario = intent.getIntExtra("id_usuario", -1)
-        println("Usuario id ${idUsuario}")
 
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
@@ -83,7 +81,6 @@ class PaginaInicio : AppCompatActivity() {
 
         imvPerfil.setOnClickListener {
             val siguientepantalla = Intent(this, Perfil::class.java)
-            siguientepantalla.putExtra("id_usuario", idUsuario)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }

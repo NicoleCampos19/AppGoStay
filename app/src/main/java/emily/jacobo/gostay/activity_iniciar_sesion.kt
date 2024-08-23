@@ -116,21 +116,19 @@ class activity_iniciar_sesion : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
 
-                val query = " SELECT u.id_usuario, tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
+                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
                 val statement = conexion?.prepareStatement(query)
                 statement?.setString(1, correoIngreado)
                 statement?.setString(2, contrasenaEncriptada)
                 val resultSet = statement?.executeQuery()
 
                 if (resultSet?.next() == true) {
-                    val idUsuario = resultSet.getInt("id_usuario")
                     val nombreTipoUsuario = resultSet.getString("nombre_usuario")
 
                     val siguientePantalla = when (nombreTipoUsuario) {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
-                    siguientePantalla.putExtra("id_usuario", idUsuario)
                     startActivity(siguientePantalla)
                 } else {
                     runOnUiThread {

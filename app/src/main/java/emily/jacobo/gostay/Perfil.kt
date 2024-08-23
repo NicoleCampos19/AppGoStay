@@ -91,21 +91,21 @@ class Perfil : AppCompatActivity() {
 
 
         // Configuración de click listeners
-        setClickListener(imvComentario, TusComentarios::class.java, idUsuario)
-        setClickListener(imvComentarios, TusComentarios::class.java, idUsuario)
-        setClickListener(txtComentarios, TusComentarios::class.java, idUsuario)
-        setClickListener(imvOfertas, Ofertas::class.java, idUsuario)
-        setClickListener(imvOferta, Ofertas::class.java, idUsuario)
-        setClickListener(txtOfertas, Ofertas::class.java, idUsuario)
-        setClickListener(txtCerrarSesion, activity_iniciar_sesion::class.java, idUsuario)
-        setClickListener(imvPoliticas, activity_politicas::class.java, idUsuario)
-        setClickListener(txtPoliticas, activity_politicas::class.java, idUsuario)
-        setClickListener(txtInformaciónPer, activity_editar_perfil::class.java, idUsuario)
-        setClickListener(imvInformacionPer, activity_editar_perfil::class.java, idUsuario)
-        setClickListener(imvBuscar, PaginaInicio::class.java, idUsuario)
-        setClickListener(imvFavorito, Favoritos::class.java, idUsuario)
-        setClickListener(imvReseva, Reservas::class.java, idUsuario)
-        setClickListener(imvPerfil, Perfil::class.java, idUsuario)
+        setClickListener(imvComentario, TusComentarios::class.java)
+        setClickListener(imvComentarios, TusComentarios::class.java)
+        setClickListener(txtComentarios, TusComentarios::class.java)
+        setClickListener(imvOfertas, Ofertas::class.java)
+        setClickListener(imvOferta, Ofertas::class.java)
+        setClickListener(txtOfertas, Ofertas::class.java)
+        setClickListener(txtCerrarSesion, activity_iniciar_sesion::class.java)
+        setClickListener(imvPoliticas, activity_politicas::class.java)
+        setClickListener(txtPoliticas, activity_politicas::class.java)
+        setClickListener(txtInformaciónPer, activity_editar_perfil::class.java)
+        setClickListener(imvInformacionPer, activity_editar_perfil::class.java)
+        setClickListener(imvBuscar, PaginaInicio::class.java)
+        setClickListener(imvFavorito, Favoritos::class.java)
+        setClickListener(imvReseva, Reservas::class.java)
+        setClickListener(imvPerfil, Perfil::class.java)
 
 
 
@@ -116,10 +116,9 @@ class Perfil : AppCompatActivity() {
 
 
 
-    private fun <T> setClickListener(view: View, clazz: Class<T>, idUsuario: Int) {
+    private fun <T> setClickListener(view: View, clazz: Class<T>) {
         view.setOnClickListener {
             val intent = Intent(this, clazz)
-            intent.putExtra("id_usuario", idUsuario)
             startActivity(intent)
             overridePendingTransition(0, 0)
         }

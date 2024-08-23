@@ -3,9 +3,9 @@ package RecyclerViewHelpers
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
 import emily.jacobo.gostay.R
+import modelo.tbHotel
 import modelo.tbOfertas
 
 class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHolderOfertas>() {
@@ -29,7 +29,7 @@ class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHol
         val nombreOferta = item.nombre_oferta
         holder.txtNombreHotel.text = nombreHotel
         holder.txtNombreOferta.text = nombreOferta
-
+        
         val isExpanded = position == expandedPosition
         holder.expandableContainer.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
