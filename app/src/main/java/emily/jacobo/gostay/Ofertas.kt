@@ -40,30 +40,24 @@ class Ofertas : AppCompatActivity() {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
         }
-        fun obtenerOfertas(): List<tbOfertas>{
+        fun obtenerOfertas(): List<tbOfertas> {
             val objConexion = ClaseConexion().cadenaConexion()
-
             val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT tof.nombre_oferta, th.nombre\n" +
-                    "FROM tbOfertas tof\n" +
-                    "INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles")!!
+            val resultSet = statement?.executeQuery("SELECT tof.nombre_oferta, th.nombre, th.id_hoteles FROM tbOfertas tof INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles")!!
 
             val listaOfertas = mutableListOf<tbOfertas>()
 
-            while (resultSet.next()){
-
+            while (resultSet.next()) {
                 val nombre = resultSet.getString("nombre")
-               val nombre_oferta = resultSet.getString("nombre_oferta")
+                val nombre_oferta = resultSet.getString("nombre_oferta")
+                val id_hotel = resultSet.getInt("id_hoteles")
 
-
-
-                val valoresJuntos = tbOfertas(nombre, nombre_oferta)
-
+                val valoresJuntos = tbOfertas(nombre, nombre_oferta, id_hotel)
                 listaOfertas.add(valoresJuntos)
             }
             return listaOfertas
-
         }
+
         CoroutineScope(Dispatchers.IO).launch{
             val ofertasDB = obtenerOfertas()
             withContext(Dispatchers.Main){
