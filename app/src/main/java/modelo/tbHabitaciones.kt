@@ -6,10 +6,10 @@ data class tbHabitaciones(
     val apellidos: String,
     val correo: String,
     val telefono: String,
-    val entrada: String,/*nose si funcionara con string o tenga que ser tipo date si o si*/
-    val salida: String,/*lo mismo*/
+    val entrada: String,
+    val salida: String,
     val numero_tarjeta: String,
-    val fecha_caducidad_tarjeta: String,/*lo mismo*/
+    val fecha_caducidad_tarjeta: String,
     val nombre_titular_tarjeta: String,
     val id_tipo_habitacion: Int,
     val id_hoteles: Int,

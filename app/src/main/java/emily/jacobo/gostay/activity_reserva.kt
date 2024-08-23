@@ -111,10 +111,40 @@ class activity_reserva : AppCompatActivity() {
 
 
 
+            // Validar fechas
+            if (fechaEntrada!!.isNotEmpty() && fechaSalida!!.isNotEmpty()) {
+                val dateEntrada = SimpleDateFormat("yyyy-MM-dd").parse(fechaEntrada)
+                val dateSalida = SimpleDateFormat("yyyy-MM-dd").parse(fechaSalida)
+
+                if (dateEntrada.after(dateSalida)) {
+                    Toast.makeText(this, "La fecha de entrada no puede ser mayor que la fecha de salida.", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            } else {
+                Toast.makeText(this, "Las fechas de entrada y salida no pueden estar vacías.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+
+            if (nombreTitular!!.isEmpty()) {
+                Toast.makeText(this, "El nombre del titular no puede estar vacío", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             // Validación del número de tarjeta
             if (numeroTarjeta!!.length < 16 || !numeroTarjeta!!.all { it.isDigit() }) {
                 Toast.makeText(this, "El número de tarjeta debe tener al menos 16 dígitos y solo debe contener números", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (cvv!!.toString().length < 3) {
+                Toast.makeText(this, "El CVV debe tener al menos 3 dígitos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (cvv!!.toString().length >= 4) {
+                Toast.makeText(this, "El CVV no puede tener más de 3 dígitos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
