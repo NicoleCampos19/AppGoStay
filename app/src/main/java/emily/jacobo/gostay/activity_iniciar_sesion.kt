@@ -59,10 +59,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
         // Definición de EditText
         val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
-
-
-
-
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
@@ -112,7 +108,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
             val contrasenaEncriptada = hashSHA256(clave)
 
-
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
 
@@ -142,7 +137,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
         }
 
-
         imvIniciarconGoogle.setOnClickListener {
             val configuracionGoogle =
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -165,7 +159,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
         val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
 
-
         txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         txtContrasenaIniciarSesion.typeface = poppinsFont
 
@@ -183,9 +176,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
             txtContrasenaIniciarSesion.typeface = poppinsFont
             isPasswordVisible = !isPasswordVisible
         }
-
-
-
 
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

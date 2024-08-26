@@ -115,11 +115,11 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
     // Método para mostrar los hoteles cercanos con el nombre de cada hotel
     private fun showNearbyHotels(currentLatLng: LatLng) {
         // Aquí defines las coordenadas y nombres de tus hoteles
-        val decameron = Triple(13.5330896050397, -89.81663359936928, "Royal Decameron Salinitas")
-        val sheraton = Triple(13.532000, -89.817000, "Sheraton Presidente")
-        val oasis = Triple(13.534000, -89.818000, "Hotel Oasis")
-        val intercontinental = Triple(13.534000, -89.818000, "Real Intercontinental")
-        val resort = Triple(13.534000, -89.818000, "Las Flores Resort")
+        val decameron = Triple(13.53275, -89.811638, "Royal Decameron Salinitas")
+        val sheraton = Triple(13.69160, -89.24176, "Sheraton Presidente")
+        val oasis = Triple(13.72301, -89.200800, "Hotel Oasis")
+        val intercontinental = Triple(13.70768, -89.21305, "Real Intercontinental")
+        val resort = Triple(13.17292, -88.11821, "Las Flores Resort")
 
         val hotels = listOf(
             LatLng(decameron.first, decameron.second) to decameron.third,
