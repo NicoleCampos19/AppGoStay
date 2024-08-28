@@ -151,20 +151,7 @@ class hotel_detalles : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val objConexion = ClaseConexion().cadenaConexion()
-<<<<<<< HEAD
-                    val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificación) values(?,?,?)")!!
-                    addComentario.setString(1, txtComentario.text.toString())
-                    addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
-                    addComentario.setInt(3,3)
-                    addComentario.executeUpdate()
 
-                    val nuevocomentario = obtenerComentarios()
-                    withContext(Dispatchers.Main){
-                        (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                        txtComentario.setText("")
-
-                    }
-=======
                 val comentario = txtComentario.text.toString()
 
                 if (idUsuarioRecivido != null) {
@@ -196,7 +183,7 @@ class hotel_detalles : AppCompatActivity() {
                         println("Error: idUsuarioRecivido es nulo")
                     }
                 }
->>>>>>> 250f74e32e9deabfcf4902704d13a169bf7f33b5
+
             }
         }
 
@@ -207,16 +194,6 @@ class hotel_detalles : AppCompatActivity() {
         .load(hotel.img_url)
 
 
-
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 250f74e32e9deabfcf4902704d13a169bf7f33b5
-
-        Glide.with(this)
-            .load(hotel.img_url)
 
         tvNombreDetalleHotel.text = hotel.nombreHotel
         tvDescripcionDetalleHotel.text = hotel.descripcion
