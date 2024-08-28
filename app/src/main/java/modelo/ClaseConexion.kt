@@ -24,13 +24,8 @@ class ClaseConexion {
             val usuario = "GoStay"
             val contrasena = "ricaldone2024e"
 
-<<<<<<< HEAD
+
             val conexion = DriverManager.getConnection(ipDaniel, usuario, contrasena)
-=======
-            val conexion = DriverManager.getConnection(ipGabriela, usuario, contrasena)
-
-
->>>>>>> 250f74e32e9deabfcf4902704d13a169bf7f33b5
 
             return conexion
         }catch (e: Exception){
