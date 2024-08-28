@@ -100,7 +100,19 @@ class hotel_detalles : AppCompatActivity() {
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
-
+        suspend fun obtenerIdUsuario(correo: String): Int? {
+            return withContext(Dispatchers.IO) {
+                val objConexion = ClaseConexion().cadenaConexion()
+                val getId = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
+                getId?.setString(1, correo)
+                val resultSet = getId?.executeQuery()
+                if (resultSet != null && resultSet.next()) {
+                    resultSet.getInt("id_usuario")
+                } else {
+                    null
+                }
+            }
+        }
 
         fun obtenerComentarios(): List<tbComentarios> {
             //1- Creo un objeto de la clase conexion
@@ -135,23 +147,21 @@ class hotel_detalles : AppCompatActivity() {
         }
 
         imvEnviar.setOnClickListener {
+
             CoroutineScope(Dispatchers.IO).launch {
                 val objConexion = ClaseConexion().cadenaConexion()
+                    val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificación) values(?,?,?)")!!
+                    addComentario.setString(1, txtComentario.text.toString())
+                    addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
+                    addComentario.setInt(3,3)
+                    addComentario.executeUpdate()
 
-                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario) values(?)")!!
-                addComentario.setString(1, txtComentario.text.toString())
+                    val nuevocomentario = obtenerComentarios()
+                    withContext(Dispatchers.Main){
+                        (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
+                        txtComentario.setText("")
 
-
-                addComentario.executeUpdate()
-
-                val nuevocomentario = obtenerComentarios()
-                withContext(Dispatchers.Main){
-                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                    txtComentario.setText("")
-
-                }
-
-
+                    }
             }
 
 
@@ -163,30 +173,7 @@ class hotel_detalles : AppCompatActivity() {
         .load(hotel.img_url)
 
 
-        imvEnviar.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                //1- Crear un objeto de la clase conexion
-                val objConexion = ClaseConexion().cadenaConexion()
 
-                //2- Crear una variable que contenga un PrepareStatement
-                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario) values(?)")!!
-                addComentario.setString(1, txtComentario.text.toString())
-
-                        addComentario.executeUpdate()
-
-                val nuevocomentario = obtenerComentarios()
-                withContext(Dispatchers.Main){
-                    //Actualizo al adaptador con los datos nuevos
-                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                    txtComentario.setText("")
-
-                }
-
-
-            }
-
-
-        }
 
         Glide.with(this)
             .load(hotel.img_url)

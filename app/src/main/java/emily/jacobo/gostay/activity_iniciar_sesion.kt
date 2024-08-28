@@ -39,9 +39,10 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin{
         val InicioSesionGoogle = 100
-        val correoIngresado = "admin@gmail.com"
+        lateinit var correoIngresado: String
         lateinit var txtCorreoInciarSesionV: String
         lateinit var txtContrasenaIniciarSesionV: String
+
     }
 
     @SuppressLint("MissingInflatedId")
@@ -91,7 +92,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             variableGloalLogin.txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString().trim()
             variableGloalLogin.txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString().trim()
             // Validación de campos
-            val correoIngreado = txtCorreoInciarSesion.text.toString().trim()
+            correoIngresado = txtCorreoInciarSesion.text.toString()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
 
             if (correoIngresado.isEmpty() || clave.isEmpty()) {
@@ -100,7 +101,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (!correoIngreado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+            if (!correoIngresado.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
                 txtCorreoInciarSesion.error = "El correo no tiene un formato válido"
                 return@setOnClickListener
             }
@@ -119,7 +120,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
 
                 val statement = conexion?.prepareStatement(query)
-                statement?.setString(1, correoIngreado)
+                statement?.setString(1, correoIngresado)
                 statement?.setString(2, contrasenaEncriptada)
                 val resultSet = statement?.executeQuery()
 

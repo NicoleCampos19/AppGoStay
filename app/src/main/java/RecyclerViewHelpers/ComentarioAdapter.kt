@@ -3,6 +3,7 @@ package RecyclerViewHelpers
 import android.app.AlertDialog
 import android.content.Context
 import android.database.SQLException
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.PopupMenu
 import androidx.annotation.MenuRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Visibility
+import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
 import emily.jacobo.gostay.activity_iniciar_sesion
 import kotlinx.coroutines.CoroutineScope
@@ -96,6 +98,21 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
             }
         }
     }
+    suspend fun obtenerImagenUsuario(correo: String): String? {
+        return withContext(Dispatchers.IO) {
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            val getId = objConexion?.prepareStatement("SELECT imgfoto FROM tbUsuarios WHERE correo = ?")
+            getId?.setString(1, correo)
+            val resultSet = getId?.executeQuery()
+            if (resultSet != null && resultSet.next()) {
+                resultSet.getString("imgfoto")
+            } else {
+                null
+            }
+        }
+
+    }
 
     override fun getItemCount() = Datos.size
 
@@ -107,9 +124,22 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
 
         CoroutineScope(Dispatchers.Main).launch {
             var correo = activity_iniciar_sesion.correoIngresado
+            holder.txtUsuarioCard.text = correo
             val idUsuarioActivo = obtenerIdUsuario(correo)
+            val imagen = obtenerImagenUsuario(correo)
             if(idUsuarioActivo != item.id_usuario){
                 holder.ImageView.visibility = View.GONE
+            }
+            if(!imagen.isNullOrEmpty()){
+             try{
+                 Log.e("imagen", imagen)
+                 Glide.with(context)
+                     .load(imagen)
+                     .fitCenter()
+                     .into(holder.imageProfile)
+             } catch (e: Exception){
+                 e.printStackTrace()
+             }
             }
         }
         holder.ImageView.setOnClickListener { v: View ->
