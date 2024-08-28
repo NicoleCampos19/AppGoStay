@@ -3,6 +3,7 @@ package emily.jacobo.gostay
 import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +25,8 @@ class PaginaInicio : AppCompatActivity() {
 
     companion object {
         var hotelIdGlobal: Int? = null
+        var nombreUsuarioGlobalL: String? = null
+        var idUsuarioGlobalL: Int? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +39,21 @@ class PaginaInicio : AppCompatActivity() {
             insets
         }
 
+
+
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscar)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
+        val imgFiltros = findViewById<ImageView>(R.id.imgFiltros)
+
+        imgFiltros.setOnClickListener {
+            val siguientepantalla = Intent(this, filtros::class.java)
+            startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
+        }
+
 
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
@@ -74,6 +87,15 @@ class PaginaInicio : AppCompatActivity() {
 
         val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
         rcvHotel.layoutManager = LinearLayoutManager(this)
+
+
+        val correUsuarioRecivido = activity_iniciar_sesion.txtCorreoInciarSesionV
+        Log.d("ConfirmacionCorreo", "El correo del usuario es: $correUsuarioRecivido")
+        if (correUsuarioRecivido != null) {
+        obtenerNombreUsuarioEnGl(correUsuarioRecivido)
+        obteneridUsuarioEnGl(correUsuarioRecivido)
+        }
+
 
 
         fun obtenerHoteles(): List<tbHotel>{
@@ -168,6 +190,68 @@ class PaginaInicio : AppCompatActivity() {
 
 
     }
+    //buscar nombre usuario
+    private fun obtenerNombreUsuarioEnGl(correoUsuario: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val nombreUsuario = cargarNombreUsuario(correoUsuario)
+            withContext(Dispatchers.Main) {
+
+                nombreUsuarioGlobalL = nombreUsuario
+
+            }
+        }
+    }
+    private fun cargarNombreUsuario(correoUsuario: String): String? {
+        var nombreUsuario: String? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT nombre FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            nombreUsuario = resultSet.getString("nombre")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return nombreUsuario
+    }
+
+//buscar id usuario
+    private fun obteneridUsuarioEnGl(correoUsuario: String) {
+    CoroutineScope(Dispatchers.IO).launch {
+        val idUsuario = cargaridUsuario(correoUsuario)
+        withContext(Dispatchers.Main) {
+
+       idUsuarioGlobalL = idUsuario
+
+        }
+    }
+}
+    private fun cargaridUsuario(correoUsuario: String): Int? {
+        var idUsuario: Int? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT id_usuario FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            idUsuario = resultSet.getInt("id_usuario")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return idUsuario
+    }
+
+
+
 
     }
 

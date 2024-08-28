@@ -70,7 +70,7 @@ class RealizarDenuncia : AppCompatActivity() {
 
 
         imvAtrasc.setOnClickListener {
-            val volverAtras = Intent(this, hotel_detalles::class.java)
+            val volverAtras = Intent(this, PaginaInicio::class.java)
             startActivity(volverAtras)
         }
 

@@ -60,10 +60,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
         // Definición de EditText
         val txtCorreoInciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
-
-
-
-
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
@@ -113,12 +109,10 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
             val contrasenaEncriptada = hashSHA256(clave)
 
-
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
 
                 val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
-
                 val statement = conexion?.prepareStatement(query)
                 statement?.setString(1, correoIngresado)
                 statement?.setString(2, contrasenaEncriptada)
@@ -127,7 +121,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 if (resultSet?.next() == true) {
                     val nombreTipoUsuario = resultSet.getString("nombre_usuario")
 
-                    // Determinar a qué Activity dirigirse
                     val siguientePantalla = when (nombreTipoUsuario) {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
@@ -141,11 +134,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-
                 }
             }
         }
-
 
         imvIniciarconGoogle.setOnClickListener {
             val configuracionGoogle =
@@ -167,18 +158,26 @@ class activity_iniciar_sesion : AppCompatActivity() {
             startActivity(volverAtras)
         }
 
+        val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
+
+        txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        txtContrasenaIniciarSesion.typeface = poppinsFont
+
         imvVerContra3.setOnClickListener {
             if (isPasswordVisible) {
-                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
-                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                imvVerContra3.setImageResource(R.drawable.ojo) // Cambia a la imagen de "ojo abierto"
-            } else {
                 // Si la contraseña es visible, la ocultamos y cambiamos la imagen
                 txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 imvVerContra3.setImageResource(R.drawable.ojocerrado)
+            } else {
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
+                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerContra3.setImageResource(R.drawable.ojo)
             }
+            // Reaplica la fuente personalizada
+            txtContrasenaIniciarSesion.typeface = poppinsFont
             isPasswordVisible = !isPasswordVisible
         }
+
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

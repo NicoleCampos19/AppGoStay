@@ -73,22 +73,22 @@
                 app:layout_constraintTop_toBottomOf="@id/textView23" />
 
             <Spinner
-                android:id="@+id/txtCantidadH"
+                android:id="@+id/spCantidadH"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@drawable/spinner_background"
-                app:layout_constraintTop_toBottomOf="@id/textView24"
+                app:layout_constraintEnd_toStartOf="@id/spDepartamento"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/txtDepartamento"/>
+                app:layout_constraintTop_toBottomOf="@id/textView24" />
 
             <Spinner
-                android:id="@+id/txtDepartamento"
+                android:id="@+id/spDepartamento"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@drawable/spinner_background"
-                app:layout_constraintTop_toBottomOf="@id/textView25"
-                app:layout_constraintStart_toEndOf="@id/txtCantidadH"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/spCantidadH"
+                app:layout_constraintTop_toBottomOf="@id/textView25" />
 
             <TextView
                 android:id="@+id/textView26"
@@ -100,16 +100,17 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtCantidadH" />
+                app:layout_constraintTop_toBottomOf="@id/spCantidadH" />
 
             <EditText
-                android:id="@+id/txtEntradaSalida"
-                android:layout_width="170dp"
+                android:id="@+id/txtEntrada"
+                android:layout_width="166dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
                 android:editable="false"
-                android:hint="Seleccionar fecha"
+                android:fontFamily="@font/poppins"
+                android:hint="Entrada"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -127,7 +128,7 @@
                 android:text="Nombre titular tarjeta"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/txtEntradaSalida"
+                app:layout_constraintTop_toBottomOf="@id/txtEntrada"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <EditText
@@ -136,13 +137,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
+                android:fontFamily="@font/poppins"
                 android:hint="Nombre del titular"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView27"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/textView27" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -162,13 +164,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
+                android:fontFamily="@font/poppins"
                 android:hint="Número de tarjeta"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView28"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/textView28" />
 
             <TextView
                 android:id="@+id/textView29"
@@ -189,6 +192,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
                 android:editable="false"
+                android:fontFamily="@font/poppins"
                 android:hint="MM/AA"
                 android:padding="12dp"
                 android:textColor="@color/black"
@@ -215,13 +219,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
+                android:fontFamily="@font/poppins"
                 android:hint="CVV"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView30"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtFechaCaducidad"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/textView30" />
 
             <Button
                 android:id="@+id/btnSiguiente"
@@ -229,12 +234,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:backgroundTint="@android:color/holo_blue_light"
+                android:fontFamily="@font/poppins"
                 android:text="Siguiente"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/txtCVV"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/txtCVV" />
 
             <EditText
                 android:id="@+id/txtSalida"
@@ -243,13 +249,13 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/edittext_background"
                 android:editable="false"
-                android:hint="Selecciona fecha"
-                android:inputType="text"
+                android:fontFamily="@font/poppins"
+                android:hint="Salida"
                 android:padding="12dp"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/txtEntradaSalida"
+                app:layout_constraintStart_toEndOf="@+id/txtEntrada"
                 app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
             <TextView
@@ -263,7 +269,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/textView26"
-                app:layout_constraintTop_toBottomOf="@+id/txtDepartamento" />
+                app:layout_constraintTop_toBottomOf="@+id/spDepartamento" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

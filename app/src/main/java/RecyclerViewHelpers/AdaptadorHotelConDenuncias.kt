@@ -1,10 +1,12 @@
 package RecyclerViewHelpers
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.VerMasDenuncias
 import modelo.tbHotelConDenuncias
 
 class AdaptadorHotelConDenuncias(var Datos: List<tbHotelConDenuncias>): RecyclerView.Adapter<ViewHolderHotelConDenuncias>() {
@@ -17,9 +19,16 @@ class AdaptadorHotelConDenuncias(var Datos: List<tbHotelConDenuncias>): Recycler
 
     override fun onBindViewHolder(holder: ViewHolderHotelConDenuncias, position: Int) {
         val item = Datos[position]
+
         holder.lblNumeroDenuncias.text = item.numeroDenuncias.toString()
         holder.lblNombreHotelDenunciado.text = item.nombreHotel
         Glide.with(holder.itemView.context).load(item.imgUrl).into(holder.imvHotelDenunciado)
 
+        holder.btnVerDenunciasHotel.setOnClickListener{
+            val context = holder.btnVerDenunciasHotel.context
+            val intent = Intent(context, VerMasDenuncias::class.java)
+            intent.putExtra("id_hoteles", item.id_hoteles)
+            context.startActivity(intent)
+        }
     }
 }

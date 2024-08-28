@@ -1,6 +1,7 @@
 package emily.jacobo.gostay
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.InputMethodManager
@@ -17,14 +18,33 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
+import modelo.tbDepartamentos
 
 
 class activity_reserva : AppCompatActivity() {
-    private lateinit var txtEntradaSalida: EditText
-    private lateinit var txtSalida: EditText
-    private lateinit var txtFechaCaducidad: EditText
-    private lateinit var txtCVV: EditText
+
+    companion object {
+        var cvv: Int? = null
+        var fechaCaducidad: String? = null
+        var numeroTarjeta: String? = null
+        var nombreTitular: String? = null
+        var fechaEntrada: String? = null
+        var fechaSalida: String? = null
+        lateinit  var departamento: String
+        var idDepartamento: Int? = null
+    }
+
+
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -36,24 +56,30 @@ class activity_reserva : AppCompatActivity() {
             insets
         }
 
+
+
+
+
+
         //#queremoscodigolimpio
-        setupDepartamentoSpinner()
         setupCantidadSpinner()
-        val idTipoHabitacion = intent.getIntExtra("id_tipo_habitacion", -1)
-        val idHotelRecivido = PaginaInicio.hotelIdGlobal
-        val txtCorreoInciarSesionV = activity_iniciar_sesion.txtCorreoInciarSesionV
+
+        val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
+        val txtFechaCaducidad = findViewById<EditText>(R.id.txtFechaCaducidad)
+
+        val txtEntrada = findViewById<EditText>(R.id.txtEntrada)
+        val txtSalida = findViewById<EditText>(R.id.txtSalida)
+
+        val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
 
 
 
-        txtEntradaSalida = findViewById(R.id.txtEntradaSalida)
-        txtSalida = findViewById(R.id.txtSalida)
-        txtFechaCaducidad = findViewById(R.id.txtFechaCaducidad)
-        txtCVV = findViewById(R.id.txtCVV)
+
 
         // Configura el DatePickerDialog para la fecha de entrada
-        txtEntradaSalida.setOnClickListener {
+        txtEntrada.setOnClickListener {
             showDatePickerDialog { date ->
-                txtEntradaSalida.setText(date)
+                txtEntrada.setText(date)
             }
         }
 
@@ -72,70 +98,155 @@ class activity_reserva : AppCompatActivity() {
         }
 
         // Valida el CVV para permitir solo números
-        txtCVV.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            if (source.matches(Regex("\\d*"))) null else ""
-        })
 
-        val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
+
         btnSiguiente.setOnClickListener {
-            val entrada = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(txtEntradaSalida.text.toString())
-            val salida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(txtSalida.text.toString())
-            val fechaActual = Calendar.getInstance().time
+            departamento = spDepartamento.selectedItem.toString()
+            fechaCaducidad = txtFechaCaducidad.text.toString()
+            cvv = findViewById<EditText>(R.id.txtCVV).text.toString().toIntOrNull()
+            numeroTarjeta = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
+            nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
+            fechaEntrada = txtEntrada.text.toString()
+            fechaSalida = txtSalida.text.toString()
 
-            if (entrada == null || salida == null) {
-                showToast("Por favor seleccione ambas fechas.")
+
+
+            // Validar fechas
+            if (fechaEntrada!!.isNotEmpty() && fechaSalida!!.isNotEmpty()) {
+                val dateEntrada = SimpleDateFormat("yyyy-MM-dd").parse(fechaEntrada)
+                val dateSalida = SimpleDateFormat("yyyy-MM-dd").parse(fechaSalida)
+
+                if (dateEntrada.after(dateSalida)) {
+                    Toast.makeText(this, "La fecha de entrada no puede ser mayor que la fecha de salida.", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            } else {
+                Toast.makeText(this, "Las fechas de entrada y salida no pueden estar vacías.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (entrada < fechaActual) {
-                showToast("La fecha de entrada no puede ser menor a la fecha actual.")
+
+
+            if (nombreTitular!!.isEmpty()) {
+                Toast.makeText(this, "El nombre del titular no puede estar vacío", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (salida <= entrada) {
-                showToast("La fecha de salida debe ser después de la fecha de entrada.")
+            // Validación del número de tarjeta
+            if (numeroTarjeta!!.length < 16 || !numeroTarjeta!!.all { it.isDigit() }) {
+                Toast.makeText(this, "El número de tarjeta debe tener al menos 16 dígitos y solo debe contener números", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Procesar el formulario aquí
-        }
+            if (cvv!!.toString().length < 3) {
+                Toast.makeText(this, "El CVV debe tener al menos 3 dígitos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
+            if (cvv!!.toString().length >= 4) {
+                Toast.makeText(this, "El CVV no puede tener más de 3 dígitos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
+            if (txtFechaCaducidad.text.isNotEmpty() && departamento.isNotEmpty()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val idDepto = cargaridDepartamento(departamento) // Obtener el ID del departamento de manera síncrona
 
-
-
-
-
-
-    }
-
-    fun getDepartamentosFromDatabase(): List<String> {
-        val departamentoList = mutableListOf<String>()
-        val query = "SELECT nombre_departamento FROM tbDepartamentos"
-
-        try {
-            val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.use { connection ->
-                val statement = connection.prepareStatement(query)
-                statement.use { preparedStatement ->
-                    val resultSet = preparedStatement.executeQuery()
-                    resultSet.use { rs ->
-                        while (rs.next()) {
-                            val nombreDepartamento = rs.getString("nombre_departamento")
-                            departamentoList.add(nombreDepartamento)
+                    withContext(Dispatchers.Main) {
+                        if (idDepto != null) {
+                            idDepartamento = idDepto
+                            // Si el idDepartamento se ha obtenido correctamente, procede a la siguiente Activity
+                            val intent = Intent(this@activity_reserva, activity_confirmacionReserva::class.java)
+                            startActivity(intent)
+                        } else {
+                            // Manejar el caso en el que no se pueda obtener el ID del departamento
+                            Toast.makeText(this@activity_reserva, "Error al obtener el ID del departamento", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
+            } else {
+                Toast.makeText(this, "Algunos campos están mal ingresados o vacíos", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception) {
-            e.printStackTrace() // Log the exception to debug
+
+
         }
 
-        return departamentoList
+
+
+        fun obtenerDepartamentos(): List<tbDepartamentos> {
+            val objConexion = ClaseConexion().cadenaConexion()
+            val statement = objConexion?.createStatement()
+            val resultSet = statement?.executeQuery("select * from tbDepartamentos")!!
+            val listaDepartamentos = mutableListOf<tbDepartamentos>()
+            while (resultSet.next()) {
+                val id_departamento = resultSet.getInt("id_departamento")
+                val nombre_departamento = resultSet.getString("nombre_departamento")
+
+                val valoresJuntos = tbDepartamentos(id_departamento, nombre_departamento)
+                listaDepartamentos.add(valoresJuntos)
+
+
+            }
+            return listaDepartamentos
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val listaDepartamentos = obtenerDepartamentos()
+            val nombresDepartamentos = listaDepartamentos.map { it.nombre_departamento }
+
+            withContext(Dispatchers.Main) {
+                val adapter = ArrayAdapter(this@activity_reserva, android.R.layout.simple_spinner_dropdown_item, nombresDepartamentos)
+
+
+                spDepartamento.adapter = adapter
+            }
+        }
+
+
+
+
+    }
+    //buscar id departamento por nombre
+    private fun obteneridDepartamentoEnVal(departamento: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val idDepartamentoxd = cargaridDepartamento(departamento)
+            withContext(Dispatchers.Main) {
+
+                idDepartamento = idDepartamentoxd
+
+            }
+        }
+    }
+    private fun cargaridDepartamento(departamento: String): Int? {
+        var idDepartamento: Int? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT id_departamento FROM tbDepartamentos WHERE nombre_departamento = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, departamento)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            idDepartamento = resultSet.getInt("id_departamento")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return idDepartamento
     }
 
+
+
+
+
+
+
+
+
+
     private fun setupCantidadSpinner() {
-        val spinner = findViewById<Spinner>(R.id.txtCantidadH)
+        val spinner = findViewById<Spinner>(R.id.spCantidadH)
 
         // Lista de números del 1 al 5
         val cantidadList = listOf(1, 2, 3, 4, 5)
@@ -150,30 +261,10 @@ class activity_reserva : AppCompatActivity() {
         spinner.adapter = adapter
     }
 
-    private fun setupDepartamentoSpinner() {
-        val spinner = findViewById<Spinner>(R.id.txtDepartamento)
 
-        // Recupera los datos desde la base de datos
-        val departamentoList = getDepartamentosFromDatabase()
 
-        // Crea un ArrayAdapter con los datos recuperados
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, departamentoList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        // Configura el adaptador al Spinner
-        spinner.adapter = adapter
-    }
-
-    private fun hideKeyboard() {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        val view = currentFocus
-        if (view != null) {
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
 
     private fun showDatePickerDialog(onDateSet: (String) -> Unit) {
-        hideKeyboard() // Oculta el teclado antes de mostrar el DatePickerDialog
 
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -196,9 +287,6 @@ class activity_reserva : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
 
 
 }

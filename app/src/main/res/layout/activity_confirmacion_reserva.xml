@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_confirmacion_reserva"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="384dp"
+        android:layout_height="614dp"
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Añadir un borde amarillo al CardView -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/border_yellow"
+            android:padding="16dp">
+
+            <!-- Aquí va todo tu diseño anterior -->
+
+            <!-- Hotel Name -->
+            <TextView
+                android:id="@+id/tvHotelName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:paddingBottom="8dp"
+                android:text="Hotel Oasis"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Dirección -->
+            <TextView
+                android:id="@+id/tvHotelAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:paddingBottom="16dp"
+                android:text="Colonia Libertad, Avenida Morazán, Pasaje Morelos #111\nSan Salvador, El Salvador."
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvHotelName" />
+
+            <!-- Entrada y Salida -->
+            <TextView
+                android:id="@+id/tvEntradaLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Entrada"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvHotelAddress" />
+
+            <TextView
+                android:id="@+id/tvEntradaDate"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:fontFamily="@font/poppins"
+                android:text="Lunes, 19 de mayo del 2024."
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvEntradaLabel" />
+
+            <TextView
+                android:id="@+id/tvSalidaLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Salida"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/tvEntradaLabel"
+                app:layout_constraintTop_toTopOf="@id/tvEntradaLabel" />
+
+            <!-- Selección -->
+
+            <!-- Total -->
+
+            <!-- Reserva para -->
+
+            <TextView
+                android:id="@+id/tvSalidaDate"
+                android:layout_width="122dp"
+                android:layout_height="61dp"
+                android:fontFamily="@font/poppins"
+                android:text="Martes, 20 de mayo del 2024."
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/tvSalidaLabel"
+                app:layout_constraintTop_toBottomOf="@id/tvSalidaLabel" />
+
+            <TextView
+                android:id="@+id/tvSeleccionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/poppins"
+                android:text="Selección:"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSalidaDate" />
+
+            <TextView
+                android:id="@+id/tvSeleccionDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="116dp"
+                android:fontFamily="@font/poppins"
+                android:text="1 habitación económica"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvSeleccionLabel" />
+
+            <!-- No reembolsable -->
+
+            <TextView
+                android:id="@+id/tvTotalLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/poppins"
+                android:text="Total:"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSeleccionDetails" />
+
+            <TextView
+                android:id="@+id/tvTotalAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="124dp"
+                android:fontFamily="@font/poppins"
+                android:text="$60.00 + impuestos"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTotalLabel" />
+
+            <ImageView
+                android:id="@+id/ivReservaParaIcon"
+                android:layout_width="43dp"
+                android:layout_height="39dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="52dp"
+                android:src="@drawable/ic_persona"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTotalAmount" />
+
+            <TextView
+                android:id="@+id/tvReservaPara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                android:fontFamily="@font/poppins"
+                android:text="Reserva para"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/ivReservaParaIcon"
+                app:layout_constraintTop_toTopOf="@id/ivReservaParaIcon" />
+
+            <TextView
+                android:id="@+id/tvReservaNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="124dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins"
+                android:text="Bryan Miranda"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvReservaPara" />
+
+            <ImageView
+                android:id="@+id/ivNoReembolsableIcon"
+                android:layout_width="41dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/ic_no_refund"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvReservaNombre" />
+
+            <TextView
+                android:id="@+id/tvNoReembolsable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                android:fontFamily="@font/poppins"
+                android:text="No reembolsable"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/ivNoReembolsableIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivNoReembolsableIcon" />
+
+            <TextView
+                android:id="@+id/tvNoReembolsableInfo"
+                android:layout_width="210dp"
+                android:layout_height="67dp"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/poppins"
+                android:text="Si cancelas o no te presentas, no habrá devoluciones."
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNoReembolsable" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnConfirmar"
+        android:layout_width="151dp"
+        android:layout_height="49dp"
+        android:backgroundTint="#ff33b5e5"
+        android:text="Confirmar"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.981" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,6 +81,7 @@
           <option name="screenY" value="2142" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
+<<<<<<< HEAD
           <option name="api" value="34" />
           <option name="brand" value="google" />
           <option name="codename" value="comet" />
@@ -92,6 +93,8 @@
           <option name="screenY" value="2152" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
+=======
+>>>>>>> 250f74e32e9deabfcf4902704d13a169bf7f33b5
           <option name="api" value="29" />
           <option name="brand" value="samsung" />
           <option name="codename" value="crownqlteue" />
