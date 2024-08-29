@@ -131,15 +131,15 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
                 holder.ImageView.visibility = View.GONE
             }
             if(!imagen.isNullOrEmpty()){
-             try{
-                 Log.e("imagen", imagen)
-                 Glide.with(context)
-                     .load(imagen)
-                     .fitCenter()
-                     .into(holder.imageProfile)
-             } catch (e: Exception){
-                 e.printStackTrace()
-             }
+                try{
+                    Log.e("imagen", imagen)
+                    Glide.with(context)
+                        .load(imagen)
+                        .fitCenter()
+                        .into(holder.imageProfile)
+                } catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
         holder.ImageView.setOnClickListener { v: View ->
@@ -186,13 +186,13 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
                     true
                 }
                 else -> false
-                    }
             }
+        }
 
         popup.setOnDismissListener {
             // Respond to popup being dismissed.
         }
         // Show the popup menu.
         popup.show()
-    }
+        }
 }

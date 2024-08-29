@@ -56,7 +56,6 @@ class hotel_detalles : AppCompatActivity() {
             navigateBack()
         }
 
-        val idUsuarioRecivido = PaginaInicio.idUsuarioGlobalL
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
         if (idHotel != -1) {
@@ -151,57 +150,41 @@ class hotel_detalles : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val objConexion = ClaseConexion().cadenaConexion()
+                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificación) values(?,?,?)")!!
+                addComentario.setString(1, txtComentario.text.toString())
+                addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
+                addComentario.setInt(3,3)
+                addComentario.executeUpdate()
 
-                val comentario = txtComentario.text.toString()
+                val nuevocomentario = obtenerComentarios()
+                withContext(Dispatchers.Main){
+                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
+                    txtComentario.setText("")
 
-                if (idUsuarioRecivido != null) {
-                    try {
-                        val addComentario = objConexion?.prepareStatement(
-                            "INSERT INTO tbValoraciones(comentario, id_usuario) VALUES (?, ?)"
-                        )
-                        addComentario?.setString(1, comentario)
-                        addComentario?.setInt(2, idUsuarioRecivido)
-                        val result = addComentario?.executeUpdate()
-                        if (result != null && result > 0) {
-                            println("Comentario agregado exitosamente")
-                        } else {
-                            println("Error al agregar comentario")
-                        }
-
-                        val nuevocomentario = obtenerComentarios()
-                        withContext(Dispatchers.Main) {
-                            (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                            txtComentario.setText("")
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        objConexion?.close()
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        println("Error: idUsuarioRecivido es nulo")
-                    }
                 }
-
             }
+
+
         }
 
 
-
         hotel?.let {
-    Glide.with(this)
-        .load(hotel.img_url)
+            Glide.with(this)
+                .load(hotel.img_url)
 
 
 
-        tvNombreDetalleHotel.text = hotel.nombreHotel
-        tvDescripcionDetalleHotel.text = hotel.descripcion
+
+            Glide.with(this)
+                .load(hotel.img_url)
+
+            tvNombreDetalleHotel.text = hotel.nombreHotel
+            tvDescripcionDetalleHotel.text = hotel.descripcion
 
 
-    tvNombreDetalleHotel.text = hotel.nombreHotel
-    tvDescripcionDetalleHotel.text = hotel.descripcion
-}
+            tvNombreDetalleHotel.text = hotel.nombreHotel
+            tvDescripcionDetalleHotel.text = hotel.descripcion
+        }
 
 
 
@@ -270,7 +253,7 @@ class hotel_detalles : AppCompatActivity() {
         }
         // Show the popup menu.
         popup.show()
-    }
-
-
+        }
 }
+
+
