@@ -171,12 +171,7 @@ class hotel_detalles : AppCompatActivity() {
         hotel?.let {
             Glide.with(this)
                 .load(hotel.img_url)
-
-
-
-
-            Glide.with(this)
-                .load(hotel.img_url)
+            
 
             tvNombreDetalleHotel.text = hotel.nombreHotel
             tvDescripcionDetalleHotel.text = hotel.descripcion
