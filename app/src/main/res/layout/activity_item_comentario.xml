@@ -38,12 +38,7 @@
             android:text="Hace 1 mes"
             android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/iconotrespuntos" />
+    
         <ImageView
             android:id="@+id/asd"
             android:layout_width="wrap_content"
