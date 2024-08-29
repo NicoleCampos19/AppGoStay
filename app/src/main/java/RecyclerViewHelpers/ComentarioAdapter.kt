@@ -142,7 +142,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
              }
             }
         }
-        holder.ImageView.setOnClickListener { v: View ->
+        holder.ImageViewasd.setOnClickListener { v: View ->
             showMenu(v, R.menu.popup_menu, context, item, position)
         }
     }
