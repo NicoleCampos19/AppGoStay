@@ -10,6 +10,7 @@ class ViewHolderComentario(view: View) : RecyclerView.ViewHolder(view) {
 
     val txtUsuarioCard = view.findViewById<TextView>(R.id.txtUsuarioCard)
     val txtComentarioCard = view.findViewById<TextView>(R.id.txtComentarioCard)
+
     val ImageViewasd = view.findViewById<ImageView>(R.id.asd)
 
     val imageProfile = view.findViewById<ImageView>(R.id.imageProfile)
