@@ -3,6 +3,7 @@ package RecyclerViewHelpers
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
 import modelo.tbHabitaciones
 
@@ -16,6 +17,5 @@ class AdaptadorHabitaciones (var Datos: List<tbHabitaciones>): RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ViewHolderHabitaciones, position: Int) {
         val item = Datos[position]
-
     }
 }

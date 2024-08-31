@@ -1,5 +1,8 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.AdaptadorHabitaciones
+import RecyclerViewHelpers.AdaptorTipoHabitacion
+import RecyclerViewHelpers.ReservaAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +11,23 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import modelo.ClaseConexion
+import modelo.ReservaInfo
+import modelo.tbHabitaciones
+import modelo.tbTipoHabitacion
 
 class Reservas : AppCompatActivity() {
+
+    private lateinit var reservaAdapter: ReservaAdapter
+
+
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,5 +67,65 @@ class Reservas : AppCompatActivity() {
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
+
+
+        val idUsuarioGLobal = PaginaInicio.idUsuarioGlobalL
+        val recyclerView: RecyclerView = findViewById(R.id.rcvMostrarReservaciones)
+
+
+        fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
+            val HabitacionesList = mutableListOf<ReservaInfo>()
+            val query = """
+        select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre as usuario_nombre, hot.img_url, th.nombre_tipo_habitacion
+from tbHabitaciones ha
+INNER JOIN tbHoteles hot ON ha.id_hoteles = hot.id_hoteles
+INNER JOIN tbUsuarios us ON ha.id_usuario = us.id_usuario
+INNER JOIN tbTiposHabitaciones th ON ha.id_tipo_habitacion = th.id_tipo_habitacion
+where ha.id_usuario = ?
+    """.trimIndent()
+
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                objConexion?.use { connection ->
+                    val statement = connection.prepareStatement(query).apply {
+                        setInt(1, idUsuarioRecivido)
+                    }
+
+                    statement.use { preparedStatement ->
+                        val resultSet = preparedStatement.executeQuery()
+                        resultSet.use { rs ->
+                            while (rs.next()) {
+                                val entrada = rs.getString("entrada")
+                                val salida = rs.getString("salida")
+                                val usuario_nombre = rs.getString("usuario_nombre")
+                                val img_url = rs.getString("img_url")
+                                val nombre_tipo_habitacion = rs.getString("nombre_tipo_habitacion")
+                                val hotel_nombre = rs.getString("hotel_nombre")
+                                HabitacionesList.add(ReservaInfo(entrada, salida, usuario_nombre, img_url, nombre_tipo_habitacion, hotel_nombre))
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace() // Log the exception to debug
+            }
+
+            return HabitacionesList
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            val reservas = idUsuarioGLobal?.let { loadHabitacionesFromDatabase(it) }
+            withContext(Dispatchers.Main) {
+                reservas?.let {
+                    reservaAdapter = ReservaAdapter(it)
+                    recyclerView.adapter = reservaAdapter
+                    recyclerView.layoutManager = LinearLayoutManager(this@Reservas)
+                }?: run {
+                    // Maneja el caso en que reservas sea null, quizás mostrando un mensaje de error o un mensaje de "No hay datos"
+                    println("No se encontraron reservas para el usuario.")
+                }
+            }
+        }
+
+
     }
 }

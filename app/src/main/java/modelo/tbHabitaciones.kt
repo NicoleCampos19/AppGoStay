@@ -2,10 +2,6 @@ package modelo
 
 data class tbHabitaciones(
     val id_habitacion: Int,
-    val nombres: String,
-    val apellidos: String,
-    val correo: String,
-    val telefono: String,
     val entrada: String,
     val salida: String,
     val numero_tarjeta: String,
