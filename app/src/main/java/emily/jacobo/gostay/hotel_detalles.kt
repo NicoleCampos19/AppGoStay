@@ -58,9 +58,7 @@ class hotel_detalles : AppCompatActivity() {
 
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
-        if (idHotel != -1) {
-            obtenerServiciosHotel(idHotel)
-        }
+
 
         val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
@@ -170,7 +168,7 @@ class hotel_detalles : AppCompatActivity() {
 
         hotel?.let {
             Glide.with(this)
-                .load(hotel.img_url)
+
             
 
             tvNombreDetalleHotel.text = hotel.nombreHotel
@@ -204,39 +202,8 @@ class hotel_detalles : AppCompatActivity() {
         finish()
     }
 
-    private fun obtenerServiciosHotel(idHotel: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val servicios = cargarServiciosHotel(idHotel)
-            withContext(Dispatchers.Main) {
-                val adapter = AdaptadorServicioHotel(servicios)
-                rcvServicioHotel.adapter = adapter
-            }
-        }
-    }
-    private fun cargarServiciosHotel(idHotel: Int): List<tbServiciosHotel> {
-        val listaServicios = mutableListOf<tbServiciosHotel>()
-        val conexion = ClaseConexion().cadenaConexion()
 
-        val query = """
-            SELECT sh.id_servicio_hotel, sh.nombre_servicio, sh.img_icono_hotel 
-            FROM tbServiciosHotel sh 
-            JOIN tbHoteles h ON h.id_servicio_hotel = sh.id_servicio_hotel 
-            WHERE h.id_hoteles = ?
-        """
-        val statement = conexion?.prepareStatement(query)
-        statement?.setInt(1, idHotel)
-        val resultSet = statement?.executeQuery()
-        while (resultSet?.next() == true) {
-            val idServicioHotel = resultSet.getInt("id_servicio_hotel")
-            val nombreServicio = resultSet.getString("nombre_servicio")
-            val imgIconoHotel = resultSet.getString("img_icono_hotel")
-            listaServicios.add(tbServiciosHotel(idServicioHotel, nombreServicio, imgIconoHotel))
-        }
-        resultSet?.close()
-        statement?.close()
-        conexion?.close()
-        return listaServicios
-    }
+
 
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(this, v)
