@@ -128,7 +128,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
             val idUsuarioActivo = obtenerIdUsuario(correo)
             val imagen = obtenerImagenUsuario(correo)
             if(idUsuarioActivo != item.id_usuario){
-                holder.ImageViewasd.visibility = View.GONE
+
             }
             if(!imagen.isNullOrEmpty()){
                 try{
