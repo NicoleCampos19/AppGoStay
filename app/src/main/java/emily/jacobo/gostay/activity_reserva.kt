@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -72,9 +73,12 @@ class activity_reserva : AppCompatActivity() {
 
         val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
 
+        val imgVolverAtrars = findViewById<ImageView>(R.id.imgVolverAtrasXD)
 
 
-
+        imgVolverAtrars.setOnClickListener {
+            finish()
+        }
 
         // Configura el DatePickerDialog para la fecha de entrada
         txtEntrada.setOnClickListener {

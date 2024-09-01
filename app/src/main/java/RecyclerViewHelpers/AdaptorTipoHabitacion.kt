@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.activity_habitacion_economica
 import emily.jacobo.gostay.activity_reserva
 import modelo.tbTipoHabitacion
 
@@ -30,7 +31,7 @@ class AdaptorTipoHabitacion (val Datos : List<tbTipoHabitacion>) : RecyclerView.
 
         holder.btnVerMas.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, activity_reserva::class.java)
+            val intent = Intent(context, activity_habitacion_economica::class.java)
             context.startActivity(intent)        }
     }
 }
