@@ -4,6 +4,7 @@ import RecyclerViewHelpers.AdaptorTipoHabitacion
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -80,6 +81,14 @@ class activity_confirmacionReserva : AppCompatActivity() {
         findViewById<TextView>(R.id.tvSalidaDate).text = fechaSalida
 
 
+
+
+
+       val volverAtras = findViewById<ImageView>(R.id.imgVolverTrasxd)
+
+        volverAtras.setOnClickListener {
+            finish()
+        }
 
         if (idHotelRecivido != -1 && idTipoHabitacionRecivido != -1 && nombreUsuario != null) {
             obtenerDireccionHotelEnTv(idHotelRecivido ?: -1)

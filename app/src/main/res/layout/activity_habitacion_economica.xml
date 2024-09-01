@@ -24,7 +24,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView25"
+                android:id="@+id/imgVolver"
                 android:layout_width="43dp"
                 android:layout_height="41dp"
                 android:layout_marginStart="16dp"
@@ -90,6 +90,7 @@
                 app:iconTint="#E2EAE1E1"
                 app:layout_constraintBottom_toTopOf="@+id/btnReservar"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rcvEspecificaciones" />
 

@@ -49,7 +49,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvServiciosHotel"
                 android:layout_width="match_parent"
-                android:layout_height="94dp" />
+                android:layout_height="131dp" />
 
             <View
                 android:id="@+id/view"
@@ -61,7 +61,7 @@
             <TextView
                 android:id="@+id/tvDescripcionDetalleHotel"
                 android:layout_width="386dp"
-                android:layout_height="128dp"
+                android:layout_height="159dp"
                 android:fontFamily="@font/poppins"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
@@ -135,12 +135,10 @@
             </LinearLayout>
 
 
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvComentarios"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="270dp" />
 
             <View
                 android:id="@+id/view4"
