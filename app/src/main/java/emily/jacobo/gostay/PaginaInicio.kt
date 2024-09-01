@@ -113,11 +113,9 @@ class PaginaInicio : AppCompatActivity() {
                 val correo = resultSet.getString("correo")
                 val cantidad_habitaciones = resultSet.getInt("cantidad_habitaciones")
                 val img_url = resultSet.getString("img_url")
-                val id_tipo_habitacion = resultSet.getInt("id_tipo_habitacion")
-                val id_servicio_hotel = resultSet.getInt("id_servicio_hotel")
-                val id_valoracion = resultSet.getInt("id_valoracion")
+                val id_usuario = resultSet.getInt("id_usuario")
 
-                val valoresJuntos = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_tipo_habitacion, id_servicio_hotel, id_valoracion)
+                val valoresJuntos = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_usuario)
 
                 listaHoteles.add(valoresJuntos)
             }
@@ -147,14 +145,11 @@ class PaginaInicio : AppCompatActivity() {
                         val correo = resultSet.getString("correo")
                         val cantidad_habitaciones = resultSet.getInt("cantidad_habitaciones")
                         val img_url = resultSet.getString("img_url")
-                        val id_tipo_habitacion = resultSet.getInt("id_tipo_habitacion")
-                        val id_servicio_hotel = resultSet.getInt("id_servicio_hotel")
-                        val id_valoracion = resultSet.getInt("id_valoracion")
+                        val id_usuario = resultSet.getInt("id_usuario")
 
                         val hotel = tbHotel(
                             id_hoteles, nombre, descripcion, direccion, correo,
-                            cantidad_habitaciones, img_url, id_tipo_habitacion,
-                            id_servicio_hotel, id_valoracion
+                            cantidad_habitaciones, img_url, id_usuario
                         )
 
                         listaHotelesFavoritos.add(hotel)
@@ -220,13 +215,13 @@ class PaginaInicio : AppCompatActivity() {
         val conexion = ClaseConexion().cadenaConexion()
 
         val query = """
-        SELECT nombre FROM tbUsuarios WHERE correo = ?
+        SELECT nombre_usuario FROM tbUsuarios WHERE correo = ?
     """
         val statement = conexion?.prepareStatement(query)
         statement?.setString(1, correoUsuario)
         val resultSet = statement?.executeQuery()
         if (resultSet?.next() == true) {
-            nombreUsuario = resultSet.getString("nombre")
+            nombreUsuario = resultSet.getString("nombre_usuario")
         }
         resultSet?.close()
         statement?.close()

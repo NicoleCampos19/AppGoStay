@@ -2,6 +2,8 @@ package emily.jacobo.gostay
 
 import RecyclerViewHelpers.AdaptadorServicioHotel
 import RecyclerViewHelpers.ComentarioAdapter
+import RecyclerViewHelpers.ReservaAdapter
+import RecyclerViewHelpers.ServicioAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -23,6 +25,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
+import modelo.ReservaInfo
+import modelo.ServicioInfo
 import modelo.tbComentarios
 import modelo.tbHotel
 
@@ -32,8 +36,8 @@ import modelo.tbServiciosHotel
 
 class hotel_detalles : AppCompatActivity() {
 
-    private lateinit var rcvServicioHotel: RecyclerView
     private lateinit var prevActivity: String
+    private lateinit var servicioAdapter: ServicioAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +50,62 @@ class hotel_detalles : AppCompatActivity() {
             insets
         }
 
-        rcvServicioHotel = findViewById(R.id.rcvServiciosHotel)
-        rcvServicioHotel.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val idHotelGlobal = PaginaInicio.hotelIdGlobal
+        val recyclerView: RecyclerView = findViewById(R.id.rcvServiciosHotel)
+
+        //aqui
+        fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
+            val ServiciosList = mutableListOf<ServicioInfo>()
+            val query = """
+        SELECT sh.nombre_servicio, sh.img_icono_hotel
+from tbIntermedia_Hoteles_Servicios ish
+INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
+where id_hoteles = ?
+    """.trimIndent()
+
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                objConexion?.use { connection ->
+                    val statement = connection.prepareStatement(query).apply {
+                        setInt(1, idHotelGlobal)
+                    }
+
+                    statement.use { preparedStatement ->
+                        val resultSet = preparedStatement.executeQuery()
+                        resultSet.use { rs ->
+                            while (rs.next()) {
+                                val nombre_servicio = rs.getString("nombre_servicio")
+                                val img_icono_hotel = rs.getString("img_icono_hotel")
+                                ServiciosList.add(ServicioInfo(nombre_servicio, img_icono_hotel))
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace() // Log the exception to debug
+            }
+
+            return ServiciosList
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            val servicios = idHotelGlobal?.let { loadServiciosFromDatabase(it) }
+            withContext(Dispatchers.Main) {
+                servicios?.let {
+                    servicioAdapter = ServicioAdapter(it)
+                    recyclerView.adapter = servicioAdapter
+                    recyclerView.layoutManager = LinearLayoutManager(this@hotel_detalles, LinearLayoutManager.HORIZONTAL, false)
+                }?: run {
+                    // Maneja el caso en que reservas sea null, quizás mostrando un mensaje de error o un mensaje de "No hay datos"
+                    println("No se encontraron servicios para el hotel.")
+                }
+            }
+        }
+
+
+
+
+
+
 
         prevActivity = intent.getStringExtra("prev_activity") ?: "PaginaInicio"
 
@@ -56,12 +114,9 @@ class hotel_detalles : AppCompatActivity() {
             navigateBack()
         }
 
-        val idUsuarioRecivido = PaginaInicio.idUsuarioGlobalL
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
-        if (idHotel != -1) {
-            obtenerServiciosHotel(idHotel)
-        }
+
 
         val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
@@ -84,6 +139,7 @@ class hotel_detalles : AppCompatActivity() {
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
         val imvReportar = findViewById<ImageView>(R.id.imvReportar)
         val btnReportar = findViewById<Button>(R.id.btnReportar)
+
 
 
         imvReportar.setOnClickListener {
@@ -151,57 +207,36 @@ class hotel_detalles : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val objConexion = ClaseConexion().cadenaConexion()
+                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificación) values(?,?,?)")!!
+                addComentario.setString(1, txtComentario.text.toString())
+                addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
+                addComentario.setInt(3,3)
+                addComentario.executeUpdate()
 
-                val comentario = txtComentario.text.toString()
+                val nuevocomentario = obtenerComentarios()
+                withContext(Dispatchers.Main){
+                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
+                    txtComentario.setText("")
 
-                if (idUsuarioRecivido != null) {
-                    try {
-                        val addComentario = objConexion?.prepareStatement(
-                            "INSERT INTO tbValoraciones(comentario, id_usuario) VALUES (?, ?)"
-                        )
-                        addComentario?.setString(1, comentario)
-                        addComentario?.setInt(2, idUsuarioRecivido)
-                        val result = addComentario?.executeUpdate()
-                        if (result != null && result > 0) {
-                            println("Comentario agregado exitosamente")
-                        } else {
-                            println("Error al agregar comentario")
-                        }
-
-                        val nuevocomentario = obtenerComentarios()
-                        withContext(Dispatchers.Main) {
-                            (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                            txtComentario.setText("")
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        objConexion?.close()
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        println("Error: idUsuarioRecivido es nulo")
-                    }
                 }
-
             }
+
+
         }
 
 
-
         hotel?.let {
-    Glide.with(this)
-        .load(hotel.img_url)
+            Glide.with(this)
+
+            
+
+            tvNombreDetalleHotel.text = hotel.nombreHotel
+            tvDescripcionDetalleHotel.text = hotel.descripcion
 
 
-
-        tvNombreDetalleHotel.text = hotel.nombreHotel
-        tvDescripcionDetalleHotel.text = hotel.descripcion
-
-
-    tvNombreDetalleHotel.text = hotel.nombreHotel
-    tvDescripcionDetalleHotel.text = hotel.descripcion
-}
+            tvNombreDetalleHotel.text = hotel.nombreHotel
+            tvDescripcionDetalleHotel.text = hotel.descripcion
+        }
 
 
 
@@ -226,39 +261,8 @@ class hotel_detalles : AppCompatActivity() {
         finish()
     }
 
-    private fun obtenerServiciosHotel(idHotel: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val servicios = cargarServiciosHotel(idHotel)
-            withContext(Dispatchers.Main) {
-                val adapter = AdaptadorServicioHotel(servicios)
-                rcvServicioHotel.adapter = adapter
-            }
-        }
-    }
-    private fun cargarServiciosHotel(idHotel: Int): List<tbServiciosHotel> {
-        val listaServicios = mutableListOf<tbServiciosHotel>()
-        val conexion = ClaseConexion().cadenaConexion()
 
-        val query = """
-            SELECT sh.id_servicio_hotel, sh.nombre_servicio, sh.img_icono_hotel 
-            FROM tbServiciosHotel sh 
-            JOIN tbHoteles h ON h.id_servicio_hotel = sh.id_servicio_hotel 
-            WHERE h.id_hoteles = ?
-        """
-        val statement = conexion?.prepareStatement(query)
-        statement?.setInt(1, idHotel)
-        val resultSet = statement?.executeQuery()
-        while (resultSet?.next() == true) {
-            val idServicioHotel = resultSet.getInt("id_servicio_hotel")
-            val nombreServicio = resultSet.getString("nombre_servicio")
-            val imgIconoHotel = resultSet.getString("img_icono_hotel")
-            listaServicios.add(tbServiciosHotel(idServicioHotel, nombreServicio, imgIconoHotel))
-        }
-        resultSet?.close()
-        statement?.close()
-        conexion?.close()
-        return listaServicios
-    }
+
 
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(this, v)
@@ -270,7 +274,7 @@ class hotel_detalles : AppCompatActivity() {
         }
         // Show the popup menu.
         popup.show()
-    }
-
-
+        }
 }
+
+

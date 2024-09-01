@@ -2,6 +2,7 @@ package emily.jacobo.gostay
 
 import RecyclerViewHelpers.AdaptorTipoHabitacion
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -29,6 +30,10 @@ class activity_eleccion_habitacion : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val imvRegresaralHotel = findViewById<ImageView>(R.id.imvRegresaralHotel)
+        imvRegresaralHotel.setOnClickListener {
+            finish()
+        }
 
         val rcvTiposHabitaciones = findViewById<RecyclerView>(R.id.rcvTiposHabitaciones)
         rcvTiposHabitaciones.layoutManager = LinearLayoutManager(this)
@@ -38,7 +43,7 @@ class activity_eleccion_habitacion : AppCompatActivity() {
         fun loadTipoHabitacionesFromDatabase(idHotelRecivido: Int): List<tbTipoHabitacion> {
             val tipoHabitacionList = mutableListOf<tbTipoHabitacion>()
             val query = """
-        SELECT th.id_tipo_habitacion, th.nombre_tipo_habitacion, th.precio_habitacion 
+        SELECT th.id_tipo_habitacion, th.nombre_tipo_habitacion, th.precio_habitacion, th.img_tipo_habitacion
         FROM tbIntermedia_Hoteles_TipoHabitacion thb  
         INNER JOIN tbTiposHabitaciones th 
         ON thb.id_tipo_habitacion = th.id_tipo_habitacion 
@@ -59,7 +64,8 @@ class activity_eleccion_habitacion : AppCompatActivity() {
                                 val idTipoHabitacion = rs.getInt("id_tipo_habitacion")
                                 val nombre = rs.getString("nombre_tipo_habitacion")
                                 val precio = rs.getInt("precio_habitacion")
-                                tipoHabitacionList.add(tbTipoHabitacion(idTipoHabitacion, nombre, precio))
+                                val img_url = rs.getString("img_tipo_habitacion")
+                                tipoHabitacionList.add(tbTipoHabitacion(idTipoHabitacion, nombre, precio, img_url))
                             }
                         }
                     }

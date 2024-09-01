@@ -128,21 +128,22 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
             val idUsuarioActivo = obtenerIdUsuario(correo)
             val imagen = obtenerImagenUsuario(correo)
             if(idUsuarioActivo != item.id_usuario){
-                holder.ImageView.visibility = View.GONE
+                holder.ImageViewasd .visibility = View.GONE
+
             }
             if(!imagen.isNullOrEmpty()){
-             try{
-                 Log.e("imagen", imagen)
-                 Glide.with(context)
-                     .load(imagen)
-                     .fitCenter()
-                     .into(holder.imageProfile)
-             } catch (e: Exception){
-                 e.printStackTrace()
-             }
+                try{
+                    Log.e("imagen", imagen)
+                    Glide.with(context)
+                        .load(imagen)
+                        .fitCenter()
+                        .into(holder.imageProfile)
+                } catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
-        holder.ImageView.setOnClickListener { v: View ->
+        holder.ImageViewasd.setOnClickListener { v: View ->
             showMenu(v, R.menu.popup_menu, context, item, position)
         }
     }
@@ -186,13 +187,13 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
                     true
                 }
                 else -> false
-                    }
             }
+        }
 
         popup.setOnDismissListener {
             // Respond to popup being dismissed.
         }
         // Show the popup menu.
         popup.show()
-    }
+        }
 }

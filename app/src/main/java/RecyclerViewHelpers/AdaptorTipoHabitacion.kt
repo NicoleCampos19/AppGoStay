@@ -4,7 +4,9 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.activity_habitacion_economica
 import emily.jacobo.gostay.activity_reserva
 import modelo.tbTipoHabitacion
 
@@ -26,11 +28,15 @@ class AdaptorTipoHabitacion (val Datos : List<tbTipoHabitacion>) : RecyclerView.
         val item = Datos[position]
         holder.txtNombreTipoHabitacion.text = item.nombre
         holder.txtPrecioTipoHabitacion.text = "$${item.precio}"
+        Glide.with(holder.itemView.context)
+            .load(item.img_url)
+            .into(holder.imgTipoHabitacion)
+
         idTipoHabitacionGlobal = item.id_tipo_habitacion
 
         holder.btnVerMas.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, activity_reserva::class.java)
+            val intent = Intent(context, activity_habitacion_economica::class.java)
             context.startActivity(intent)        }
     }
 }
