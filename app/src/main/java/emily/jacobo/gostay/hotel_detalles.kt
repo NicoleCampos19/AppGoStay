@@ -141,6 +141,7 @@ where id_hoteles = ?
         val btnReportar = findViewById<Button>(R.id.btnReportar)
 
 
+
         imvReportar.setOnClickListener {
             val irADenuncias = Intent(this, RealizarDenuncia::class.java)
             irADenuncias.putExtra("idHotel", idHotel)

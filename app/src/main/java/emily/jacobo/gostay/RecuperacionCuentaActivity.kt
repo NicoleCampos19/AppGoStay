@@ -39,7 +39,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
-
+        //VARIABLE
 
         btnRecuperacion.setOnClickListener{
 
@@ -49,6 +49,8 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                     "${Correo}",
                     "Recuperacion de contraseña",
                     "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
+
+                //VARIABLE MANDADA
 
 
             }

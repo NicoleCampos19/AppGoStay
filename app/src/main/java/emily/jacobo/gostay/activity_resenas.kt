@@ -17,5 +17,7 @@ class activity_resenas : AppCompatActivity() {
             insets
         }
 
+
+
     }
 }
