@@ -17,7 +17,7 @@
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="44dp"
             android:layout_marginEnd="160dp"
             android:fontFamily="@font/poppinsemibold"
             android:text="Filtros"
@@ -25,8 +25,8 @@
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.093"
-            app:layout_constraintStart_toEndOf="@+id/btnAtras"
+            app:layout_constraintHorizontal_bias="0.971"
+            app:layout_constraintStart_toEndOf="@+id/buttonClose"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
@@ -78,26 +78,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
-        <SeekBar
+        <!--<SeekBar
             android:id="@+id/seekBarMin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="20"
-            android:thumb="@drawable/custom_thumb"
-            android:progressDrawable="@drawable/custom_progress"/>
+            android:thumb="@drawable/custom_thumb"/>
+         android:progressDrawable="@drawable/custom_progress" -->
 
-        <!-- SeekBar para el rango máximo -->
-        <SeekBar
-            android:id="@+id/seekBarMax"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="80"
-            android:layout_alignBottom="@id/seekBarMin"
-            android:thumb="@drawable/custom_thumb"
-            android:progressDrawable="@drawable/custom_progress"/>
+     <!-- SeekBar para el rango máximo -->
+        <!-- <SeekBar
+             android:id="@+id/seekBarMax"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:max="100"
+             android:progress="80"
+             android:layout_alignBottom="@id/seekBarMin"
+             android:thumb="@drawable/custom_thumb"/>
+          android:progressDrawable="@drawable/custom_progress" -->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+ </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+ </ScrollView>
