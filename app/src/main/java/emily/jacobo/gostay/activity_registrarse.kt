@@ -241,7 +241,7 @@ class activity_registrarse : AppCompatActivity() {
                     val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
 
                     val crearUsuario =
-                        objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")!!
+                        objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre_usuario, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")!!
                     crearUsuario.setString(1, txtNombre.text.toString())
                     crearUsuario.setString(2, txtApellido.text.toString())
                     crearUsuario.setString(3, txtFechaNacimiento.text.toString())

@@ -28,69 +28,74 @@
                 android:layout_width="43dp"
                 android:layout_height="41dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="33dp"
+                android:layout_marginTop="23dp"
                 android:layout_marginEnd="350dp"
                 android:layout_marginBottom="265dp"
                 app:layout_constraintBottom_toTopOf="@+id/rcvEspecificaciones"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 
             <TextView
-                android:id="@+id/textView33"
+                android:id="@+id/tvNombreTipoHabitacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="68dp"
-                android:layout_marginTop="81dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginEnd="68dp"
                 android:fontFamily="@font/poppins"
                 android:text="Habitación económica"
                 android:textAlignment="center"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView27"
-                android:layout_width="226dp"
-                android:layout_height="169dp"
+                android:id="@+id/imgTipoHabitacion"
+                android:layout_width="431dp"
+                android:layout_height="224dp"
                 android:layout_marginStart="91dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="92dp"
                 android:layout_marginBottom="32dp"
                 app:layout_constraintBottom_toTopOf="@+id/rcvEspecificaciones"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView33"
+                app:layout_constraintTop_toBottomOf="@+id/tvNombreTipoHabitacion"
+                app:layout_constraintVertical_bias="0.0"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvEspecificaciones"
-                android:layout_width="409dp"
-                android:layout_height="342dp"
+                android:layout_width="400dp"
+                android:layout_height="364dp"
                 android:layout_marginBottom="18dp"
                 android:backgroundTint="#49A8B5"
                 app:layout_constraintBottom_toTopOf="@+id/btnTodas_espeficaciones"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView27" />
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
             <Button
                 android:id="@+id/btnTodas_espeficaciones"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
+                android:layout_marginStart="56dp"
                 android:layout_marginTop="18dp"
-                android:layout_marginEnd="103dp"
+                android:layout_marginEnd="93dp"
                 android:backgroundTint="#FFFFFF"
                 android:text="Mostrar todas las especificaciones"
                 android:textColor="#000000"
                 app:iconTint="#E2EAE1E1"
                 app:layout_constraintBottom_toTopOf="@+id/btnReservar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rcvEspecificaciones" />
 
@@ -108,6 +113,35 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnTodas_espeficaciones" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="420dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/poppins"
+                android:text="Lo que esta habitacion ofrece"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/rcvEspecificaciones"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view11"
+                android:layout_width="415dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="9dp"
+                android:background="#BDBDBD"
+                app:layout_constraintBottom_toTopOf="@+id/rcvEspecificaciones"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

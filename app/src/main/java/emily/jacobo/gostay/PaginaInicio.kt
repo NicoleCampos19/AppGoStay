@@ -201,13 +201,13 @@ class PaginaInicio : AppCompatActivity() {
         val conexion = ClaseConexion().cadenaConexion()
 
         val query = """
-        SELECT nombre FROM tbUsuarios WHERE correo = ?
+        SELECT nombre_usuario FROM tbUsuarios WHERE correo = ?
     """
         val statement = conexion?.prepareStatement(query)
         statement?.setString(1, correoUsuario)
         val resultSet = statement?.executeQuery()
         if (resultSet?.next() == true) {
-            nombreUsuario = resultSet.getString("nombre")
+            nombreUsuario = resultSet.getString("nombre_usuario")
         }
         resultSet?.close()
         statement?.close()

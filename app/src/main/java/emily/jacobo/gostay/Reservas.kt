@@ -76,7 +76,7 @@ class Reservas : AppCompatActivity() {
         fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
             val HabitacionesList = mutableListOf<ReservaInfo>()
             val query = """
-        select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre as usuario_nombre, hot.img_url, th.nombre_tipo_habitacion
+        select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre_usuario, hot.img_url, th.nombre_tipo_habitacion
 from tbHabitaciones ha
 INNER JOIN tbHoteles hot ON ha.id_hoteles = hot.id_hoteles
 INNER JOIN tbUsuarios us ON ha.id_usuario = us.id_usuario
@@ -97,7 +97,7 @@ where ha.id_usuario = ?
                             while (rs.next()) {
                                 val entrada = rs.getString("entrada")
                                 val salida = rs.getString("salida")
-                                val usuario_nombre = rs.getString("usuario_nombre")
+                                val usuario_nombre = rs.getString("nombre_usuario")
                                 val img_url = rs.getString("img_url")
                                 val nombre_tipo_habitacion = rs.getString("nombre_tipo_habitacion")
                                 val hotel_nombre = rs.getString("hotel_nombre")
