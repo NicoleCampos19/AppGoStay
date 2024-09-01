@@ -37,10 +37,14 @@ suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = wi
             addRecipient(Message.RecipientType.TO, InternetAddress(receptor))
             subject = sujeto
             setText(mensaje)
-        }
+
+    }
         Transport.send(message)
         println("Correo enviado satisfactoriamente")
-    } catch (e: MessagingException) {
+
+
+    }
+    catch (e: MessagingException) {
         e.printStackTrace()
         println("CORREO NO ENVIADO EXE")
     }
