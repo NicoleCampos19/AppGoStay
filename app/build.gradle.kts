@@ -81,13 +81,13 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.0.0")
 
     //libreria de glide imagenes
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //libreria de material design
-    implementation ("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.10.0")
 
     //libreria de circleimage
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation(libs.firebase.storage.ktx)
     implementation(files("libs\\activation.jar"))
     implementation(files("libs\\additionnal.jar"))
@@ -96,8 +96,9 @@ dependencies {
     //libreria lottie files
     implementation("com.airbnb.android:lottie:6.5.0")
 
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+
 
 
 
