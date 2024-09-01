@@ -4,6 +4,8 @@ import RecyclerViewHelpers.HotelAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,21 +42,16 @@ class PaginaInicio : AppCompatActivity() {
             insets
         }
 
-
-
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscar)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
-        val imgFiltros = findViewById<ImageView>(R.id.imgFiltros)
+        val imgFiltro = findViewById<ImageButton>(R.id.imgFiltros)
 
-        imgFiltros.setOnClickListener {
-            val siguientepantalla = Intent(this, filtros::class.java)
-            startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
+        imgFiltro.setOnClickListener {
+            showBottomSheet()
         }
-
 
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
@@ -187,8 +185,24 @@ class PaginaInicio : AppCompatActivity() {
             }
         }
 
+    }
 
+    private fun showBottomSheet() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet, null)
+        val bottomSheetDialog = BottomSheetDialog(this)
 
+        // Evitar que el BottomSheet se cierre al tocar fuera o deslizar
+        bottomSheetDialog.setCanceledOnTouchOutside(false)
+        bottomSheetDialog.behavior.isDraggable = false
+
+        // Configurar el botón para cerrar el BottomSheet
+        val buttonClose: Button = bottomSheetView.findViewById(R.id.buttonClose)
+        buttonClose.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.show()
     }
     //buscar nombre usuario
     private fun obtenerNombreUsuarioEnGl(correoUsuario: String) {
