@@ -82,8 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.233"
-        app:shapeAppearanceOverlay="@style/RoundImage"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:shapeAppearanceOverlay="@style/RoundImage" />
 
     <TextView
         android:id="@+id/textView6"

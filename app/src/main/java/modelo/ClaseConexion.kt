@@ -9,7 +9,7 @@ class ClaseConexion {
         try {
             //cambiar ip dependiendo de la computadora
             val ipLeonardo = "jdbc:oracle:thin:@192.168.0.11:1521:xe"
-            val ipEmily = "jdbc:oracle:thin:@192.168.0.5:1521:xe"
+            val ipEmily = "jdbc:oracle:thin:@192.168.0.11:1521:xe"
             val ipGabriela = "jdbc:oracle:thin:@192.168.0.100:1521:xe"
             val ipAbigail = "jdbc:oracle:thin:@172.20.10.3:1521:xe"
             val ipSofia = "jdbc:oracle:thin:@192.168.1.5:1521:xe"
@@ -24,15 +24,28 @@ class ClaseConexion {
             val usuario = "GoStay"
             val contrasena = "ricaldone2024e"
 
+<<<<<<< HEAD
             val conexion = DriverManager.getConnection(ipDaniel, usuario, contrasena)
 
 
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+            val conexion = DriverManager.getConnection(ipDaniel, usuario, contrasena)
+
+=======
+            val conexion = DriverManager.getConnection(ipLeonardo, usuario, contrasena)
+>>>>>>> c90b103c9494b34a08050534cfbe1f5865218ed4
+=======
+            val conexion = DriverManager.getConnection(ipSofia, usuario, contrasena)
+
+>>>>>>> 84d7f42214ef34de2adbafeb49b9a576dd5cfaca
+>>>>>>> master
             return conexion
         }catch (e: Exception){
             println("El error es este: $e")
             return null
         }
     }
-
 }
 
