@@ -81,7 +81,7 @@ dependencies {
 
     //libreria de glide imagenes
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt ("com.github.bumptech.glide:compiler:4.12.0")
+    //kapt ("com.github.bumptech.glide:compiler:4.12.0")
     //libreria de material design
     implementation("com.google.android.material:material:1.10.0")
 
@@ -112,7 +112,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
-
+/*
 fun kapt(s: String) {
 
 }
+*/

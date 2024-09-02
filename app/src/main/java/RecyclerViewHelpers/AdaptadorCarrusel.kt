@@ -7,26 +7,31 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.R
+import modelo.tbCarrusel
 
-class AdaptadorCarrusel(private val imageUrls: List<String>) : RecyclerView.Adapter<AdaptadorCarrusel.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.image_view)
+private var ImageView.image: Int
+    get() {
+        TODO("Not yet implemented")
+    }
+    set(value) {}
+
+
+class AdaptadorCarrusel(var Datos: List<tbCarrusel>):RecyclerView.Adapter<ViewHolderCarrusel>(){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCarrusel {
+
+        val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_card_carrusel, parent,false)
+        return ViewHolderCarrusel(vista)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_carrusel, parent, false)
-        return ViewHolder(view)
+        override fun getItemCount() = Datos.size
+
+    override fun onBindViewHolder(holder: ViewHolderCarrusel, position: Int) {
+
+        val item = Datos[position]
+        holder.imageView.image= item.id_imagenes
+        Glide.with(holder.imageView.context).load(item.url_imagen).into(holder.imageView)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val imageUrl = imageUrls[position]
-        Glide.with(holder.itemView.context)
-            .load(imageUrl)
-            .into(holder.imageView)
-    }
 
-    override fun getItemCount(): Int {
-        return imageUrls.size
-    }
 }

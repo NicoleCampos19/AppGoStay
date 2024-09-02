@@ -16,7 +16,7 @@ class ClaseConexion {
             val ipDaniel = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
             val iprical = "jdbc:oracle:thin:@ 10.10.1.120:1521:xe"
             val ipprueba = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
-            val ipBryan = "jdbc:oracle:thin:@10.10.1.24:1521:xe"
+            val ipBryan = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
             val ipMirna = "jdbc:oracle:thin:@10.10.0.57:1521:xe"
             val ipDatosLeo = "jdbc:oracle:thin:@192.168.228.11:1521:xe"
             val ipGabriela2 = "jdbc:oracle:thin:@192.168.0.100:1521:xe"
