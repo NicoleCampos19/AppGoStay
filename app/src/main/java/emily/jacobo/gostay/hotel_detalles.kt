@@ -1,8 +1,7 @@
 package emily.jacobo.gostay
 
-import RecyclerViewHelpers.AdaptadorServicioHotel
+import RecyclerViewHelpers.AdaptadorCarrusel
 import RecyclerViewHelpers.ComentarioAdapter
-import RecyclerViewHelpers.ReservaAdapter
 import RecyclerViewHelpers.ServicioAdapter
 import android.content.Intent
 import android.os.Bundle
@@ -25,30 +24,70 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
-import modelo.ReservaInfo
 import modelo.ServicioInfo
+import modelo.tbCarrusel
 import modelo.tbComentarios
 import modelo.tbHotel
 
-import java.util.UUID
-
-import modelo.tbServiciosHotel
-
 class hotel_detalles : AppCompatActivity() {
+
+
 
     private lateinit var prevActivity: String
     private lateinit var servicioAdapter: ServicioAdapter
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContentView(R.layout.activity_hotel_detalles)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+       val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
+        rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        fun obtenerImagenes(): List<tbCarrusel> {
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            val statement = objConexion?.createStatement()
+            val resultSet = statement?.executeQuery("SELECT * FROM tbImagenes_Hoteles")
+
+
+            val lista = mutableListOf<tbCarrusel>()
+
+            if (resultSet != null) {
+                while (resultSet.next()) {
+
+                    val id_imagenes = resultSet.getInt("id_imagenes")
+                    val id_hoteles = resultSet.getInt("id_hoteles")
+                    val url_imagen = resultSet.getString("url_imagen")
+
+                    val valoresJuntos = tbCarrusel(id_imagenes, id_hoteles, url_imagen)
+
+
+                    lista.add(valoresJuntos)
+                }
+            }
+            return lista
         }
+
+        //asignarle el adptador al Recyclearview
+         CoroutineScope(Dispatchers.IO).launch {
+             val ImagenesBD = obtenerImagenes()
+
+             withContext(Dispatchers.Main){
+                 val adapter = AdaptadorCarrusel(ImagenesBD)
+                 rcvCarrusels.adapter = adapter
+
+             }
+
+         }
+
+
+
+
+
+
 
         val idHotelGlobal = PaginaInicio.hotelIdGlobal
         val recyclerView: RecyclerView = findViewById(R.id.rcvServiciosHotel)
@@ -228,7 +267,7 @@ where id_hoteles = ?
         hotel?.let {
             Glide.with(this)
 
-            
+
 
             tvNombreDetalleHotel.text = hotel.nombreHotel
             tvDescripcionDetalleHotel.text = hotel.descripcion
@@ -276,5 +315,3 @@ where id_hoteles = ?
         popup.show()
         }
 }
-
-
