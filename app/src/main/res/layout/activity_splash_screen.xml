@@ -5,19 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#31808A"
-    android:backgroundTint="#58B5C1"
+    android:background="#62bcc2"
+    android:backgroundTint="#62bcc2"
     tools:context=".Splash_Screen">
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="397dp"
-        android:layout_height="426dp"
-        android:textAlignment="center"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="766dp"
+        android:layout_height="594dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.462"
-        app:srcCompat="@drawable/logo" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/osito" />
 </androidx.constraintlayout.widget.ConstraintLayout>

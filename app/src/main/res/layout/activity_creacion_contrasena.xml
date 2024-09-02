@@ -44,6 +44,7 @@
         android:layout_height="45dp"
         android:fontFamily="@font/poppins"
         android:text="Crea una nueva contraseña"
+        android:textColor="#000000"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +64,7 @@
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/btnCrearcontrasena"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintHorizontal_bias="0.619"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -91,7 +92,8 @@
         android:text="Crea una contraseña que contenga al menos 12 dígitos. Debes incluir caracteres especiales, mayúsculas y minúsculas."
         android:textAlignment="textStart"
         android:textColor="#000000"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.475"

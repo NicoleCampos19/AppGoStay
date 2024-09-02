@@ -17,39 +17,26 @@
 
         <ImageView
             android:id="@+id/imageView8"
-            android:layout_width="519dp"
-            android:layout_height="914dp"
+            android:layout_width="576dp"
+            android:layout_height="1015dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.06"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.333"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/fondo_registrarse" />
 
         <ImageView
-            android:id="@+id/imvAtrasc"
-            android:layout_width="31dp"
-            android:layout_height="36dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.033"
-            app:srcCompat="@drawable/ic_back" />
-
-
-        <ImageView
             android:id="@+id/imageView"
-            android:layout_width="329dp"
-            android:layout_height="808dp"
+            android:layout_width="336dp"
+            android:layout_height="807dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintHorizontal_bias="0.626"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.572"
+            app:layout_constraintVertical_bias="0.23"
             app:srcCompat="@drawable/cuadrotransparente" />
 
         <TextView
@@ -63,9 +50,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/txtNombre"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.523"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.319" />
+            app:layout_constraintVertical_bias="0.343" />
 
         <EditText
             android:id="@+id/txtNombre"
@@ -80,16 +68,16 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/txtApellido"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView8"
-            app:layout_constraintVertical_bias="0.916" />
+            app:layout_constraintVertical_bias="0.848" />
 
         <EditText
             android:id="@+id/txtApellido"
             android:layout_width="246dp"
             android:layout_height="52dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
             android:fontFamily="@font/poppins"
@@ -98,14 +86,14 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/txtFechaNacimiento"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/txtContrasenaRegistrarse"
             android:layout_width="246dp"
             android:layout_height="52dp"
-            android:layout_marginBottom="72dp"
+            android:layout_marginBottom="68dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
             android:fontFamily="@font/poppins"
@@ -114,7 +102,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
@@ -151,7 +139,7 @@
             android:id="@+id/imvIniciarGoogle"
             android:layout_width="40dp"
             android:layout_height="29dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/txtIniciaSesion"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -170,7 +158,9 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView15"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView7"
@@ -190,7 +180,7 @@
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="172dp"
             android:fontFamily="@font/poppins"
             android:text="¿Ya tienes una cuenta?"
             android:textColor="#000000"
@@ -198,7 +188,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/txtIniciaSesion"
-            app:layout_constraintHorizontal_bias="0.767"
+            app:layout_constraintHorizontal_bias="0.786"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
@@ -207,23 +197,22 @@
             android:layout_height="52dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/cuadritos_registrarse"
+            android:editable="false"
             android:ems="10"
             android:fontFamily="@font/poppins"
             android:hint="Fecha de nacimiento"
             android:inputType="none"
-            android:editable="false"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/txtCorreoElectronico"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/txtTelefono"
             android:layout_width="246dp"
             android:layout_height="52dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
             android:fontFamily="@font/poppins"
@@ -232,13 +221,14 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/txtContrasenaRegistrarse"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/txtCorreoElectronico"
             android:layout_width="246dp"
             android:layout_height="52dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
             android:fontFamily="@font/poppins"
@@ -247,7 +237,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/txtTelefono"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
@@ -271,7 +261,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.135"
+            app:layout_constraintVertical_bias="0.127"
             app:shapeAppearanceOverlay="@style/RoundImage"
             tools:srcCompat="@tools:sample/avatars" />
 
@@ -281,10 +271,10 @@
             android:layout_height="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.588"
+            app:layout_constraintHorizontal_bias="0.766"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.231"
+            app:layout_constraintVertical_bias="0.175"
             app:srcCompat="@drawable/iconcamera" />
 
         <ImageView
@@ -293,10 +283,10 @@
             android:layout_height="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.387"
+            app:layout_constraintHorizontal_bias="0.233"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.231"
+            app:layout_constraintVertical_bias="0.176"
             app:srcCompat="@drawable/icongaleria" />
 
         <ImageView
