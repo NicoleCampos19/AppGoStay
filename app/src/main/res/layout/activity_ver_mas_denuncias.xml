@@ -9,6 +9,18 @@
     tools:context=".VerMasDenuncias">
 
 
+    <ImageView
+        android:id="@+id/imvAtrasc"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03"
+        app:srcCompat="@drawable/ic_back" />
+
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
@@ -40,8 +52,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvMasDenuncias"
-        android:layout_width="410dp"
-        android:layout_height="761dp"
+        android:layout_width="411dp"
+        android:layout_height="573dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"

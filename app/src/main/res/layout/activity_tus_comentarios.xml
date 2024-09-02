@@ -35,8 +35,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvTusComentarios"
-            android:layout_width="match_parent"
-            android:layout_height="500dp" />
+            android:layout_width="497dp"
+            android:layout_height="719dp" />
     </LinearLayout>
 
     <LinearLayout
