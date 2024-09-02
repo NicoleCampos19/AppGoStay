@@ -39,7 +39,6 @@ class Confirmacion_Cuenta : AppCompatActivity() {
         val codigoRecuperacion = RecuperacionCuentaActivity.variablesGobalesRecuperacion.codigoRecuperacion
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 
-
         btnReenviar.setOnClickListener {
 
             CoroutineScope(Dispatchers.Main).launch {
@@ -69,30 +68,11 @@ class Confirmacion_Cuenta : AppCompatActivity() {
                 Toast.makeText(this, "Ingrese un código válido", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
-
         btnConfirmaCuenta.setOnClickListener {
             val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
             startActivity(siguientepantalla)

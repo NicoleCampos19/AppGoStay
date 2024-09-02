@@ -2,7 +2,9 @@ package emily.jacobo.gostay
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -67,6 +69,19 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
             enableMyLocation()
         } else {
             requestLocationPermission()
+        }
+
+        // Listener para manejar el clic en los marcadores
+        map.setOnMarkerClickListener { marker ->
+            val gmmIntentUri = Uri.parse("geo:${marker.position.latitude},${marker.position.longitude}?q=${marker.position.latitude},${marker.position.longitude}(${marker.title})")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            if (mapIntent.resolveActivity(packageManager) != null) {
+                startActivity(mapIntent)
+            } else {
+                Toast.makeText(this, "No se pudo abrir Google Maps", Toast.LENGTH_SHORT).show()
+            }
+            true
         }
     }
 
@@ -144,7 +159,6 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
         // Ajusta la cámara para mostrar los hoteles
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
     }
-
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
@@ -163,7 +177,6 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
         // Detener las actualizaciones de ubicación cuando se salga de la activity
