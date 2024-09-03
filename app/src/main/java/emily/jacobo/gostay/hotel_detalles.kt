@@ -49,11 +49,14 @@ class hotel_detalles : AppCompatActivity() {
         fun obtenerImagenes(): List<tbCarrusel> {
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbImagenes_Hoteles")
 
-
+            val images = objConexion?.prepareStatement("select * from tbImagenes_hoteles where id_hoteles = ?")!!
+            val id_hoteles = "putExtra"
+            images.setString(1, id_hoteles)
+            val resultSet = images.executeQuery()
             val lista = mutableListOf<tbCarrusel>()
+
+
 
             if (resultSet != null) {
                 while (resultSet.next()) {

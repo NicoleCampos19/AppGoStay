@@ -14,17 +14,21 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carrusel_recycler_views"
-        android:layout_width="match_parent"
-        android:layout_height="196dp"
-        android:layout_marginBottom="500dp"
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:layout_marginBottom="495dp"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:topLeftRadius="70dp"
+        android:topRightRadius="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
+        app:layout_constraintVertical_bias="0.0"
+        android:radius="60dp"
+        />
 
     <ScrollView
         android:layout_width="409dp"
@@ -219,11 +223,12 @@
 
     <ImageView
         android:id="@+id/imvVolverDetallesHotel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+        app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
