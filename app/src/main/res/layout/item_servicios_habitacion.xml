@@ -25,11 +25,13 @@
             android:id="@+id/tvCardNombreServicioHabitacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="@font/poppins"
             android:text="1 cama para dos personas"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
