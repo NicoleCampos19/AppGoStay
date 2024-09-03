@@ -9,7 +9,7 @@ class ClaseConexion {
         try {
             //cambiar ip dependiendo de la computadora
             val ipLeonardo = "jdbc:oracle:thin:@192.168.0.11:1521:xe"
-            val ipEmily = "jdbc:oracle:thin:@192.168.0.11:1521:xe"
+            val ipEmily = "jdbc:oracle:thin:@192.168.0.8:1521:xe"
             val ipGabriela = "jdbc:oracle:thin:@192.168.0.100:1521:xe"
             val ipAbigail = "jdbc:oracle:thin:@172.20.10.3:1521:xe"
             val ipSofia = "jdbc:oracle:thin:@192.168.1.5:1521:xe"
@@ -25,7 +25,7 @@ class ClaseConexion {
             val contrasena = "ricaldone2024e"
 
 
-            val conexion = DriverManager.getConnection(ipLeonardo, usuario, contrasena)
+            val conexion = DriverManager.getConnection(ipEmily, usuario, contrasena)
 
 
             return conexion
