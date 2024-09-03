@@ -26,19 +26,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.032" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imvPerfilInicio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="160dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView13"
-        app:layout_constraintEnd_toEndOf="@+id/textView13"
-        app:layout_constraintHorizontal_bias="0.938"
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toTopOf="@+id/textView13"
-        app:layout_constraintVertical_bias="0.515"
-        app:srcCompat="@drawable/perfilhombrequenoconosco" />
+        android:layout_width="62dp"
+        android:layout_height="74dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:shapeAppearanceOverlay="@style/RoundImage"
+        tools:srcCompat="@drawable/perfilhombrequenoconosco" />
 
     <ImageView
         android:id="@+id/imageView23"

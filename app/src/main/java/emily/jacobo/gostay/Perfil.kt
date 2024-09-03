@@ -61,36 +61,62 @@ class Perfil : AppCompatActivity() {
         //val idUsuario = intent.getIntExtra("id_usuario", -1)
 
 
+
         val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
 
 
-        //ViewModelPerfil.loadUserInfo(this)
+        fun cargarImagenperfil(correoIngresado: String) {
 
-        // Llamar a la función para cargar la imagen
-        //cargarImagenPerfil(correoIngresado)
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    // Realizar la consulta para obtener la imagen
+                    val conexion = ClaseConexion().cadenaConexion()
+                    val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
+                    val preparedStatement = conexion!!.prepareStatement(query)
+                    preparedStatement.setString(1, correoIngresado)
 
-        /*
-        // Inicializa el ViewModelPerfil
-        val viewModelPerfil = ViewModelProvider(this).get(ViewModelPerfil::class.java)
+                    val resultSet = preparedStatement.executeQuery()
+                    if (resultSet.next()) {
+                        val imgFotoUrl = resultSet.getString("imgFoto")
+                        println(imgFotoUrl)
+
+                        withContext(Dispatchers.Main) {
 
 
-        // Observa los cambios en la imagen del perfil
-        viewModelPerfil.profilePicture.observe(this) { imageUrl ->
-            // Usa Glide para cargar la imagen
-            Glide.with(this)
-                .load(imageUrl)
-                .apply(RequestOptions().circleCrop()) // Ajusta el RequestOptions según tus necesidades
-                .into(imvPerfilUsu)
-        }*/
+                            Log.d("Perfil", "URL de imagen: $imgFotoUrl")
 
-        /*
-        ViewModelPerfil.profilePicture.observe(viewLifecycleOwner, {
-                profilePicture ->
-            Glide.with(this).load(profilePicture).into(imvPerfilUsu)
-        })*/
 
-        /* Carga la información del usuario
-        viewModelPerfil.loadUserInfo(this)*/
+                            Glide.with(this@Perfil)
+                                .load(imgFotoUrl)
+                                .apply(RequestOptions().circleCrop())
+                                .into(imvPerfilUsu)
+                        }
+                    } else {
+
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@Perfil, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+
+                    resultSet.close()
+                    preparedStatement.close()
+                    conexion.close()
+                } catch (e: SQLException) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@Perfil, "Error al cargar la imagen de perfil", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
+
+
+            cargarImagenperfil(correoIngresado)
+
+
+        }
+
+
 
 
         // Configuración de click listeners
@@ -111,50 +137,6 @@ class Perfil : AppCompatActivity() {
         setClickListener(imvPerfil, Perfil::class.java)
 
 
-        fun cargarImagenPerfil(correoIngresado: String) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    // Realizar la consulta para obtener la imagen
-                    val conexion = ClaseConexion().cadenaConexion()
-                    val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
-                    val preparedStatement = conexion!!.prepareStatement(query)
-                    preparedStatement.setString(1, correoIngresado)
-
-                    val resultSet = preparedStatement.executeQuery()
-                    if (resultSet.next()) {
-                        val imgFotoUrl = resultSet.getString("imgFoto")
-
-                        withContext(Dispatchers.Main) {
-
-                            // Log para verificar la URL de la imagen
-                            Log.d("Perfil", "URL de imagen: $imgFotoUrl")
-
-                            // Usar Glide para cargar la imagen en el ImageView
-                           // val imvPerfilUsu = findViewById<ImageView>(R.id.imvPerfilUsu)
-                            Glide.with(this@Perfil)
-                                .load(imgFotoUrl)
-                                .apply(RequestOptions().circleCrop()) // Ajusta si quieres que la imagen sea circular
-                                .into(imvPerfilUsu)
-                        }
-                    } else {
-                        // Si no se encuentra la imagen, maneja el caso aquí
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(this@Perfil, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    // Cerrar recursos
-                    resultSet.close()
-                    preparedStatement.close()
-                    conexion.close()
-                } catch (e: SQLException) {
-                    e.printStackTrace()
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@Perfil, "Error al cargar la imagen de perfil", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
 
 
     }
@@ -217,7 +199,7 @@ class Perfil : AppCompatActivity() {
     }*/
 
 
-}gity 
+}
 
 
 
