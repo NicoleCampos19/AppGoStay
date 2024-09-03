@@ -35,6 +35,9 @@ class PaginaInicio : AppCompatActivity() {
         var idUsuarioGlobalL: Int? = null
     }
 
+    val correUsuarioRecivido  = activity_iniciar_sesion.txtCorreoInciarSesionV
+
+
     // Variable SQL global
     var sql: String = "SELECT * FROM tbHoteles"
 
@@ -57,6 +60,11 @@ class PaginaInicio : AppCompatActivity() {
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
         val imgFiltro = findViewById<ImageButton>(R.id.imgFiltros)
+
+        if (correUsuarioRecivido != null) {
+            obtenerNombreUsuarioEnGl(correUsuarioRecivido)
+            obteneridUsuarioEnGl(correUsuarioRecivido)
+        }
 
         imgFiltro.setOnClickListener {
             showBottomSheet()
@@ -91,6 +99,66 @@ class PaginaInicio : AppCompatActivity() {
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
+    }
+
+    //buscar nombre usuario
+    private fun obtenerNombreUsuarioEnGl(correoUsuario: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val nombreUsuario = cargarNombreUsuario(correoUsuario)
+            withContext(Dispatchers.Main) {
+
+                nombreUsuarioGlobalL = nombreUsuario
+
+            }
+        }
+    }
+    private fun cargarNombreUsuario(correoUsuario: String): String? {
+        var nombreUsuario: String? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT nombre_usuario FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            nombreUsuario = resultSet.getString("nombre_usuario")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return nombreUsuario
+    }
+
+    //buscar id usuario
+    private fun obteneridUsuarioEnGl(correoUsuario: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val idUsuario = cargaridUsuario(correoUsuario)
+            withContext(Dispatchers.Main) {
+
+                idUsuarioGlobalL = idUsuario
+
+            }
+        }
+    }
+    private fun cargaridUsuario(correoUsuario: String): Int? {
+        var idUsuario: Int? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT id_usuario FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            idUsuario = resultSet.getInt("id_usuario")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return idUsuario
     }
 
     // Método para cargar hoteles con la consulta SQL proporcionada
