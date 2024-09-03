@@ -65,18 +65,15 @@ class CreacionContrasenaActivity : AppCompatActivity() {
 
        btnCrearContrasena.setOnClickListener {
 
-           val newPassword = txtNewContra.text.toString()
+           val nuevaContra = txtNewContra.text.toString()
 
-           if (newPassword.length >= 12) {
-               // Si la contraseña es válida, actualiza y navega
-               actualizarContraseña(Correo, newPassword)
+           // Validar la contraseña
+           if (validatePassword(nuevaContra)) {
+               actualizarContraseña(Correo, nuevaContra)
                val intent = Intent(this, activity_iniciar_sesion::class.java)
                startActivity(intent)
-           } else {
-               // Si no es válida, muestra el mensaje y no cambia de pantalla
-               Toast.makeText(this, "La contraseña debe tener al menos 12 caracteres", Toast.LENGTH_SHORT).show()
-               // Aquí no se navega ni se actualiza la contraseña
            }
+
 
 
 
@@ -105,8 +102,21 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         return bytes.joinToString("") { "%02x".format(it) }
     }
 
+    private fun validatePassword(password: String): Boolean {
+        return if (password.isEmpty()) {
+            txtNewContra.error = "Llena este campo"
+            false
+        } else if (password.length < 12) {
+            txtNewContra.error = "La contraseña debe contener más de 12 carácteres"
+            false
+        } else {
+            true
+        }
+    }
 
     private fun actualizarContraseña(correo: String, contraseña: String) {
+
+
 
 
         CoroutineScope(Dispatchers.IO).launch {

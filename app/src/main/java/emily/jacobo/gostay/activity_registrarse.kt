@@ -216,7 +216,7 @@ class activity_registrarse : AppCompatActivity() {
                 hayVacios = true
             }
             else if (contrasena.length < 12) {
-                setErrorWithCustomFont(txtContraI, "La contraseña debe contener más de 11 carácteres", R.font.poppins)
+                setErrorWithCustomFont(txtContraI, "La contraseña debe contener más de 12 carácteres", R.font.poppins)
                 hayErrores = true
             }
 
