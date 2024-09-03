@@ -8,8 +8,9 @@
     tools:context=".activity_habitacion_economica">
 
     <ScrollView
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:id="@+id/scrollView3"
+        android:layout_width="412dp"
+        android:layout_height="772dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
@@ -46,7 +47,7 @@
                 android:layout_marginStart="68dp"
                 android:layout_marginTop="70dp"
                 android:layout_marginEnd="68dp"
-                android:fontFamily="@font/poppins"
+                android:fontFamily="@font/poppinsbold"
                 android:text="Habitación económica"
                 android:textAlignment="center"
                 android:textSize="24sp"
@@ -75,44 +76,10 @@
                 android:id="@+id/rcvEspecificaciones"
                 android:layout_width="400dp"
                 android:layout_height="364dp"
-                android:layout_marginBottom="18dp"
                 android:backgroundTint="#49A8B5"
-                app:layout_constraintBottom_toTopOf="@+id/btnTodas_espeficaciones"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
-            <Button
-                android:id="@+id/btnTodas_espeficaciones"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="93dp"
-                android:backgroundTint="#FFFFFF"
-                android:text="Mostrar todas las especificaciones"
-                android:textColor="#000000"
-                app:iconTint="#E2EAE1E1"
-                app:layout_constraintBottom_toTopOf="@+id/btnReservar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rcvEspecificaciones" />
-
-            <Button
-                android:id="@+id/btnReservar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="153dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="152dp"
-                android:layout_marginBottom="50dp"
-                android:backgroundTint="#49A8B5"
-                android:text="Reservar"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnTodas_espeficaciones" />
 
             <TextView
                 android:id="@+id/textView22"
@@ -122,7 +89,8 @@
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/poppins"
                 android:text="Lo que esta habitacion ofrece"
-                android:textSize="16sp"
+                android:textColor="#000000"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/rcvEspecificaciones"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -144,4 +112,17 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnReservar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#49A8B5"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Reservar"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
