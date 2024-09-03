@@ -24,7 +24,7 @@ class Splash_Screen : AppCompatActivity() {
         //Se crea corrutina
         GlobalScope.launch(Dispatchers.Main) {
             //El tiempo que va a durar la pantalla
-            delay(1500)
+            delay(3000)
             //Inicia la activity
             startActivity(Intent(this@Splash_Screen, Bienvenida::class.java))
             //Para que no se pueda volver atrás la activity

@@ -23,7 +23,6 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         val codigoRecuperacion = (100000..999999).random()
         lateinit var Correo: String
     }
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +33,6 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
@@ -51,8 +48,6 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                     "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
 
                 //VARIABLE MANDADA
-
-
             }
             val siguientepantalla = Intent(this, Confirmacion_Cuenta::class.java)
             startActivity(siguientepantalla)

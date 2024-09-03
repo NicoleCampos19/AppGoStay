@@ -1,7 +1,9 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.AdaptadorDenuncias
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,6 +30,12 @@ class VerMasDenuncias : AppCompatActivity() {
 
         val rcvMasDenuncias = findViewById<RecyclerView>(R.id.rcvMasDenuncias)
         rcvMasDenuncias.layoutManager = LinearLayoutManager(this@VerMasDenuncias)
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
+
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, Denuncias::class.java)
+            startActivity(volverAtras)
+        }
 
         val id_hoteles = intent.getIntExtra("id_hoteles", -1)
 

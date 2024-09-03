@@ -36,7 +36,7 @@ class TusComentarios : AppCompatActivity() {
         }
 
         val rcvTusComentarios = findViewById<RecyclerView>(R.id.rcvTusComentarios)
-        rcvTusComentarios.layoutManager = LinearLayoutManager(this@TusComentarios)
+        rcvTusComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
