@@ -2,6 +2,7 @@ package emily.jacobo.gostay
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
@@ -56,11 +57,30 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         val btnCrearContrasena = findViewById<Button>(R.id.btnCrearcontrasena)
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 
+        // Aplicar la fuente Poppins a los elementos
+        val poppinsFont: Typeface? = ResourcesCompat.getFont(this, R.font.poppins_regular)
+        txtNewContra.typeface = poppinsFont
+        btnCrearContrasena.typeface = poppinsFont
+
 
        btnCrearContrasena.setOnClickListener {
 
+           val newPassword = txtNewContra.text.toString()
 
-               actualizarContraseña(Correo, txtNewContra.text.toString())
+           if (newPassword.length >= 12) {
+               // Si la contraseña es válida, actualiza y navega
+               actualizarContraseña(Correo, newPassword)
+               val intent = Intent(this, activity_iniciar_sesion::class.java)
+               startActivity(intent)
+           } else {
+               // Si no es válida, muestra el mensaje y no cambia de pantalla
+               Toast.makeText(this, "La contraseña debe tener al menos 12 caracteres", Toast.LENGTH_SHORT).show()
+               // Aquí no se navega ni se actualiza la contraseña
+           }
+
+
+
+        actualizarContraseña(Correo, txtNewContra.text.toString())
                val intent = Intent(this, activity_iniciar_sesion::class.java)
                startActivity(intent)
 
@@ -75,6 +95,8 @@ class CreacionContrasenaActivity : AppCompatActivity() {
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
+
+
     }
 
 

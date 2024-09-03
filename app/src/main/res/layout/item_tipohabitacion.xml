@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="400dp"
-        android:layout_height="300dp">
+        android:layout_height="293dp">
 
 
         <ImageView
@@ -30,57 +30,63 @@
             android:id="@+id/txt_nombre_tipo_habitacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsemibold"
             android:text="Habitación económica"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.079"
+            card_view:layout_constraintHorizontal_bias="0.098"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.697" />
+            card_view:layout_constraintVertical_bias="0.756" />
 
         <TextView
             android:id="@+id/txt_precio_tipo_habitacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
             android:text="$60"
             android:textColor="@android:color/holo_blue_dark"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.903"
+            card_view:layout_constraintHorizontal_bias="0.891"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.697" />
+            card_view:layout_constraintVertical_bias="0.75" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins"
             android:text="Por noche"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.952"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.797" />
+            card_view:layout_constraintHorizontal_bias="0.941"
+            card_view:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_ver_mas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/holo_blue_light"
+            android:fontFamily="@font/poppinsbold"
             android:text="Ver más"
             android:textColor="@android:color/white"
+            android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.053"
+            card_view:layout_constraintHorizontal_bias="0.065"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.936" />
+            card_view:layout_constraintVertical_bias="0.946" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

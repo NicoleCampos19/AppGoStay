@@ -4,4 +4,8 @@
     <string name="default_web_client_id">AIzaSyDlsAfeacUYjZRTkeFWoZ8_dxJEoUKy_zM</string>
     <string name="option_1">Editar</string>
     <string name="option_2">Eliminar</string>
+        <string-array name="rangeSlider">
+            <item>0</item>
+            <item>0</item>
+        </string-array>
 </resources>

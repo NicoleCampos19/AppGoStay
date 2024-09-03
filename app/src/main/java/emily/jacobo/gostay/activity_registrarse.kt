@@ -77,7 +77,6 @@ class activity_registrarse : AppCompatActivity() {
 
         //Mando a llamar todos los elementos
         val tipousuario: Int = 1
-        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtIniciarsesion = findViewById<TextView>(R.id.txtIniciaSesion)
         val txtNombre = findViewById<TextView>(R.id.txtNombre)
         val txtApellido = findViewById<TextView>(R.id.txtApellido)
@@ -234,12 +233,8 @@ class activity_registrarse : AppCompatActivity() {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
-
                     val objConexion = ClaseConexion().cadenaConexion()
-
-
                     val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
-
                     val crearUsuario =
                         objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre_usuario, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")!!
                     crearUsuario.setString(1, txtNombre.text.toString())
@@ -285,11 +280,6 @@ class activity_registrarse : AppCompatActivity() {
         txtIniciarsesion.setOnClickListener {
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(siguientepantalla)
-        }
-
-        imvAtrasc.setOnClickListener {
-            val volverAtras = Intent(this, Bienvenida::class.java)
-            startActivity(volverAtras)
         }
 
         val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)

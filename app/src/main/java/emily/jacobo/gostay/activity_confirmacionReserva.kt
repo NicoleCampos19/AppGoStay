@@ -56,7 +56,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         val nombreTitular = activity_reserva.nombreTitular
         val fechaEntrada = activity_reserva.fechaEntrada
         val fechaSalida = activity_reserva.fechaSalida
-        val idUsuario = PaginaInicio.idUsuarioGlobalL
+        val idUsuario = idUsuarioGlobalL
         val idDepartamento = activity_reserva.idDepartamento
 
         val nombreUsuario = PaginaInicio.nombreUsuarioGlobalL
@@ -119,7 +119,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         val nombreTitular = activity_reserva.nombreTitular
                         val fechaEntrada = activity_reserva.fechaEntrada
                         val fechaSalida = activity_reserva.fechaSalida
-                        val idUsuario = PaginaInicio.idUsuarioGlobalL
+                        val idUsuario = idUsuarioGlobalL
                         val idDepartamento = activity_reserva.idDepartamento
 
                         // Verifica que los campos idHotelRecibido e idUsuario no sean nulos
