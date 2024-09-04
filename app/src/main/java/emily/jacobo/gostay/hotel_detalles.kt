@@ -180,7 +180,14 @@ where id_hoteles = ?
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
         val imvReportar = findViewById<ImageView>(R.id.imvReportar)
         val btnReportar = findViewById<Button>(R.id.btnReportar)
+        val imvEstrella = findViewById<ImageView>(R.id.imvEstrella)
 
+
+        imvEstrella.setOnClickListener {
+            val irResenas = Intent(this, activity_resenas::class.java)
+            irResenas.putExtra("idHotel", idHotel)
+            startActivity(irResenas)
+        }
 
 
         imvReportar.setOnClickListener {
