@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
-    android:layout_height="180dp"
+    android:layout_width="360dp"
+    android:layout_height="360dp"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="10dp"
     android:background="@drawable/rounded_corners_background"
     android:orientation="vertical"
-    android:radius="70dp"
+    android:radius="10dp"
     android:padding="15dp">
 
     <LinearLayout
         android:layout_width="350dp"
-        android:layout_height="145dp"
+        android:layout_height="320dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
