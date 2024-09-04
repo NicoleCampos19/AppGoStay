@@ -29,7 +29,7 @@ class AdaptadorCarrusel(var Datos: List<tbCarrusel>):RecyclerView.Adapter<ViewHo
     override fun onBindViewHolder(holder: ViewHolderCarrusel, position: Int) {
 
         val item = Datos[position]
-        holder.imageView.image= item.id_imagenes
+        holder.imageView.image= item.id_hoteles
         Glide.with(holder.imageView.context).load(item.url_imagen).into(holder.imageView)
     }
 
