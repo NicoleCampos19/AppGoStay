@@ -32,15 +32,20 @@ import modelo.tbHotel
 class hotel_detalles : AppCompatActivity() {
 
 
-
     private lateinit var prevActivity: String
     private lateinit var servicioAdapter: ServicioAdapter
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+
+
+        val promedio = intent.getDoubleExtra("PROMEDIO_VALORACION", 0.0)
+
+        val txtCalificacion: TextView = findViewById(R.id.txtCalificacion)
+        txtCalificacion.text = String.format("%.2f", promedio)
+
 
         setContentView(R.layout.activity_hotel_detalles)
        val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
