@@ -32,13 +32,12 @@ suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = wi
     // Hacemos el envío
     try {
         val message = MimeMessage(session).apply {
-            //Con que correo enviaré el mensaje
             setFrom(InternetAddress("gostay2024@gmail.com"))
-            addRecipient(Message.RecipientType.TO, InternetAddress(receptor))
-            subject = sujeto
-            setText(mensaje)
+            setRecipients(Message.RecipientType.TO, InternetAddress.parse(receptor))
+            setSubject(sujeto)
+            setContent(mensaje, "text/html; charset=utf-8")
+        }
 
-    }
         Transport.send(message)
         println("Correo enviado satisfactoriamente")
 
