@@ -226,8 +226,6 @@ class activity_registrarse : AppCompatActivity() {
                 setErrorWithCustomFont(txtConfirmarContraRegis, "Las contraseñas no coinciden", R.font.poppins)
                 hayErrores = true
             }
-
-
             // Si hay errores, no procede a guardar los datos
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)

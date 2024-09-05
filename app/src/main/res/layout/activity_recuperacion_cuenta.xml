@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondito"
     tools:context=".RecuperacionCuentaActivity">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -21,7 +22,7 @@
         app:layout_constraintVertical_bias="0.937"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/email">
+        app:lottie_rawRes="@raw/recu">
 
     </com.airbnb.lottie.LottieAnimationView>
 
