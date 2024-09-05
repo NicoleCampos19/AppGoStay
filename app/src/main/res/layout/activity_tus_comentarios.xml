@@ -52,7 +52,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvTusComentarios"
             android:layout_width="497dp"
-            android:layout_height="200dp" />
+            android:layout_height="247dp"
+            android:layout_marginLeft="62dp" />
     </LinearLayout>
 
     <LinearLayout
