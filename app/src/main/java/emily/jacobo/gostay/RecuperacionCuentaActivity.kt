@@ -2,6 +2,7 @@ package emily.jacobo.gostay
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -9,10 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
+import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtCorreoI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,9 +42,39 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
         //VARIABLE
 
-        fun generarHTMLCorreo(codigoRecuperacion: String): String{
+        //Validación para campos
+        @RequiresApi(Build.VERSION_CODES.P)
+        fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+            val typeface = ResourcesCompat.getFont(this, fontResId)
+            val spannableString = android.text.SpannableString(errorMessage)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                spannableString.setSpan(
+                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            editText.error = spannableString
+        }
+        btnRecuperacion.setOnClickListener {
+            val correo = txtCorreo.text.toString()
 
-            return """
+            var hayVacios = false
+            var hayErrores = false
+
+            //Para el campo de correo
+            if(correo.isEmpty()){
+            setErrorWithCustomFont(txtCorreo, "Llena este campo", R.font.poppins)
+            hayVacios = true
+
+        }
+        else if (!correo.matches (Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
+            setErrorWithCustomFont(txtCorreo, "El formato del correo no es válido", R.font.poppins)
+            hayErrores = true
+        }
+            if (hayVacios || hayErrores) {
+                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
+            }else{
+                fun generarHTMLCorreo(codigoRecuperacion: String): String{
+
+                    return """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -352,37 +386,39 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
 </body>
 </html>
 """.trimIndent()
-        }
+                }
 
 
-        btnRecuperacion.setOnClickListener{
+                btnRecuperacion.setOnClickListener{
 
-            val codigoRecuperacion = (100000..999999).random().toString()
-            val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
+                    val codigoRecuperacion = (100000..999999).random().toString()
+                    val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
 
-            CoroutineScope(Dispatchers.Main).launch {
-                Correo = txtCorreo.text.toString()
-                enviarCorreo(
-                    "${Correo}",
-                    "Recuperacion de contraseña",
-                    htmlCorreo )
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Correo = txtCorreo.text.toString()
+                        enviarCorreo(
+                            "${Correo}",
+                            "Recuperacion de contraseña",
+                            htmlCorreo )
 
-                //VARIABLE MANDADA
+                        //VARIABLE MANDADA
+                    }
+                    val siguientepantalla = Intent(this, Confirmacion_Cuenta::class.java)
+                    startActivity(siguientepantalla)
+                    overridePendingTransition(0, 0)
+                }
+
+                imvAtras.setOnClickListener {
+                    val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
+                    startActivity(volverAtras)
+                    overridePendingTransition(0, 0)
+                }
+
+
+
+
             }
-            val siguientepantalla = Intent(this, Confirmacion_Cuenta::class.java)
-            startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
+
         }
-
-        imvAtras.setOnClickListener {
-            val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
-            startActivity(volverAtras)
-            overridePendingTransition(0, 0)
+            }
         }
-
-
-
-
-    }
-
-}

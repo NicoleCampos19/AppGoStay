@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondito"
     tools:context=".Confirmacion_Cuenta">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -19,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:lottie_rawRes="@raw/codigozz">
+        app:lottie_rawRes="@raw/confirmacion">
 
     </com.airbnb.lottie.LottieAnimationView>
 
@@ -41,7 +42,7 @@
         android:layout_height="47dp"
         android:fontFamily="@font/poppins"
         android:text="Confirma tu cuenta"
-        android:textColor="@color/design_default_color_on_secondary"
+        android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
@@ -58,6 +59,7 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/poppins"
         android:text="Enviamos un código por gmail. Ingrésalo para confirmar tu cuenta."
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnConfirmaCuenta"
@@ -74,6 +76,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins"
         android:text="Ingresa el código."
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
