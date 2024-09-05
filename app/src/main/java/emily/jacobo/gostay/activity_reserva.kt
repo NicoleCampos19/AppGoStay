@@ -107,8 +107,8 @@ class activity_reserva : AppCompatActivity() {
         btnSiguiente.setOnClickListener {
             departamento = spDepartamento.selectedItem.toString()
             fechaCaducidad = txtFechaCaducidad.text.toString()
-            cvv = findViewById<EditText>(R.id.txtCVV).text.toString().toIntOrNull()
-            numeroTarjeta = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
+            val cvvText = findViewById<EditText>(R.id.txtCVV).text.toString()
+            val numeroTarjetaText = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
             nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
             fechaEntrada = txtEntrada.text.toString()
             fechaSalida = txtSalida.text.toString()
@@ -137,20 +137,17 @@ class activity_reserva : AppCompatActivity() {
             }
 
             // Validación del número de tarjeta
-            if (numeroTarjeta!!.length < 16 || !numeroTarjeta!!.all { it.isDigit() }) {
-                Toast.makeText(this, "El número de tarjeta debe tener al menos 16 dígitos y solo debe contener números", Toast.LENGTH_SHORT).show()
+            if (numeroTarjetaText.length < 16 || !numeroTarjetaText.all { it.isDigit() }) {
+                Toast.makeText(this, "El número de tarjeta debe tener 16 dígitos y solo contener números", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            numeroTarjeta = numeroTarjetaText
 
-            if (cvv!!.toString().length < 3) {
-                Toast.makeText(this, "El CVV debe tener al menos 3 dígitos", Toast.LENGTH_SHORT).show()
+            if (cvvText.length != 3 || !cvvText.all { it.isDigit() }) {
+                Toast.makeText(this, "El CVV debe tener exactamente 3 dígitos y solo contener números", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-            if (cvv!!.toString().length >= 4) {
-                Toast.makeText(this, "El CVV no puede tener más de 3 dígitos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            cvv = cvvText.toInt()
 
             if (txtFechaCaducidad.text.isNotEmpty() && departamento.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {

@@ -25,6 +25,7 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 class activity_confirmacionReserva : AppCompatActivity() {
 
@@ -77,6 +78,25 @@ class activity_confirmacionReserva : AppCompatActivity() {
 
 
         //mostrar
+        val tvTotalAmount = findViewById<TextView>(R.id.tvTotalAmount)
+
+        // Calcular la cantidad de días
+        val diasEstancia = if (fechaEntrada != null && fechaSalida != null) {
+            calcularDiasEstancia(fechaEntrada, fechaSalida)
+        }else {
+            0L // Valor predeterminado si alguna fecha es nula
+        }
+
+        // Obtener el precio de la habitación
+        CoroutineScope(Dispatchers.IO).launch {
+            val precioHabitacion = obtenerPrecioHabitacion(idTipoHabitacionRecivido)
+
+            // Calcular el total y mostrarlo en el TextView
+            withContext(Dispatchers.Main) {
+                val total = diasEstancia * precioHabitacion
+                tvTotalAmount.text = "$$total + impuestos"
+            }
+        }
         findViewById<TextView>(R.id.tvEntradaDate).text = fechaEntrada
         findViewById<TextView>(R.id.tvSalidaDate).text = fechaSalida
 
@@ -183,6 +203,35 @@ class activity_confirmacionReserva : AppCompatActivity() {
 
 
 
+    }
+    // Función para calcular la diferencia de días entre dos fechas
+    private fun calcularDiasEstancia(fechaEntrada: String, fechaSalida: String): Long {
+        val formatoFecha = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+        val entrada = formatoFecha.parse(fechaEntrada)
+        val salida = formatoFecha.parse(fechaSalida)
+
+        val diff = salida.time - entrada.time
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
+    }
+
+    // Función para obtener el precio de la habitación desde la base de datos
+    private fun obtenerPrecioHabitacion(idTipoHabitacion: Int): Double {
+        var precioHabitacion = 0.0
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+            SELECT precio_habitacion FROM tbTiposHabitaciones WHERE id_tipo_habitacion = ?
+        """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setInt(1, idTipoHabitacion)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            precioHabitacion = resultSet.getDouble("precio_habitacion")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return precioHabitacion
     }
 
     private fun mostrarAlertaExito() {
