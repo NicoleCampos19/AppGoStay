@@ -100,20 +100,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.101" />
 
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="247dp"
-        android:layout_height="42dp"
-        android:fontFamily="@font/poppins"
-        android:text="Historial de reservas"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.568" />
-
     <ImageView
         android:id="@+id/imvOfertas"
         android:layout_width="27sp"
@@ -123,19 +109,7 @@
         app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.632"
-        app:srcCompat="@drawable/icnext" />
-
-    <ImageView
-        android:id="@+id/imageView22"
-        android:layout_width="27sp"
-        android:layout_height="27sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.556"
+        app:layout_constraintVertical_bias="0.572"
         app:srcCompat="@drawable/icnext" />
 
     <ImageView
@@ -159,7 +133,7 @@
         app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.714"
+        app:layout_constraintVertical_bias="0.661"
         app:srcCompat="@drawable/icpoliticas" />
 
     <ImageView
@@ -171,7 +145,7 @@
         app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.714"
+        app:layout_constraintVertical_bias="0.661"
         app:srcCompat="@drawable/icnext" />
 
     <TextView
@@ -200,18 +174,6 @@
         app:layout_constraintVertical_bias="0.411"
         app:srcCompat="@drawable/icuser" />
 
-    <ImageView
-        android:id="@+id/imageView17"
-        android:layout_width="27sp"
-        android:layout_height="27sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.556"
-        app:srcCompat="@drawable/ichistorial" />
-
     <TextView
         android:id="@+id/txtOfertas"
         android:layout_width="250dp"
@@ -225,7 +187,7 @@
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.645" />
+        app:layout_constraintVertical_bias="0.584" />
 
     <ImageView
         android:id="@+id/imvComentario"
@@ -252,7 +214,7 @@
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.719" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <ImageView
         android:id="@+id/imvOferta"
@@ -263,7 +225,7 @@
         app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.632"
+        app:layout_constraintVertical_bias="0.572"
         app:srcCompat="@drawable/ofertas" />
 
     <ImageView
@@ -292,19 +254,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.491" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="37dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.945"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.021"
-        app:srcCompat="@drawable/icnotification" />
 
     <TextView
         android:id="@+id/txtCerrarSesion"

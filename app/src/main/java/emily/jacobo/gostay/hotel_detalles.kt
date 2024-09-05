@@ -43,8 +43,8 @@ class hotel_detalles : AppCompatActivity() {
 
         val promedio = intent.getDoubleExtra("PROMEDIO_VALORACION", 0.0)
 
-        val txtCalificacion: TextView = findViewById(R.id.txtCalificacion)
-        txtCalificacion.text = String.format("%.2f", promedio)
+//        val txtCalificacion: TextView = findViewById(R.id.txtCalificacion)
+  //      txtCalificacion.text = String.format("%.2f", promedio)
 
 
         setContentView(R.layout.activity_hotel_detalles)
