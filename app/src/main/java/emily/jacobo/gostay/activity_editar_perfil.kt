@@ -100,7 +100,7 @@ class activity_editar_perfil : AppCompatActivity() {
         btnGuardarPerfil.setOnClickListener{
 
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil).text.toString()
-            val bitmap = (NuevaFoto.drawable as BitmapDrawable).bitmap // Convertir la imagen en un Bitmap
+//            val bitmap = (NuevaFoto.drawable as BitmapDrawable).bitmap // Convertir la imagen en un Bitmap
 
             // Actualizar el correo y la contraseña utilizando las funciones ya definidas
             actualizarCorreo(nuevoCorreo, correoActual)
@@ -108,10 +108,10 @@ class activity_editar_perfil : AppCompatActivity() {
 
 
 
-            // Subir la imagen a Firebase y luego actualizar la URL en la base de datos
+          /*  // Subir la imagen a Firebase y luego actualizar la URL en la base de datos
             actualizarImagenFirebase(this, bitmap) { imageUrl ->
                 actualizarImagenUrlEnBD(correoActual, imageUrl)
-            }
+            }*/
 
 
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
