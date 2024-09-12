@@ -101,7 +101,6 @@ class RealizarDenuncia : AppCompatActivity() {
             btnClose.setOnClickListener {
                 dialog.dismiss()
             }
-
             dialog.show()
         }
     }
