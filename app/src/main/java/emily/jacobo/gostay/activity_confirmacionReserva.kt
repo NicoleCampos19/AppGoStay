@@ -1,9 +1,11 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.AdaptorTipoHabitacion
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -119,7 +121,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
 
 
 
-        btnConfirmar.setOnClickListener {
+        /*btnConfirmar.setOnClickListener {
             // Construir el AlertDialog inicial
             val builder = AlertDialog.Builder(this)
             builder.setTitle("¿Estás seguro de realizar tu reserva?")
@@ -196,14 +198,112 @@ class activity_confirmacionReserva : AppCompatActivity() {
             // Mostrar el diálogo
             val dialog = builder.create()
             dialog.show()
+        }*/
+
+
+
+        btnConfirmar.setOnClickListener{
+            aceptarReserva()
         }
 
 
-
-
-
-
     }
+
+    private fun aceptarReserva() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.setContentView(R.layout.dialog_alerta_reserva)
+
+            // Configurar los botones del diálogo personalizado
+            val btnAceptar = dialog.findViewById<Button>(R.id.btnAceptarReserva)
+            val btnNoAceptar = dialog.findViewById<Button>(R.id.btnNoAceptarReserva)
+
+            // Configurar acción al presionar "Aceptar"
+            btnAceptar.setOnClickListener {
+                // Acción al presionar "Aceptar"
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        // Obtener los valores a insertar
+                        val idHotelRecibido = PaginaInicio.hotelIdGlobal
+                        val idTipoHabitacionRecibido = AdaptorTipoHabitacion.idTipoHabitacionGlobal
+                        val cvv = activity_reserva.cvv
+                        val fechaCaducidad = activity_reserva.fechaCaducidad
+                        val numeroTarjeta = activity_reserva.numeroTarjeta
+                        val nombreTitular = activity_reserva.nombreTitular
+                        val fechaEntrada = activity_reserva.fechaEntrada
+                        val fechaSalida = activity_reserva.fechaSalida
+                        val idUsuario = idUsuarioGlobalL
+                        val idDepartamento = activity_reserva.idDepartamento
+
+                        // Verifica que los campos idHotelRecibido e idUsuario no sean nulos
+                        if (idHotelRecibido == null || idUsuario == null) {
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@activity_confirmacionReserva, "Error: Datos incompletos.", Toast.LENGTH_SHORT).show()
+                            }
+                            return@launch
+                        }
+
+                        // Realizar la inserción en la base de datos
+                        val conexion = ClaseConexion().cadenaConexion()
+                        val query = """
+                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """
+                        val statement = conexion?.prepareStatement(query)
+                        statement?.apply {
+                            setInt(1, idHotelRecibido)
+                            setString(2, fechaEntrada) // Fecha de entrada
+                            setString(3, fechaSalida)  // Fecha de salida
+                            setString(4, numeroTarjeta)
+                            setString(5, fechaCaducidad) // Fecha de caducidad
+                            setString(6, nombreTitular)
+                            setInt(7, cvv ?: 0) // Si cvv es null, se asume 0
+                            setInt(8, idTipoHabitacionRecibido)
+                            setInt(9, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
+                            setInt(10, idUsuario)
+                            executeUpdate()
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            reservaHecha()
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@activity_confirmacionReserva, "Error al realizar la reserva", Toast.LENGTH_SHORT).show()
+                        }
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            // Configurar acción al presionar "No Aceptar"
+            btnNoAceptar.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            // Mostrar el diálogo personalizado
+            dialog.show()
+        }
+    }
+
+    private fun reservaHecha() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.setContentView(R.layout.dialog_reserva_hecha)
+
+            val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+
+                // Redirigir a la pantalla de reservas después de cerrar el diálogo de éxito
+                val intent = Intent(this@activity_confirmacionReserva, Reservas::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+
+            dialog.show()
+        }
+    }
+
     // Función para calcular la diferencia de días entre dos fechas
     private fun calcularDiasEstancia(fechaEntrada: String, fechaSalida: String): Long {
         val formatoFecha = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())

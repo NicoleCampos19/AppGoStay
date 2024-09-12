@@ -2,11 +2,13 @@ package emily.jacobo.gostay
 
 import RecyclerViewHelpers.ViewModelPerfil
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -118,6 +120,12 @@ class Perfil : AppCompatActivity() {
 
 
 
+        txtCerrarSesion.setOnClickListener{
+            cerrarSesion()
+        }
+
+
+
 
         // Configuración de click listeners
         setClickListener(imvComentario, TusComentarios::class.java)
@@ -126,7 +134,6 @@ class Perfil : AppCompatActivity() {
         setClickListener(imvOfertas, Ofertas::class.java)
         setClickListener(imvOferta, Ofertas::class.java)
         setClickListener(txtOfertas, Ofertas::class.java)
-        setClickListener(txtCerrarSesion, activity_iniciar_sesion::class.java)
         setClickListener(imvPoliticas, activity_politicas::class.java)
         setClickListener(txtPoliticas, activity_politicas::class.java)
         setClickListener(txtInformaciónPer, activity_editar_perfil::class.java)
@@ -142,7 +149,25 @@ class Perfil : AppCompatActivity() {
     }
 
 
+    private fun cerrarSesion() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@Perfil)
+            dialog.setContentView(R.layout.dialog_cerrar_sesion)
 
+            val btnClose = dialog.findViewById<Button>(R.id.btnNoCerrarSesion)
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            val btnCerrarSesion = dialog.findViewById<Button>(R.id.btnCerrarSesion)
+            btnCerrarSesion.setOnClickListener{
+                val intent = Intent(this@Perfil, activity_iniciar_sesion::class.java)
+                startActivity(intent)
+            }
+
+            dialog.show()
+        }
+    }
 
     private fun <T> setClickListener(view: View, clazz: Class<T>) {
         view.setOnClickListener {
