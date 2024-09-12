@@ -36,20 +36,19 @@ class hotel_detalles : AppCompatActivity() {
     private lateinit var servicioAdapter: ServicioAdapter
 
 
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-        val promedio = intent.getDoubleExtra("PROMEDIO_VALORACION", 0.0)
-
-//        val txtCalificacion: TextView = findViewById(R.id.txtCalificacion)
-  //      txtCalificacion.text = String.format("%.2f", promedio)
 
 
         setContentView(R.layout.activity_hotel_detalles)
        val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+
 
         fun obtenerImagenes(): List<tbCarrusel> {
             val objConexion = ClaseConexion().cadenaConexion()
@@ -98,11 +97,11 @@ class hotel_detalles : AppCompatActivity() {
         fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
             val ServiciosList = mutableListOf<ServicioInfo>()
             val query = """
-        SELECT sh.nombre_servicio, sh.img_icono_hotel
-from tbIntermedia_Hoteles_Servicios ish
-INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
-where id_hoteles = ?
-    """.trimIndent()
+         SELECT sh.nombre_servicio, sh.img_icono_hotel
+         from tbIntermedia_Hoteles_Servicios ish
+         INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
+            where id_hoteles = ?
+         """.trimIndent()
 
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
@@ -180,14 +179,17 @@ where id_hoteles = ?
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
         val imvReportar = findViewById<ImageView>(R.id.imvReportar)
         val btnReportar = findViewById<Button>(R.id.btnReportar)
-        val imvEstrella = findViewById<ImageView>(R.id.imvEstrella)
 
 
-        imvEstrella.setOnClickListener {
-            val irResenas = Intent(this, activity_resenas::class.java)
-            irResenas.putExtra("idHotel", idHotel)
-            startActivity(irResenas)
-        }
+        //val imvEstrella = findViewById<ImageView>(R.id.imvEstrella)
+
+
+        //se quito
+       // imvEstrella.setOnClickListener {
+         //   val irResenas = Intent(this, activity_resenas::class.java)
+           // irResenas.putExtra("idHotel", idHotel)
+           // startActivity(irResenas)
+        //}
 
 
         imvReportar.setOnClickListener {
