@@ -37,7 +37,6 @@ class PaginaInicio : AppCompatActivity() {
 
     val correUsuarioRecivido  = activity_iniciar_sesion.txtCorreoInciarSesionV
 
-
     // Variable SQL global
     var sql: String = "SELECT * FROM tbHoteles"
 
@@ -253,113 +252,77 @@ class PaginaInicio : AppCompatActivity() {
 
     // Método para construir la consulta SQL basada en los filtros seleccionados
     private fun construirConsultaSQL(bottomSheetView: View): String {
-        var sqlQuery = """
-SELECT 
-    h.id_hoteles, 
-    h.nombre , 
-    h.descripcion, 
-    h.direccion, 
-    h.correo, 
-    h.cantidad_habitaciones, 
-    h.img_url,
-    u.id_usuario
-FROM 
-    tbFiltros f
-INNER JOIN 
-    tbHoteles h ON f.id_hoteles = h.id_hoteles
-INNER JOIN 
-    tbTiposHabitaciones sa ON f.id_tipo_habitacion = sa.id_tipo_habitacion
-INNER JOIN 
-    tbServiciosHotel sh ON f.id_servicio_hotel = sh.id_servicio_hotel
-INNER JOIN 
-    tbServiciosHabitacion ha ON f.id_servicio_habitacion = ha.id_servicio_habitacion
-INNER JOIN 
-    tbUsuarios u ON h.id_usuario = u.id_usuario
-WHERE 
-    1=1
-        """.trimIndent()
+        val sqlQuery = StringBuilder("""
+        SELECT DISTINCT
+            h.id_hoteles, 
+            h.nombre, 
+            h.descripcion, 
+            h.direccion, 
+            h.correo, 
+            h.cantidad_habitaciones, 
+            h.img_url, 
+            u.id_usuario 
+        FROM 
+            tbHoteles h 
+        LEFT JOIN 
+            tbUsuarios u ON h.id_usuario = u.id_usuario
+        LEFT JOIN 
+            tbIntermedia_Hoteles_Servicios ihs ON h.id_hoteles = ihs.id_hoteles
+        LEFT JOIN 
+            tbServiciosHotel sh ON ihs.id_servicio_hotel = sh.id_servicio_hotel
+        LEFT JOIN 
+            tbIntermedia_Hoteles_TipoHabitacion iht ON h.id_hoteles = iht.id_hoteles
+        LEFT JOIN 
+            tbTiposHabitaciones th ON iht.id_tipo_habitacion = th.id_tipo_habitacion
+        LEFT JOIN 
+            tbServiciosHabitacion sha ON sha.id_tipo_habitacion = th.id_tipo_habitacion
+        WHERE 1=1
+    """.trimIndent())
 
-        // Filtro basado en la selección de servicios hotel
-
-        val cbPetfriendly = bottomSheetView.findViewById<CheckBox>(R.id.cbPetfriendly)
-        if (cbPetfriendly.isChecked) {
-            sqlQuery += " AND sh.id_servicio_hotel = 1"
-        }
-
-        val cbWifigratis = bottomSheetView.findViewById<CheckBox>(R.id.cbWifigratis)
-        if (cbWifigratis.isChecked) {
-            sqlQuery += " OR sh.id_servicio_hotel = 2"
-        }
-
-        val cbRestaurantes = bottomSheetView.findViewById<CheckBox>(R.id.cbRestaurantes)
-        if (cbRestaurantes.isChecked){
-            sqlQuery += " OR sh.id_servicio_hotel = 3"
-        }
-
-        val cbParqueo = bottomSheetView.findViewById<CheckBox>(R.id.cbParqueo)
-        if (cbParqueo.isChecked){
-            sqlQuery += " OR sh.id_servicio_hotel = 4"
-        }
-
-        val cbPiscina = bottomSheetView.findViewById<CheckBox>(R.id.cbPiscina)
-        if (cbPiscina.isChecked){
-            sqlQuery += " OR sh.id_servicio_hotel = 5"
-        }
-
-        // Filtro basado en la selección de servicios habitación
-
-        val cbAC = bottomSheetView.findViewById<CheckBox>(R.id.cbAC)
-        if (cbAC.isChecked){
-            sqlQuery += " AND ha.id_servicio_habitacion = 1"
-        }
-
-        val cbTV = bottomSheetView.findViewById<CheckBox>(R.id.cbTV)
-        if (cbTV.isChecked){
-            sqlQuery += " AND ha.id_servicio_habitacion = 2"
-        }
-
-        val cbVistaMar = bottomSheetView.findViewById<CheckBox>(R.id.cbVistaMar)
-        if (cbVistaMar.isChecked){
-            sqlQuery += " OR ha.id_servicio_habitacion = 3"
-        }
-
-        val cbJacuzzi = bottomSheetView.findViewById<CheckBox>(R.id.cbJacuzzi)
-        if (cbJacuzzi.isChecked){
-            sqlQuery += " AND ha.id_servicio_habitacion = 4"
-        }
-
-        val cbCafe = bottomSheetView.findViewById<CheckBox>(R.id.cbCafe)
-        if (cbCafe.isChecked){
-            sqlQuery += " OR ha.id_servicio_habitacion = 5"
-        }
-
-        // Filtro basado en la selección de capacidad de personas
-
-        val cbCant2 = bottomSheetView.findViewById<CheckBox>(R.id.cbCant2)
-        if (cbCant2.isChecked){
-            sqlQuery += " AND sa.capacidad_habitacion = 2"
-        }
-
-        val cbCant4 = bottomSheetView.findViewById<CheckBox>(R.id.cbCant4)
-        if (cbCant4.isChecked){
-            sqlQuery += " AND sa.capacidad_habitacion = 4"
-        }
-
-        val cbCant1 = bottomSheetView.findViewById<CheckBox>(R.id.cbCant1)
-        if (cbCant1.isChecked){
-            sqlQuery += " AND sa.capacidad_habitacion = 1"
-        }
-
-        // Filtro basado en el precio de habitacion
-
+        // Filtro por rango de precio de la habitación
         val rangeSlider = bottomSheetView.findViewById<RangeSlider>(R.id.rangeSlider)
-        val values = rangeSlider.values
-        val minValue = values[0]
-        val maxValue = values[1]
+        val minValue = rangeSlider.values[0]
+        val maxValue = rangeSlider.values[1]
 
         if (minValue != 0f || maxValue != 0f) {
-            sqlQuery += " AND sa.precio_habitacion BETWEEN $minValue AND $maxValue"
+            sqlQuery.append(" AND th.precio_habitacion BETWEEN $minValue AND $maxValue")
         }
-        return sqlQuery
+
+        // Filtro basado en servicios de hotel (CheckBox)
+        val serviciosHotel = mutableListOf<Int>()
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbPetfriendly).isChecked) serviciosHotel.add(1)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbWifigratis).isChecked) serviciosHotel.add(2)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbRestaurantes).isChecked) serviciosHotel.add(3)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbParqueo).isChecked) serviciosHotel.add(4)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbPiscina).isChecked) serviciosHotel.add(5)
+
+        if (serviciosHotel.isNotEmpty()) {
+            sqlQuery.append(" AND (sh.id_servicio_hotel IN (${serviciosHotel.joinToString(",")}))")
+        }
+
+        // Filtro basado en servicios de habitación (CheckBox)
+        val serviciosHabitacion = mutableListOf<Int>()
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbAC).isChecked) serviciosHabitacion.add(1)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbTV).isChecked) serviciosHabitacion.add(2)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbVistaMar).isChecked) serviciosHabitacion.add(3)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbJacuzzi).isChecked) serviciosHabitacion.add(4)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbCafe).isChecked) serviciosHabitacion.add(5)
+
+        if (serviciosHabitacion.isNotEmpty()) {
+            sqlQuery.append(" AND (sha.id_servicio_habitacion IN (${serviciosHabitacion.joinToString(",")}))")
+        }
+
+        // Filtro basado en capacidad de habitación (CheckBox)
+        val capacidades = mutableListOf<Int>()
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbCant1).isChecked) capacidades.add(1)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbCant2).isChecked) capacidades.add(2)
+        if (bottomSheetView.findViewById<CheckBox>(R.id.cbCant4).isChecked) capacidades.add(4)
+
+        if (capacidades.isNotEmpty()) {
+            sqlQuery.append(" AND th.capacidad_habitacion IN (${capacidades.joinToString(",")})")
+        }
+
+        Log.e("Consulta", "$sqlQuery")
+        return sqlQuery.toString()
     }
 }
