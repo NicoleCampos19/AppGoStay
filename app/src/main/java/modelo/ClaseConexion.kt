@@ -17,6 +17,8 @@ class ClaseConexion {
             val ipBryan = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
             val ipMirna = "jdbc:oracle:thin:@10.10.0.57:1521:xe"
 
+            val ipAbiB = "jdbc:oracle:thin:@192.168.0.6:1521:xe"
+
             val usuario = "GoStay"
             val contrasena = "ricaldone2024e"
 
