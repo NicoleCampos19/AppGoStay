@@ -10,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -17,6 +18,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.slider.RangeSlider
@@ -26,6 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbHotel
+import java.sql.SQLException
 
 class PaginaInicio : AppCompatActivity() {
 
@@ -36,6 +40,7 @@ class PaginaInicio : AppCompatActivity() {
     }
 
     val correUsuarioRecivido  = activity_iniciar_sesion.txtCorreoInciarSesionV
+
 
 
     // Variable SQL global
@@ -57,9 +62,12 @@ class PaginaInicio : AppCompatActivity() {
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscar)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
+        val imvFotoPerfil = findViewById<ImageView>(R.id.imvPerfilInicio)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
         val imgFiltro = findViewById<ImageButton>(R.id.imgFiltros)
+
+        val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
 
         if (correUsuarioRecivido != null) {
             obtenerNombreUsuarioEnGl(correUsuarioRecivido)
@@ -69,6 +77,71 @@ class PaginaInicio : AppCompatActivity() {
         imgFiltro.setOnClickListener {
             showBottomSheet()
         }
+
+        fun cargarImagenperfil(correoIngresado: String) {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    // Realizar la consulta para obtener la imagen
+                    println("conexion")
+                    val conexion = ClaseConexion().cadenaConexion()
+                    println("query")
+                    val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
+                    println("antes preparedStatement")
+                    val preparedStatement = conexion!!.prepareStatement(query)
+                    println("despues preparedStatement")
+                    preparedStatement.setString(1, correoIngresado)
+                    println("despues del correo")
+
+                    val resultSet = preparedStatement.executeQuery()
+                    println("ANTES DEL IF")
+                    if (resultSet.next()) {
+                        println("DESPUES DEL IF")
+                        val imgFotoUrl = resultSet.getString("imgFoto")
+                        val imgFotoUrl2 = "https://fotografias.lasexta.com/clipping/cmsimages02/2020/09/21/86828440-B1FB-43AC-9E9C-A94AC6A4B8BD/default.jpg?crop=1300,731,x0,y0&width=1900&height=1069&optimize=low"
+                        println(imgFotoUrl)
+
+                        println("urlimg")
+
+                        withContext(Dispatchers.Main) {
+                            println("dentro del withContext")
+
+                            Log.d("Perfil", "URL de imagen: $imgFotoUrl")
+
+                            println("url imagen $imgFotoUrl ")
+
+                            println(" antes Glide")
+                            Glide.with(this@PaginaInicio)
+                                .load(imgFotoUrl)
+                                .apply(RequestOptions().circleCrop())
+                                .into(imvFotoPerfil)
+                            println("Glide")
+                        }
+                    } else {
+
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@PaginaInicio, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+
+                    resultSet.close()
+                    preparedStatement.close()
+                    conexion.close()
+                } catch (e: SQLException) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@PaginaInicio, "Error al cargar la imagen de perfil", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+
+
+
+
+        }
+        cargarImagenperfil(correoIngresado)
 
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)

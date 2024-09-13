@@ -9,8 +9,10 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -21,6 +23,8 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
@@ -49,14 +53,14 @@ class activity_editar_perfil : AppCompatActivity() {
     val CAMERA_REQUEST_CODE = 0
     val STORAGE_REQUEST_CODE = 1
 
-    val uuid = UUID.randomUUID().toString()
-
 
     lateinit var correoActual: String
     lateinit var contrasenaActual: String
     lateinit var txtNewContraP: String
-    lateinit var NuevaFoto: ImageView
+    lateinit var imageView: ImageView
     lateinit var miPath: String
+
+    val uuid = UUID.randomUUID().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +72,7 @@ class activity_editar_perfil : AppCompatActivity() {
             insets
         }
 
-        NuevaFoto = findViewById<ImageView>(R.id.imvPerfil2)
 
-
-        NuevaFoto = activity_registrarse.variableGloalLogin.imageView
 
         //  variables del companion object de activity_iniciar_sesion
         correoActual = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
@@ -84,7 +85,10 @@ class activity_editar_perfil : AppCompatActivity() {
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
         val btnGuardarPerfil = findViewById<Button>(R.id.btnGuardarPerfil)
         val imvGaleriaPerfil = findViewById<ImageView>(R.id.imvGaleriaPerfil)
+        imageView = findViewById(R.id.imvPerfil2)
         val imvCamaraPerfil = findViewById<ImageView>(R.id.imvCamaraPerfil)
+
+
 
         imvGaleriaPerfil.setOnClickListener {
             //Al darle clic al botón de la galeria pedimos los permisos primero
@@ -96,22 +100,101 @@ class activity_editar_perfil : AppCompatActivity() {
             checkCameraPermission()
         }
 
+        fun cargarImagenperfil(correoIngresado: String) {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    // Realizar la consulta para obtener la imagen
+                    println("conexion")
+                    val conexion = ClaseConexion().cadenaConexion()
+                    println("query")
+                    val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
+                    println("antes preparedStatement")
+                    val preparedStatement = conexion!!.prepareStatement(query)
+                    println("despues preparedStatement")
+                    preparedStatement.setString(1, correoIngresado)
+                    println("despues del correo")
+
+                    val resultSet = preparedStatement.executeQuery()
+                    println("ANTES DEL IF")
+                    if (resultSet.next()) {
+                        println("DESPUES DEL IF")
+                        val imgFotoUrl = resultSet.getString("imgFoto")
+                        val imgFotoUrl2 = "https://fotografias.lasexta.com/clipping/cmsimages02/2020/09/21/86828440-B1FB-43AC-9E9C-A94AC6A4B8BD/default.jpg?crop=1300,731,x0,y0&width=1900&height=1069&optimize=low"
+                        println(imgFotoUrl)
+
+                        println("urlimg")
+
+                        withContext(Dispatchers.Main) {
+                            println("dentro del withContext")
+
+                            Log.d("Perfil", "URL de imagen: $imgFotoUrl")
+
+                            println("url imagen $imgFotoUrl ")
+
+                            println(" antes Glide")
+                            Glide.with(this@activity_editar_perfil)
+                                .load(imgFotoUrl)
+                                .apply(RequestOptions().circleCrop())
+                                .into(imageView)
+                            println("Glide")
+                        }
+                    } else {
+
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@activity_editar_perfil, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+
+                    resultSet.close()
+                    preparedStatement.close()
+                    conexion.close()
+                } catch (e: SQLException) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@activity_editar_perfil, "Error al cargar la imagen de perfil", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+
+
+
+
+        }
+        cargarImagenperfil(correoActual)
+
+
 
         btnGuardarPerfil.setOnClickListener{
 
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil).text.toString()
-//            val bitmap = (NuevaFoto.drawable as BitmapDrawable).bitmap // Convertir la imagen en un Bitmap
+            val correo = correoActual
+            val clave = contrasenaActual
 
-            // Actualizar el correo y la contraseña utilizando las funciones ya definidas
-            actualizarCorreo(nuevoCorreo, correoActual)
-            actualizarContraseña(correoActual, txtNewContraP)
+            if (correo.isNotEmpty() && clave.isNotEmpty()) {
+                // Subir imagen a Firebase y obtener la URL
+                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                subirimagenFirebase(bitmap) { imageUrl ->
+                    miPath = imageUrl
+                    // Actualizar la imagen en la base de datos Oracle
+                    guardarUsuarioConFoto(correo, clave, miPath)
+                    // También puedes actualizar el correo y la contraseña si es necesario
+                    actualizarCorreo(nuevoCorreo, correoActual)
+                    actualizarContraseña(correoActual, txtNewContraP)
 
-
-
-          /*  // Subir la imagen a Firebase y luego actualizar la URL en la base de datos
-            actualizarImagenFirebase(this, bitmap) { imageUrl ->
-                actualizarImagenUrlEnBD(correoActual, imageUrl)
-            }*/
+                    // Navegar a la siguiente pantalla
+                    val siguientePantalla = Intent(this, activity_iniciar_sesion::class.java)
+                    startActivity(siguientePantalla)
+                }
+            } else {
+                Toast.makeText(
+                    this,
+                    "Completa todos los campos y selecciona una foto",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
 
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
@@ -129,85 +212,6 @@ class activity_editar_perfil : AppCompatActivity() {
 
         }
 
-    private fun checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            //El permiso no está aceptado, entonces se lo pedimos
-            pedirPermisoCamara()
-        } else {
-            //El permiso ya está aceptado
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, codigo_opcion_tomar_foto)
-        }
-    }
-
-    private fun pedirPermisoCamara() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)
-        ) {
-            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
-        } else {
-            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
-            ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.CAMERA),CAMERA_REQUEST_CODE
-            )
-        }
-    }
-
-    private fun checkStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            //El permiso no está aceptado, entonces se lo pedimos
-            pedirPermisoAlmacenamiento()
-        } else {
-            //El permiso ya está aceptado
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, codigo_opcion_galeria)
-        }
-    }
-
-    private fun pedirPermisoAlmacenamiento() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
-        } else {
-            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),STORAGE_REQUEST_CODE)
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            CAMERA_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    //El permiso está aceptado, entonces Abrimos la camara:
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, codigo_opcion_tomar_foto)
-                } else {
-                    //El usuario ha rechazado el permiso, podemos desactivar la funcionalidad o mostrar una alerta/Toast.
-                    Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-            STORAGE_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    //El permiso está aceptado, entonces Abrimos la galeria
-                    val intent = Intent(Intent.ACTION_PICK)
-                    intent.type = "image/*"
-                    startActivityForResult(intent, codigo_opcion_galeria)
-                } else {
-                    //El usuario ha rechazado el permiso, podemos desactivar la funcionalidad o mostrar una alerta/Toast.
-                    Toast.makeText(this, "Permiso de almacenamiento denegado", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-
-            else -> {
-                // Por si   hay algún problema
-            }
-        }
-
-}
 
 
 fun hashSHA256(contrasenaEscrita: String): String {
@@ -296,48 +300,116 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
     }
 }
 
-private fun actualizarImagenFirebase(context: Context, bitmap: Bitmap, onSuccess: (String) -> Unit) {
-    val storageRef = FirebaseStorage.getInstance().reference
-    val imageRef = storageRef.child("images/${UUID.randomUUID()}.jpg")
-    val baos = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-    val data = baos.toByteArray()
-    val uploadTask = imageRef.putBytes(data)
-
-    uploadTask.addOnFailureListener { exception ->
-        Toast.makeText(context, "Error al actualizar la imagen: ${exception.message}", Toast.LENGTH_SHORT).show()
-    }.addOnSuccessListener {
-        imageRef.downloadUrl.addOnSuccessListener { uri ->
-            onSuccess(uri.toString())
-        }.addOnFailureListener { exception ->
-            Toast.makeText(context, "Error al obtener la URL de la imagen: ${exception.message}", Toast.LENGTH_SHORT).show()
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            //El permiso no está aceptado, entonces se lo pedimos
+            pedirPermisoCamara()
+        } else {
+            //El permiso ya está aceptado
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, codigo_opcion_tomar_foto)
         }
     }
-}
 
-private fun actualizarImagenUrlEnBD(correoActual: String, imageUrl: String) {
-    CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val objConexion = ClaseConexion().cadenaConexion()
-            if (objConexion != null) {
-                val query = "UPDATE tbUsuarios SET imgFoto = ? WHERE correo = ?"
-                val preparedStatement: PreparedStatement = objConexion.prepareStatement(query)
-                preparedStatement.setString(1, imageUrl)
-                preparedStatement.setString(2, correoActual)
-                preparedStatement.executeUpdate()
-                preparedStatement.close()
+    private fun checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //El permiso no está aceptado, entonces se lo pedimos
+            pedirPermisoAlmacenamiento()
+        } else {
+            //El permiso ya está aceptado
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, codigo_opcion_galeria)
+        }
+    }
 
-                val commit = objConexion.prepareStatement("commit")
-                commit.executeUpdate()
-                objConexion.close()
-            } else {
-                println("No se pudo conectar a la base de datos")
+    private fun pedirPermisoCamara() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)
+        ) {
+            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
+        } else {
+            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
+            ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.CAMERA),CAMERA_REQUEST_CODE
+            )
+        }
+    }
+
+    private fun pedirPermisoAlmacenamiento() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
+        } else {
+            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),STORAGE_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            CAMERA_REQUEST_CODE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    //El permiso está aceptado, entonces Abrimos la camara:
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(intent, codigo_opcion_tomar_foto)
+                } else {
+                    //El usuario ha rechazado el permiso, podemos desactivar la funcionalidad o mostrar una alerta/Toast.
+                    Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+                }
+                return
             }
-        } catch (e: SQLException) {
-            e.printStackTrace()
+            STORAGE_REQUEST_CODE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    //El permiso está aceptado, entonces Abrimos la galeria
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    startActivityForResult(intent, codigo_opcion_galeria)
+                } else {
+                    //El usuario ha rechazado el permiso, podemos desactivar la funcionalidad o mostrar una alerta/Toast.
+                    Toast.makeText(this, "Permiso de almacenamiento denegado", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+            else -> {
+                // Este else lo dejamos por si sale un permiso que no teníamos controlado.
+            }
         }
     }
-}
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+
+                codigo_opcion_galeria -> {
+                    val imageUri: Uri? = data?.data
+                    imageUri?.let {
+                        val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
+                        subirimagenFirebase(imageBitmap) { url ->
+                            miPath = url
+                            imageView.setImageURI(it)  // Aquí actualizamos el ImageView
+                        }
+                    }
+                }
+
+                codigo_opcion_tomar_foto -> {
+                    val imageBitmap = data?.extras?.get("data") as? Bitmap
+                    imageBitmap?.let {
+                        subirimagenFirebase(it) { url ->
+                            miPath = url
+                            imageView.setImageBitmap(it)  // Aquí actualizamos el ImageView
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
     //Subir la imagen a Firebase Storage
     private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit) {
         val storageRef = Firebase.storage.reference
@@ -357,53 +429,44 @@ private fun actualizarImagenUrlEnBD(correoActual: String, imageUrl: String) {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                codigo_opcion_galeria -> {
-                    val imageUri: Uri? = data?.data
-                    imageUri?.let {
-                        val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
-                        subirimagenFirebase(imageBitmap) { url ->
-                            miPath = url
-                            NuevaFoto.setImageURI(it)
-                        }
+    // Guardar la imagen en Firebase y actualizar la imagen en la BD
+    private fun guardarUsuarioConFoto(correo: String, clave: String, imageUri: String) {
+        try {
+            GlobalScope.launch(Dispatchers.IO) {
+                val objConexion = ClaseConexion().cadenaConexion()
+                // Primero, obtenemos el id del usuario
+                val selectStatement = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")!!
+                selectStatement.setString(1, correo)
+                val resultSet = selectStatement.executeQuery()
+
+                if (resultSet.next()) {
+                    val idUsuario = resultSet.getInt("id_usuario")
+
+                    // Actualizamos la URL de la imagen en la base de datos
+                    val updateStatement = objConexion.prepareStatement("UPDATE tbUsuarios SET imgFoto = ? WHERE id_usuario = ?")
+                    updateStatement.setString(1, imageUri)
+                    updateStatement.setInt(2, idUsuario)
+                    updateStatement.executeUpdate()
+                    updateStatement.close()
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@activity_editar_perfil, "Foto de perfil actualizada correctamente", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@activity_editar_perfil, "Error: Usuario no encontrado", Toast.LENGTH_SHORT).show()
                     }
                 }
-                codigo_opcion_tomar_foto -> {
-                    val imageBitmap = data?.extras?.get("data") as? Bitmap
-                    imageBitmap?.let {
-                        subirimagenFirebase(it) { url ->
-                            miPath = url
-                            NuevaFoto.setImageBitmap(it)
-                        }
-                    }
-                }
-                emily.jacobo.gostay.activity_iniciar_sesion.InicioSesionGoogle -> {
-                    val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
-                    try {
-                        val cuenta = tarea.getResult(ApiException::class.java)
-                        if (cuenta != null) {
-                            val credenciales = GoogleAuthProvider.getCredential(cuenta.idToken, null)
-                            FirebaseAuth.getInstance().signInWithCredential(credenciales)
-                                .addOnCompleteListener {
-                                    if (it.isSuccessful) {
-                                        val paginaInicio = Intent(this, PaginaInicio::class.java)
-                                        startActivity(paginaInicio)
-                                        overridePendingTransition(0, 0)
-                                    } else {
-                                        Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_LONG).show()
-                                    }
-                                }
-                        }
-                    } catch (e: ApiException) {
-                        Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_LONG).show()
-                    }
-                }
+
+                resultSet.close()
+                selectStatement.close()
+                objConexion.close()
             }
+        } catch (e: SQLException) {
+            println("Error al guardar usuario: $e")
         }
     }
+
 }
 
 

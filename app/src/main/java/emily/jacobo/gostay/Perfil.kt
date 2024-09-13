@@ -66,32 +66,46 @@ class Perfil : AppCompatActivity() {
 
         val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
 
+        println("correo $correoIngresado")
 
         fun cargarImagenperfil(correoIngresado: String) {
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     // Realizar la consulta para obtener la imagen
+                    println("conexion")
                     val conexion = ClaseConexion().cadenaConexion()
+                    println("query")
                     val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
+                    println("antes preparedStatement")
                     val preparedStatement = conexion!!.prepareStatement(query)
+                    println("despues preparedStatement")
                     preparedStatement.setString(1, correoIngresado)
+                    println("despues del correo")
 
                     val resultSet = preparedStatement.executeQuery()
+                    println("ANTES DEL IF")
                     if (resultSet.next()) {
+                        println("DESPUES DEL IF")
                         val imgFotoUrl = resultSet.getString("imgFoto")
+                        val imgFotoUrl2 = "https://fotografias.lasexta.com/clipping/cmsimages02/2020/09/21/86828440-B1FB-43AC-9E9C-A94AC6A4B8BD/default.jpg?crop=1300,731,x0,y0&width=1900&height=1069&optimize=low"
                         println(imgFotoUrl)
 
-                        withContext(Dispatchers.Main) {
+                        println("urlimg")
 
+                        withContext(Dispatchers.Main) {
+                            println("dentro del withContext")
 
                             Log.d("Perfil", "URL de imagen: $imgFotoUrl")
 
+                            println("url imagen $imgFotoUrl ")
 
+                            println(" antes Glide")
                             Glide.with(this@Perfil)
                                 .load(imgFotoUrl)
                                 .apply(RequestOptions().circleCrop())
                                 .into(imvPerfilUsu)
+                            println("Glide")
                         }
                     } else {
 
@@ -113,11 +127,11 @@ class Perfil : AppCompatActivity() {
         }
 
 
-            cargarImagenperfil(correoIngresado)
+
 
 
         }
-
+        cargarImagenperfil(correoIngresado)
 
 
         txtCerrarSesion.setOnClickListener{
