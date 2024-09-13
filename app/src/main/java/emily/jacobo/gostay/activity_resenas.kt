@@ -15,6 +15,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class activity_resenas : AppCompatActivity() {
+
+    companion object resenaGlobal {
+        lateinit var promedio : String
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -94,7 +99,7 @@ class activity_resenas : AppCompatActivity() {
 
     private fun calcularPromedio() {
         val valores = listOf(valoracionG, valoracionLimpi, valoracionUbi, valoracionPersonal, valoracionInstalaciones)
-        val promedio = valores.filterNotNull().average()
+         promedio = valores.filterNotNull().average().toString()
         mostrarMensaje("El promedio es: $promedio")
         startActivity(intent)
     }

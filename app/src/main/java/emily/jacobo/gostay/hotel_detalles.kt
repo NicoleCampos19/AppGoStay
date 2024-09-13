@@ -43,6 +43,10 @@ class hotel_detalles : AppCompatActivity() {
 
 
 
+        val reseñaGlobal = activity_resenas.resenaGlobal
+
+
+
 
         setContentView(R.layout.activity_hotel_detalles)
        val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
@@ -179,17 +183,12 @@ class hotel_detalles : AppCompatActivity() {
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
         val imvReportar = findViewById<ImageView>(R.id.imvReportar)
         val btnReportar = findViewById<Button>(R.id.btnReportar)
+        val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
+
+        txtCalificacion.text = reseñaGlobal.promedio
 
 
-        //val imvEstrella = findViewById<ImageView>(R.id.imvEstrella)
 
-
-        //se quito
-       // imvEstrella.setOnClickListener {
-         //   val irResenas = Intent(this, activity_resenas::class.java)
-           // irResenas.putExtra("idHotel", idHotel)
-           // startActivity(irResenas)
-        //}
 
 
         imvReportar.setOnClickListener {
@@ -267,6 +266,10 @@ class hotel_detalles : AppCompatActivity() {
                 withContext(Dispatchers.Main){
                     (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
                     txtComentario.setText("")
+
+                    val intent = Intent(this@hotel_detalles, activity_resenas::class.java)
+                    startActivity(intent)
+
 
                 }
             }
