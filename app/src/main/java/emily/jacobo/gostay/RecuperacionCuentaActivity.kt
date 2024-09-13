@@ -40,6 +40,12 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
+
+        imvAtras.setOnClickListener {
+            val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
+            startActivity(volverAtras)
+            overridePendingTransition(0, 0)
+        }
         //VARIABLE
 
         //Validación para campos
