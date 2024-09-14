@@ -6,5 +6,6 @@
     <color name="amarillo">#ffe68f</color>
     <color name="tuquesa">#5CB5C4</color>
     <color name="gris">#ebeaea</color>
+    <color name="red">#FF0000</color>
     <color name="letrainicio">#737373</color>
 </resources>

@@ -92,25 +92,25 @@
 
             <TextView
                 android:id="@+id/textView26"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="158dp"
+                android:layout_height="26dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins"
-                android:text="Entrada"
+                android:text="Entrada y Salida"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spCantidadH" />
 
             <EditText
-                android:id="@+id/txtEntrada"
-                android:layout_width="166dp"
-                android:layout_height="45dp"
+                android:id="@+id/txtFechaReserva"
+                android:layout_width="347dp"
+                android:layout_height="51dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
                 android:editable="false"
                 android:fontFamily="@font/poppins"
-                android:hint="Entrada"
+                android:hint="Fecha de estadia"
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -128,7 +128,7 @@
                 android:text="Nombre titular tarjeta"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/txtEntrada"
+                app:layout_constraintTop_toBottomOf="@id/txtFechaReserva"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <EditText
@@ -241,35 +241,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtCVV" />
-
-            <EditText
-                android:id="@+id/txtSalida"
-                android:layout_width="180dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/edittext_background"
-                android:editable="false"
-                android:fontFamily="@font/poppins"
-                android:hint="Salida"
-                android:padding="12dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/txtEntrada"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-            <TextView
-                android:id="@+id/textView21"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="108dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/poppins"
-                android:text="Salida"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/textView26"
-                app:layout_constraintTop_toBottomOf="@+id/spDepartamento" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
