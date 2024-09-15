@@ -77,6 +77,7 @@
         android:id="@+id/imvPerfilUsu"
         android:layout_width="141dp"
         android:layout_height="139dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

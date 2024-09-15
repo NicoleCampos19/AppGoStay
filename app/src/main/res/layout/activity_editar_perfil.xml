@@ -10,11 +10,12 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="435dp"
-        android:layout_height="345dp"
-        android:layout_marginBottom="192dp"
+        android:layout_width="429dp"
+        android:layout_height="351dp"
+        android:layout_marginBottom="156dp"
         app:layout_constraintBottom_toTopOf="@+id/txtCorreoPerfil"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/cuadro_celeste_perfil" />
 
@@ -37,7 +38,8 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imvPerfil2"
         android:layout_width="141dp"
-        android:layout_height="149dp"
+        android:layout_height="139dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"

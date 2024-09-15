@@ -36,6 +36,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import emily.jacobo.gostay.activity_iniciar_sesion.variableGloalLogin
@@ -50,8 +51,6 @@ class activity_registrarse : AppCompatActivity() {
     val codigo_opcion_tomar_foto = 103
     val CAMERA_REQUEST_CODE = 0
     val STORAGE_REQUEST_CODE = 1
-
-
 
     val uuid = UUID.randomUUID().toString()
 
@@ -230,13 +229,14 @@ class activity_registrarse : AppCompatActivity() {
 
             // Si hay errores, no procede a guardar los datos
             if (hayVacios || hayErrores) {
-                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
                     val objConexion = ClaseConexion().cadenaConexion()
                     val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
-                    val crearUsuario =
-                        objConexion?.prepareStatement("INSERT INTO tbUsuarios(nombre_usuario, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")!!
+                    val crearUsuario = objConexion?.prepareStatement(
+                        "INSERT INTO tbUsuarios(nombre_usuario, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                    )!!
                     crearUsuario.setString(1, txtNombre.text.toString())
                     crearUsuario.setString(2, txtApellido.text.toString())
                     crearUsuario.setString(3, txtFechaNacimiento.text.toString())
@@ -244,22 +244,20 @@ class activity_registrarse : AppCompatActivity() {
                     crearUsuario.setString(5, txtTelefono.text.toString())
                     crearUsuario.setString(6, contrasenaEncriptada)
                     crearUsuario.setInt(7, idTipoUsuario)
-                    crearUsuario.setString(8, imageView.toString())
+                    crearUsuario.setString(8, miPath) // Guarda la URL de la imagen en la base de datos
                     crearUsuario.executeUpdate()
+
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            this@activity_registrarse,
-                            "Usuario creado",
-                            Toast.LENGTH_LONG
-                        )
-                            .show()
+                        Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
                         txtCorreoI.setText("")
                         txtContraI.setText("")
                         imageView.setImageResource(0)
                         imageView.tag = null
                     }
-
                 }
+
+
+
                 val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                 startActivity(siguientepantalla)
             }

@@ -5,14 +5,21 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class activity_resenas : AppCompatActivity() {
+
+    companion object resenaGlobal {
+        lateinit var promedio : String
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,50 +31,44 @@ class activity_resenas : AppCompatActivity() {
 
 
         }
-        // General
+        // Configuración de Spinners
         val spValoracionG: Spinner = findViewById(R.id.spValoracionG)
+        val spValoracionLimpi: Spinner = findViewById(R.id.spValoracionLimpi)
+        val spValoracionUbi: Spinner = findViewById(R.id.spValoracionUbi)
+        val spValoracionPersonal: Spinner = findViewById(R.id.spValoracionPersonal)
+        val spValoracionInstalaciones: Spinner = findViewById(R.id.spValoracionInstalaciones)
+
         val items = listOf("1", "2", "3", "4", "5")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        //adaptadores
         spValoracionG.adapter = adapter
-        spValoracionG.onItemSelectedListener = createOnItemSelectedListener { valoracion ->
-            valoracionG = valoracion
-            calcularPromedio()
-        }
-
-
-        // Limpieza
-        val spValoracionLimpi: Spinner = findViewById(R.id.spValoracionLimpi)
         spValoracionLimpi.adapter = adapter
-        spValoracionLimpi.onItemSelectedListener = createOnItemSelectedListener { valoracion ->
-            valoracionLimpi = valoracion
-            calcularPromedio()
-        }
-
-        // Ubicación
-        val spValoracionUbi: Spinner = findViewById(R.id.spValoracionUbi)
         spValoracionUbi.adapter = adapter
-        spValoracionUbi.onItemSelectedListener = createOnItemSelectedListener { valoracion ->
-            valoracionUbi = valoracion
-            calcularPromedio()
-        }
-
-        // Personal
-        val spValoracionPersonal: Spinner = findViewById(R.id.spValoracionPersonal)
         spValoracionPersonal.adapter = adapter
-        spValoracionPersonal.onItemSelectedListener = createOnItemSelectedListener { valoracion ->
-            valoracionPersonal = valoracion
-            calcularPromedio()
-        }
-
-        // Instalaciones
-        val spValoracionInstalaciones: Spinner = findViewById(R.id.spValoracionInstalaciones)
         spValoracionInstalaciones.adapter = adapter
-        spValoracionInstalaciones.onItemSelectedListener = createOnItemSelectedListener { valoracion ->
-            valoracionInstalaciones = valoracion
-            calcularPromedio()
+
+        //configuracion spinners
+        spValoracionG.onItemSelectedListener = createOnItemSelectedListener { valoracionG = it }
+        spValoracionLimpi.onItemSelectedListener = createOnItemSelectedListener { valoracionLimpi = it }
+        spValoracionUbi.onItemSelectedListener = createOnItemSelectedListener { valoracionUbi = it }
+        spValoracionPersonal.onItemSelectedListener = createOnItemSelectedListener { valoracionPersonal = it }
+        spValoracionInstalaciones.onItemSelectedListener = createOnItemSelectedListener { valoracionInstalaciones = it }
+
+        // Botón Guardar
+        val btnGuardar: Button = findViewById(R.id.btn_guardarR)
+        btnGuardar.setOnClickListener {
+            if (validarSpinnersLlenos()) {
+                calcularPromedio() // Calcular el promedio solo al hacer clic en el botón si todos los spinners están llenos
+            } else {
+                mostrarMensaje("Por favor, selecciona una valoración para todos los criterios.")
+            }
         }
     }
+
+
+    //declaraciones
     private var valoracionG: Int? = null
     private var valoracionLimpi: Int? = null
     private var valoracionUbi: Int? = null
@@ -82,27 +83,29 @@ class activity_resenas : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // Opcional: Manejar caso cuando no se selecciona ningún elemento
+                //si no se selecciona nada :)
             }
         }
     }
 
-    private fun calcularPromedio() {
-        val valores = listOf(valoracionG, valoracionLimpi, valoracionUbi, valoracionPersonal, valoracionInstalaciones)
-        val valoracionesValidas = valores.filterNotNull()
-
-        if (valoracionesValidas.size == 5) {
-            val promedio = valoracionesValidas.average()
-            mostrarResultado(promedio)
-        }
+    private fun validarSpinnersLlenos(): Boolean {
+        // validacion
+        return valoracionG != null &&
+                valoracionLimpi != null &&
+                valoracionUbi != null &&
+                valoracionPersonal != null &&
+                valoracionInstalaciones != null
     }
 
-    private fun mostrarResultado(promedio: Double) {
-        // Crear un intent para iniciar activity_hotel_detalles
-        val intent = Intent(this, hotel_detalles::class.java)
-        // Pasar el valor del promedio a la siguiente actividad
-        intent.putExtra("PROMEDIO_VALORACION", promedio)
+    private fun calcularPromedio() {
+        val valores = listOf(valoracionG, valoracionLimpi, valoracionUbi, valoracionPersonal, valoracionInstalaciones)
+         promedio = valores.filterNotNull().average().toString()
+        mostrarMensaje("El promedio es: $promedio")
         startActivity(intent)
+    }
+
+    private fun mostrarMensaje(mensaje: String) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
     }
 }
 

@@ -1,10 +1,10 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.AdaptorTipoHabitacion
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
-import android.view.inputmethod.InputMethodManager
+import android.os.Parcel
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
@@ -19,12 +19,17 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.widget.Toast
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.CompositeDateValidator
+import com.google.android.material.datepicker.DateValidatorPointForward
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.tbDepartamentos
+import java.util.Date
 
 
 class activity_reserva : AppCompatActivity() {
@@ -38,6 +43,7 @@ class activity_reserva : AppCompatActivity() {
         var fechaSalida: String? = null
         lateinit  var departamento: String
         var idDepartamento: Int? = null
+        var fechasReservadas: List<Pair<String, String>> = emptyList()  // Para guardar las fechas reservadas
     }
 
 
@@ -67,32 +73,36 @@ class activity_reserva : AppCompatActivity() {
 
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         val txtFechaCaducidad = findViewById<EditText>(R.id.txtFechaCaducidad)
-
-        val txtEntrada = findViewById<EditText>(R.id.txtEntrada)
-        val txtSalida = findViewById<EditText>(R.id.txtSalida)
-
+        val txtFechaReserva = findViewById<EditText>(R.id.txtFechaReserva)
         val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
-
         val imgVolverAtrars = findViewById<ImageView>(R.id.imgVolverAtrasXD)
 
+
+
+        // Obtener las fechas reservadas de la base de datos antes de mostrar el DateRangePicker
+        CoroutineScope(Dispatchers.IO).launch {
+            val tipoHabitacionId = AdaptorTipoHabitacion.idTipoHabitacionGlobal // Supongo que ya tienes el ID del tipo de habitación seleccionado
+            fechasReservadas = obtenerFechasReservadas(tipoHabitacionId)
+
+            withContext(Dispatchers.Main) {
+                // Mostrar el DateRangePicker cuando se hace clic en el campo de fecha
+                txtFechaReserva.setOnClickListener {
+                    showDateRangePicker(fechasReservadas) { entrada, salida ->
+                        txtFechaReserva.setText("$entrada, $salida")
+                        fechaEntrada = entrada
+                        fechaSalida = salida
+                    }
+                }
+            }
+        }
 
         imgVolverAtrars.setOnClickListener {
             finish()
         }
 
-        // Configura el DatePickerDialog para la fecha de entrada
-        txtEntrada.setOnClickListener {
-            showDatePickerDialog { date ->
-                txtEntrada.setText(date)
-            }
-        }
 
-        // Configura el DatePickerDialog para la fecha de salida
-        txtSalida.setOnClickListener {
-            showDatePickerDialog { date ->
-                txtSalida.setText(date)
-            }
-        }
+
+
 
         // Configura el DatePickerDialog para la fecha de caducidad
         txtFechaCaducidad.setOnClickListener {
@@ -110,8 +120,7 @@ class activity_reserva : AppCompatActivity() {
             val cvvText = findViewById<EditText>(R.id.txtCVV).text.toString()
             val numeroTarjetaText = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
             nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
-            fechaEntrada = txtEntrada.text.toString()
-            fechaSalida = txtSalida.text.toString()
+
 
 
 
@@ -207,6 +216,85 @@ class activity_reserva : AppCompatActivity() {
 
 
     }
+    // Método para obtener las fechas reservadas de la base de datos
+    private suspend fun obtenerFechasReservadas(idTipoHabitacion: Int): List<Pair<String, String>> {
+        val conexion = ClaseConexion().cadenaConexion()
+        val query = "SELECT entrada, salida FROM tbHabitaciones WHERE id_tipo_habitacion = ?"
+        val statement = conexion?.prepareStatement(query)
+        statement?.setInt(1, idTipoHabitacion)
+        val resultSet = statement?.executeQuery()
+        val fechas = mutableListOf<Pair<String, String>>()
+
+        while (resultSet?.next() == true) {
+            val entrada = resultSet.getString("entrada")
+            val salida = resultSet.getString("salida")
+            fechas.add(Pair(entrada, salida)) // Guardar las fechas reservadas
+        }
+
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+
+        return fechas
+    }
+
+    // Mostrar el DateRangePicker con las fechas reservadas bloqueadas y sin permitir fechas anteriores a hoy
+    private fun showDateRangePicker(fechasReservadas: List<Pair<String, String>>, onDatesSelected: (String, String) -> Unit) {
+        val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTheme(R.style.ThemeMaterialCalendar)
+            .setTitleText("Seleccione fecha de entrada y salida")
+            .setCalendarConstraints(configureCalendarConstraints(fechasReservadas))  // Pasar las fechas reservadas para deshabilitarlas
+            .build()
+
+        dateRangePicker.addOnPositiveButtonClickListener { selection ->
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val entrada = dateFormat.format(selection.first)
+            val salida = dateFormat.format(selection.second)
+            onDatesSelected(entrada, salida)
+        }
+
+        dateRangePicker.show(supportFragmentManager, "date_range_picker")
+    }
+
+    // Configurar las restricciones del calendario para no permitir fechas anteriores a hoy y bloquear fechas reservadas
+    private fun configureCalendarConstraints(fechasReservadas: List<Pair<String, String>>): CalendarConstraints {
+        val today = Calendar.getInstance()  // Fecha actual
+
+        val dateValidator = object : CalendarConstraints.DateValidator {
+            override fun isValid(date: Long): Boolean {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val currentDate = dateFormat.format(Date(date))
+
+                // Verificar si la fecha es anterior a hoy
+                if (date < today.timeInMillis) {
+                    return false
+                }
+
+                // Deshabilitar si la fecha está dentro de los rangos reservados
+                for (fecha in fechasReservadas) {
+                    val entrada = fecha.first
+                    val salida = fecha.second
+                    if (currentDate in entrada..salida) {
+                        return false  // Deshabilitar esta fecha
+                    }
+                }
+
+                return true  // Permitir la selección si no está reservada y no es anterior a hoy
+            }
+
+            override fun describeContents(): Int = 0
+
+            override fun writeToParcel(dest: Parcel, flags: Int) {}
+        }
+
+        return CalendarConstraints.Builder()
+            .setValidator(dateValidator)
+            .setStart(today.timeInMillis)  // Establecer la fecha mínima como hoy
+            .build()
+    }
+
+
+
     //buscar id departamento por nombre
     private fun obteneridDepartamentoEnVal(departamento: String) {
         CoroutineScope(Dispatchers.IO).launch {

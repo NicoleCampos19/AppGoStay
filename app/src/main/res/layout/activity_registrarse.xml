@@ -255,8 +255,10 @@
             android:id="@+id/imvPerfilRegis"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView"
             app:shapeAppearanceOverlay="@style/RoundImage"
@@ -266,10 +268,9 @@
             android:id="@+id/imvCamara"
             android:layout_width="55dp"
             android:layout_height="40dp"
-            android:layout_marginTop="340dp"
+            android:layout_marginTop="348dp"
+            android:layout_marginEnd="104dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.264"
-            app:layout_constraintStart_toEndOf="@+id/imvPerfilRegis"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/iconcamera" />
 
@@ -277,9 +278,8 @@
             android:id="@+id/imvGaleria"
             android:layout_width="55dp"
             android:layout_height="40dp"
-            android:layout_marginTop="340dp"
-            app:layout_constraintEnd_toStartOf="@+id/imvPerfilRegis"
-            app:layout_constraintHorizontal_bias="0.734"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="348dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icongaleria" />
@@ -295,6 +295,7 @@
             app:layout_constraintStart_toStartOf="@+id/txtContrasenaRegistrarse"
             app:layout_constraintTop_toTopOf="@+id/txtContrasenaRegistrarse"
             app:srcCompat="@drawable/ojocerrado" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

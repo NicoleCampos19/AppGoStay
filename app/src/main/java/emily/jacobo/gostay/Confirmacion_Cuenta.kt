@@ -42,6 +42,12 @@ class Confirmacion_Cuenta : AppCompatActivity() {
         val codigoRecuperacion = RecuperacionCuentaActivity.variablesGobalesRecuperacion.codigoRecuperacion
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)
+            startActivity(volverAtras)
+            overridePendingTransition(0, 0)
+        }
+
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
         fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
