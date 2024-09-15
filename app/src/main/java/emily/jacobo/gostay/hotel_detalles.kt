@@ -185,7 +185,7 @@ class hotel_detalles : AppCompatActivity() {
         val btnReportar = findViewById<Button>(R.id.btnReportar)
         val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
 
-        txtCalificacion.text = reseñaGlobal.promedio
+        //txtCalificacion.text = reseñaGlobal.promedio
 
 
 
