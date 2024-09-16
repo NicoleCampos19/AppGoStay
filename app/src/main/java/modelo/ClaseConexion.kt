@@ -23,7 +23,7 @@ class ClaseConexion {
 
 
 
-            val conexion = DriverManager.getConnection(ipDaniel, usuario, contrasena)
+            val conexion = DriverManager.getConnection(ipLeonardo, usuario, contrasena)
 
 
             return conexion
