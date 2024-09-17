@@ -223,6 +223,21 @@ class activity_confirmacionReserva : AppCompatActivity() {
                 // Acción al presionar "Aceptar"
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
+
+                        val fechaEntrada1 = activity_reserva.fechaEntrada
+                        val fechaSalida2 = activity_reserva.fechaSalida
+                        val idTipoHabitacionRecivido2 = AdaptorTipoHabitacion.idTipoHabitacionGlobal
+
+
+                        val precioHabitacion = obtenerPrecioHabitacion(idTipoHabitacionRecivido2)
+
+
+                        val diasEstancia = if (fechaEntrada1 != null && fechaSalida2 != null) {
+                            calcularDiasEstancia(fechaEntrada1, fechaSalida2)
+                        }else {
+                            0L // Valor predeterminado si alguna fecha es nula
+                        }
+
                         // Obtener los valores a insertar
                         val idHotelRecibido = PaginaInicio.hotelIdGlobal
                         val idTipoHabitacionRecibido = AdaptorTipoHabitacion.idTipoHabitacionGlobal
@@ -230,6 +245,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         val fechaCaducidad = activity_reserva.fechaCaducidad
                         val numeroTarjeta = activity_reserva.numeroTarjeta
                         val nombreTitular = activity_reserva.nombreTitular
+                        val totalI = diasEstancia * precioHabitacion
                         val fechaEntrada = activity_reserva.fechaEntrada
                         val fechaSalida = activity_reserva.fechaSalida
                         val idUsuario = idUsuarioGlobalL
@@ -246,7 +262,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         // Realizar la inserción en la base de datos
                         val conexion = ClaseConexion().cadenaConexion()
                         val query = """
-                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
                     """
                         val statement = conexion?.prepareStatement(query)
                         statement?.apply {
@@ -257,9 +273,10 @@ class activity_confirmacionReserva : AppCompatActivity() {
                             setString(5, fechaCaducidad) // Fecha de caducidad
                             setString(6, nombreTitular)
                             setInt(7, cvv ?: 0) // Si cvv es null, se asume 0
-                            setInt(8, idTipoHabitacionRecibido)
-                            setInt(9, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
-                            setInt(10, idUsuario)
+                            setInt(8, totalI.toInt())
+                            setInt(9, idTipoHabitacionRecibido)
+                            setInt(10, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
+                            setInt(11, idUsuario)
                             executeUpdate()
                         }
 
