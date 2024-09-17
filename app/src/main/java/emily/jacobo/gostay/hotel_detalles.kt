@@ -44,8 +44,9 @@ class hotel_detalles : AppCompatActivity() {
 
 
         val reseñaGlobal = activity_resenas.resenaGlobal
+        val descuentoTotal = intent.getStringExtra("descuentoTotal")
 
-
+        println("El descuento toal es:" + descuentoTotal)
 
 
         setContentView(R.layout.activity_hotel_detalles)

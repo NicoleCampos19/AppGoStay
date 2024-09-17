@@ -52,7 +52,7 @@ class Ofertas : AppCompatActivity() {
             while (resultSet.next()) {
                 val nombre = resultSet.getString("nombre")
                 val nombre_oferta = resultSet.getString("nombre_oferta")
-                val descuentoTotal = resultSet.getInt("descuentoTotal")
+                val descuentoTotal = resultSet.getDouble("descuentoTotal")
                 val id_hotel = resultSet.getInt("id_hoteles")
 
                 val valoresJuntos = tbOfertas(nombre, nombre_oferta, descuentoTotal, id_hotel)

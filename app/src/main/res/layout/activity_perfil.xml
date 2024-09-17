@@ -272,6 +272,39 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.844" />
 
+    <TextView
+        android:id="@+id/textView70"
+        android:layout_width="248dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="180dp"
+        android:fontFamily="@font/poppins"
+        android:text="Historial de reservas"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="83dp" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="27sp"
+        android:layout_height="27sp"
+        android:layout_marginBottom="180dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView70"
+        app:layout_constraintHorizontal_bias="0.589"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ichistorial" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="27sp"
+        android:layout_height="27sp"
+        android:layout_marginBottom="180dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.547"
+        app:layout_constraintStart_toEndOf="@+id/textView70"
+        app:srcCompat="@drawable/icnext" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,6 +49,8 @@ class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHol
                     val hotelDetalles = withContext(Dispatchers.IO) { obtenerHotelPorId(id_hoteles) }
                     if (hotelDetalles != null) {
                         val intent = Intent(context, hotel_detalles::class.java).apply {
+                            val descuentoTotal = item.descuentoTotal
+                            putExtra("descuentoTotal", descuentoTotal)
                             putExtra("id_hoteles", id_hoteles)
                             putExtra("prev_activity", "Ofertas")
                             putExtra("hotel", hotelDetalles) // Pasar el objeto hotel con detalles desde la BD
