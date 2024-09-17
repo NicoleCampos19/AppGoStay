@@ -7,6 +7,8 @@ data class tbHabitaciones(
     val numero_tarjeta: String,
     val fecha_caducidad_tarjeta: String,
     val nombre_titular_tarjeta: String,
+    val CVV: Int,
+    val Total: Int,
     val id_tipo_habitacion: Int,
     val id_hoteles: Int,
     val id_departamento: Int

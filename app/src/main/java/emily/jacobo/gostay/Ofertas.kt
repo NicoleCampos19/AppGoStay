@@ -43,16 +43,19 @@ class Ofertas : AppCompatActivity() {
         fun obtenerOfertas(): List<tbOfertas> {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT tof.nombre_oferta, th.nombre, th.id_hoteles FROM tbOfertas tof INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles")!!
+            val resultSet = statement?.executeQuery("SELECT tof.nombre_oferta, th.nombre, tof.descuentoTotal, th.id_hoteles \n" +
+                    "FROM tbOfertas tof \n" +
+                    "INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles")!!
 
             val listaOfertas = mutableListOf<tbOfertas>()
 
             while (resultSet.next()) {
                 val nombre = resultSet.getString("nombre")
                 val nombre_oferta = resultSet.getString("nombre_oferta")
+                val descuentoTotal = resultSet.getInt("descuentoTotal")
                 val id_hotel = resultSet.getInt("id_hoteles")
 
-                val valoresJuntos = tbOfertas(nombre, nombre_oferta, id_hotel)
+                val valoresJuntos = tbOfertas(nombre, nombre_oferta, descuentoTotal, id_hotel)
                 listaOfertas.add(valoresJuntos)
             }
             return listaOfertas

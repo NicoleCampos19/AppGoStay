@@ -31,9 +31,12 @@ class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHol
         val item = Datos[position]
         val context = holder.itemView.context
         val nombreOferta = item.nombre_oferta
+        val descuentoTotal = item.descuentoTotal
         val id_hoteles = item.id_hoteles
         holder.txtNombreHotel.text = item.nombre
         holder.txtNombreOferta.text = nombreOferta
+        holder.txtDescuento.text = "Descuento: ${descuentoTotal.toString()}%"
+
 
         val isExpanded = position == expandedPosition
         holder.expandableContainer.visibility = if (isExpanded) View.VISIBLE else View.GONE

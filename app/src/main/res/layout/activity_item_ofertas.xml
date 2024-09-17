@@ -74,6 +74,15 @@
                 android:fontFamily="@font/poppins"
                 android:padding="8dp"
                 android:text="Descripcion" />
+
+            <TextView
+                android:id="@+id/txtDescuento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_background"
+                android:fontFamily="@font/poppins"
+                android:padding="8dp"
+                android:text="Descuento" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
