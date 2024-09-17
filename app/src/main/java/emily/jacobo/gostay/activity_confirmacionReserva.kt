@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.AdaptorTipoHabitacion
 import android.app.Dialog
 import android.content.Intent
@@ -34,6 +35,8 @@ class activity_confirmacionReserva : AppCompatActivity() {
     companion object {
         lateinit var direccionHotelGlobal: String
     }
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +99,9 @@ class activity_confirmacionReserva : AppCompatActivity() {
             // Calcular el total y mostrarlo en el TextView
             withContext(Dispatchers.Main) {
                 val total = diasEstancia * precioHabitacion
-                tvTotalAmount.text = "$$total + impuestos"
+                val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
+                val totalDescuento = total * (1- descuentoTotal/100)
+                tvTotalAmount.text = "$$totalDescuento + impuestos"
             }
         }
         findViewById<TextView>(R.id.tvEntradaDate).text = fechaEntrada
@@ -246,6 +251,8 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         val numeroTarjeta = activity_reserva.numeroTarjeta
                         val nombreTitular = activity_reserva.nombreTitular
                         val totalI = diasEstancia * precioHabitacion
+                        val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
+                        val totalDescuento = totalI * (1- descuentoTotal/100)
                         val fechaEntrada = activity_reserva.fechaEntrada
                         val fechaSalida = activity_reserva.fechaSalida
                         val idUsuario = idUsuarioGlobalL
@@ -273,7 +280,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                             setString(5, fechaCaducidad) // Fecha de caducidad
                             setString(6, nombreTitular)
                             setInt(7, cvv ?: 0) // Si cvv es null, se asume 0
-                            setInt(8, totalI.toInt())
+                            setDouble(8, totalDescuento)
                             setInt(9, idTipoHabitacionRecibido)
                             setInt(10, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
                             setInt(11, idUsuario)
@@ -282,6 +289,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
 
                         withContext(Dispatchers.Main) {
                             reservaHecha()
+                            AdaptadorOfertas.descuentoTotalGlobal = 0.0
                         }
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
