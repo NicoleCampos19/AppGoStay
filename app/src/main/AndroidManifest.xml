@@ -42,10 +42,10 @@
             android:name=".metodos_contras"
             android:exported="false" />
         <activity
-            android:name=".item_card_MostrarReservaciones"
+            android:name=".activity_ConfirmarCorreo"
             android:exported="false" />
         <activity
-            android:name=".filtros"
+            android:name=".item_card_MostrarReservaciones"
             android:exported="false" />
         <activity
             android:name=".activity_confirmacionReserva"

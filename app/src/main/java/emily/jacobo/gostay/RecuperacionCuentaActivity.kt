@@ -16,27 +16,30 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
-import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtCorreoI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RecuperacionCuentaActivity : AppCompatActivity() {
 
-    companion object variablesGobalesRecuperacion{
+    companion object variablesGobalesRecuperacion {
         val codigoRecuperacion = (100000..999999).random()
         lateinit var Correo: String
     }
+
+    @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_recuperacion_cuenta)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
@@ -46,39 +49,55 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
-        //VARIABLE
 
-        //Validación para campos
-        @RequiresApi(Build.VERSION_CODES.P)
-        fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
-            val typeface = ResourcesCompat.getFont(this, fontResId)
-            val spannableString = android.text.SpannableString(errorMessage)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                spannableString.setSpan(
-                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            editText.error = spannableString
-        }
         btnRecuperacion.setOnClickListener {
             val correo = txtCorreo.text.toString()
 
             var hayVacios = false
             var hayErrores = false
 
-            //Para el campo de correo
-            if(correo.isEmpty()){
-            setErrorWithCustomFont(txtCorreo, "Llena este campo", R.font.poppins)
-            hayVacios = true
+            // Validación para campos
+            if (correo.isEmpty()) {
+                setErrorWithCustomFont(txtCorreo, "Llena este campo", R.font.poppins)
+                hayVacios = true
+            } else if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
+                setErrorWithCustomFont(txtCorreo, "El formato del correo no es válido", R.font.poppins)
+                hayErrores = true
+            }
 
-        }
-        else if (!correo.matches (Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
-            setErrorWithCustomFont(txtCorreo, "El formato del correo no es válido", R.font.poppins)
-            hayErrores = true
-        }
             if (hayVacios || hayErrores) {
-                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
-            }else{
-                fun generarHTMLCorreo(codigoRecuperacion: String): String{
+                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
+            } else {
+                // Asignar el valor de correo a la variable lateinit
+                Correo = correo
+                val codigoRecuperacion = (100000..999999).random().toString()
+                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    enviarCorreo(Correo, "Recuperacion de contraseña", htmlCorreo)
+                }
+
+                val siguientePantalla = Intent(this, Confirmacion_Cuenta::class.java)
+                startActivity(siguientePantalla)
+                overridePendingTransition(0, 0)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+        val typeface = ResourcesCompat.getFont(this, fontResId)
+        val spannableString = android.text.SpannableString(errorMessage)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableString.setSpan(
+                typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        editText.error = spannableString
+    }
+
+
+private fun generarHTMLCorreo(codigoRecuperacion: String): String{
 
                     return """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -393,7 +412,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
 </html>
 """.trimIndent()
                 }
-
+/*
 
                 btnRecuperacion.setOnClickListener{
 
@@ -418,13 +437,9 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
                     val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
                     startActivity(volverAtras)
                     overridePendingTransition(0, 0)
-                }
+                }*/
 
 
 
 
             }
-
-        }
-            }
-        }

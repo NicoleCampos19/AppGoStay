@@ -98,8 +98,8 @@ class activity_registrarse : AppCompatActivity() {
             return bytes.joinToString("") { "%02x".format(it) }
         }
 
-        txtCorreoI = findViewById(R.id.txtCorreoElectronico)
-        txtContraI = findViewById(R.id.txtContrasenaRegistrarse)
+       // txtCorreoI = findViewById(R.id.txtCorreoElectronico)
+        //txtContraI = findViewById(R.id.txtContrasenaRegistrarse)
 
 
         imvGaleria.setOnClickListener {
@@ -150,6 +150,7 @@ class activity_registrarse : AppCompatActivity() {
                 editText.error = spannableString
             }
             //Para el campo de nombre
+
         btnRegistrarse.setOnClickListener {
             val idTipoUsuario = tipousuario
             val nombre = txtNombre.text.toString()
@@ -227,10 +228,14 @@ class activity_registrarse : AppCompatActivity() {
             }
 
 
-            // Si hay errores, no procede a guardar los datos
+            // Si hay errores, no procede
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
+                // Generar código de verificación
+                val codigoRecuperacion = (100000..999999).random().toString()
+                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
+
                 GlobalScope.launch(Dispatchers.IO) {
                     val objConexion = ClaseConexion().cadenaConexion()
                     val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
@@ -247,6 +252,9 @@ class activity_registrarse : AppCompatActivity() {
                     crearUsuario.setString(8, miPath) // Guarda la URL de la imagen en la base de datos
                     crearUsuario.executeUpdate()
 
+                    // Enviar correo con el código de verificación
+                    enviarCorreo(correo, "Código de Verificación", htmlCorreo)
+
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
                         txtCorreoI.setText("")
@@ -258,11 +266,16 @@ class activity_registrarse : AppCompatActivity() {
 
 
 
-                val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+                val siguientepantalla = Intent(this, activity_ConfirmarCorreo::class.java)
                 startActivity(siguientepantalla)
             }
 
         }
+
+
+
+
+
 
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
@@ -311,6 +324,30 @@ class activity_registrarse : AppCompatActivity() {
             txtConfirmarContraRegis.typeface = poppinsFont
             isPasswordVisible = !isPasswordVisible
         }
+    }
+
+
+    fun generarHTMLCorreo(codigoRecuperacion: String): String {
+        return """
+        <!DOCTYPE HTML>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {font-family: 'Lato', sans-serif; background-color: #f9f9f9; color: #000;}
+                .code {padding: 15px 30px; font-size: 24px; background-color: #5cb5c4; border-radius: 8px; margin-bottom: 50px;}
+            </style>
+        </head>
+        <body>
+            <h2>¡Bienvenido a GoStay!</h2>
+            <p>Estamos comprobando que tu correo sea una cuenta existente</p>
+            <p>Por favor, ingresa el siguiente código: </p>
+            <div class="code">$codigoRecuperacion</div>
+            <p>Equipo GoStay</p>
+        </body>
+        </html>
+    """.trimIndent()
     }
 
     private fun checkCameraPermission() {

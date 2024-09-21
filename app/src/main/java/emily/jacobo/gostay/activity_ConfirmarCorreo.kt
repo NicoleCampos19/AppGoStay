@@ -1,11 +1,9 @@
 package emily.jacobo.gostay
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -15,20 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import emily.jacobo.gostay.RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class Confirmacion_Cuenta : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
+class activity_ConfirmarCorreo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_confirmacion_cuenta)
+        setContentView(R.layout.activity_confirmar_correo)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -36,14 +29,15 @@ class Confirmacion_Cuenta : AppCompatActivity() {
         }
 
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
-        val txtCodigoConf = findViewById<TextView>(R.id.txtCodigoConf)
-        val btnConfirmaCuenta = findViewById<Button>(R.id.btnConfirmaCuenta)
-        val btnReenviar = findViewById<Button>(R.id.btnReenviar)
+        val txtCodigoCorreo = findViewById<TextView>(R.id.txtCodigoCorreo)
+        val btnConfirmaCorreo = findViewById<Button>(R.id.btnConfirmaCorreo)
+        val btnReenviarExis = findViewById<Button>(R.id.btnReenviarExis)
         val codigoRecuperacion = RecuperacionCuentaActivity.variablesGobalesRecuperacion.codigoRecuperacion
-        val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
+       val txtCorreoI = activity_registrarse.variableGloalLogin.txtCorreoI
+
 
         imvAtrasc.setOnClickListener {
-            val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)
+            val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
@@ -59,30 +53,31 @@ class Confirmacion_Cuenta : AppCompatActivity() {
             }
             editText.error = spannableString
         }
-        btnConfirmaCuenta.setOnClickListener {
 
-            val codigo = txtCodigoConf.text.toString()
+        btnConfirmaCorreo.setOnClickListener {
+
+            val codigo = txtCodigoCorreo.text.toString()
 
             var hayVacios = false
             var hayErrores = false
 
             if(codigo.isEmpty()){
-                setErrorWithCustomFont(txtCodigoConf, "Llena este campo", R.font.poppins)
+                setErrorWithCustomFont(txtCodigoCorreo, "Llena este campo", R.font.poppins)
                 hayVacios = true
             }
             else if (codigo.length != 6) {
-                setErrorWithCustomFont(txtCodigoConf, "El código debe contener 6 carácteres", R.font.poppins)
+                setErrorWithCustomFont(txtCodigoCorreo, "El código debe contener 6 carácteres", R.font.poppins)
                 hayErrores = true
             }
             // Si hay errores, no procede a guardar los datos
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
             } else{
-                btnReenviar.setOnClickListener {
+                btnReenviarExis.setOnClickListener {
 
                     CoroutineScope(Dispatchers.Main).launch {
                         enviarCorreo(
-                            "${Correo}",
+                            "${txtCorreoI}",
                             "Recuperacion de contraseña",
                             "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
 
@@ -90,9 +85,9 @@ class Confirmacion_Cuenta : AppCompatActivity() {
                     }
                 }
 
-                btnConfirmaCuenta.setOnClickListener {
+                btnConfirmaCorreo.setOnClickListener {
                     try {
-                        val codigoIngresado = txtCodigoConf.text.toString().toInt()
+                        val codigoIngresado = txtCodigoCorreo.text.toString().toInt()
 
                         if (codigoIngresado == codigoRecuperacion) {
                             val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
@@ -108,12 +103,12 @@ class Confirmacion_Cuenta : AppCompatActivity() {
                     }
                 }
                 imvAtrasc.setOnClickListener {
-                    val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)
+                    val volverAtras = Intent(this, activity_registrarse::class.java)
                     startActivity(volverAtras)
                     overridePendingTransition(0, 0)
                 }
-                btnConfirmaCuenta.setOnClickListener {
-                    val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
+                btnConfirmaCorreo.setOnClickListener {
+                    val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                     startActivity(siguientepantalla)
                     overridePendingTransition(0, 0)
                 }
@@ -122,3 +117,4 @@ class Confirmacion_Cuenta : AppCompatActivity() {
     }
 
 }
+
