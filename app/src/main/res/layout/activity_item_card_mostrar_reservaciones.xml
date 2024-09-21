@@ -67,7 +67,7 @@
             android:paddingTop="15dp"
             android:text="1 habitación económica"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -95,7 +95,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="19 mayo"
                 android:textColor="@android:color/black"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -125,7 +125,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="20 mayo"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

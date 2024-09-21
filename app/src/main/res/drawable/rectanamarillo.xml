@@ -1,0 +1,8 @@
+<!-- res/drawable/rectangulo_redondeado.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Define el color de fondo del rectángulo -->
+    <solid android:color="#ffe68f" />
+
+    <!-- Define las esquinas redondeadas -->
+    <corners android:radius="80dp" />
+</shape>

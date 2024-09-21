@@ -11,27 +11,35 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="384dp"
-        android:layout_height="614dp"
+        android:layout_width="wrap_content"
+        android:layout_height="680dp"
         android:layout_margin="16dp"
         android:background="@android:color/white"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
+        app:cardElevation="0dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- Añadir un borde amarillo al CardView -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="650dp"
             android:background="@drawable/border_yellow"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            tools:layout_editor_absoluteX="11dp"
+            tools:layout_editor_absoluteY="15dp">
 
             <!-- Aquí va todo tu diseño anterior -->
 
@@ -59,7 +67,7 @@
                 android:paddingBottom="16dp"
                 android:text="Colonia Libertad, Avenida Morazán, Pasaje Morelos #111\nSan Salvador, El Salvador."
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvHotelName" />
@@ -79,12 +87,12 @@
 
             <TextView
                 android:id="@+id/tvEntradaDate"
-                android:layout_width="100dp"
-                android:layout_height="70dp"
+                android:layout_width="123dp"
+                android:layout_height="76dp"
                 android:fontFamily="@font/poppins"
                 android:text="Lunes, 19 de mayo del 2024."
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvEntradaLabel" />
 
@@ -110,12 +118,12 @@
 
             <TextView
                 android:id="@+id/tvSalidaDate"
-                android:layout_width="122dp"
-                android:layout_height="61dp"
+                android:layout_width="130dp"
+                android:layout_height="77dp"
                 android:fontFamily="@font/poppins"
                 android:text="Martes, 20 de mayo del 2024."
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/tvSalidaLabel"
@@ -143,7 +151,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="1 habitación económica"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvSeleccionLabel" />
 
@@ -167,11 +175,11 @@
                 android:id="@+id/tvTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="124dp"
+                android:layout_marginStart="116dp"
                 android:fontFamily="@font/poppins"
                 android:text="$60.00 + impuestos"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvTotalLabel" />
 
@@ -207,7 +215,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Bryan Miranda"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvReservaPara" />
 
@@ -225,7 +233,7 @@
                 android:id="@+id/tvNoReembolsable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
+                android:layout_marginStart="52dp"
                 android:fontFamily="@font/poppins"
                 android:text="No reembolsable"
                 android:textColor="@android:color/black"
@@ -236,14 +244,14 @@
 
             <TextView
                 android:id="@+id/tvNoReembolsableInfo"
-                android:layout_width="210dp"
-                android:layout_height="67dp"
+                android:layout_width="206dp"
+                android:layout_height="78dp"
                 android:layout_marginStart="120dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/poppins"
                 android:text="Si cancelas o no te presentas, no habrá devoluciones."
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNoReembolsable" />
 
@@ -253,28 +261,29 @@
 
     <Button
         android:id="@+id/btnConfirmar"
-        android:layout_width="151dp"
-        android:layout_height="49dp"
+        android:layout_width="205dp"
+        android:layout_height="47dp"
         android:backgroundTint="#ff33b5e5"
+        android:fontFamily="@font/poppins"
         android:text="Confirmar"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
+
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.981" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imgVolverTrasxd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.156"
         app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

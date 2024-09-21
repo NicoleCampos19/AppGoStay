@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="400dp"
-        android:layout_height="293dp">
+        android:layout_height="293dp"
+        android:background="#DFDFDF">
 
 
         <ImageView
@@ -30,7 +31,7 @@
             android:id="@+id/txt_nombre_tipo_habitacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsemibold"
+            android:fontFamily="@font/poppins"
             android:text="Habitación económica"
             android:textColor="@android:color/black"
             android:textSize="18sp"
@@ -80,6 +81,7 @@
             android:fontFamily="@font/poppinsbold"
             android:text="Ver más"
             android:textColor="@android:color/white"
+            android:textSize="18sp"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"

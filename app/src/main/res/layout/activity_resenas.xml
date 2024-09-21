@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="47dp"
                 android:layout_marginEnd="171dp"
-                android:fontFamily="@font/poppins"
+                android:fontFamily="@font/poppinsemibold"
                 android:text="Valoración general"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -38,8 +38,8 @@
 
             <ImageView
                 android:id="@+id/imgVolverR"
-                android:layout_width="47dp"
-                android:layout_height="58dp"
+                android:layout_width="31dp"
+                android:layout_height="36dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="33dp"
                 android:layout_marginEnd="332dp"
@@ -89,7 +89,7 @@
                 android:layout_marginBottom="14dp"
                 android:fontFamily="@font/poppins"
                 android:text="Limpieza"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/spValoracionLimpi"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +105,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/poppins"
                 android:text="Ubicación"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/spValoracionUbi"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -141,17 +141,17 @@
 
             <TextView
                 android:id="@+id/textView51"
-                android:layout_width="72dp"
-                android:layout_height="20dp"
+                android:layout_width="106dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="204dp"
                 android:fontFamily="@font/poppins"
                 android:text="Personal"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/spValoracionPersonal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView21"
                 app:layout_constraintTop_toBottomOf="@+id/spValoracionUbi" />
 
@@ -175,7 +175,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/poppins"
                 android:text="Instalaciones"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/spValoracionInstalaciones"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -264,7 +264,8 @@
                 android:backgroundTint="#49A8B5"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Guardar"
-                tools:layout_editor_absoluteX="132dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="680dp" />
 
 

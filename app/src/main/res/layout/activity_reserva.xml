@@ -25,8 +25,8 @@
 
             <ImageView
                 android:id="@+id/imgVolverAtrasXD"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="31dp"
+                android:layout_height="36dp"
                 android:layout_marginBottom="24dp"
                 android:contentDescription="Arrow Back"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,10 +54,10 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins"
                 android:text="Cantidad"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textView23"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView23" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -68,27 +68,29 @@
                 android:fontFamily="@font/poppins"
                 android:text="Departamento"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@id/textView24"
                 app:layout_constraintTop_toBottomOf="@id/textView23" />
 
             <Spinner
                 android:id="@+id/spCantidadH"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_width="148dp"
+                android:layout_height="41dp"
                 android:background="@drawable/spinner_background"
                 app:layout_constraintEnd_toStartOf="@id/spDepartamento"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView24" />
+                app:layout_constraintTop_toBottomOf="@id/textView24"
+                android:theme="@style/CustomSpinnerText"/>
 
             <Spinner
                 android:id="@+id/spDepartamento"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_width="178dp"
+                android:layout_height="45dp"
                 android:background="@drawable/spinner_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/spCantidadH"
-                app:layout_constraintTop_toBottomOf="@id/textView25" />
+                app:layout_constraintTop_toBottomOf="@id/textView25"
+                android:theme="@style/CustomSpinnerText"/>
 
             <TextView
                 android:id="@+id/textView26"
@@ -98,7 +100,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Entrada y Salida"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spCantidadH" />
 
@@ -127,7 +129,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Nombre titular tarjeta"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/txtFechaReserva"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -154,7 +156,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Número de tarjeta"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/txtNombreTitular"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -181,7 +183,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Fecha de caducidad"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/txtNumeroTarjeta"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -205,18 +207,19 @@
                 android:id="@+id/textView30"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins"
                 android:text="CVV"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/txtNumeroTarjeta"
-                app:layout_constraintStart_toEndOf="@id/txtFechaCaducidad"/>
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/txtFechaCaducidad"
+                app:layout_constraintTop_toBottomOf="@id/txtNumeroTarjeta" />
 
             <EditText
                 android:id="@+id/txtCVV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="121dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
                 android:fontFamily="@font/poppins"
@@ -234,10 +237,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:backgroundTint="@android:color/holo_blue_light"
-                android:fontFamily="@font/poppins"
+                android:fontFamily="@font/poppinsemibold"
                 android:text="Siguiente"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtCVV" />

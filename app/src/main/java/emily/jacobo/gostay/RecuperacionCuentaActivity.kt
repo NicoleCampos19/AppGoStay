@@ -42,7 +42,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
 
         imvAtras.setOnClickListener {
-            val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
+            val volverAtras = Intent(this, metodos_contras::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }

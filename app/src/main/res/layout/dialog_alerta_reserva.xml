@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/layout/dialog_layout.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="5dp">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="match_parent"
+        android:layout_width="269dp"
         android:layout_height="220dp"
-
+        android:layout_gravity="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/alertacerrarsesion">
 
     </com.airbnb.lottie.LottieAnimationView>
 
+
     <TextView
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="¿Estás seguro de realizar esta reserva?"
+        android:fontFamily="@font/poppinsemibold"
+        android:text="¿Estás seguro de realizar tu reserva?"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/dialoginfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="No se podrá cancelar ni reembolsar la reserva una vez realizada"
+        android:textAlignment="center"
+        android:textColor="#252424"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,30 +52,31 @@
             android:layout_gravity="center"
             android:layout_marginEnd="60dp"
             android:backgroundTint="@color/tuquesa"
-            android:fontFamily="@font/poppins"
-            android:text="Si"
+            android:fontFamily="@font/poppinsemibold"
+            android:text="Sí"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.733"
+            app:layout_constraintHorizontal_bias="0.866"
             app:layout_constraintStart_toEndOf="@+id/btnNoAceptarReserva"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.55" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnNoAceptarReserva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="64dp"
-            android:backgroundTint="@color/tuquesa"
-            android:fontFamily="@font/poppins"
+            android:layout_marginStart="80dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/poppinsemibold"
             android:text="No"
+            android:textColor="@color/tuquesa"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.55" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

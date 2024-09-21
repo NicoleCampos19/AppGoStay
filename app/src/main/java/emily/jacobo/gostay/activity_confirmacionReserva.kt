@@ -123,9 +123,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
             obtenerNombreTipoHabitacionEnTv(idTipoHabitacionRecivido ?: -1)
             findViewById<TextView>(R.id.tvReservaNombre).text = nombreUsuario
         }
-
-
-
         /*btnConfirmar.setOnClickListener {
             // Construir el AlertDialog inicial
             val builder = AlertDialog.Builder(this)
@@ -210,13 +207,12 @@ class activity_confirmacionReserva : AppCompatActivity() {
         btnConfirmar.setOnClickListener{
             aceptarReserva()
         }
-
-
     }
 
     private fun aceptarReserva() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_alerta_reserva)
 
             // Configurar los botones del diálogo personalizado
@@ -298,6 +294,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 }
+                dialog.dismiss()
             }
 
             // Configurar acción al presionar "No Aceptar"
@@ -313,6 +310,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
     private fun reservaHecha() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_reserva_hecha)
 
             val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
@@ -404,8 +402,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
         conexion?.close()
         return direccionHotel
     }
-
-
     //encontrar nombre del hotel
     private fun obtenerNombreHotelEnTv(idHotel: Int) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -463,11 +459,17 @@ class activity_confirmacionReserva : AppCompatActivity() {
         conexion?.close()
         return nombreTipoHabitacion
     }
+    private fun showCustomDialog() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+            dialog.setContentView(R.layout.dialog_denuncia_realizada)
 
-
-
-
-
-
-
+            val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+    }
 }

@@ -125,11 +125,6 @@ class Perfil : AppCompatActivity() {
                     }
                 }
         }
-
-
-
-
-
         }
         cargarImagenperfil(correoIngresado)
 
@@ -137,10 +132,6 @@ class Perfil : AppCompatActivity() {
         txtCerrarSesion.setOnClickListener{
             cerrarSesion()
         }
-
-
-
-
         // Configuración de click listeners
         setClickListener(imvComentario, TusComentarios::class.java)
         setClickListener(imvComentarios, TusComentarios::class.java)
@@ -156,16 +147,11 @@ class Perfil : AppCompatActivity() {
         setClickListener(imvFavorito, Favoritos::class.java)
         setClickListener(imvReseva, Reservas::class.java)
         setClickListener(imvPerfil, Perfil::class.java)
-
-
-
-
     }
-
-
     private fun cerrarSesion() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@Perfil)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_cerrar_sesion)
 
             val btnClose = dialog.findViewById<Button>(R.id.btnNoCerrarSesion)
@@ -183,6 +169,19 @@ class Perfil : AppCompatActivity() {
         }
     }
 
+    private fun showCustomDialog() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@Perfil)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+            dialog.setContentView(R.layout.dialog_denuncia_realizada)
+
+            val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+    }
     private fun <T> setClickListener(view: View, clazz: Class<T>) {
         view.setOnClickListener {
             val intent = Intent(this, clazz)

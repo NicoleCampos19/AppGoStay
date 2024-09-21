@@ -7,4 +7,12 @@
     <style name="ThemeMaterialCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="android:windowFullscreen">false</item>
     </style>
+
+    <style name="CustomSpinnerText" parent="Widget.AppCompat.Spinner">
+        <item name="fontFamily">@font/poppins</item> <!-- Sin el prefijo android -->
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+
 </resources>
