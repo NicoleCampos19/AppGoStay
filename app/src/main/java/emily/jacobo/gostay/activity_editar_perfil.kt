@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
@@ -32,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
+import emily.jacobo.gostay.activity_iniciar_sesion.variableGloalLogin.correoIngresado
 import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.imageView
 import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.miPath
 import kotlinx.coroutines.CoroutineScope
@@ -85,8 +88,10 @@ class activity_editar_perfil : AppCompatActivity() {
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
         val btnGuardarPerfil = findViewById<Button>(R.id.btnGuardarPerfil)
         val imvGaleriaPerfil = findViewById<ImageView>(R.id.imvGaleriaPerfil)
+        val imvVerContraPerfil = findViewById<ImageView>(R.id.imvVerContraPerfil)
         imageView = findViewById(R.id.imvPerfil2)
         val imvCamaraPerfil = findViewById<ImageView>(R.id.imvCamaraPerfil)
+        var isPasswordVisible = false
 
 
 
@@ -169,9 +174,28 @@ class activity_editar_perfil : AppCompatActivity() {
 
         btnGuardarPerfil.setOnClickListener{
 
-            val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil).text.toString()
+            val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
             val correo = correoActual
             val clave = contrasenaActual
+
+            // Validación para campos vacíos
+            if (nuevoCorreo.text.toString().isEmpty() || clave.isEmpty()) {
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Validación del formato del correo
+            val correoTexto = nuevoCorreo.text.toString()
+            if (!correoTexto.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                nuevoCorreo.error = "El correo no tiene un formato válido"
+                return@setOnClickListener
+            }
+
+            // Validación de la contraseña
+            if (clave.length <= 12) {
+                editTextContra.error = "La contraseña debe tener al menos 12 caracteres"
+                return@setOnClickListener
+            }
 
             if (correo.isNotEmpty() && clave.isNotEmpty()) {
                 // Subir imagen a Firebase y obtener la URL
@@ -181,7 +205,7 @@ class activity_editar_perfil : AppCompatActivity() {
                     // Actualizar la imagen en la base de datos Oracle
                     guardarUsuarioConFoto(correo, clave, miPath)
                     // También puedes actualizar el correo y la contraseña si es necesario
-                    actualizarCorreo(nuevoCorreo, correoActual)
+                    actualizarCorreo(nuevoCorreo.text.toString(), correoActual)
                     actualizarContraseña(correoActual, txtNewContraP)
 
                     // Navegar a la siguiente pantalla
@@ -201,7 +225,26 @@ class activity_editar_perfil : AppCompatActivity() {
              startActivity(siguientepantalla)
 
 
+        }git 
+
+        val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
+
+        imvVerContraPerfil.setOnClickListener {
+            if (isPasswordVisible) {
+                // Si la contraseña es visible, la ocultamos y cambiamos la imagen
+                editTextContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                imvVerContraPerfil.setImageResource(R.drawable.ojocerrado)
+            } else {
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
+                editTextContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerContraPerfil.setImageResource(R.drawable.ojo)
+            }
+            // Reaplica la fuente personalizada
+            editTextContra.typeface = poppinsFont
+            isPasswordVisible = !isPasswordVisible
         }
+
+
 
 
         imvAtrasPerfil.setOnClickListener {
