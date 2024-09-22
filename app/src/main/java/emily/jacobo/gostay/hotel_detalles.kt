@@ -269,6 +269,7 @@ class hotel_detalles : AppCompatActivity() {
                 addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
                 addComentario.setInt(3,3)
                 addComentario.executeUpdate()
+                objConexion.commit()
 
                 val nuevocomentario = obtenerComentarios()
                 withContext(Dispatchers.Main){
