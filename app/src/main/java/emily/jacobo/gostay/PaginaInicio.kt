@@ -39,12 +39,9 @@ class PaginaInicio : AppCompatActivity() {
         var idUsuarioGlobalL: Int? = null
     }
 
-    val correUsuarioRecivido  = activity_iniciar_sesion.txtCorreoInciarSesionV
-
-
-
     // Variable SQL global
     var sql: String = "SELECT * FROM tbHoteles"
+    var correo = activity_iniciar_sesion.txtCorreoInciarSesionV
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,11 +64,9 @@ class PaginaInicio : AppCompatActivity() {
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
         val imgFiltro = findViewById<ImageButton>(R.id.imgFiltros)
 
-        val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
-
-        if (correUsuarioRecivido != null) {
-            obtenerNombreUsuarioEnGl(correUsuarioRecivido)
-            obteneridUsuarioEnGl(correUsuarioRecivido)
+        if (correo != null) {
+            obtenerNombreUsuarioEnGl(correo)
+            obteneridUsuarioEnGl(correo)
         }
 
         imgFiltro.setOnClickListener {
@@ -141,7 +136,7 @@ class PaginaInicio : AppCompatActivity() {
 
 
         }
-        cargarImagenperfil(correoIngresado)
+        cargarImagenperfil(correo)
 
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)

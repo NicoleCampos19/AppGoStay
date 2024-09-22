@@ -83,13 +83,14 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
             editText.error = spannableString
         }
+
         btnIniciar.setOnClickListener {
-            // Asignación de valores globales
-            variableGloalLogin.txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString().trim()
-            variableGloalLogin.txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString().trim()
+            txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString()
+            txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString()
+
             // Validación de campos
-            correoIngresado = txtCorreoInciarSesion.text.toString()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
+            correoIngresado = txtCorreoInciarSesion.text.toString()
 
             if (correoIngresado.isEmpty() || clave.isEmpty()) {
                 Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
@@ -125,6 +126,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
+                    // Asignación de valores globales
                     startActivity(siguientePantalla)
                 } else {
                     runOnUiThread {

@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import emily.jacobo.gostay.PaginaInicio.Companion.hotelIdGlobal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,14 +65,10 @@ class hotel_detalles : AppCompatActivity() {
             val objConexion = ClaseConexion().cadenaConexion()
 
             val lista = mutableListOf<tbCarrusel>()
-            val query = """
-        SELECT i.* 
-        FROM tbHoteles h
-        INNER JOIN tbImagenes_Hoteles i ON h.id_hoteles = i.id_hoteles
-    """.trimIndent()
 
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery(query)
+            val statement = objConexion?.prepareStatement("SELECT * FROM tbImagenes_Hoteles WHERE id_Hoteles = ?")!!
+            statement.setInt(1,PaginaInicio.hotelIdGlobal!!)
+            val resultSet = statement.executeQuery()
 
             if (resultSet != null) {
                 while (resultSet.next()) {
@@ -233,8 +230,12 @@ class hotel_detalles : AppCompatActivity() {
             //1- Creo un objeto de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones")!!
+            val comentarios_ = objConexion?.prepareStatement("SELECT *  FROM tbIntermedia_valoracion_hoteles IV\n" +
+                    "INNER JOIN tbValoraciones V ON\n" +
+                    "IV.id_valoracion = V.id_valoracion\n" +
+                    "WHERE id_hoteles = ?")!!
+            comentarios_.setInt(1, hotelIdGlobal!!)
+            val resultSet = comentarios_.executeQuery()
 
             val listaComentarios = mutableListOf<tbComentarios>()
 
@@ -242,8 +243,6 @@ class hotel_detalles : AppCompatActivity() {
                 val id_valoracion = resultSet.getInt("id_valoracion")
                 val comentario = resultSet.getString("comentario")
                 val id_usuario = resultSet.getInt("id_usuario")
-
-
 
                 val comentarios = tbComentarios(id_valoracion, comentario,id_usuario)
 
@@ -270,6 +269,7 @@ class hotel_detalles : AppCompatActivity() {
                 addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
                 addComentario.setInt(3,3)
                 addComentario.executeUpdate()
+                objConexion.commit()
 
                 val nuevocomentario = obtenerComentarios()
                 withContext(Dispatchers.Main){
