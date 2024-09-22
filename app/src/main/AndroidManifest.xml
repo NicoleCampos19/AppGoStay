@@ -30,10 +30,22 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
-            android:name=".item_card_MostrarReservaciones"
+            android:name=".creacion_contrasena_cel"
             android:exported="false" />
         <activity
-            android:name=".filtros"
+            android:name=".confirmacion_cuenta_cel"
+            android:exported="false" />
+        <activity
+            android:name=".recuperacion_cuenta_cel"
+            android:exported="false" />
+        <activity
+            android:name=".metodos_contras"
+            android:exported="false" />
+        <activity
+            android:name=".activity_ConfirmarCorreo"
+            android:exported="false" />
+        <activity
+            android:name=".item_card_MostrarReservaciones"
             android:exported="false" />
         <activity
             android:name=".activity_confirmacionReserva"

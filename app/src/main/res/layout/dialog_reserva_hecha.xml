@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/layout/dialog_layout.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="5dp">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="match_parent"
-        android:layout_height="237dp"
-
+        android:layout_width="341dp"
+        android:layout_height="192dp"
+        android:layout_gravity="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/hechoreserva">
@@ -19,14 +19,14 @@
 
     <TextView
         android:id="@+id/dialogTitle"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="329dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:fontFamily="@font/poppins"
         android:text="Reserva realizada con éxito"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
     <Button
@@ -36,7 +36,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/tuquesa"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppinsemibold"
         android:text="Cerrar"
+        android:textSize="18sp"
         android:textStyle="bold" />
 </LinearLayout>

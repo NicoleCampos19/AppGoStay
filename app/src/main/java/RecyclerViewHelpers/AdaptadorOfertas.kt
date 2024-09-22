@@ -5,8 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import emily.jacobo.gostay.PaginaInicio
+import emily.jacobo.gostay.PaginaInicio.Companion.idUsuarioGlobalL
+import emily.jacobo.gostay.PaginaInicio.Companion.nombreUsuarioGlobalL
 import emily.jacobo.gostay.R
+import emily.jacobo.gostay.activity_iniciar_sesion
 import emily.jacobo.gostay.hotel_detalles
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -18,6 +23,9 @@ import modelo.tbOfertas
 class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHolderOfertas>() {
 
     private var expandedPosition = -1
+    companion object{
+        var descuentoTotalGlobal = 0.0
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderOfertas {
         val vista = LayoutInflater.from(parent.context)
@@ -31,9 +39,23 @@ class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHol
         val item = Datos[position]
         val context = holder.itemView.context
         val nombreOferta = item.nombre_oferta
+        val descuentoTotal = item.descuentoTotal
         val id_hoteles = item.id_hoteles
         holder.txtNombreHotel.text = item.nombre
         holder.txtNombreOferta.text = nombreOferta
+        holder.txtDescuento.text = "Descuento: ${descuentoTotal.toString()}%"
+        descuentoTotalGlobal = item.descuentoTotal
+        PaginaInicio.hotelIdGlobal = item.id_hoteles
+
+
+        val correUsuarioRecivido  = activity_iniciar_sesion.txtCorreoInciarSesionV
+
+
+        if (correUsuarioRecivido != null) {
+            obtenerNombreUsuarioEnGl(correUsuarioRecivido)
+            obteneridUsuarioEnGl(correUsuarioRecivido)
+        }
+
 
         val isExpanded = position == expandedPosition
         holder.expandableContainer.visibility = if (isExpanded) View.VISIBLE else View.GONE
@@ -62,6 +84,66 @@ class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHol
             notifyItemChanged(prevExpandedPosition)
             notifyItemChanged(expandedPosition)
         }
+    }
+
+    //buscar nombre usuario
+    private fun obtenerNombreUsuarioEnGl(correoUsuario: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val nombreUsuario = cargarNombreUsuario(correoUsuario)
+            withContext(Dispatchers.Main) {
+
+                nombreUsuarioGlobalL = nombreUsuario
+
+            }
+        }
+    }
+    private fun cargarNombreUsuario(correoUsuario: String): String? {
+        var nombreUsuario: String? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT nombre_usuario FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            nombreUsuario = resultSet.getString("nombre_usuario")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return nombreUsuario
+    }
+
+    //buscar id usuario
+    private fun obteneridUsuarioEnGl(correoUsuario: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val idUsuario = cargaridUsuario(correoUsuario)
+            withContext(Dispatchers.Main) {
+
+                idUsuarioGlobalL = idUsuario
+
+            }
+        }
+    }
+    private fun cargaridUsuario(correoUsuario: String): Int? {
+        var idUsuario: Int? = null
+        val conexion = ClaseConexion().cadenaConexion()
+
+        val query = """
+        SELECT id_usuario FROM tbUsuarios WHERE correo = ?
+    """
+        val statement = conexion?.prepareStatement(query)
+        statement?.setString(1, correoUsuario)
+        val resultSet = statement?.executeQuery()
+        if (resultSet?.next() == true) {
+            idUsuario = resultSet.getInt("id_usuario")
+        }
+        resultSet?.close()
+        statement?.close()
+        conexion?.close()
+        return idUsuario
     }
 
     private suspend fun obtenerHotelPorId(id_hoteles: Int): tbHotel? {

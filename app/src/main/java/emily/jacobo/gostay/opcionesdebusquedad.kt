@@ -1,5 +1,4 @@
 package emily.jacobo.gostay
-
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -22,8 +21,8 @@ class opcionesdebusquedad : AppCompatActivity() {
 
         //Mando a llamar al botón
         val btnHotelesCerca = findViewById<Button>(R.id.btnHotelesCerca)
-        val btnProxDestino = findViewById<ImageButton>(R.id.btnProxDestino)
-        val txtProxDestino = findViewById<TextView>(R.id.txtProxDestino)
+        val btnProxDestino = findViewById<Button>(R.id.btnProxDestino)
+
 
         val btnAtras = findViewById<ImageView>(R.id.RegresarInicio)
 
@@ -38,21 +37,8 @@ class opcionesdebusquedad : AppCompatActivity() {
         }
 
         btnProxDestino.setOnClickListener {
-            btnProxDestino.setImageResource(R.drawable.pastillaamarilla)
-            btnProxDestino.backgroundTintList = ContextCompat.getColorStateList(this, R.color.gris)
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                val siguientepantallita = Intent(this, proximo_destino::class.java)
-                startActivity(siguientepantallita)
-            }, 10)
-        }
-
-        txtProxDestino.setOnClickListener {
-            btnProxDestino.setImageResource(R.drawable.pastillaamarilla)
-            Handler(Looper.getMainLooper()).postDelayed({
-                val siguientepantallita = Intent(this, proximo_destino::class.java)
-                startActivity(siguientepantallita)
-            }, 10)
+            val siguientepantallita = Intent(this, proximo_destino::class.java)
+            startActivity(siguientepantallita)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

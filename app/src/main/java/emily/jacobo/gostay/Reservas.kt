@@ -6,6 +6,7 @@ import RecyclerViewHelpers.ReservaAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,9 @@ import modelo.ClaseConexion
 import modelo.ReservaInfo
 import modelo.tbHabitaciones
 import modelo.tbTipoHabitacion
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class Reservas : AppCompatActivity() {
 
@@ -74,14 +78,15 @@ class Reservas : AppCompatActivity() {
 
 
         fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
-            val HabitacionesList = mutableListOf<ReservaInfo>()
+            val reservasActivas = mutableListOf<ReservaInfo>()
+
             val query = """
         select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre_usuario, hot.img_url, th.nombre_tipo_habitacion
-from tbHabitaciones ha
-INNER JOIN tbHoteles hot ON ha.id_hoteles = hot.id_hoteles
-INNER JOIN tbUsuarios us ON ha.id_usuario = us.id_usuario
-INNER JOIN tbTiposHabitaciones th ON ha.id_tipo_habitacion = th.id_tipo_habitacion
-where ha.id_usuario = ?
+        from tbHabitaciones ha
+        INNER JOIN tbHoteles hot ON ha.id_hoteles = hot.id_hoteles
+        INNER JOIN tbUsuarios us ON ha.id_usuario = us.id_usuario
+        INNER JOIN tbTiposHabitaciones th ON ha.id_tipo_habitacion = th.id_tipo_habitacion
+        where ha.id_usuario = ?
     """.trimIndent()
 
             try {
@@ -101,7 +106,18 @@ where ha.id_usuario = ?
                                 val img_url = rs.getString("img_url")
                                 val nombre_tipo_habitacion = rs.getString("nombre_tipo_habitacion")
                                 val hotel_nombre = rs.getString("hotel_nombre")
-                                HabitacionesList.add(ReservaInfo(entrada, salida, usuario_nombre, img_url, nombre_tipo_habitacion, hotel_nombre))
+
+                                val reserva = ReservaInfo(entrada, salida, usuario_nombre, img_url, nombre_tipo_habitacion, hotel_nombre)
+
+                                // Cambiar el formato para que coincida con "yyyy-MM-dd"
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                val fechaSalida = dateFormat.parse(salida)
+                                val fechaActual = Date() // Fecha actual
+
+                                // Solo agregar a las reservas activas si la fecha de salida es mayor o igual a la actual
+                                if (fechaSalida != null && !fechaSalida.before(fechaActual)) {
+                                    reservasActivas.add(reserva) // Reserva activa
+                                }
                             }
                         }
                     }
@@ -110,21 +126,23 @@ where ha.id_usuario = ?
                 e.printStackTrace() // Log the exception to debug
             }
 
-            return HabitacionesList
+            return reservasActivas // Solo retorna las reservas activas
         }
         CoroutineScope(Dispatchers.IO).launch {
-            val reservas = idUsuarioGLobal?.let { loadHabitacionesFromDatabase(it) }
+            // Obtener solo las reservas activas
+            val reservasActivas = idUsuarioGLobal?.let { loadHabitacionesFromDatabase(it) } ?: emptyList()
+
             withContext(Dispatchers.Main) {
-                reservas?.let {
-                    reservaAdapter = ReservaAdapter(it)
-                    recyclerView.adapter = reservaAdapter
-                    recyclerView.layoutManager = LinearLayoutManager(this@Reservas)
-                }?: run {
-                    // Maneja el caso en que reservas sea null, quizás mostrando un mensaje de error o un mensaje de "No hay datos"
-                    println("No se encontraron reservas para el usuario.")
-                }
+                // Adaptador para reservas activas
+                val reservaAdapterActivas = ReservaAdapter(reservasActivas)
+                val recyclerViewActivas: RecyclerView = findViewById(R.id.rcvMostrarReservaciones)
+                recyclerViewActivas.adapter = reservaAdapterActivas
+                recyclerViewActivas.layoutManager = LinearLayoutManager(this@Reservas)
+
             }
         }
+
+
 
 
     }

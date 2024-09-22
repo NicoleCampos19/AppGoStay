@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".metodos_contras">
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="445dp"
+        android:layout_height="970dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/metodoosimg" />
+
+    <ImageView
+        android:id="@+id/imvAtras"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.006"
+        app:srcCompat="@drawable/ic_back" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="375dp"
+        android:layout_height="311dp"
+        android:layout_marginBottom="72dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_rawRes="@raw/metodosani">
+
+    </com.airbnb.lottie.LottieAnimationView>
+
+    <Button
+        android:id="@+id/btnRecuCorreo"
+        android:layout_width="228dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#5CB5C4"
+        android:fontFamily="@font/poppinsemibold"
+        android:text="Correo electrónico"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView71" />
+
+    <Button
+        android:id="@+id/btnRecuNum"
+        android:layout_width="228dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#5CB5C4"
+        android:fontFamily="@font/poppinsemibold"
+        android:text="Número de celular"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRecuCorreo" />
+
+    <TextView
+        android:id="@+id/textView71"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Escoge un método para recuperar tu contraseña"
+        android:textColor="#0C0C0C"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

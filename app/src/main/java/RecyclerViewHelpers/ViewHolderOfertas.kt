@@ -10,5 +10,6 @@ class ViewHolderOfertas (view: View) : RecyclerView.ViewHolder(view) {
 
     val txtNombreHotel = view.findViewById<TextView>(R.id.txtNombreHotel)
     val txtNombreOferta = view.findViewById<TextView>(R.id.txtNombreOferta)
+    val txtDescuento = view.findViewById<TextView>(R.id.txtDescuento)
     val expandableContainer: LinearLayout = view.findViewById(R.id.expandableContainer)
 }

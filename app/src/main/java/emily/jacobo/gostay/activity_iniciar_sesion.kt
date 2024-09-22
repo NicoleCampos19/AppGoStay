@@ -149,7 +149,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
 
         txtOlvidasteContrasena.setOnClickListener {
-            val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
+            val siguientepantalla = Intent(this, metodos_contras::class.java)
             startActivity(siguientepantalla)
         }
 

@@ -15,87 +15,71 @@
         android:layout_height="1393dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintHorizontal_bias="0.203"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.638"
-        app:srcCompat="@drawable/mancahasbusquedas" />
+        app:layout_constraintVertical_bias="0.561"
+        app:srcCompat="@drawable/opcionesbus" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
         android:layout_width="331dp"
         android:layout_height="430dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="456dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/busquedad" />
 
     <Button
         android:id="@+id/btnHotelesCerca"
-        android:layout_width="301dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="104dp"
+        android:layout_width="330dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="200dp"
         android:backgroundTint="#5CB5C4"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppinsemibold"
         android:text="Cerca de mi ubicación actual"
-        android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+
+    <Button
+        android:id="@+id/btnProxDestino"
+        android:layout_width="330dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="#5CB5C4"
+        android:fontFamily="@font/poppinsemibold"
+        android:text="Agrega tu próximo destino"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHotelesCerca" />
 
     <TextView
         android:id="@+id/textView49"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
         android:fontFamily="@font/poppins"
         android:text="GoStay"
         android:textColor="@color/black"
         android:textSize="14dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.648"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/btnProxDestino"
-        android:layout_width="319dp"
-        android:layout_height="74dp"
-        android:layout_marginBottom="88dp"
-        android:backgroundTint="#EBEAEA"
-        android:fontFamily="@font/poppins"
-        android:text="Agrega tu próximo destino"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintHorizontal_bias="0.656"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnHotelCerca"
-        app:layout_constraintVertical_bias="0.169"
-        app:srcCompat="@drawable/pastillaturquesa" />
-
-    <TextView
-        android:id="@+id/txtProxDestino"
-        android:layout_width="225dp"
-        android:layout_height="24dp"
-        android:fontFamily="@font/poppins"
-        android:text="Agrega tu próximo destino"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnProxDestino"
-        app:layout_constraintVertical_bias="0.188" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.159" />
 
     <ImageView
         android:id="@+id/RegresarInicio"

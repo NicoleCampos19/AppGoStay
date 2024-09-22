@@ -1,5 +1,6 @@
 package emily.jacobo.gostay
 
+import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.AdaptorTipoHabitacion
 import android.app.Dialog
 import android.content.Intent
@@ -34,6 +35,8 @@ class activity_confirmacionReserva : AppCompatActivity() {
     companion object {
         lateinit var direccionHotelGlobal: String
     }
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +99,9 @@ class activity_confirmacionReserva : AppCompatActivity() {
             // Calcular el total y mostrarlo en el TextView
             withContext(Dispatchers.Main) {
                 val total = diasEstancia * precioHabitacion
-                tvTotalAmount.text = "$$total + impuestos"
+                val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
+                val totalDescuento = total * (1- descuentoTotal/100)
+                tvTotalAmount.text = "$$totalDescuento + impuestos"
             }
         }
         findViewById<TextView>(R.id.tvEntradaDate).text = fechaEntrada
@@ -118,9 +123,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
             obtenerNombreTipoHabitacionEnTv(idTipoHabitacionRecivido ?: -1)
             findViewById<TextView>(R.id.tvReservaNombre).text = nombreUsuario
         }
-
-
-
         /*btnConfirmar.setOnClickListener {
             // Construir el AlertDialog inicial
             val builder = AlertDialog.Builder(this)
@@ -205,13 +207,12 @@ class activity_confirmacionReserva : AppCompatActivity() {
         btnConfirmar.setOnClickListener{
             aceptarReserva()
         }
-
-
     }
 
     private fun aceptarReserva() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_alerta_reserva)
 
             // Configurar los botones del diálogo personalizado
@@ -223,6 +224,21 @@ class activity_confirmacionReserva : AppCompatActivity() {
                 // Acción al presionar "Aceptar"
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
+
+                        val fechaEntrada1 = activity_reserva.fechaEntrada
+                        val fechaSalida2 = activity_reserva.fechaSalida
+                        val idTipoHabitacionRecivido2 = AdaptorTipoHabitacion.idTipoHabitacionGlobal
+
+
+                        val precioHabitacion = obtenerPrecioHabitacion(idTipoHabitacionRecivido2)
+
+
+                        val diasEstancia = if (fechaEntrada1 != null && fechaSalida2 != null) {
+                            calcularDiasEstancia(fechaEntrada1, fechaSalida2)
+                        }else {
+                            0L // Valor predeterminado si alguna fecha es nula
+                        }
+
                         // Obtener los valores a insertar
                         val idHotelRecibido = PaginaInicio.hotelIdGlobal
                         val idTipoHabitacionRecibido = AdaptorTipoHabitacion.idTipoHabitacionGlobal
@@ -230,6 +246,9 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         val fechaCaducidad = activity_reserva.fechaCaducidad
                         val numeroTarjeta = activity_reserva.numeroTarjeta
                         val nombreTitular = activity_reserva.nombreTitular
+                        val totalI = diasEstancia * precioHabitacion
+                        val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
+                        val totalDescuento = totalI * (1- descuentoTotal/100)
                         val fechaEntrada = activity_reserva.fechaEntrada
                         val fechaSalida = activity_reserva.fechaSalida
                         val idUsuario = idUsuarioGlobalL
@@ -246,7 +265,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         // Realizar la inserción en la base de datos
                         val conexion = ClaseConexion().cadenaConexion()
                         val query = """
-                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
                     """
                         val statement = conexion?.prepareStatement(query)
                         statement?.apply {
@@ -257,14 +276,16 @@ class activity_confirmacionReserva : AppCompatActivity() {
                             setString(5, fechaCaducidad) // Fecha de caducidad
                             setString(6, nombreTitular)
                             setInt(7, cvv ?: 0) // Si cvv es null, se asume 0
-                            setInt(8, idTipoHabitacionRecibido)
-                            setInt(9, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
-                            setInt(10, idUsuario)
+                            setDouble(8, totalDescuento)
+                            setInt(9, idTipoHabitacionRecibido)
+                            setInt(10, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
+                            setInt(11, idUsuario)
                             executeUpdate()
                         }
 
                         withContext(Dispatchers.Main) {
                             reservaHecha()
+                            AdaptadorOfertas.descuentoTotalGlobal = 0.0
                         }
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
@@ -273,6 +294,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 }
+                dialog.dismiss()
             }
 
             // Configurar acción al presionar "No Aceptar"
@@ -288,6 +310,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
     private fun reservaHecha() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_reserva_hecha)
 
             val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
@@ -379,8 +402,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
         conexion?.close()
         return direccionHotel
     }
-
-
     //encontrar nombre del hotel
     private fun obtenerNombreHotelEnTv(idHotel: Int) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -438,11 +459,17 @@ class activity_confirmacionReserva : AppCompatActivity() {
         conexion?.close()
         return nombreTipoHabitacion
     }
+    private fun showCustomDialog() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@activity_confirmacionReserva)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+            dialog.setContentView(R.layout.dialog_denuncia_realizada)
 
-
-
-
-
-
-
+            val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+    }
 }

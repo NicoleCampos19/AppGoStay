@@ -46,12 +46,6 @@ class activity_reserva : AppCompatActivity() {
         var fechasReservadas: List<Pair<String, String>> = emptyList()  // Para guardar las fechas reservadas
     }
 
-
-
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -63,11 +57,6 @@ class activity_reserva : AppCompatActivity() {
             insets
         }
 
-
-
-
-
-
         //#queremoscodigolimpio
         setupCantidadSpinner()
 
@@ -76,8 +65,6 @@ class activity_reserva : AppCompatActivity() {
         val txtFechaReserva = findViewById<EditText>(R.id.txtFechaReserva)
         val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
         val imgVolverAtrars = findViewById<ImageView>(R.id.imgVolverAtrasXD)
-
-
 
         // Obtener las fechas reservadas de la base de datos antes de mostrar el DateRangePicker
         CoroutineScope(Dispatchers.IO).launch {
@@ -100,10 +87,6 @@ class activity_reserva : AppCompatActivity() {
             finish()
         }
 
-
-
-
-
         // Configura el DatePickerDialog para la fecha de caducidad
         txtFechaCaducidad.setOnClickListener {
             showDatePickerDialog { date ->
@@ -113,16 +96,12 @@ class activity_reserva : AppCompatActivity() {
 
         // Valida el CVV para permitir solo números
 
-
         btnSiguiente.setOnClickListener {
             departamento = spDepartamento.selectedItem.toString()
             fechaCaducidad = txtFechaCaducidad.text.toString()
             val cvvText = findViewById<EditText>(R.id.txtCVV).text.toString()
             val numeroTarjetaText = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
             nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
-
-
-
 
             // Validar fechas
             if (fechaEntrada!!.isNotEmpty() && fechaSalida!!.isNotEmpty()) {
@@ -137,14 +116,10 @@ class activity_reserva : AppCompatActivity() {
                 Toast.makeText(this, "Las fechas de entrada y salida no pueden estar vacías.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-
-
             if (nombreTitular!!.isEmpty()) {
                 Toast.makeText(this, "El nombre del titular no puede estar vacío", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             // Validación del número de tarjeta
             if (numeroTarjetaText.length < 16 || !numeroTarjetaText.all { it.isDigit() }) {
                 Toast.makeText(this, "El número de tarjeta debe tener 16 dígitos y solo contener números", Toast.LENGTH_SHORT).show()
@@ -180,9 +155,6 @@ class activity_reserva : AppCompatActivity() {
 
 
         }
-
-
-
         fun obtenerDepartamentos(): List<tbDepartamentos> {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()
@@ -194,8 +166,6 @@ class activity_reserva : AppCompatActivity() {
 
                 val valoresJuntos = tbDepartamentos(id_departamento, nombre_departamento)
                 listaDepartamentos.add(valoresJuntos)
-
-
             }
             return listaDepartamentos
         }
@@ -206,15 +176,9 @@ class activity_reserva : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 val adapter = ArrayAdapter(this@activity_reserva, android.R.layout.simple_spinner_dropdown_item, nombresDepartamentos)
-
-
                 spDepartamento.adapter = adapter
             }
         }
-
-
-
-
     }
     // Método para obtener las fechas reservadas de la base de datos
     private suspend fun obtenerFechasReservadas(idTipoHabitacion: Int): List<Pair<String, String>> {
@@ -292,9 +256,6 @@ class activity_reserva : AppCompatActivity() {
             .setStart(today.timeInMillis)  // Establecer la fecha mínima como hoy
             .build()
     }
-
-
-
     //buscar id departamento por nombre
     private fun obteneridDepartamentoEnVal(departamento: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -325,15 +286,6 @@ class activity_reserva : AppCompatActivity() {
         return idDepartamento
     }
 
-
-
-
-
-
-
-
-
-
     private fun setupCantidadSpinner() {
         val spinner = findViewById<Spinner>(R.id.spCantidadH)
 
@@ -349,9 +301,6 @@ class activity_reserva : AppCompatActivity() {
         // Asignar el adaptador al Spinner
         spinner.adapter = adapter
     }
-
-
-
 
     private fun showDatePickerDialog(onDateSet: (String) -> Unit) {
 
@@ -375,7 +324,4 @@ class activity_reserva : AppCompatActivity() {
 
         datePickerDialog.show()
     }
-
-
-
 }

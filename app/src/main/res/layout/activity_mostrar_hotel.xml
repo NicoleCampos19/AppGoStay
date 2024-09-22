@@ -34,9 +34,9 @@
 
             <ImageView
                 android:id="@+id/imgRegresarServiciosHotel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
+                android:layout_width="31dp"
+                android:layout_height="36dp"
+                app:srcCompat="@drawable/ic_back_blanco"
                 tools:layout_conversion_absoluteHeight="24dp"
                 tools:layout_conversion_absoluteWidth="24dp"
                 tools:layout_editor_absoluteX="27dp"

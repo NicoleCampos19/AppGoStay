@@ -67,13 +67,13 @@ class Confirmacion_Cuenta : AppCompatActivity() {
             var hayErrores = false
 
             if(codigo.isEmpty()){
-            setErrorWithCustomFont(txtCodigoConf, "Llena este campo", R.font.poppins)
-            hayVacios = true
-        }
-        else if (codigo.length != 6) {
-            setErrorWithCustomFont(txtCodigoConf, "El código debe contener 6 carácteres", R.font.poppins)
-            hayErrores = true
-        }
+                setErrorWithCustomFont(txtCodigoConf, "Llena este campo", R.font.poppins)
+                hayVacios = true
+            }
+            else if (codigo.length != 6) {
+                setErrorWithCustomFont(txtCodigoConf, "El código debe contener 6 carácteres", R.font.poppins)
+                hayErrores = true
+            }
             // Si hay errores, no procede a guardar los datos
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
@@ -119,6 +119,6 @@ class Confirmacion_Cuenta : AppCompatActivity() {
                 }
             }
         }
-            }
+    }
 
-        }
+}

@@ -1,6 +1,7 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.AdaptadorCarrusel
+import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.ComentarioAdapter
 import RecyclerViewHelpers.ServicioAdapter
 import android.content.Intent
@@ -36,7 +37,13 @@ class hotel_detalles : AppCompatActivity() {
     private lateinit var servicioAdapter: ServicioAdapter
 
 
-    
+    override fun onBackPressed() {
+        // Ejecuta el código antes de regresar
+        AdaptadorOfertas.descuentoTotalGlobal = 0.0
+
+        // Luego llama al comportamiento predeterminado de volver atrás
+        super.onBackPressed()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +51,6 @@ class hotel_detalles : AppCompatActivity() {
 
 
         val reseñaGlobal = activity_resenas.resenaGlobal
-
 
 
 
@@ -157,6 +163,7 @@ class hotel_detalles : AppCompatActivity() {
 
         val imageViewBack = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         imageViewBack.setOnClickListener {
+            AdaptadorOfertas.descuentoTotalGlobal = 0.0
             navigateBack()
         }
 

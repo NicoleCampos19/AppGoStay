@@ -87,11 +87,11 @@
 
     <Button
         android:id="@+id/btnIniciar"
-        android:layout_width="107dp"
-        android:layout_height="48dp"
+        android:layout_width="137dp"
+        android:layout_height="43dp"
         android:layout_marginBottom="236dp"
         android:backgroundTint="#49A8B5"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppinsemibold"
         android:text="Iniciar"
         android:textSize="18sp"
         android:textStyle="bold"

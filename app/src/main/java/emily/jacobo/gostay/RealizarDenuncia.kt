@@ -86,15 +86,12 @@ class RealizarDenuncia : AppCompatActivity() {
         radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
             // Responds to radio button being checked/unchecked
         }
-
-
-
-
     }
 
     private fun showCustomDialog() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@RealizarDenuncia)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_denuncia_realizada)
 
             val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
