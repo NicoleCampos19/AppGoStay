@@ -57,28 +57,30 @@ class hotel_detalles : AppCompatActivity() {
         fun obtenerImagenes(): List<tbCarrusel> {
             val objConexion = ClaseConexion().cadenaConexion()
 
-
             val lista = mutableListOf<tbCarrusel>()
+            val query = """
+        SELECT i.* 
+        FROM tbHoteles h
+        INNER JOIN tbImagenes_Hoteles i ON h.id_hoteles = i.id_hoteles
+    """.trimIndent()
+
             val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbImagenes_Hoteles")
-
-
+            val resultSet = statement?.executeQuery(query)
 
             if (resultSet != null) {
                 while (resultSet.next()) {
-
                     val id_imagenes = resultSet.getInt("id_imagenes")
                     val id_hoteles = resultSet.getInt("id_hoteles")
                     val url_imagen = resultSet.getString("url_imagen")
 
                     val valoresJuntos = tbCarrusel(id_imagenes, id_hoteles, url_imagen)
-
-
                     lista.add(valoresJuntos)
                 }
             }
+
             return lista
         }
+
 
         //asignarle el adptador al Recyclearview
          CoroutineScope(Dispatchers.IO).launch {
@@ -97,7 +99,7 @@ class hotel_detalles : AppCompatActivity() {
         val idHotelGlobal = PaginaInicio.hotelIdGlobal
         val recyclerView: RecyclerView = findViewById(R.id.rcvServiciosHotel)
 
-        //aqui
+
         fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
             val ServiciosList = mutableListOf<ServicioInfo>()
             val query = """
