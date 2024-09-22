@@ -225,7 +225,7 @@ class activity_editar_perfil : AppCompatActivity() {
              startActivity(siguientepantalla)
 
 
-        }git 
+        }
 
         val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
 
