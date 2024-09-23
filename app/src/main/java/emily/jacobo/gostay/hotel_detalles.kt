@@ -62,40 +62,45 @@ class hotel_detalles : AppCompatActivity() {
 
 
         fun obtenerImagenes(): List<tbCarrusel> {
+            // Establece una conexión a la base de datos
             val objConexion = ClaseConexion().cadenaConexion()
 
+            // Crea una lista mutable para almacenar las imágenes
             val lista = mutableListOf<tbCarrusel>()
 
+            // Prepara la consulta SQL para seleccionar imágenes del hotel específico
             val statement = objConexion?.prepareStatement("SELECT * FROM tbImagenes_Hoteles WHERE id_Hoteles = ?")!!
-            statement.setInt(1,PaginaInicio.hotelIdGlobal!!)
-            val resultSet = statement.executeQuery()
+            statement.setInt(1, PaginaInicio.hotelIdGlobal!!) // Asigna el ID del hotel a la consulta
+            val resultSet = statement.executeQuery() // Ejecuta la consulta
 
+            // Verifica si el resultado no es nulo
             if (resultSet != null) {
+                // Itera a través de los resultados
                 while (resultSet.next()) {
                     val id_imagenes = resultSet.getInt("id_imagenes")
                     val id_hoteles = resultSet.getInt("id_hoteles")
                     val url_imagen = resultSet.getString("url_imagen")
 
+                    // Crea una instancia de tbCarrusel con los datos obtenidos
                     val valoresJuntos = tbCarrusel(id_imagenes, id_hoteles, url_imagen)
-                    lista.add(valoresJuntos)
+                    lista.add(valoresJuntos) // Agrega la imagen a la lista
                 }
             }
 
+            // Devuelve la lista de imágenes
             return lista
         }
 
+// Asigna el adaptador al RecyclerView
+        CoroutineScope(Dispatchers.IO).launch {
+            val ImagenesBD = obtenerImagenes() // Obtiene las imágenes de la base de datos
 
-        //asignarle el adptador al Recyclearview
-         CoroutineScope(Dispatchers.IO).launch {
-             val ImagenesBD = obtenerImagenes()
+            withContext(Dispatchers.Main) {
+                val adapter = AdaptadorCarrusel(ImagenesBD) // Crea un adaptador con las imágenes
+                rcvCarrusels.adapter = adapter // Asigna el adaptador al RecyclerView
+            }
+        }
 
-             withContext(Dispatchers.Main){
-                 val adapter = AdaptadorCarrusel(ImagenesBD)
-                 rcvCarrusels.adapter = adapter
-
-             }
-
-         }
 
 
 
