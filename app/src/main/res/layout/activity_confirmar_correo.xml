@@ -10,8 +10,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
-        android:layout_width="346dp"
-        android:layout_height="254dp"
+        android:layout_width="388dp"
+        android:layout_height="271dp"
 
         android:layout_marginTop="51dp"
         android:layout_marginBottom="17dp"
@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:lottie_rawRes="@raw/confirmacion">
+        app:lottie_rawRes="@raw/confircorreo">
 
     </com.airbnb.lottie.LottieAnimationView>
 
@@ -41,7 +41,7 @@
         android:layout_width="341dp"
         android:layout_height="47dp"
         android:fontFamily="@font/poppins"
-        android:text="Confirma tu cuenta"
+        android:text="Confirma tu correo"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
@@ -54,8 +54,8 @@
 
     <TextView
         android:id="@+id/textView12"
-        android:layout_width="340dp"
-        android:layout_height="44dp"
+        android:layout_width="339dp"
+        android:layout_height="57dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/poppins"
         android:text="Enviamos un código por gmail. Ingrésalo para confirmar tu cuenta."
@@ -64,10 +64,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnConfirmaCorreo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.549"
+        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCodigoCorreo"
-        app:layout_constraintVertical_bias="0.775" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView8"
@@ -75,7 +75,7 @@
         android:layout_height="28dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins"
-        android:text="Ingresa el código."
+        android:text="Ingresa el código"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -105,7 +105,7 @@
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="365dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="100dp"
         android:fontFamily="@font/poppins"
         android:text="¿No recibiste el código?"
         android:textColor="@color/black"
@@ -121,13 +121,12 @@
         android:id="@+id/txtCodigoCorreo"
         android:layout_width="365dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/style_borde_edittext"
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.717"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 

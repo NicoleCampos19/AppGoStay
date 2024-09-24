@@ -53,7 +53,6 @@ class activity_editar_perfil : AppCompatActivity() {
     val CAMERA_REQUEST_CODE = 0
     val STORAGE_REQUEST_CODE = 1
 
-
     lateinit var correoActual: String
     lateinit var contrasenaActual: String
     lateinit var txtNewContraP: String
@@ -72,8 +71,6 @@ class activity_editar_perfil : AppCompatActivity() {
             insets
         }
 
-
-
         //  variables del companion object de activity_iniciar_sesion
         correoActual = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
         contrasenaActual = activity_iniciar_sesion.variableGloalLogin.txtContrasenaIniciarSesionV
@@ -87,8 +84,6 @@ class activity_editar_perfil : AppCompatActivity() {
         val imvGaleriaPerfil = findViewById<ImageView>(R.id.imvGaleriaPerfil)
         imageView = findViewById(R.id.imvPerfil2)
         val imvCamaraPerfil = findViewById<ImageView>(R.id.imvCamaraPerfil)
-
-
 
         imvGaleriaPerfil.setOnClickListener {
             //Al darle clic al botón de la galeria pedimos los permisos primero
@@ -157,15 +152,8 @@ class activity_editar_perfil : AppCompatActivity() {
                     }
                 }
             }
-
-
-
-
-
         }
         cargarImagenperfil(correoActual)
-
-
 
         btnGuardarPerfil.setOnClickListener{
 
@@ -203,7 +191,6 @@ class activity_editar_perfil : AppCompatActivity() {
 
         }
 
-
         imvAtrasPerfil.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
@@ -211,8 +198,6 @@ class activity_editar_perfil : AppCompatActivity() {
 
 
         }
-
-
 
 fun hashSHA256(contrasenaEscrita: String): String {
     val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
@@ -251,8 +236,6 @@ private fun actualizarContraseña(correo: String, contraseña: String) {
 
     }
 }
-
-
 
 private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
@@ -408,8 +391,6 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
         }
     }
 
-
-
     //Subir la imagen a Firebase Storage
     private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit) {
         val storageRef = Firebase.storage.reference
@@ -468,16 +449,3 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

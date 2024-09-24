@@ -8,32 +8,69 @@
     tools:context=".activity_editar_perfil">
 
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="429dp"
-        android:layout_height="351dp"
-        android:layout_marginBottom="156dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtCorreoPerfil"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cuadro_celeste_perfil" />
-
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Perfil"
+        android:text="Editar perfil"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.045" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="Foto de perfil"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintVertical_bias="0.136" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="Contraseña"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.19"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.643" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="Correo electrónico"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.236"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.481" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imvPerfil2"
@@ -63,7 +100,7 @@
         app:layout_constraintHorizontal_bias="0.597"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.646" />
+        app:layout_constraintVertical_bias="0.709" />
 
     <EditText
         android:id="@+id/txtCorreoPerfil"
@@ -71,7 +108,7 @@
         android:layout_height="50dp"
         android:ems="10"
         android:fontFamily="@font/poppins"
-        android:hint="Correo eletrónico"
+        android:hint="Correo electrónico"
         android:inputType="text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -83,24 +120,24 @@
 
     <Button
         android:id="@+id/btnGuardarPerfil"
-        android:layout_width="122dp"
-        android:layout_height="54dp"
+        android:layout_width="143dp"
+        android:layout_height="57dp"
         android:backgroundTint="#5CB5C4"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppinsemibold"
         android:text="Guardar"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.772" />
+        app:layout_constraintVertical_bias="0.847" />
 
     <ImageView
         android:id="@+id/imvAtrasPerfil"
-        android:layout_width="39dp"
-        android:layout_height="32dp"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.043"
@@ -111,23 +148,23 @@
 
     <ImageView
         android:id="@+id/imvGaleriaPerfil"
-        android:layout_width="61dp"
-        android:layout_height="57dp"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.357"
+        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405"
+        app:layout_constraintVertical_bias="0.404"
         app:srcCompat="@drawable/icongaleria" />
 
     <ImageView
         android:id="@+id/imvCamaraPerfil"
-        android:layout_width="61dp"
-        android:layout_height="57dp"
+        android:layout_width="46dp"
+        android:layout_height="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.662"
+        app:layout_constraintHorizontal_bias="0.63"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.405"

@@ -6,26 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:radius="8dp">
+    android:radius="8dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="400dp"
         android:layout_height="293dp"
-        android:background="#DFDFDF">
+        android:background="#FFFFFF">
 
 
         <ImageView
             android:id="@+id/img_tipo_habitacion"
-            android:layout_width="363dp"
+            android:layout_width="404dp"
             android:layout_height="174dp"
             android:scaleType="centerCrop"
             android:src="@drawable/hotel2"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.513"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.079" />
+            card_view:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txt_nombre_tipo_habitacion"
@@ -75,20 +76,20 @@
 
         <Button
             android:id="@+id/btn_ver_mas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="116dp"
+            android:layout_height="39dp"
             android:backgroundTint="@android:color/holo_blue_light"
-            android:fontFamily="@font/poppinsbold"
+            android:fontFamily="@font/poppins"
             android:text="Ver más"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.065"
+            card_view:layout_constraintHorizontal_bias="0.066"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.946" />
+            card_view:layout_constraintVertical_bias="0.937" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

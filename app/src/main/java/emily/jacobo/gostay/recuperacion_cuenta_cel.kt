@@ -14,10 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import emily.jacobo.gostay.RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class recuperacion_cuenta_cel : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +27,8 @@ class recuperacion_cuenta_cel : AppCompatActivity() {
         }
 
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
-        val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
-        val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
+        val editTextNumber = findViewById<EditText>(R.id.editTextNumber)
+        val btnRecuperacionCel = findViewById<Button>(R.id.btnRecuperacionCel)
 
         //Navegación
         imvAtras.setOnClickListener {
@@ -41,11 +37,7 @@ class recuperacion_cuenta_cel : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
-        btnRecuperacion.setOnClickListener {
-            val continuar = Intent(this, confirmacion_cuenta_cel::class.java)
-            startActivity(continuar)
-            overridePendingTransition(0, 0)
-        }
+
 
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
@@ -58,26 +50,30 @@ class recuperacion_cuenta_cel : AppCompatActivity() {
             }
             editText.error = spannableString
         }
-        btnRecuperacion.setOnClickListener {
-            val correo = txtCorreo.text.toString()
+        btnRecuperacionCel.setOnClickListener {
+            val numero = editTextNumber.text.toString()
 
             var hayVacios = false
             var hayErrores = false
 
             //Para el campo de correo
-            if(correo.isEmpty()){
-                setErrorWithCustomFont(txtCorreo, "Llena este campo", R.font.poppins)
+            if(numero.isEmpty()){
+                setErrorWithCustomFont(editTextNumber, "Llena este campo", R.font.poppins)
                 hayVacios = true
 
             }
-            else if (!correo.matches (Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
-                setErrorWithCustomFont(txtCorreo, "El formato del correo no es válido", R.font.poppins)
+            else if (numero.length != 8) {
+                setErrorWithCustomFont(editTextNumber, "El teléfono debe contener 8 carácteres", R.font.poppins)
                 hayErrores = true
             }
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
             }else{
-
+                btnRecuperacionCel.setOnClickListener {
+                    val continuar = Intent(this, confirmacion_cuenta_cel::class.java)
+                    startActivity(continuar)
+                    overridePendingTransition(0, 0)
+                }
             }
     }
     }

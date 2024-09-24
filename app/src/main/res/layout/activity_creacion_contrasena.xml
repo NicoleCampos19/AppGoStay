@@ -53,7 +53,7 @@
         app:layout_constraintVertical_bias="0.529" />
 
     <EditText
-        android:id="@+id/txtNewContra"
+        android:id="@+id/txtContraseñaNuevaCel"
         android:layout_width="369dp"
         android:layout_height="61dp"
         android:background="@drawable/style_borde_edittext"
@@ -61,26 +61,26 @@
         android:fontFamily="@font/poppins"
         android:hint="Contraseña nueva"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/btnCrearcontrasena"
+        app:layout_constraintBottom_toTopOf="@+id/btnCrearcontrasenaCel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.619"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
-        android:id="@+id/btnCrearcontrasena"
+        android:id="@+id/btnCrearcontrasenaCel"
         android:layout_width="365dp"
         android:layout_height="58dp"
         android:backgroundTint="#49A8B5"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppinsemibold"
         android:text="Continuar"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewContra"
+        app:layout_constraintTop_toBottomOf="@+id/txtContraseñaNuevaCel"
         app:layout_constraintVertical_bias="0.232" />
 
     <TextView

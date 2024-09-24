@@ -54,19 +54,19 @@
 
     <TextView
         android:id="@+id/textView12"
-        android:layout_width="340dp"
-        android:layout_height="44dp"
+        android:layout_width="350dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/poppins"
-        android:text="Enviamos un código por mensajes. Ingrésalo para confirmar tu cuenta."
+        android:text="Enviamos un código por gmail. Ingrésalo para confirmar tu cuenta."
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnConfirmaCuenta"
+        app:layout_constraintBottom_toTopOf="@+id/btnRecuperacion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCodigoConf"
+        app:layout_constraintTop_toBottomOf="@+id/txtCodigo"
         app:layout_constraintVertical_bias="0.775" />
 
     <TextView
@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
-        android:id="@+id/btnConfirmaCuenta"
+        android:id="@+id/btnRecuperacion"
         android:layout_width="365dp"
         android:layout_height="46dp"
         android:layout_marginBottom="32dp"
@@ -118,7 +118,7 @@
         app:strokeColor="#49A8B5" />
 
     <EditText
-        android:id="@+id/txtCodigoConf"
+        android:id="@+id/txtCodigo"
         android:layout_width="365dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"

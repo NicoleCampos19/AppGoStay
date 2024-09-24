@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -28,9 +29,15 @@ class activity_resenas : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-
-
         }
+
+        val imgVolverR = findViewById<ImageView>(R.id.imgVolverR)
+
+        imgVolverR.setOnClickListener {
+            val siguientepantalla = Intent(this, hotel_detalles::class.java)
+            startActivity(siguientepantalla)
+        }
+
         // Configuración de Spinners
         val spValoracionG: Spinner = findViewById(R.id.spValoracionG)
         val spValoracionLimpi: Spinner = findViewById(R.id.spValoracionLimpi)
@@ -66,7 +73,6 @@ class activity_resenas : AppCompatActivity() {
             }
         }
     }
-
 
     //declaraciones
     private var valoracionG: Int? = null
