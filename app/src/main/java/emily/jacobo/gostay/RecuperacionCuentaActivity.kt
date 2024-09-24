@@ -50,16 +50,16 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         }
 
         btnRecuperacion.setOnClickListener {
-            val correo = txtCorreo.text.toString()
+            Correo = txtCorreo.text.toString()
 
             var hayVacios = false
             var hayErrores = false
 
             // Validación para campos
-            if (correo.isEmpty()) {
+            if (Correo.isEmpty()) {
                 setErrorWithCustomFont(txtCorreo, "Llena este campo", R.font.poppins)
                 hayVacios = true
-            } else if (!correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
+            } else if (!Correo.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
                 setErrorWithCustomFont(txtCorreo, "El formato del correo no es válido", R.font.poppins)
                 hayErrores = true
             }
@@ -67,8 +67,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
-                // Asignar el valor de correo a la variable lateinit
-                Correo = correo
+
                 val codigoRecuperacion = (100000..999999).random().toString()
                 val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
 

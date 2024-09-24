@@ -170,4 +170,18 @@
         app:layout_constraintVertical_bias="0.405"
         app:srcCompat="@drawable/iconcamera" />
 
+    <ImageView
+        android:id="@+id/imvVerContraPerfil"
+        android:layout_width="28dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtContraPerfil"
+        app:layout_constraintEnd_toEndOf="@+id/txtContraPerfil"
+        app:layout_constraintHorizontal_bias="0.923"
+        app:layout_constraintStart_toStartOf="@+id/txtContraPerfil"
+        app:layout_constraintTop_toTopOf="@+id/txtContraPerfil"
+        app:layout_constraintVertical_bias="0.473"
+        app:srcCompat="@drawable/ojocerrado" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
