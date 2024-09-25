@@ -171,7 +171,6 @@ class activity_editar_perfil : AppCompatActivity() {
         cargarImagenperfil(correoActual)
 
 
-
         btnGuardarPerfil.setOnClickListener{
 
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
@@ -228,6 +227,8 @@ class activity_editar_perfil : AppCompatActivity() {
         }
 
         val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
+        editTextContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        editTextContra.typeface = poppinsFont
 
         imvVerContraPerfil.setOnClickListener {
             if (isPasswordVisible) {
