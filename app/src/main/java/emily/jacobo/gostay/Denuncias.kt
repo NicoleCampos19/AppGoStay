@@ -71,7 +71,6 @@ class Denuncias : AppCompatActivity() {
             return listaHotelesDenunciados
         }
 
-
         CoroutineScope(Dispatchers.IO).launch {
             val hotelesdenunciadosDB = obtenerHotelesDenunciados()
             withContext(Dispatchers.Main){

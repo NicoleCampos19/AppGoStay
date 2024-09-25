@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins"
-        android:text="¿olvidaste tu contraseña?"
+        android:text="¿Olvidaste tu contraseña?"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -87,8 +87,8 @@
 
     <Button
         android:id="@+id/btnIniciar"
-        android:layout_width="137dp"
-        android:layout_height="43dp"
+        android:layout_width="170dp"
+        android:layout_height="56dp"
         android:layout_marginBottom="236dp"
         android:backgroundTint="#49A8B5"
         android:fontFamily="@font/poppinsemibold"

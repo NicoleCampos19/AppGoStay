@@ -76,21 +76,23 @@
                 android:id="@+id/spCantidadH"
                 android:layout_width="148dp"
                 android:layout_height="41dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/spinner_background"
+                android:theme="@style/CustomSpinnerText"
                 app:layout_constraintEnd_toStartOf="@id/spDepartamento"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView24"
-                android:theme="@style/CustomSpinnerText"/>
+                app:layout_constraintTop_toBottomOf="@id/textView24" />
 
             <Spinner
                 android:id="@+id/spDepartamento"
-                android:layout_width="178dp"
-                android:layout_height="45dp"
+                android:layout_width="176dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/spinner_background"
+                android:theme="@style/CustomSpinnerText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/spCantidadH"
-                app:layout_constraintTop_toBottomOf="@id/textView25"
-                android:theme="@style/CustomSpinnerText"/>
+                app:layout_constraintTop_toBottomOf="@id/textView25" />
 
             <TextView
                 android:id="@+id/textView26"
@@ -145,6 +147,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView27" />
 
@@ -160,37 +163,23 @@
                 app:layout_constraintTop_toBottomOf="@id/txtNombreTitular"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <EditText
-                android:id="@+id/txtNumeroTarjeta"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_background"
-                android:fontFamily="@font/poppins"
-                android:hint="Número de tarjeta"
-                android:padding="12dp"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView28" />
-
             <TextView
                 android:id="@+id/textView29"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/poppins"
                 android:text="Fecha de caducidad"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/txtNumeroTarjeta"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtNumeroTarjeta" />
 
             <EditText
                 android:id="@+id/txtFechaCaducidad"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_background"
                 android:editable="false"
@@ -199,7 +188,6 @@
                 android:padding="12dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@id/txtCVV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView29" />
 
@@ -207,35 +195,21 @@
                 android:id="@+id/textView30"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/poppins"
                 android:text="CVV"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/txtFechaCaducidad"
-                app:layout_constraintTop_toBottomOf="@id/txtNumeroTarjeta" />
-
-            <EditText
-                android:id="@+id/txtCVV"
-                android:layout_width="121dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_background"
-                android:fontFamily="@font/poppins"
-                android:hint="CVV"
-                android:padding="12dp"
-                android:textColor="@color/black"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/txtFechaCaducidad"
-                app:layout_constraintTop_toBottomOf="@id/textView30" />
+                app:layout_constraintHorizontal_bias="0.721"
+                app:layout_constraintStart_toEndOf="@+id/textView29"
+                app:layout_constraintTop_toBottomOf="@+id/txtNumeroTarjeta" />
 
             <Button
                 android:id="@+id/btnSiguiente"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="36dp"
                 android:backgroundTint="@android:color/holo_blue_light"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Siguiente"
@@ -244,8 +218,42 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtCVV" />
+                app:layout_constraintTop_toBottomOf="@+id/txtCVV" />
+
+            <EditText
+                android:id="@+id/txtNumeroTarjeta"
+                android:layout_width="343dp"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
+                android:fontFamily="@font/poppins"
+                android:hint="Número de tarjeta"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+            <EditText
+                android:id="@+id/txtCVV"
+                android:layout_width="111dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
+                android:fontFamily="@font/poppins"
+                android:hint="CVV"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.954"
+                app:layout_constraintStart_toEndOf="@+id/txtFechaCaducidad"
+                app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

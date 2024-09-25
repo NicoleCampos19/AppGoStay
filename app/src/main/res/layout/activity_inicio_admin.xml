@@ -8,6 +8,36 @@
     tools:context=".PaginaInicio">
 
 
+    <EditText
+        android:id="@+id/etBuscarHotel"
+        android:layout_width="323dp"
+        android:layout_height="45dp"
+        android:background="@drawable/cuadritobusquedadprox"
+        android:fontFamily="@font/poppins"
+        android:hint="Agrega tu próximo destino"
+        android:inputType="text"
+        android:textColor="@color/letrainicio"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        app:layout_constraintVertical_bias="0.017" />
+
+    <ImageButton
+        android:id="@+id/btnVoz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#EBEAEA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.831"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.117"
+        app:srcCompat="@drawable/voice" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="330dp"
         android:layout_height="75dp"
@@ -45,37 +75,42 @@
 
         </LinearLayout>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
     <ScrollView
-        android:layout_width="335dp"
-        android:layout_height="731dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="320dp"
+        android:layout_height="600dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.137">
+        app:layout_constraintTop_toBottomOf="@+id/etBuscarHotel">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="264dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/poppins"
-                android:text="Hoteles disponibles"
-                android:textColor="#000000"
-                android:textSize="27sp"
-                android:textStyle="bold" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvHotelAdmin"
                 android:layout_width="match_parent"
-                android:layout_height="557dp" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/poppins"
+        android:text="Hoteles disponibles"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

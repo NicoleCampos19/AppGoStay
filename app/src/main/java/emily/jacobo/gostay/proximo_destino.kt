@@ -37,11 +37,12 @@ class proximo_destino : AppCompatActivity() {
             insets
         }
 
-        // Mando a llamar los elementos de la vista
+        //Mando a llamar los elementos de la vista
         val btnAtras = findViewById<ImageView>(R.id.btnAtras)
         val etBuscar = findViewById<EditText>(R.id.etBuscar)
         val btnVoz = findViewById<ImageButton>(R.id.btnVoz)
 
+        //Navegación entre pantalla
         btnAtras.setOnClickListener {
             val volverAtras = Intent(this, opcionesdebusquedad::class.java)
             startActivity(volverAtras)

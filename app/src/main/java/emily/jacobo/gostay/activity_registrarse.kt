@@ -149,7 +149,6 @@ class activity_registrarse : AppCompatActivity() {
                 }
                 editText.error = spannableString
             }
-            //Para el campo de nombre
 
         btnRegistrarse.setOnClickListener {
             val idTipoUsuario = tipousuario
@@ -179,7 +178,7 @@ class activity_registrarse : AppCompatActivity() {
                 hayVacios = true
             }
             else if (!apellido.matches(Regex("^[a-zA-Z]+$"))) {
-                setErrorWithCustomFont(txtApellido, "El apellido solo debe contener letras", R.font.poppins)
+                setErrorWithCustomFont(txtApellido, "El apellido debe contener letras", R.font.poppins)
                 hayErrores = true
             }
 
@@ -216,7 +215,7 @@ class activity_registrarse : AppCompatActivity() {
                 hayVacios = true
             }
             else if (contrasena.length < 12) {
-                setErrorWithCustomFont(txtContraI, "La contraseña debe contener más de 12 carácteres", R.font.poppins)
+                setErrorWithCustomFont(txtContraI, "La contraseña debe contener 12 carácteres", R.font.poppins)
                 hayErrores = true
             }
 
@@ -272,11 +271,6 @@ class activity_registrarse : AppCompatActivity() {
 
         }
 
-
-
-
-
-
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -326,7 +320,7 @@ class activity_registrarse : AppCompatActivity() {
         }
     }
 
-
+    //Función para que al mandar el código de recuperación contenga diseño
     fun generarHTMLCorreo(codigoRecuperacion: String): String {
         return """
         <!DOCTYPE HTML>

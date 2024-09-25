@@ -1,13 +1,7 @@
 package emily.jacobo.gostay
 
-import RecyclerViewHelpers.AdaptadorHabitaciones
-import RecyclerViewHelpers.AdaptorTipoHabitacion
 import RecyclerViewHelpers.ReservaAdapter
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,63 +14,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.ReservaInfo
-import modelo.tbHabitaciones
-import modelo.tbTipoHabitacion
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class Reservas : AppCompatActivity() {
-
-
-
-
-    @SuppressLint("MissingInflatedId")
+class historial_reservas : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_reservas)
+        setContentView(R.layout.activity_historial_reservas)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val imvBuscar = findViewById<ImageView>(R.id.imvBuscarb)
-        val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
-        val imvReseva = findViewById<ImageView>(R.id.imvReservaa)
-        val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
-
-
-        imvBuscar.setOnClickListener {
-            val siguientepantalla = Intent(this, PaginaInicio::class.java)
-            startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
-        }
-
-        imvFavorito.setOnClickListener {
-            val siguientepantalla = Intent(this, Favoritos::class.java)
-            startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
-        }
-
-        imvReseva.setOnClickListener {
-            val siguientepantalla = Intent(this, Reservas::class.java)
-            startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
-        }
-
-        imvPerfil.setOnClickListener {
-            val siguientepantalla = Intent(this, Perfil::class.java)
-            startActivity(siguientepantalla)
-            overridePendingTransition(0, 0)
-        }
-
 
         val idUsuarioGLobal = PaginaInicio.idUsuarioGlobalL
 
 
         fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
-            val reservasActivas = mutableListOf<ReservaInfo>()
+            val reservasInactivas = mutableListOf<ReservaInfo>()
 
             val query = """
         select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre_usuario, hot.img_url, th.nombre_tipo_habitacion
@@ -112,9 +69,9 @@ class Reservas : AppCompatActivity() {
                                 val fechaSalida = dateFormat.parse(salida)
                                 val fechaActual = Date() // Fecha actual
 
-                                // Solo agregar a las reservas activas si la fecha de salida es mayor o igual a la actual
-                                if (fechaSalida != null && !fechaSalida.before(fechaActual)) {
-                                    reservasActivas.add(reserva) // Reserva activa
+                                // Solo agregar a las reservas inactivas si la fecha de salida es anterior a la actual
+                                if (fechaSalida != null && fechaSalida.before(fechaActual)) {
+                                    reservasInactivas.add(reserva) // Reserva inactiva
                                 }
                             }
                         }
@@ -124,22 +81,21 @@ class Reservas : AppCompatActivity() {
                 e.printStackTrace() // Log the exception to debug
             }
 
-            return reservasActivas // Solo retorna las reservas activas
+            return reservasInactivas // Retorna solo las reservas inactivas
         }
+
         CoroutineScope(Dispatchers.IO).launch {
-            // Obtener solo las reservas activas
-            val reservasActivas = idUsuarioGLobal?.let { loadHabitacionesFromDatabase(it) } ?: emptyList()
+            // Obtener solo las reservas inactivas
+            val reservasInactivas = idUsuarioGLobal?.let { loadHabitacionesFromDatabase(it) } ?: emptyList()
 
             withContext(Dispatchers.Main) {
-                // Adaptador para reservas activas
-                val reservaAdapterActivas = ReservaAdapter(reservasActivas)
-                val recyclerViewActivas: RecyclerView = findViewById(R.id.rcvMostrarReservaciones)
-                recyclerViewActivas.adapter = reservaAdapterActivas
-                recyclerViewActivas.layoutManager = LinearLayoutManager(this@Reservas)
-
+                // Adaptador para reservas inactivas
+                val reservaAdapterInactivas = ReservaAdapter(reservasInactivas)
+                val recyclerViewInactivas: RecyclerView = findViewById(R.id.rcvMostrarReservaciones)
+                recyclerViewInactivas.adapter = reservaAdapterInactivas
+                recyclerViewInactivas.layoutManager = LinearLayoutManager(this@historial_reservas)
             }
         }
-
 
 
 
