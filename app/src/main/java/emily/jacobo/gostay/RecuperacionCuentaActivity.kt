@@ -22,9 +22,11 @@ import kotlinx.coroutines.launch
 class RecuperacionCuentaActivity : AppCompatActivity() {
 
     companion object variablesGobalesRecuperacion {
-        val codigoRecuperacion = (100000..999999).random()
+        var codigoRecuperacion = (100000..999999).random()
         lateinit var Correo: String
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("MissingInflatedId")
@@ -39,6 +41,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             insets
         }
 
+
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
@@ -51,6 +54,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
 
         btnRecuperacion.setOnClickListener {
             Correo = txtCorreo.text.toString()
+
 
             var hayVacios = false
             var hayErrores = false
@@ -68,8 +72,10 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
 
-                val codigoRecuperacion = (100000..999999).random().toString()
-                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
+                codigoRecuperacion = (100000..999999).random()  // Aquí se genera y almacena el código
+
+                // Usa la variable global en el correo
+                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion.toString())
 
                 CoroutineScope(Dispatchers.Main).launch {
                     enviarCorreo(Correo, "Recuperacion de contraseña", htmlCorreo)

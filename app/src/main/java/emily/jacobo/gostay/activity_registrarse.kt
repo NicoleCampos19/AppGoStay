@@ -252,7 +252,7 @@ class activity_registrarse : AppCompatActivity() {
                     crearUsuario.executeUpdate()
 
                     // Enviar correo con el código de verificación
-                    enviarCorreo(correo, "Código de Verificación", htmlCorreo)
+                    //enviarCorreo(correo, "Código de Verificación", htmlCorreo)
 
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
@@ -265,7 +265,7 @@ class activity_registrarse : AppCompatActivity() {
 
 
 
-                val siguientepantalla = Intent(this, activity_ConfirmarCorreo::class.java)
+                val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                 startActivity(siguientepantalla)
             }
 
