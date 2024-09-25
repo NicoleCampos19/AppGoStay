@@ -10,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Visibility
 import com.bumptech.glide.Glide
+import emily.jacobo.gostay.PaginaInicio
 import emily.jacobo.gostay.R
 import emily.jacobo.gostay.activity_iniciar_sesion
 import kotlinx.coroutines.CoroutineScope
@@ -85,11 +87,14 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
         return ViewHolderComentario(vista)
     }
 
-    suspend fun obtenerIdUsuario(correo: String): Int? {
+    suspend fun obtenerIdUsuario(idHotel: Int?): Int? {
         return withContext(Dispatchers.IO) {
             val objConexion = ClaseConexion().cadenaConexion()
-            val getId = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
-            getId?.setString(1, correo)
+            val getId = objConexion?.prepareStatement("SELECT id_usuario  FROM tbIntermedia_valoracion_hoteles IV\n" +
+                    "                    INNER JOIN tbValoraciones V ON\n" +
+                    "                    IV.id_valoracion = V.id_valoracion\n" +
+                    "                    WHERE id_hoteles = ?")
+            getId?.setInt(1, idHotel!!)
             val resultSet = getId?.executeQuery()
             if (resultSet != null && resultSet.next()) {
                 resultSet.getInt("id_usuario")
@@ -98,15 +103,41 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
             }
         }
     }
-    suspend fun obtenerImagenUsuario(correo: String): String? {
+    suspend fun obtenerImagenUsuario(idHotel: Int?): String? {
         return withContext(Dispatchers.IO) {
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val getId = objConexion?.prepareStatement("SELECT imgfoto FROM tbUsuarios WHERE correo = ?")
-            getId?.setString(1, correo)
+            val getId = objConexion?.prepareStatement("SELECT imgfoto  FROM tbIntermedia_valoracion_hoteles IV\n" +
+                    "                    INNER JOIN tbValoraciones V ON\n" +
+                    "                    IV.id_valoracion = V.id_valoracion\n" +
+                    "                    INNER JOIN tbUsuarios U ON\n" +
+                    "                    V.id_usuario = U.id_usuario\n" +
+                    "                    WHERE id_hoteles = ?")
+            getId?.setInt(1, idHotel!!)
             val resultSet = getId?.executeQuery()
             if (resultSet != null && resultSet.next()) {
                 resultSet.getString("imgfoto")
+            } else {
+                null
+            }
+        }
+
+    }
+
+    suspend fun obtenerCorreoUsuario(idHotel: Int?): String? {
+        return withContext(Dispatchers.IO) {
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            val getId = objConexion?.prepareStatement("SELECT correo  FROM tbIntermedia_valoracion_hoteles IV\n" +
+                    "                    INNER JOIN tbValoraciones V ON\n" +
+                    "                    IV.id_valoracion = V.id_valoracion\n" +
+                    "                    INNER JOIN tbUsuarios U ON\n" +
+                    "                    V.id_usuario = U.id_usuario\n" +
+                    "                    WHERE id_hoteles = ?")
+            getId?.setInt(1, idHotel!!)
+            val resultSet = getId?.executeQuery()
+            if (resultSet != null && resultSet.next()) {
+                resultSet.getString("correo")
             } else {
                 null
             }
@@ -123,10 +154,10 @@ class ComentarioAdapter(var Datos: List<tbComentarios>): RecyclerView.Adapter<Vi
         holder.txtComentarioCard.text = comentario
 
         CoroutineScope(Dispatchers.Main).launch {
-            var correo = activity_iniciar_sesion.correoIngresado
-            holder.txtUsuarioCard.text = correo
-            val idUsuarioActivo = obtenerIdUsuario(correo)
-            val imagen = obtenerImagenUsuario(correo)
+            var idHotel = PaginaInicio.hotelIdGlobal
+            holder.txtUsuarioCard.text = obtenerCorreoUsuario(idHotel)
+            val idUsuarioActivo = obtenerIdUsuario(idHotel)
+            val imagen = obtenerImagenUsuario(idHotel)
             if(idUsuarioActivo != item.id_usuario){
                 holder.ImageViewasd .visibility = View.GONE
 
