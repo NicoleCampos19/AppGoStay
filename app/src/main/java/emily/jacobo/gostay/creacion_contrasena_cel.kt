@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtContraI
 
 class creacion_contrasena_cel : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

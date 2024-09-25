@@ -53,7 +53,7 @@
         app:layout_constraintVertical_bias="0.529" />
 
     <EditText
-        android:id="@+id/txtContraseñaNuevaCel"
+        android:id="@+id/txtNuevaContrasena1"
         android:layout_width="369dp"
         android:layout_height="61dp"
         android:background="@drawable/style_borde_edittext"
@@ -61,14 +61,14 @@
         android:fontFamily="@font/poppins"
         android:hint="Contraseña nueva"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/btnCrearcontrasenaCel"
+        app:layout_constraintBottom_toTopOf="@+id/btnCrearcontrasena1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.619"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
-        android:id="@+id/btnCrearcontrasenaCel"
+        android:id="@+id/btnCrearcontrasena1"
         android:layout_width="365dp"
         android:layout_height="58dp"
         android:backgroundTint="#49A8B5"
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtContraseñaNuevaCel"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevaContrasena1"
         app:layout_constraintVertical_bias="0.232" />
 
     <TextView
@@ -99,5 +99,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9"
         app:layout_constraintVertical_bias="0.079" />
+
+    <ImageView
+        android:id="@+id/imvVerNewContra"
+        android:layout_width="41dp"
+        android:layout_height="43dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevaContrasena1"
+        app:layout_constraintEnd_toEndOf="@+id/txtNuevaContrasena1"
+        app:layout_constraintHorizontal_bias="0.966"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevaContrasena1"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevaContrasena1"
+        app:layout_constraintVertical_bias="0.444"
+        app:srcCompat="@drawable/ojocerrado" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

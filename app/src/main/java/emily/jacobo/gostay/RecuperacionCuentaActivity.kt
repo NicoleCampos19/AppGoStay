@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -46,11 +47,14 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
 
+
         imvAtras.setOnClickListener {
             val volverAtras = Intent(this, metodos_contras::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
+
+
 
         btnRecuperacion.setOnClickListener {
             Correo = txtCorreo.text.toString()
@@ -86,6 +90,11 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                 overridePendingTransition(0, 0)
             }
         }
+
+
+
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
