@@ -41,12 +41,17 @@ class PaginaInicio : AppCompatActivity() {
 
     // Variable SQL global
     var sql: String = "SELECT * FROM tbHoteles"
-    var correo = activity_iniciar_sesion.txtCorreoInciarSesionV
+    lateinit var txtCorreoInciarSesionV: TextView // Declarar la variable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_inicio)
+
+        // Inicializar la variable
+        txtCorreoInciarSesionV = findViewById(R.id.txtCorreoInciarSesionV)
+
+        val correo = txtCorreoInciarSesionV.text.toString()
 
         // Configuración del RecyclerView
         val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)

@@ -6,12 +6,14 @@ import RecyclerViewHelpers.ComentarioAdapter
 import RecyclerViewHelpers.ServicioAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +32,7 @@ import modelo.ServicioInfo
 import modelo.tbCarrusel
 import modelo.tbComentarios
 import modelo.tbHotel
+import java.sql.Statement
 
 class hotel_detalles : AppCompatActivity() {
 
@@ -231,15 +234,47 @@ class hotel_detalles : AppCompatActivity() {
             }
         }
 
+
+
+        fun insertarValoracionComentario(idUsuario: Int, comentario: String, idHotel: Int) {
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            // Insertar nueva valoración en la tabla tbValoraciones
+            val insertarValoracionStmt = objConexion?.prepareStatement(
+                "INSERT INTO tbValoraciones (id_usuario, comentario) VALUES (?, ?)",
+                Statement.RETURN_GENERATED_KEYS
+            )!!
+            insertarValoracionStmt.setInt(1, idUsuario)
+            insertarValoracionStmt.setString(2, comentario)
+            insertarValoracionStmt.executeUpdate()
+
+            // Obtener el ID de la valoración recién insertada
+            val generatedKeys = insertarValoracionStmt.generatedKeys
+            var idValoracion = 0
+            if (generatedKeys.next()) {
+                idValoracion = generatedKeys.getInt(1)
+            }
+
+            // Insertar en la tabla intermedia tbIntermedia_valoracion_hoteles
+            val insertarIntermediaStmt = objConexion?.prepareStatement(
+                "INSERT INTO tbIntermedia_valoracion_hoteles (id_intermedia_valoracion_hoteles, id_hoteles, id_valoracion) VALUES (seq_tbIntermedia_valoracion_hoteles.NEXTVAL, ?, ?)"
+            )!!
+            insertarIntermediaStmt.setInt(1, idHotel)
+            insertarIntermediaStmt.setInt(2, idValoracion)
+            insertarIntermediaStmt.executeUpdate()
+        }
+
+
+
+
+
+        //TODO: por si no funciona el filtro con datos nuevos!!
+
         fun obtenerComentarios(): List<tbComentarios> {
             //1- Creo un objeto de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val comentarios_ = objConexion?.prepareStatement("SELECT *  FROM tbIntermedia_valoracion_hoteles IV\n" +
-                    "INNER JOIN tbValoraciones V ON\n" +
-                    "IV.id_valoracion = V.id_valoracion\n" +
-                    "WHERE id_hoteles = ?")!!
-            comentarios_.setInt(1, hotelIdGlobal!!)
+            val comentarios_ = objConexion?.prepareStatement("SELECT *  FROM tbValoraciones")!!
             val resultSet = comentarios_.executeQuery()
 
             val listaComentarios = mutableListOf<tbComentarios>()
@@ -257,6 +292,7 @@ class hotel_detalles : AppCompatActivity() {
         }
 
 
+
         CoroutineScope(Dispatchers.IO).launch{
             val comentariosDB = obtenerComentarios()
             withContext(Dispatchers.Main){
@@ -268,34 +304,46 @@ class hotel_detalles : AppCompatActivity() {
         imvEnviar.setOnClickListener {
 
             CoroutineScope(Dispatchers.IO).launch {
-                val objConexion = ClaseConexion().cadenaConexion()
-                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificación) values(?,?,?)")!!
-                addComentario.setString(1, txtComentario.text.toString())
-                addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
-                addComentario.setInt(3,3)
-                addComentario.executeUpdate()
 
-                val nuevocomentario = obtenerComentarios()
-                withContext(Dispatchers.Main){
-                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                    txtComentario.setText("")
+                // Verifica que el correo no sea nulo
+                if (activity_iniciar_sesion.correoIngresado.isNotEmpty()) {
+                    val idUsuario = obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)
 
-                    val intent = Intent(this@hotel_detalles, activity_resenas::class.java)
-                    startActivity(intent)
+                    // Asegúrate de que idUsuario no sea nulo
+                    if (idUsuario != null) {
+                        val objConexion = ClaseConexion().cadenaConexion()
+                        val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificacion) values(?,?,?)")
 
+                        // Asegúrate de que addComentario no sea nulo
+                        if (addComentario != null) {
+                            addComentario.setString(1, txtComentario.text.toString())
+                            addComentario.setInt(2, idUsuario)
+                            addComentario.setInt(3, 3)
+                            addComentario.executeUpdate()
+                            objConexion.commit()
 
+                            val nuevocomentario = obtenerComentarios()
+                            withContext(Dispatchers.Main) {
+                                (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
+                                txtComentario.setText("")
+
+                                val intent = Intent(this@hotel_detalles, activity_resenas::class.java)
+                                startActivity(intent)
+                            }
+                        } else {
+                            Log.e("Error", "No se pudo preparar la declaración SQL")
+                        }
+                    } else {
+                        Log.e("Error", "No se pudo obtener el ID del usuario")
+                    }
+                } else {
+                    Log.e("Error", "El correo ingresado es vacío")
                 }
             }
-
-
         }
-
-
+        
         hotel?.let {
             Glide.with(this)
-
-
-
             tvNombreDetalleHotel.text = hotel.nombreHotel
             tvDescripcionDetalleHotel.text = hotel.descripcion
 
