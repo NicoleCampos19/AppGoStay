@@ -20,6 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -74,25 +75,26 @@
 
             <Spinner
                 android:id="@+id/spCantidadH"
-                android:layout_width="148dp"
-                android:layout_height="41dp"
+                android:layout_width="176dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/spinner_background"
                 android:theme="@style/CustomSpinnerText"
                 app:layout_constraintEnd_toStartOf="@id/spDepartamento"
+                android:spinnerMode="dropdown"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView24" />
 
             <Spinner
                 android:id="@+id/spDepartamento"
-                android:layout_width="176dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="178dp"
+                android:layout_height="45dp"
                 android:background="@drawable/spinner_background"
-                android:theme="@style/CustomSpinnerText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/spCantidadH"
-                app:layout_constraintTop_toBottomOf="@id/textView25" />
+                app:layout_constraintTop_toBottomOf="@id/textView25"
+                android:spinnerMode="dropdown"
+                android:theme="@style/CustomSpinnerText"/>
 
             <TextView
                 android:id="@+id/textView26"
