@@ -121,7 +121,7 @@
             android:id="@+id/btnRegistrarse"
             android:layout_width="202dp"
             android:layout_height="56dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="#49A8B5"
             android:fontFamily="@font/poppinsemibold"
             android:text="Registrarse"
@@ -129,7 +129,6 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtConfirmarContraRegis" />
 
@@ -149,7 +148,7 @@
             android:layout_width="118dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="104dp"
             android:fontFamily="@font/poppins"
             android:text="Inicia sesión"
             android:textColor="#000000"
@@ -157,7 +156,6 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toEndOf="@+id/textView15" />
 
         <TextView

@@ -30,8 +30,7 @@ import modelo.tbCarrusel
 import modelo.tbComentarios
 import modelo.tbHotel
 
-class hotel_detalles : AppCompatActivity() {
-
+class hotel_detalles_admin : AppCompatActivity() {
 
     private lateinit var prevActivity: String
     private lateinit var servicioAdapter: ServicioAdapter
@@ -49,8 +48,8 @@ class hotel_detalles : AppCompatActivity() {
 
         val reseñaGlobal = activity_resenas.resenaGlobal
 
-        setContentView(R.layout.activity_hotel_detalles)
-       val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
+        setContentView(R.layout.activity_hotel_detalles_admin)
+        val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         fun obtenerImagenes(): List<tbCarrusel> {
@@ -61,8 +60,6 @@ class hotel_detalles : AppCompatActivity() {
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery("SELECT * FROM tbImagenes_Hoteles")
 
-
-
             if (resultSet != null) {
                 while (resultSet.next()) {
 
@@ -72,28 +69,27 @@ class hotel_detalles : AppCompatActivity() {
 
                     val valoresJuntos = tbCarrusel(id_imagenes, id_hoteles, url_imagen)
 
-
                     lista.add(valoresJuntos)
                 }
             }
             return lista
         }
 
-        //asignarle el adptador al Recyclearview
-         CoroutineScope(Dispatchers.IO).launch {
-             val ImagenesBD = obtenerImagenes()
+        //Asignarle el adaptador al Recyclearview
+        CoroutineScope(Dispatchers.IO).launch {
+            val ImagenesBD = obtenerImagenes()
 
-             withContext(Dispatchers.Main){
-                 val adapter = AdaptadorCarrusel(ImagenesBD)
-                 rcvCarrusels.adapter = adapter
+            withContext(Dispatchers.Main){
+                val adapter = AdaptadorCarrusel(ImagenesBD)
+                rcvCarrusels.adapter = adapter
 
-             }
+            }
 
-         }
+        }
         val idHotelGlobal = PaginaInicio.hotelIdGlobal
         val recyclerView: RecyclerView = findViewById(R.id.rcvServiciosHotel)
 
-        //aqui
+        //Para hacer select a los servicios
         fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
             val ServiciosList = mutableListOf<ServicioInfo>()
             val query = """
@@ -133,7 +129,7 @@ class hotel_detalles : AppCompatActivity() {
                 servicios?.let {
                     servicioAdapter = ServicioAdapter(it)
                     recyclerView.adapter = servicioAdapter
-                    recyclerView.layoutManager = LinearLayoutManager(this@hotel_detalles, LinearLayoutManager.HORIZONTAL, false)
+                    recyclerView.layoutManager = LinearLayoutManager(this@hotel_detalles_admin, LinearLayoutManager.HORIZONTAL, false)
                 }?: run {
                     // Maneja el caso en que reservas sea null, quizás mostrando un mensaje de error o un mensaje de "No hay datos"
                     println("No se encontraron servicios para el hotel.")
@@ -152,41 +148,13 @@ class hotel_detalles : AppCompatActivity() {
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
 
-        val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
-        val idHotelRecivido = PaginaInicio.hotelIdGlobal
-        btnTipoHabitacion.setOnClickListener {
-            if (idHotelRecivido != -1) {
-                val intent = Intent(this, activity_eleccion_habitacion::class.java)
-                startActivity(intent)
-            }else{
 
-                println("No se encontro el id del hotel")
-            }
-        }
-
-        val imvVolverDetallesHotel = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         val tvNombreDetalleHotel = findViewById<TextView>(R.id.tvNombreDetalleHotel)
         val tvDescripcionDetalleHotel = findViewById<TextView>(R.id.tvDescripcionDetalleHotel)
-        val txtComentario = findViewById<EditText>(R.id.txtComentario)
-        val imvEnviar = findViewById<ImageView>(R.id.imvEnviar)
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
-        val imvReportar = findViewById<ImageView>(R.id.imvReportar)
-        val btnReportar = findViewById<Button>(R.id.btnReportar)
         val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
 
         //txtCalificacion.text = reseñaGlobal.promedio
-
-        imvReportar.setOnClickListener {
-            val irADenuncias = Intent(this, RealizarDenuncia::class.java)
-            irADenuncias.putExtra("idHotel", idHotel)
-            startActivity(irADenuncias)
-        }
-
-        btnReportar.setOnClickListener {
-            val irADenuncias = Intent(this, RealizarDenuncia::class.java)
-            irADenuncias.putExtra("idHotel", idHotel)
-            startActivity(irADenuncias)
-        }
 
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
@@ -232,31 +200,6 @@ class hotel_detalles : AppCompatActivity() {
             }
         }
 
-        imvEnviar.setOnClickListener {
-
-            CoroutineScope(Dispatchers.IO).launch {
-                val objConexion = ClaseConexion().cadenaConexion()
-                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificación) values(?,?,?)")!!
-                addComentario.setString(1, txtComentario.text.toString())
-                addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
-                addComentario.setInt(3,3)
-                addComentario.executeUpdate()
-
-                val nuevocomentario = obtenerComentarios()
-                withContext(Dispatchers.Main){
-                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                    txtComentario.setText("")
-
-                    val intent = Intent(this@hotel_detalles, activity_resenas::class.java)
-                    startActivity(intent)
-
-
-                }
-            }
-
-
-        }
-
         hotel?.let {
             Glide.with(this)
             tvNombreDetalleHotel.text = hotel.nombreHotel
@@ -292,5 +235,5 @@ class hotel_detalles : AppCompatActivity() {
         }
         // Show the popup menu.
         popup.show()
-        }
+    }
 }
