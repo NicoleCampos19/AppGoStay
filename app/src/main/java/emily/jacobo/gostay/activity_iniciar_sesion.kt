@@ -21,28 +21,21 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.storage.storage
-import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtContraI
-import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtCorreoI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import java.security.MessageDigest
 
 class activity_iniciar_sesion : AppCompatActivity() {
 
-    companion object variableGloalLogin{
-        val InicioSesionGoogle = 100
-        lateinit var correoIngresado: String
-        lateinit var txtCorreoInciarSesionV: String
-        lateinit var txtContrasenaIniciarSesionV: String
-
+    companion object variableGloalLogin {
+        const val InicioSesionGoogle = 100
+        var correoIngresado: String = ""
+        var txtCorreoInciarSesionV: String = ""
+        var txtContrasenaIniciarSesionV: String = ""
     }
 
     @SuppressLint("MissingInflatedId")
@@ -72,28 +65,29 @@ class activity_iniciar_sesion : AppCompatActivity() {
             return bytes.joinToString("") { "%02x".format(it) }
         }
 
-        //Validación para campos
+        // Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
         fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
             val typeface = ResourcesCompat.getFont(this, fontResId)
             val spannableString = android.text.SpannableString(errorMessage)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 spannableString.setSpan(
-                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
             }
             editText.error = spannableString
         }
+
         btnIniciar.setOnClickListener {
-            // Asignación de valores globales
-            variableGloalLogin.txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString().trim()
-            variableGloalLogin.txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString().trim()
+            txtCorreoInciarSesionV = txtCorreoInciarSesion.text.toString()
+            txtContrasenaIniciarSesionV = txtContrasenaIniciarSesion.text.toString()
+
             // Validación de campos
-            correoIngresado = txtCorreoInciarSesion.text.toString()
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
+            correoIngresado = txtCorreoInciarSesion.text.toString()
 
             if (correoIngresado.isEmpty() || clave.isEmpty()) {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -102,7 +96,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (clave.length <= 12) {
+            if (clave.length < 12) {
                 txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
                 return@setOnClickListener
             }
@@ -125,24 +119,20 @@ class activity_iniciar_sesion : AppCompatActivity() {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
+                    // Asignación de valores globales
                     startActivity(siguientePantalla)
                 } else {
                     runOnUiThread {
-                        Toast.makeText(
-                            this@activity_iniciar_sesion,
-                            "Usuario o contraseña incorrectos",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@activity_iniciar_sesion, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
 
         imvIniciarconGoogle.setOnClickListener {
-            val configuracionGoogle =
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
-                    .build()
+            val configuracionGoogle = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
+                .build()
 
             val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
             startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
@@ -177,8 +167,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
             txtContrasenaIniciarSesion.typeface = poppinsFont
             isPasswordVisible = !isPasswordVisible
         }
-
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == InicioSesionGoogle) {
@@ -194,19 +184,13 @@ class activity_iniciar_sesion : AppCompatActivity() {
                                 startActivity(paginaInicio)
                                 overridePendingTransition(0, 0)
                             } else {
-                                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG)
-                                    .show()
+                                Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_LONG).show()
                             }
                         }
                 }
             } catch (e: ApiException) {
-                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_LONG).show()
             }
         }
     }
 }
-
-
-
-
-
