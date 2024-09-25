@@ -59,6 +59,9 @@ class Perfil : AppCompatActivity() {
         val imvComentario = findViewById<ImageView>(R.id.imvComentario)
         val txtComentarios = findViewById<TextView>(R.id.txtComentarios)
         val imvComentarios = findViewById<ImageView>(R.id.imvComentarios)
+        val txtHistorialReservas = findViewById<TextView>(R.id.txtHistorialReservas)
+        val imvHistorialReservas = findViewById<ImageView>(R.id.imvHistorialReservas)
+        val imvHistorialReserva = findViewById<ImageView>(R.id.imvHistorialReserva)
 
         //val idUsuario = intent.getIntExtra("id_usuario", -1)
 
@@ -147,6 +150,9 @@ class Perfil : AppCompatActivity() {
         setClickListener(imvFavorito, Favoritos::class.java)
         setClickListener(imvReseva, Reservas::class.java)
         setClickListener(imvPerfil, Perfil::class.java)
+        setClickListener(txtHistorialReservas, historial_reservas::class.java)
+        setClickListener(imvHistorialReservas, historial_reservas::class.java)
+        setClickListener(imvHistorialReserva, historial_reservas::class.java)
     }
     private fun cerrarSesion() {
         CoroutineScope(Dispatchers.Main).launch {

@@ -16,6 +16,7 @@
 
         <ImageView
             android:id="@+id/imgCardServicioHabitacion"
+            android:background="@drawable/circulo_amarillo"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_bed"
