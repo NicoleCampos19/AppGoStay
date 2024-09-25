@@ -30,6 +30,12 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+            android:name=".hotel_detalles_admin"
+            android:exported="false" />
+        <activity
+            android:name=".historial_reservas"
+            android:exported="false" />
+        <activity
             android:name=".creacion_contrasena_cel"
             android:exported="false" />
         <activity

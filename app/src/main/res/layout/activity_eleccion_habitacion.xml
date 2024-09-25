@@ -5,9 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D4D4D4"
     tools:context=".activity_eleccion_habitacion">
 
     <ScrollView
+        android:id="@+id/scrollView5"
         android:layout_width="409dp"
         android:layout_height="729dp"
         android:layout_marginStart="1dp"
@@ -28,7 +30,6 @@
                 android:layout_width="291dp"
                 android:layout_height="118dp"
                 android:layout_marginStart="59dp"
-                android:layout_marginTop="30dp"
                 android:layout_marginEnd="59dp"
                 android:layout_marginBottom="1dp"
                 android:fontFamily="@font/poppins"
@@ -40,8 +41,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/rcvTiposHabitaciones"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvTiposHabitaciones"
@@ -60,7 +60,11 @@
         android:id="@+id/imvRegresaralHotel"
         android:layout_width="31dp"
         android:layout_height="36dp"
-        app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
-        tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="17dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

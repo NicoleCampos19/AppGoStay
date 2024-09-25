@@ -65,6 +65,9 @@ class activity_reserva : AppCompatActivity() {
         val txtFechaReserva = findViewById<EditText>(R.id.txtFechaReserva)
         val spDepartamento = findViewById<Spinner>(R.id.spDepartamento)
         val imgVolverAtrars = findViewById<ImageView>(R.id.imgVolverAtrasXD)
+        val txtNombreTitular = findViewById<EditText>(R.id.txtNombreTitular)
+        val txtNumeroTarjeta = findViewById<EditText>(R.id.txtNumeroTarjeta)
+        val txtCVV = findViewById<EditText>(R.id.txtCVV)
 
         // Obtener las fechas reservadas de la base de datos antes de mostrar el DateRangePicker
         CoroutineScope(Dispatchers.IO).launch {
@@ -103,35 +106,67 @@ class activity_reserva : AppCompatActivity() {
             val numeroTarjetaText = findViewById<EditText>(R.id.txtNumeroTarjeta).text.toString()
             nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
 
-            // Validar fechas
-            if (fechaEntrada!!.isNotEmpty() && fechaSalida!!.isNotEmpty()) {
-                val dateEntrada = SimpleDateFormat("yyyy-MM-dd").parse(fechaEntrada)
-                val dateSalida = SimpleDateFormat("yyyy-MM-dd").parse(fechaSalida)
+            // Obtener el texto completo del campo de reserva
+            val reservaText = txtFechaReserva.text.toString()
 
-                if (dateEntrada.after(dateSalida)) {
-                    Toast.makeText(this, "La fecha de entrada no puede ser mayor que la fecha de salida.", Toast.LENGTH_SHORT).show()
+// Verificar que no esté vacío
+            if (reservaText.isNotEmpty()) {
+                // Dividir el texto por la coma para obtener las dos fechas
+                val fechas = reservaText.split(",")
+
+                // Verificar que realmente tengamos dos fechas
+                if (fechas.size == 2) {
+                    fechaEntrada = fechas[0].trim()  // Fecha de entrada
+                    fechaSalida = fechas[1].trim()   // Fecha de salida
+
+                    // Validar que ambas fechas no estén vacías
+                    if (fechaEntrada!!.isNotEmpty() && fechaSalida!!.isNotEmpty()) {
+                        try {
+                            // Validar que el formato de ambas fechas sea correcto
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                            dateFormat.isLenient = false // Para que falle si el formato es incorrecto
+
+                        } catch (e: Exception) {
+                            txtFechaReserva.error = "Formato de fecha incorrecto. Use 'YYYY-MM-DD, YYYY-MM-DD'."
+                            return@setOnClickListener
+                        }
+                    } else {
+                        // Manejar el caso en que alguna de las fechas esté vacía
+                        txtFechaReserva.error = "Ambas fechas (entrada y salida) deben estar completas."
+                        return@setOnClickListener
+                    }
+                } else {
+                    // Si no hay dos fechas, mostrar un error
+                    txtFechaReserva.error = "Debe ingresar la fecha de entrada y salida en el formato 'YYYY-MM-DD, YYYY-MM-DD'."
                     return@setOnClickListener
                 }
             } else {
-                Toast.makeText(this, "Las fechas de entrada y salida no pueden estar vacías.", Toast.LENGTH_SHORT).show()
+                // Manejar el caso en que el campo esté vacío
+                txtFechaReserva.error = "Debe ingresar las fechas de reserva."
                 return@setOnClickListener
             }
+
+
+// Validar el nombre del titular
             if (nombreTitular!!.isEmpty()) {
-                Toast.makeText(this, "El nombre del titular no puede estar vacío", Toast.LENGTH_SHORT).show()
+                txtNombreTitular.error = "El nombre del titular no puede estar vacío."
                 return@setOnClickListener
             }
-            // Validación del número de tarjeta
+
+// Validación del número de tarjeta
             if (numeroTarjetaText.length < 16 || !numeroTarjetaText.all { it.isDigit() }) {
-                Toast.makeText(this, "El número de tarjeta debe tener 16 dígitos y solo contener números", Toast.LENGTH_SHORT).show()
+                txtNumeroTarjeta.error = "El número de tarjeta debe tener 16 dígitos y solo contener números."
                 return@setOnClickListener
             }
             numeroTarjeta = numeroTarjetaText
 
+// Validación del CVV
             if (cvvText.length != 3 || !cvvText.all { it.isDigit() }) {
-                Toast.makeText(this, "El CVV debe tener exactamente 3 dígitos y solo contener números", Toast.LENGTH_SHORT).show()
+                txtCVV.error = "El CVV debe tener exactamente 3 dígitos y solo contener números."
                 return@setOnClickListener
             }
             cvv = cvvText.toInt()
+
 
             if (txtFechaCaducidad.text.isNotEmpty() && departamento.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {

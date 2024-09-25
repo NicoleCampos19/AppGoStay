@@ -50,10 +50,10 @@
             android:layout_centerInParent="true"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.954"
+            card_view:layout_constraintHorizontal_bias="0.955"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.095"
+            card_view:layout_constraintVertical_bias="0.094"
             card_view:srcCompat="@drawable/iconotrespuntos" />
 
 

@@ -3,43 +3,35 @@ package emily.jacobo.gostay
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import emily.jacobo.gostay.activity_registrarse.variableGloalLogin.txtContraI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import modelo.ClaseConexion
-import oracle.ons.Connection
 import java.security.MessageDigest
-import java.sql.DriverManager
 import java.sql.PreparedStatement
-import java.sql.SQLException
-import java.sql.Statement
 
 class CreacionContrasenaActivity : AppCompatActivity() {
 
     lateinit var txtNewContra: EditText
     lateinit var Correo: String
 
+    @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_creacion_contrasena)
@@ -50,64 +42,54 @@ class CreacionContrasenaActivity : AppCompatActivity() {
 
         }
 
-
-
-        txtNewContra = findViewById<EditText>(R.id.txtNewContra)
+        txtNewContra = findViewById<EditText>(R.id.txtContraseñaNuevaCel)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
-        val btnCrearContrasena = findViewById<Button>(R.id.btnCrearcontrasena)
+        val btnCrearContrasena = findViewById<Button>(R.id.btnCrearcontrasenaCel)
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 
-        // Aplicar la fuente Poppins a los elementos
-        val poppinsFont: Typeface? = ResourcesCompat.getFont(this, R.font.poppins_regular)
-        txtNewContra.typeface = poppinsFont
-        btnCrearContrasena.typeface = poppinsFont
-
-
        btnCrearContrasena.setOnClickListener {
-
            val nuevaContra = txtNewContra.text.toString()
-
            // Validar la contraseña
            if (validatePassword(nuevaContra)) {
                actualizarContraseña(Correo, nuevaContra)
                val intent = Intent(this, activity_iniciar_sesion::class.java)
                startActivity(intent)
+               Toast.makeText(this, "Contraseña actualizada Correctamente", Toast.LENGTH_SHORT).show()
            }
-
-
-
-
-        actualizarContraseña(Correo, txtNewContra.text.toString())
-               val intent = Intent(this, activity_iniciar_sesion::class.java)
-               startActivity(intent)
-
-
-           val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
-           startActivity(siguientepantalla)
-        }
-
+           else {
+                }
+       }
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Confirmacion_Cuenta::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
-
-
     }
-
 
     fun hashSHA256(contrasenaEscrita: String): String {
         val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
         return bytes.joinToString("") { "%02x".format(it) }
     }
 
+    //Validación para campos
+    fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+        val typeface = ResourcesCompat.getFont(this, fontResId)
+        val spannableString = android.text.SpannableString(errorMessage)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableString.setSpan(
+                typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        editText.error = spannableString
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun validatePassword(password: String): Boolean {
         return if (password.isEmpty()) {
-            txtNewContra.error = "Llena este campo"
+            setErrorWithCustomFont(txtNewContra, "Llena este campo", R.font.poppins)
             false
         } else if (password.length < 12) {
-            txtNewContra.error = "La contraseña debe contener más de 12 carácteres"
+            setErrorWithCustomFont(txtNewContra, "La contraseña debe contener  12 carácteres", R.font.poppins)
             false
         } else {
             true
@@ -115,12 +97,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
     }
 
     private fun actualizarContraseña(correo: String, contraseña: String) {
-
-
-
-
         CoroutineScope(Dispatchers.IO).launch {
-
             try {
 
                 val contrasenaEncriptada = hashSHA256(txtNewContra.text.toString())
@@ -135,7 +112,6 @@ class CreacionContrasenaActivity : AppCompatActivity() {
                     preparedStatement.executeUpdate()
                     preparedStatement.close()
 
-
                     val commit = objConexion.prepareStatement("commit")
                     commit.executeUpdate()
                     objConexion.close()
@@ -144,11 +120,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
                 }
 
             } catch (e: NumberFormatException) {
-
-
             }
-
-
         }
 
     }

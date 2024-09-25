@@ -135,11 +135,6 @@ class PaginaInicio : AppCompatActivity() {
                     }
                 }
             }
-
-
-
-
-
         }
         cargarImagenperfil(correoIngresado)
 
