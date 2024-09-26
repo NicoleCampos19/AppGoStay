@@ -39,7 +39,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
+import emily.jacobo.gostay.RecuperacionCuentaActivity.variablesGobalesRecuperacion
+import emily.jacobo.gostay.RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 import emily.jacobo.gostay.activity_iniciar_sesion.variableGloalLogin
+import kotlinx.coroutines.CoroutineScope
 import org.checkerframework.checker.regex.qual.Regex
 import java.io.ByteArrayOutputStream
 import java.sql.SQLException
@@ -59,6 +62,8 @@ class activity_registrarse : AppCompatActivity() {
         lateinit var txtContraI: EditText
         lateinit var imageView: ImageView
         lateinit var miPath: String
+
+        var CodigoRegis = (100000..999999).random()
 
     }
     private val InicioSesionGoogle = 100
@@ -253,6 +258,15 @@ class activity_registrarse : AppCompatActivity() {
 
                     // Enviar correo con el código de verificación
                     //enviarCorreo(correo, "Código de Verificación", htmlCorreo)
+
+                    CodigoRegis = (100000..999999).random()  // Aquí se genera y almacena el código
+
+                    // Usa la variable global en el correo
+                    val htmlCorreo = generarHTMLCorreo(CodigoRegis.toString())
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        enviarCorreo(correo, "Confirmación de contraseña", htmlCorreo)
+                    }
 
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
