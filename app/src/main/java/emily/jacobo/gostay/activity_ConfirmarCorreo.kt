@@ -3,6 +3,7 @@ package emily.jacobo.gostay
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,14 +33,26 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
         val txtCodigoCorreo = findViewById<TextView>(R.id.txtCodigoCorreo)
         val btnConfirmaCorreo = findViewById<Button>(R.id.btnConfirmaCorreo)
         val btnReenviarExis = findViewById<Button>(R.id.btnReenviarExis)
-        val codigoRecuperacion = RecuperacionCuentaActivity.variablesGobalesRecuperacion.codigoRecuperacion
-       val txtCorreoI = activity_registrarse.variableGloalLogin.txtCorreoI
+        val codigoRegis = activity_registrarse.variableGloalLogin.CodigoRegis.toString().trim()
+        val txtCorreoI = activity_registrarse.variableGloalLogin.txtCorreoI
 
 
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
+        }
+
+        btnReenviarExis.setOnClickListener {
+
+            CoroutineScope(Dispatchers.Main).launch {
+                enviarCorreo(
+                    "${txtCorreoI}",
+                    "Recuperacion de contraseña",
+                    "Este es tu código de recuperación de cuenta $codigoRegis" )
+
+
+            }
         }
 
         //Validación para campos
@@ -54,9 +67,14 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
             editText.error = spannableString
         }
 
+        Log.d("Confirmacion_Cuenta", "ANTES DEL METODO DE CONFIRMAR REGIS")
         btnConfirmaCorreo.setOnClickListener {
 
+            Log.d("Confirmacion_Cuenta", "BOTÓN confirmar presionado REGIS")
+
             val codigo = txtCodigoCorreo.text.toString()
+
+            Log.d("Confirmacion_Cuenta", "Código INGRESADO: $codigoRegis")
 
             var hayVacios = false
             var hayErrores = false
@@ -73,48 +91,33 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
             } else{
-                btnReenviarExis.setOnClickListener {
-
-                    CoroutineScope(Dispatchers.Main).launch {
-                        enviarCorreo(
-                            "${txtCorreoI}",
-                            "Recuperacion de contraseña",
-                            "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
 
 
+                try {
+                    // Asegúrate de que el código de recuperación es un String
+
+
+                    Log.d("Confirmacion_Cuenta", "DESPUES DEL METODO DE CONFIRMAR REGIS")
+
+                    if (codigo.trim() == codigoRegis.trim()) {
+
+                        Log.d("Confirmacion_Cuenta", "DENTRO DEL METODO DE CONFIRMAR REGIS")
+                        Log.d("Confirmacion_Cuenta", "Código de recuperación: $codigoRegis")
+
+                        val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+                        startActivity(siguientepantalla)
+                        overridePendingTransition(0, 0)
+                    } else {
+                        Toast.makeText(this, "Código Incorrecto", Toast.LENGTH_SHORT).show()
                     }
+                } catch (e: Exception) {
+                    Log.e("Confirmacion_Cuenta", "Error: ${e.message}")
+                    Toast.makeText(this, "Error inesperado. Intenta de nuevo.", Toast.LENGTH_SHORT).show()
                 }
 
-                btnConfirmaCorreo.setOnClickListener {
-                    try {
-                        val codigoIngresado = txtCodigoCorreo.text.toString().toInt()
 
-                        if (codigoIngresado == codigoRecuperacion) {
-                            val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
-                            startActivity(siguientepantalla)
-                        } else if (codigoIngresado != codigoRecuperacion) {
-                            Toast.makeText(this, "Código Incorrecto", Toast.LENGTH_SHORT).show()
-                            val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
-                            startActivity(siguientepantalla)
-                        }
-                    } catch (e: NumberFormatException) {
-                        // Manejar el caso donde el texto ingresado no es un número válido
-                        Toast.makeText(this, "Ingrese un código válido", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                imvAtrasc.setOnClickListener {
-                    val volverAtras = Intent(this, activity_registrarse::class.java)
-                    startActivity(volverAtras)
-                    overridePendingTransition(0, 0)
-                }
-                btnConfirmaCorreo.setOnClickListener {
-                    val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
-                    startActivity(siguientepantalla)
-                    overridePendingTransition(0, 0)
-                }
             }
         }
     }
 
 }
-

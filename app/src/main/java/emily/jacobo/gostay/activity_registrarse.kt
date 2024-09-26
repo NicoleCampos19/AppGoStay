@@ -31,6 +31,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.InputType
+import android.util.Log
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -237,8 +238,8 @@ class activity_registrarse : AppCompatActivity() {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
                 // Generar código de verificación
-                val codigoRecuperacion = (100000..999999).random().toString()
-                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
+                CodigoRegis = (100000..999999).random() // Genera el código
+                val htmlCorreo = generarHTMLCorreo(CodigoRegis.toString()) // Usa el mismo código para el correo
 
                 GlobalScope.launch(Dispatchers.IO) {
                     val objConexion = ClaseConexion().cadenaConexion()
@@ -259,10 +260,9 @@ class activity_registrarse : AppCompatActivity() {
                     // Enviar correo con el código de verificación
                     //enviarCorreo(correo, "Código de Verificación", htmlCorreo)
 
-                    CodigoRegis = (100000..999999).random()  // Aquí se genera y almacena el código
 
-                    // Usa la variable global en el correo
-                    val htmlCorreo = generarHTMLCorreo(CodigoRegis.toString())
+                    Log.d("Registro", "Código de recuperación: $CodigoRegis")
+
 
                     CoroutineScope(Dispatchers.Main).launch {
                         enviarCorreo(correo, "Confirmación de contraseña", htmlCorreo)
@@ -279,7 +279,7 @@ class activity_registrarse : AppCompatActivity() {
 
 
 
-                val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+                val siguientepantalla = Intent(this, activity_ConfirmarCorreo::class.java)
                 startActivity(siguientepantalla)
             }
 
@@ -335,7 +335,7 @@ class activity_registrarse : AppCompatActivity() {
     }
 
     //Función para que al mandar el código de recuperación contenga diseño
-    fun generarHTMLCorreo(codigoRecuperacion: String): String {
+    fun generarHTMLCorreo(CodigoRegis: String): String {
         return """
         <!DOCTYPE HTML>
         <html>
@@ -351,7 +351,7 @@ class activity_registrarse : AppCompatActivity() {
             <h2>¡Bienvenido a GoStay!</h2>
             <p>Estamos comprobando que tu correo sea una cuenta existente</p>
             <p>Por favor, ingresa el siguiente código: </p>
-            <div class="code">$codigoRecuperacion</div>
+            <div class="code">$CodigoRegis</div>
             <p>Equipo GoStay</p>
         </body>
         </html>
