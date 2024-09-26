@@ -294,7 +294,7 @@ id_calificación INT PRIMARY KEY,
 nombre_calificación VARCHAR2(50) NOT NULL
 );
 
---SECUENCIA DE LA TABLA DE CALIFICACIÓN--
+--SECUENCIA DE LA TABLA DE CALIFICACIÁ“N--
 CREATE SEQUENCE identity_Calificación
 START WITH 1
 INCREMENT BY 1
@@ -330,10 +330,15 @@ CREATE TABLE tbValoraciones(
 id_valoracion INT PRIMARY KEY,
 comentario VARCHAR2(500) NOT NULL,
 id_usuario INT,
-id_calificación INT,
+id_hoteles INT,
 CONSTRAINT FK_tbValoraciones_idusuario FOREIGN KEY(id_usuario) REFERENCES tbUsuarios(id_usuario) ON DELETE CASCADE,
-CONSTRAINT FK_tbValoraciones_id_calificación FOREIGN KEY(id_calificación) REFERENCES tbCalificación(id_calificación) ON DELETE CASCADE
+CONSTRAINT FK_tbHoteles_idHoteles FOREIGN KEY(id_hoteles) REFERENCES tbHoteles(id_hoteles) ON DELETE CASCADE
 );
+
+SELECT vl.id_valoracion, vl.comentario, vl.id_usuario, us.nombre_usuario, us.imgfoto  
+FROM tbValoraciones vl
+INNER JOIN tbUsuarios us ON vl.id_usuario = us.id_usuario
+WHERE vl.id_hoteles = ?;
 
 --SECUENCIA DE LA TABLA DE VALORACIONES--
 CREATE SEQUENCE identity_Valoraciones
@@ -358,13 +363,22 @@ BEGIN
     WHERE id_usuario = :old.id_usuario;
 END;
 
+CREATE OR REPLACE TRIGGER trg_update_tbValoraciones_hoteles
+AFTER UPDATE OF id_hoteles ON tbHoteles
+FOR EACH ROW
+BEGIN
+    UPDATE tbValoraciones
+    SET id_hoteles = :new.id_hoteles
+    WHERE id_hoteles = :old.id_hoteles;
+END;
+
 --INSERTS DE LA TABLA DE VALORACIONES--
 INSERT ALL
-INTO tbValoraciones(comentario, id_usuario, id_calificación) VALUES ('El personal fue muy amable y la vista al mar desde nuestra habitación era espectacular. Definitivamente volveremos.', 5, 1)
-INTO tbValoraciones(comentario, id_usuario, id_calificación) VALUES ('Las habitaciones eran muy cómodas y limpias.', 2, 2)
-INTO tbValoraciones(comentario, id_usuario, id_calificación) VALUES ('Ubicación perfecta, cerca de todos los puntos turísticos.', 3, 3)
-INTO tbValoraciones(comentario, id_usuario, id_calificación) VALUES ('Habitaciones amplias y limpias. El personal fue extremadamente atento y servicial durante toda nuestra estancia.', 5, 1)
-INTO tbValoraciones(comentario, id_usuario, id_calificación) VALUES ('Perfecto para una escapada de fin de semana. ', 2, 2)
+INTO tbValoraciones(comentario, id_usuario, id_hoteles) VALUES ('El personal fue muy amable y la vista al mar desde nuestra habitación era espectacular. Definitivamente volveremos.', 13, 2)
+INTO tbValoraciones(comentario, id_usuario, id_hoteles) VALUES ('Las habitaciones eran muy cómodas y limpias.', 1,2)
+INTO tbValoraciones(comentario, id_usuario, id_hoteles) VALUES ('Ubicación perfecta, cerca de todos los puntos turísticos.', 3,1)
+INTO tbValoraciones(comentario, id_usuario, id_hoteles) VALUES ('Habitaciones amplias y limpias. El personal fue extremadamente atento y servicial durante toda nuestra estancia.', 5,1)
+INTO tbValoraciones(comentario, id_usuario, id_hoteles) VALUES ('Perfecto para una escapada de fin de semana. ', 4,1)
 SELECT * FROM dual;
 
 SELECT * FROM tbValoraciones;
@@ -604,7 +618,7 @@ BEGIN
 END;
 
 --INSERTS DE TABLA INTERMEDIA DE HOTELES Y TIPO HABITACIÓN--
-INSERT ALL 
+INSERT ALL
 INTO tbIntermedia_Hoteles_TipoHabitacion(id_hoteles, id_tipo_habitacion) values (1, 1)
 INTO tbIntermedia_Hoteles_TipoHabitacion(id_hoteles, id_tipo_habitacion) values (2, 2)
 INTO tbIntermedia_Hoteles_TipoHabitacion(id_hoteles, id_tipo_habitacion) values (3, 3)
@@ -1060,15 +1074,50 @@ SELECT * FROM tbOfertas;
 DROP TABLE tbOfertas CASCADE CONSTRAINTS;
 DROP SEQUENCE identity_Ofertas;
 
+-- ===============================================
+-----------------TABLA DE FILTROS-----------------
+-- ===============================================
+CREATE TABLE tbFiltros (
+    id_filtro INT PRIMARY KEY,
+    id_hoteles INT,
+    id_tipo_habitacion INT,
+    id_servicio_hotel INT,
+    id_servicio_habitacion INT,
+    FOREIGN KEY (id_hoteles) REFERENCES tbHoteles(id_hoteles),
+    FOREIGN KEY (id_tipo_habitacion) REFERENCES tbTiposHabitaciones(id_tipo_habitacion),
+    FOREIGN KEY (id_servicio_hotel) REFERENCES tbServiciosHotel(id_servicio_hotel),
+    FOREIGN KEY (id_servicio_habitacion) REFERENCES tbServiciosHabitacion(id_servicio_habitacion)
+);
+
+--INSERTS DE LA TABLA DE FILTROS--
+INSERT INTO tbFiltros (id_filtro, id_hoteles, id_tipo_habitacion, id_servicio_hotel, id_servicio_habitacion)
+VALUES (1, 1, 1, 1, 1);
+
+INSERT INTO tbFiltros (id_filtro, id_hoteles, id_tipo_habitacion, id_servicio_hotel, id_servicio_habitacion)
+VALUES (2, 2, 2, 2, 2);
+
+INSERT INTO tbFiltros (id_filtro, id_hoteles, id_tipo_habitacion, id_servicio_hotel, id_servicio_habitacion)
+VALUES (3, 3, 3, 3, 3);
+
+INSERT INTO tbFiltros (id_filtro, id_hoteles, id_tipo_habitacion, id_servicio_hotel, id_servicio_habitacion)
+VALUES (4, 4, 4, 4, 4);
+
+INSERT INTO tbFiltros (id_filtro, id_hoteles, id_tipo_habitacion, id_servicio_hotel, id_servicio_habitacion)
+VALUES (5, 5, 5, 5, 5);
+
+SELECT * FROM tbFiltros;
+
+--PARA PODER BORRAR DE FILTROS--
+DROP TABLE tbFiltros CASCADE CONSTRAINTS;
 -- =============================================================================================================================================================
 --TABLA DE AUDITORIA PARA GUARDAR UN REGISTRO AL MOMENTO DE ELIMINAR HOTELES, SE GUARDA EL NOMBRE DEL HOTEL, NOMBRE DEL USUARIO Y LA FECHA EN QUE SE ELIMINO--
 -- =============================================================================================================================================================
 CREATE TABLE tbAuditoriaHoteles (
-    clave INT PRIMARY KEY,                       
+    clave INT PRIMARY KEY,                      
     nombreHotel VARCHAR2(200) NOT NULL,          
-    correoUsuario VARCHAR2(100) NOT NULL,       
+    correoUsuario VARCHAR2(100) NOT NULL,      
     correoHotel VARCHAR2(100) NOT NULL,          
-    fecha DATE NOT NULL                         
+    fecha DATE NOT NULL                        
 );
 
 --SECUENCIA DE LA TABLA AUDITORIA--
@@ -1118,13 +1167,11 @@ DELETE FROM tbHoteles WHERE id_hoteles = 1;
 DROP TABLE tbAuditoriaHoteles CASCADE CONSTRAINTS;
 DROP SEQUENCE identity_AuditoriaHoteles;
 
-
 -- ===============================================
 -----------PROCEDIMIENTO ALMACENADO---------------
 -- ===============================================
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_HOTELES
 (
-
     hotel_id_hoteles IN tbHoteles.id_hoteles%TYPE,
     hotel_nombre IN tbHoteles.nombre%TYPE,
     hotel_descripcion IN tbHoteles.descripcion%TYPE,
@@ -1133,7 +1180,6 @@ CREATE OR REPLACE PROCEDURE ACTUALIZAR_HOTELES
     hotel_cantidad_habitaciones IN tbHoteles.cantidad_habitaciones%TYPE,
     hotel_img_url IN tbHoteles.img_url%TYPE,
     hotel_id_usuario IN tbHoteles.id_usuario%TYPE
-   
 )
 AS
 BEGIN
@@ -1159,7 +1205,6 @@ Select * from tbHoteles;
 -- ===============================================
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_HOTELES
 (
-
     hotel_id_hoteles IN tbHoteles.id_hoteles%TYPE,
     hotel_nombre IN tbHoteles.nombre%TYPE,
     hotel_descripcion IN tbHoteles.descripcion%TYPE,
@@ -1168,7 +1213,6 @@ CREATE OR REPLACE PROCEDURE ACTUALIZAR_HOTELES
     hotel_cantidad_habitaciones IN tbHoteles.cantidad_habitaciones%TYPE,
     hotel_img_url IN tbHoteles.img_url%TYPE,
     hotel_id_usuario IN tbHoteles.id_usuario%TYPE
-   
 )
 AS
 BEGIN
@@ -1187,7 +1231,7 @@ BEGIN
 ACTUALIZAR_HOTELES(1, 'Royal Decameron Salinitas', 'Este resort todo incluido está ubicado en la costa del Pacífico y es conocido por sus amplias instalaciones recreativas y su ambiente familiar. Royal Decameron Salinitas cuenta con varias piscinas, incluyendo una piscina de agua salada y toboganes acuáticos, así como acceso directo a una playa privada.', 'Escalon', 'reservas@decameron.com', 50,'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/1c/cc/d8/hotel-exterior.jpg',1);
 END;
 
-Select * from tbHoteles;
+SELECT * FROM tbHoteles;
 
 -- ===============================================
 -----------COMBINACIONES INTERNAS-----------------
@@ -1213,8 +1257,8 @@ INNER JOIN tbDepartamentos nd ON  h.id_departamento = nd.id_departamento
 INNER JOIN tbUsuarios nu ON h.id_usuario = nu.id_usuario;
 
 --INNER JOIN TBRESERVAS--
-SELECT u.nombre_usuario AS nombre_usuario, 
-       th.nombre_tipo_habitacion AS nombre_tipo_habitacion, 
+SELECT u.nombre_usuario AS nombre_usuario,
+       th.nombre_tipo_habitacion AS nombre_tipo_habitacion,
        e.tipo_estado AS tipo_estado
 FROM tbReservas r
 INNER JOIN tbUsuarios u ON r.id_usuario = u.id_usuario
@@ -1223,8 +1267,8 @@ INNER JOIN tbTiposHabitaciones th ON h.id_tipo_habitacion = th.id_tipo_habitacio
 INNER JOIN tbEstado e ON r.id_estado = e.id_estado;
 
 --INNER JOIN TBOFERTAS--
-SELECT tof.nombre_oferta, th.nombre, tof.descuentoTotal, th.id_hoteles 
-FROM tbOfertas tof 
+SELECT tof.nombre_oferta, th.nombre, tof.descuentoTotal, th.id_hoteles
+FROM tbOfertas tof
 INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles;
 
 --INNER JOIN TBDENUNCIAS--
@@ -1245,11 +1289,11 @@ FROM tbPreferenciales prf
 INNER JOIN tbHoteles hot ON prf.id_hoteles = hot.id_hoteles
 INNER JOIN tbUsuarios usu ON prf.id_usuario = usu.id_usuario;
 
---INNER JOIN TBINTERMEDIA_VALORACIÓN_HOTELES--   
+--INNER JOIN TBINTERMEDIA_VALORACIÓN_HOTELES--  
 SELECT nom.nombre, co.comentario
 FROM tbIntermedia_valoracion_hoteles ivh
 INNER JOIN tbHoteles nom ON ivh.id_hoteles = nom.id_hoteles
-INNER JOIN tbValoraciones co ON ivh.id_valoracion = co.id_valoracion; 
+INNER JOIN tbValoraciones co ON ivh.id_valoracion = co.id_valoracion;
 
 --INNER JOIN TBINTERMEDIA_HOTELES_TIPOHABITACION--
 SELECT nh.nombre, nth.nombre_tipo_habitacion
@@ -1258,7 +1302,7 @@ INNER JOIN tbHoteles nh ON iht.id_hoteles = nh.id_hoteles
 INNER JOIN tbTiposHabitaciones nth ON iht.id_tipo_habitacion = nth.id_tipo_habitacion;
 
 --INNER JOIN TBINTERMEDIA_HOTELES_SERVICIO--
-SELECT nom. nombre, ns.nombre_servicio 
+SELECT nom. nombre, ns.nombre_servicio
 FROM  tbIntermedia_Hoteles_Servicios ihs
 INNER JOIN tbHoteles nom ON ihs.id_hoteles = nom.id_hoteles
 INNER JOIN tbServiciosHotel ns ON ihs.id_servicio_hotel  = ns.id_servicio_hotel;
