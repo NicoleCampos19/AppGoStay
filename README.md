@@ -55,7 +55,7 @@ nombre_usuario VARCHAR2(25) NOT NULL,
 apellido VARCHAR2(25) NOT NULL,
 fecha_nacimiento VARCHAR2(25) NOT NULL,
 correo VARCHAR2(40) NOT NULL UNIQUE,
-telefono VARCHAR2(20) NOT NULL UNIQUE,
+telefono VARCHAR2(20) NOT NULL,
 contraseña VARCHAR2(70) NOT NULL CHECK (LENGTH(contraseña) >= 8),
 id_tipo_usuario INT,--cambio
 CONSTRAINT FKid_tipo_usuario FOREIGN KEY(id_tipo_usuario) REFERENCES tbTiposUsuarios(id_tipo_usuario) ON DELETE CASCADE
@@ -227,11 +227,11 @@ END;
 
 --INSERTS DE LA TABLA DE SERVICIOS DE HOTEL--
 INSERT ALL
-INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Pet friendly','https://e7.pngegg.com/pngimages/147/511/png-clipart-computer-icons-encapsulated-postscript-bone-dog-animals-pet.png')
-INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Wifi gratis','https://icones.pro/wp-content/uploads/2021/04/symbole-wifi-icone-png-noir.png')
-INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Restaurantes','https://w7.pngwing.com/pngs/72/642/png-transparent-computer-icons-buffet-restaurant-food-hotel-hotel-angle-text-fast-food-restaurant.png')
-INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Parqueo','https://w7.pngwing.com/pngs/483/107/png-transparent-parking-area-logo-car-computer-icons-parking-icon-free-parking-miscellaneous-text-rectangle-thumbnail.png')
-INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Piscinas','https://w7.pngwing.com/pngs/166/424/png-transparent-swimming-pool-computer-icons-encapsulated-postscript-swimming-pool-text-sport-swimming-pool.png')
+INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Pet friendly','https://i.imgur.com/DabZS1b.jpeg')
+INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Wifi gratis','https://i.imgur.com/kBUkItj.jpeg')
+INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Restaurantes','https://i.imgur.com/2dxfMa6.jpeg')
+INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Parqueo','https://i.imgur.com/NOVC1nL.jpeg')
+INTO tbServiciosHotel (nombre_servicio,img_icono_hotel) VALUES ('Piscinas','https://i.imgur.com/uQZt83u.jpeg')
 SELECT * FROM dual;
 
 SELECT * FROM tbServiciosHotel;
@@ -381,11 +381,13 @@ id_hoteles INT PRIMARY KEY,
 nombre VARCHAR2(200) NOT NULL,
 descripcion VARCHAR2(1000) NOT NULL,
 direccion VARCHAR2(150) NOT NULL UNIQUE,
+latitudHotel NUMBER(15,10) NOT NULL,
+longitudHotel NUMBER(15,10) NOT NULL,
 correo VARCHAR2(100) NOT NULL,
 cantidad_habitaciones INT NOT NULL CHECK (cantidad_habitaciones >= 0),
 img_url VARCHAR2(250) NOT NULL,
 id_usuario INT,
-CONSTRAINT fk_usuario_tbhoteles FOREIGN KEY (id_usuario) REFERENCES tbUsuarios(id_usuario)
+CONSTRAINT fk_usuario_tbhoteles FOREIGN KEY (id_usuario) REFERENCES tbUsuarios(id_usuario) ON DELETE CASCADE
 );
 
 --SECUENCIA DE LA TABLA DE HOTELES--
@@ -413,11 +415,11 @@ END;
 
 --INSERTS DE LA TABLA DE HOTELES--
 INSERT ALL
-INTO tbHoteles (nombre, descripcion, direccion, correo, cantidad_habitaciones,img_url ,id_usuario) VALUES ('Royal Decameron Salinitas', 'Este resort todo incluido está ubicado en la costa del Pacífico y es conocido por sus amplias instalaciones recreativas y su ambiente familiar. Royal Decameron Salinitas cuenta con varias piscinas, incluyendo una piscina de agua salada y toboganes acuáticos, así como acceso directo a una playa privada.', 'Carretera al Litoral Km. 84, Acajutla, Sonsonate, El Salvador', 'reservas@decameron.com', 50,'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/1c/cc/d8/hotel-exterior.jpg',1)
-INTO tbHoteles (nombre, descripcion, direccion, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Sheraton Presidente', 'Situado en una zona privilegiada de San Salvador, el Sheraton Presidente es un hotel de cuatro estrellas que combina elegancia clásica con comodidades modernas. Las 225 habitaciones y suites están diseñadas para ofrecer el máximo confort, con ropa de cama de lujo, televisores de pantalla plana, y acceso a Internet. ', 'Avenida La Revolución, Colonia San Benito, San Salvador, El Salvador', 'sheratonpresidente@gruposag.com', 50,'https://www.decameron.com/images/destinos/el-salvador/salinitas-002.jpg',2)
-INTO tbHoteles (nombre, descripcion, direccion, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Hotel Oasis', 'El Hotel Oasis es un refugio encantador situado en el corazón de La Libertad, una de las zonas más populares de El Salvador por sus impresionantes playas y vibrante vida local. Este hotel boutique ofrece una mezcla perfecta de confort, tranquilidad y un toque de lujo, ideal para aquellos que buscan una escapada relajante.','San Salvador, en la Colonia Libertad, Avenida Morazán, Pasaje Morelos #111.', 'info@hoteloasiselsalvador.com', 50,'https://cdn.forbes.com.mx/2020/07/hoteles-Grand-Velas-Resorts-e1596047698604.jpg',3)
-INTO tbHoteles (nombre, descripcion, direccion, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Real Intercontinental', 'Ubicado en una de las zonas más exclusivas de San Salvador, el Real InterContinental es sinónimo de lujo y confort. Este hotel de cinco estrellas cuenta con 228 habitaciones equipadas con las últimas tecnologías y comodidades, como camas con colchones pillow-top, baños de mármol, y acceso a Internet de alta velocidad.', 'Boulevard de Los Héroes y Avenida Sisimiles, San Salvador, El Salvador', 'intercontinental@r-icelsalvador.com', 50,'https://www.kayak.com.sv/rimg/himg/45/0a/16/expediav2-373051-30d516-883802.jpg',4)
-INTO tbHoteles (nombre, descripcion, direccion, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Las Flores Resort', 'Situado en la hermosa playa Las Flores, este resort es un paraíso para los amantes del surf y la naturaleza. Las Flores Resort ofrece bungalows privados rodeados de exuberante vegetación tropical y con vistas al océano. Las habitaciones están decoradas con materiales locales y cuentan con todas las comodidades modernas. ', 'Playa Las Flores, El Cuco, San Miguel, El Salvador', 'info@lasfloresresort.com',30,'https://eventoslatam.com/wordpress/wp-content/uploads/2022/09/marriot-barranquilla-1.jpg',5)
+INTO tbHoteles (nombre, descripcion, direccion, latitudHotel, longitudHotel, correo, cantidad_habitaciones,img_url ,id_usuario) VALUES ('Royal Decameron Salinitas', 'Este resort todo incluido está ubicado en la costa del Pacífico y es conocido por sus amplias instalaciones recreativas y su ambiente familiar. Royal Decameron Salinitas cuenta con varias piscinas, incluyendo una piscina de agua salada y toboganes acuáticos, así como acceso directo a una playa privada.', 'Carretera al Litoral Km. 84, Acajutla, Sonsonate, El Salvador', 13.532793961041605, -89.81632836143223, 'royaldecameron@gmail.com', 50,'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/1c/cc/d8/hotel-exterior.jpg',1)
+INTO tbHoteles (nombre, descripcion, direccion, latitudHotel, longitudHotel, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Sheraton Presidente', 'Situado en una zona privilegiada de San Salvador, el Sheraton Presidente es un hotel de cuatro estrellas que combina elegancia clásica con comodidades modernas. Las 225 habitaciones y suites están diseñadas para ofrecer el máximo confort, con ropa de cama de lujo, televisores de pantalla plana, y acceso a Internet. ', 'Avenida La Revolución, Colonia San Benito, San Salvador, El Salvador', 13.691651009852649, -89.24177726328303, 'sheratonpresidente@gmail.com', 50,'https://www.decameron.com/images/destinos/el-salvador/salinitas-002.jpg',2)
+INTO tbHoteles (nombre, descripcion, direccion, latitudHotel, longitudHotel, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Hotel Oasis', 'El Hotel Oasis es un refugio encantador situado en el corazón de La Libertad, una de las zonas más populares de El Salvador por sus impresionantes playas y vibrante vida local. Este hotel boutique ofrece una mezcla perfecta de confort, tranquilidad y un toque de lujo, ideal para aquellos que buscan una escapada relajante.','San Salvador, en la Colonia Libertad, Avenida Morazán, Pasaje Morelos #111.', 13.724179169106629, -89.20811381667423, 'hoteloasis@gmail.com', 50,'https://cdn.forbes.com.mx/2020/07/hoteles-Grand-Velas-Resorts-e1596047698604.jpg',3)
+INTO tbHoteles (nombre, descripcion, direccion, latitudHotel, longitudHotel, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Real Intercontinental', 'Ubicado en una de las zonas más exclusivas de San Salvador, el Real InterContinental es sinónimo de lujo y confort. Este hotel de cinco estrellas cuenta con 228 habitaciones equipadas con las últimas tecnologías y comodidades, como camas con colchones pillow-top, baños de mármol, y acceso a Internet de alta velocidad.', 'Boulevard de Los Héroes y Avenida Sisimiles, San Salvador, El Salvador', 13.707657835513112, -89.21298453259253, 'realintercontinental@gmail.com', 50,'https://www.kayak.com.sv/rimg/himg/45/0a/16/expediav2-373051-30d516-883802.jpg',4)
+INTO tbHoteles (nombre, descripcion, direccion, latitudHotel, longitudHotel, correo, cantidad_habitaciones,img_url , id_usuario) VALUES ('Las Flores Resort', 'Situado en la hermosa playa Las Flores, este resort es un paraíso para los amantes del surf y la naturaleza. Las Flores Resort ofrece bungalows privados rodeados de exuberante vegetación tropical y con vistas al océano. Las habitaciones están decoradas con materiales locales y cuentan con todas las comodidades modernas. ', 'Playa Las Flores, El Cuco, San Miguel, El Salvador', 13.172930224687272, -88.11823202096556, 'lasfloresresort@gmail.com',30,'https://eventoslatam.com/wordpress/wp-content/uploads/2022/09/marriot-barranquilla-1.jpg',5)
 SELECT * FROM dual;
 
 SELECT * FROM tbHoteles;
@@ -601,7 +603,7 @@ BEGIN
     SELECT identity_tbIntermediaTipoHabitacion.NEXTVAL INTO :new.id_IntermediaTipoHabitacion FROM dual;
 END;
 
---INSERTS DE TABLA INTERMEDIA DE HOTELES Y TIPO HABITACION--
+--INSERTS DE TABLA INTERMEDIA DE HOTELES Y TIPO HABITACIÓN--
 INSERT ALL 
 INTO tbIntermedia_Hoteles_TipoHabitacion(id_hoteles, id_tipo_habitacion) values (1, 1)
 INTO tbIntermedia_Hoteles_TipoHabitacion(id_hoteles, id_tipo_habitacion) values (2, 2)
@@ -666,6 +668,20 @@ INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(1, 2)
 INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(1, 3)
 INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(1, 4)
 INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(1, 5)
+
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(2, 1)
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(2, 2)
+
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(3, 3)
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(3, 4)
+
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(4, 1)
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(4, 4)
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(4, 5)
+
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(5, 3)
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(5, 4)
+INTO tbIntermedia_Hoteles_Servicios(id_hoteles, id_servicio_hotel) values(5, 5)
 SELECT * FROM dual;
 
 SELECT * FROM tbIntermedia_Hoteles_Servicios;
@@ -687,6 +703,7 @@ CONSTRAINT chk_numero_tarjeta_formato CHECK (numero_tarjeta NOT LIKE '%[^0-9]%')
 fecha_caducidad_tarjeta VARCHAR2(25) NOT NULL,
 nombre_titular_tarjeta VARCHAR2(20) NOT NULL,
 CVV INT NOT NULL,
+Total NUMBER NOT NULL,
 id_tipo_habitacion INT,
 id_hoteles INT,
 id_departamento INT,
@@ -732,11 +749,11 @@ END;
 
 --INSERTS DE LA TABLA DE HABITACIONES--
 INSERT ALL
-INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (1,  '2024-06-01', '2024-06-10', '1234567812345678', '2026-06-01', 'Juan Perez', 123, 1, 1, 1)
-INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (2,  '2024-06-05', '2024-06-15', '2345678923456789', '2027-06-01', 'Maria Lopez', 456, 2, 2, 2)
-INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (3,  '2024-06-10',  '2024-06-20',  '3456789034567890', '2028-06-01',  'Luis Martinez', 789, 3, 3, 3)
-INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (4,  '2024-07-01',  '2024-07-10',  '4567890145678901', '2029-07-01', 'Ana Gomez', 101, 4, 4, 4)
-INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (5,  '2024-08-01', '2024-08-10',  '5678901256789012', '2030-08-01', 'Carlos Ramirez', 202, 5 ,5, 5)
+INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (1,  '2024-06-01', '2024-06-10', '1234567812345678', '2026-06-01', 'Juan Perez', 123, 200, 1, 1, 1)
+INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (2,  '2024-06-05', '2024-06-15', '2345678923456789', '2027-06-01', 'Maria Lopez', 456, 100, 2, 2, 2)
+INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (3,  '2024-06-10',  '2024-06-20',  '3456789034567890', '2028-06-01',  'Luis Martinez', 789, 350, 3, 3, 3)
+INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (4,  '2024-07-01',  '2024-07-10',  '4567890145678901', '2029-07-01', 'Ana Gomez', 101, 200, 4, 4, 4)
+INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (5,  '2024-08-01', '2024-08-10',  '5678901256789012', '2030-08-01', 'Carlos Ramirez', 202, 100, 5 ,5, 5)
 SELECT * FROM dual;
 
 SELECT * FROM tbHabitaciones;
@@ -1004,51 +1021,12 @@ DROP TABLE tbDenuncias CASCADE CONSTRAINTS;
 DROP SEQUENCE identity_Denuncias;
 
 -- ===============================================
------------------TABLA DE FILTROS-----------------
--- ===============================================
-CREATE TABLE tbFiltros (
-    id_filtro INT PRIMARY KEY,
-    id_hoteles INT,
-    id_tipo_habitacion INT,
-    id_servicio_habitacion INT,
-    id_servicio_hotel INT,
-    CONSTRAINT fk_hotel_tbFiltros FOREIGN KEY (id_hoteles) REFERENCES tbHoteles(id_hoteles) ON DELETE CASCADE,
-    CONSTRAINT fk_habitacion_tbFiltros FOREIGN KEY (id_tipo_habitacion) REFERENCES tbTiposHabitaciones(id_tipo_habitacion) ON DELETE CASCADE,
-    CONSTRAINT fk_servicio_habitaciones_tbFiltros FOREIGN KEY (id_servicio_habitacion) REFERENCES tbServiciosHabitacion(id_servicio_habitacion) ON DELETE CASCADE,
-    CONSTRAINT fk_servicio_hotel_tbFiltros FOREIGN KEY (id_servicio_hotel) REFERENCES tbServiciosHotel(id_servicio_hotel) ON DELETE CASCADE
-);
-
---SECUENCIA DE LA TABLA DE FILTROS--
-CREATE SEQUENCE identity_Filtros
-START WITH 1
-INCREMENT BY 1
-NOCACHE;
-
---TRIGGER DE LA TABLA DE FILTROS--
-CREATE OR REPLACE TRIGGER trg_before_insert_tbFiltros
-BEFORE INSERT ON tbFiltros
-FOR EACH ROW
-BEGIN
-    SELECT identity_Filtros.NEXTVAL INTO :new.id_filtro FROM dual;
-END;
-
---INSERTS DE LA TABLA DE FILTROS--
-INSERT ALL
-INTO tbFiltros (id_hoteles, id_tipo_habitacion, id_servicio_habitacion, id_servicio_hotel) VALUES (1,3,4,3)
-INTO tbFiltros (id_hoteles, id_tipo_habitacion, id_servicio_habitacion, id_servicio_hotel) VALUES (2,1,3,1)
-INTO tbFiltros (id_hoteles, id_tipo_habitacion, id_servicio_habitacion, id_servicio_hotel) VALUES (4,5,1,2)
-INTO tbFiltros (id_hoteles, id_tipo_habitacion, id_servicio_habitacion, id_servicio_hotel) VALUES (5,4,2,5)
-INTO tbFiltros (id_hoteles, id_tipo_habitacion, id_servicio_habitacion, id_servicio_hotel) VALUES (3,2,5,4)
-SELECT * FROM dual;
-    
-SELECT * FROM tbFiltros;
-        
--- ===============================================
 -----------------TABLA DE OFERTAS-----------------
 -- ===============================================
 CREATE TABLE tbOfertas(
 id_oferta INT PRIMARY KEY,
 nombre_oferta VARCHAR2(500) NOT NULL,
+descuentoTotal NUMBER NOT NULL,
 id_hoteles INT,
 CONSTRAINT FK_tbOfertas_idhoteles FOREIGN KEY(id_hoteles) REFERENCES tbHoteles(id_hoteles) ON DELETE CASCADE
 );
@@ -1069,11 +1047,11 @@ END;
 
 --INSERTS DE LA TABLA DE OFERTAS--
 INSERT ALL
-INTO tbOfertas (nombre_oferta, id_hoteles) VALUES ('3 noches en cabaña ecológica con excursiones a la selva y clases de yoga. Oferta de $219.', 1)
-INTO tbOfertas (nombre_oferta, id_hoteles) VALUES ('Dos noches en suite de lujo con desayuno continental y botella de vino. Solo $179.', 2)
-INTO tbOfertas (nombre_oferta, id_hoteles) VALUES ('Escapada romántica con cena bajo las estrellas y suite con jacuzzi privado. Paquete por $299.', 3)
-INTO tbOfertas (nombre_oferta, id_hoteles) VALUES ('Estancia familiar de 5 noches con actividades para niños y buffet ilimitado. Precio de lanzamiento: $399.', 1)
-INTO tbOfertas (nombre_oferta, id_hoteles) VALUES ('Disfruta de 3 noches al precio de 2 con desayuno incluido y acceso al spa. ¡Solo por $199!', 2)
+INTO tbOfertas (nombre_oferta, descuentoTotal,  id_hoteles) VALUES ('3 noches en cabaña ecológica con excursiones a la selva y clases de yoga. ',30, 1)
+INTO tbOfertas (nombre_oferta, descuentoTotal, id_hoteles) VALUES ('Dos noches en suite de lujo con desayuno continental y botella de vino.',50, 2)
+INTO tbOfertas (nombre_oferta, descuentoTotal, id_hoteles) VALUES ('Escapada romántica con cena bajo las estrellas y suite con jacuzzi privado. ',25, 3)
+INTO tbOfertas (nombre_oferta, descuentoTotal, id_hoteles) VALUES ('Estancia familiar de 5 noches con actividades para niños y buffet ilimitado. ',15, 1)
+INTO tbOfertas (nombre_oferta, descuentoTotal, id_hoteles) VALUES ('Disfruta de 3 noches al precio de 2 con desayuno incluido y acceso al spa. ',40, 2)
 SELECT * FROM dual;
 
 SELECT * FROM tbOfertas;
@@ -1083,13 +1061,14 @@ DROP TABLE tbOfertas CASCADE CONSTRAINTS;
 DROP SEQUENCE identity_Ofertas;
 
 -- =============================================================================================================================================================
---TABLA DE AUDITORIA PARA GUARDAR UN REGISTRO AL MOMENTO DE ELIMINAR HOETELES, SE GUARDA EL NOMBRE DEL HOTEL, NOMBRE DEL USUARIO Y LA FECHA EN QUE SE ELIMINO--
+--TABLA DE AUDITORIA PARA GUARDAR UN REGISTRO AL MOMENTO DE ELIMINAR HOTELES, SE GUARDA EL NOMBRE DEL HOTEL, NOMBRE DEL USUARIO Y LA FECHA EN QUE SE ELIMINO--
 -- =============================================================================================================================================================
 CREATE TABLE tbAuditoriaHoteles (
-    clave INT PRIMARY KEY,
-    nombreHotel VARCHAR2(200) NOT NULL,
-    idUsuario VARCHAR2(100) NOT NULL,
-    fecha DATE NOT NULL
+    clave INT PRIMARY KEY,                       
+    nombreHotel VARCHAR2(200) NOT NULL,          
+    correoUsuario VARCHAR2(100) NOT NULL,       
+    correoHotel VARCHAR2(100) NOT NULL,          
+    fecha DATE NOT NULL                         
 );
 
 --SECUENCIA DE LA TABLA AUDITORIA--
@@ -1103,85 +1082,130 @@ CREATE OR REPLACE TRIGGER Trigger_Auditoria_Hoteles
 BEFORE DELETE ON tbHoteles
 FOR EACH ROW
 DECLARE
-    var_nombreHotel tbHoteles.nombre%TYPE;
-    var_idUsuario tbHoteles.id_usuario%TYPE;
-    var_fecha DATE;
+    var_correoUsuario tbUsuarios.correo%TYPE; -- Correo del usuario
+    var_nombreHotel tbHoteles.nombre%TYPE;     -- Nombre del hotel
+    var_correoHotel tbHoteles.correo%TYPE;     -- Correo del hotel
+    var_fecha DATE;                             -- Fecha de la operaci n
 BEGIN
-    --ASIGNAR VALORES A LAS VARIABLES--
-    var_nombreHotel := :OLD.nombre;
-    var_idUsuario := :OLD.id_usuario;
-    var_fecha := SYSDATE;
-    
-    --INSERTAR EN LA TABLA AUDITORia--
-    INSERT INTO tbAuditoriaHoteles (clave, nombreHotel, idUsuario, fecha)
-    VALUES (
-        identity_AuditoriaHoteles.NEXTVAL,
-        var_nombreHotel,
-        var_idUsuario,
-        var_fecha
-    );
+    -- ASIGNAR VALORES A LAS VARIABLES
+    var_nombreHotel := :OLD.nombre;             -- Nombre del hotel que se est  eliminando
+    var_correoHotel := :OLD.correo;             -- Correo del hotel
+    var_fecha := SYSDATE;                       -- Fecha actual
 
+    -- OBTENER EL CORREO DEL USUARIO RELACIONADO CON EL HOTEL
+    SELECT u.correo
+    INTO var_correoUsuario
+    FROM tbUsuarios u
+    WHERE u.id_usuario = :OLD.id_usuario;       -- Usa el id_usuario del hotel que se est  eliminando
+
+    -- INSERTAR EN LA TABLA AUDITORIA
+    INSERT INTO tbAuditoriaHoteles (clave, nombreHotel, correoUsuario, correoHotel, fecha)
+    VALUES (
+        identity_AuditoriaHoteles.NEXTVAL,       --Secuencia autoincremento
+        var_nombreHotel,                         -- Nombre del hotel
+        var_correoUsuario,                       -- Correo del usuario
+        var_correoHotel,                         -- Correo del hotel
+        var_fecha                                -- Fecha del sistema
+    );
+--Finaliza el trigger
 END Trigger_Auditoria_Hoteles;
+
+SELECT * from tbAuditoriaHoteles;
+SELECT * from tbHoteles;
+DELETE FROM tbHoteles WHERE id_hoteles = 1;
+
+--PARA PODER BORRAR LA TABLA AUDITORIA--
+DROP TABLE tbAuditoriaHoteles CASCADE CONSTRAINTS;
+DROP SEQUENCE identity_AuditoriaHoteles;
+
 
 -- ===============================================
 -----------PROCEDIMIENTO ALMACENADO---------------
 -- ===============================================
-CREATE OR REPLACE PROCEDURE limpiarOfertas(arg_id_usuario IN tbUsuarios.id_usuario%TYPE) AS 
-cantOfertas INT;
-BEGIN
-    SELECT COUNT(*) INTO cantOfertas
-    FROM tbOfertas o
-    INNER JOIN tbHoteles h ON o.id_hoteles = h.id_hoteles 
-    WHERE h.id_usuario = arg_id_usuario;
-    IF cantOfertas > 4 THEN 
-        DELETE FROM tbOfertas 
-        WHERE id_oferta IN (
-            SELECT id_oferta 
-            FROM (
-                SELECT o.id_oferta 
-                FROM tbOfertas o 
-                INNER JOIN tbHoteles h ON o.id_hoteles = h.id_hoteles 
-                WHERE h.id_usuario = arg_id_usuario
-                ORDER BY o.id_oferta 
-            )
-            WHERE ROWNUM <= (cantOfertas - 4)
-        );
-    END IF;
-EXCEPTION 
-        WHEN OTHERS THEN
-        RAISE;
-END limpiarOfertas;
-/
-CREATE OR REPLACE TRIGGER trg_limpiar_ofertas
-AFTER INSERT ON tbOfertas
-DECLARE
-BEGIN
-    FOR rec IN (SELECT DISTINCT h.id_usuario 
-                FROM tbOfertas o 
-                INNER JOIN tbHoteles h ON o.id_hoteles = h.id_hoteles) LOOP
-        limpiarOfertas(rec.id_usuario);
-    END LOOP;
-END;
-/
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_HOTELES
+(
 
-SELECT * FROM tbOfertas;
+    hotel_id_hoteles IN tbHoteles.id_hoteles%TYPE,
+    hotel_nombre IN tbHoteles.nombre%TYPE,
+    hotel_descripcion IN tbHoteles.descripcion%TYPE,
+    hotel_direccion IN tbHoteles.direccion%TYPE,
+    hotel_correo IN tbHoteles.correo%TYPE,
+    hotel_cantidad_habitaciones IN tbHoteles.cantidad_habitaciones%TYPE,
+    hotel_img_url IN tbHoteles.img_url%TYPE,
+    hotel_id_usuario IN tbHoteles.id_usuario%TYPE
+   
+)
+AS
+BEGIN
+    UPDATE tbHoteles SET
+    nombre = hotel_nombre,
+    descripcion = hotel_descripcion,
+    direccion = hotel_direccion,
+    correo = hotel_correo,
+    cantidad_habitaciones = hotel_cantidad_habitaciones,
+    img_url = hotel_img_url,
+    id_usuario = hotel_id_usuario
+    WHERE id_hoteles = hotel_id_hoteles;
+END;
+
+BEGIN
+ACTUALIZAR_HOTELES(1, 'Royal Decameron Salinitas', 'Este resort todo incluido está ubicado en la costa del Pacífico y es conocido por sus amplias instalaciones recreativas y su ambiente familiar. Royal Decameron Salinitas cuenta con varias piscinas, incluyendo una piscina de agua salada y toboganes acuáticos, así como acceso directo a una playa privada.', 'Escalon', 'reservas@decameron.com', 50,'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/1c/cc/d8/hotel-exterior.jpg',1);
+END;
+
+Select * from tbHoteles;
+
+-- ===============================================
+-----------PROCEDIMIENTO ALMACENADO---------------
+-- ===============================================
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_HOTELES
+(
+
+    hotel_id_hoteles IN tbHoteles.id_hoteles%TYPE,
+    hotel_nombre IN tbHoteles.nombre%TYPE,
+    hotel_descripcion IN tbHoteles.descripcion%TYPE,
+    hotel_direccion IN tbHoteles.direccion%TYPE,
+    hotel_correo IN tbHoteles.correo%TYPE,
+    hotel_cantidad_habitaciones IN tbHoteles.cantidad_habitaciones%TYPE,
+    hotel_img_url IN tbHoteles.img_url%TYPE,
+    hotel_id_usuario IN tbHoteles.id_usuario%TYPE
+   
+)
+AS
+BEGIN
+    UPDATE tbHoteles SET
+    nombre = hotel_nombre,
+    descripcion = hotel_descripcion,
+    direccion = hotel_direccion,
+    correo = hotel_correo,
+    cantidad_habitaciones = hotel_cantidad_habitaciones,
+    img_url = hotel_img_url,
+    id_usuario = hotel_id_usuario
+    WHERE id_hoteles = hotel_id_hoteles;
+END;
+
+BEGIN
+ACTUALIZAR_HOTELES(1, 'Royal Decameron Salinitas', 'Este resort todo incluido está ubicado en la costa del Pacífico y es conocido por sus amplias instalaciones recreativas y su ambiente familiar. Royal Decameron Salinitas cuenta con varias piscinas, incluyendo una piscina de agua salada y toboganes acuáticos, así como acceso directo a una playa privada.', 'Escalon', 'reservas@decameron.com', 50,'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/1c/cc/d8/hotel-exterior.jpg',1);
+END;
+
+Select * from tbHoteles;
 
 -- ===============================================
 -----------COMBINACIONES INTERNAS-----------------
 -- ===============================================
+
 --INNER JOIN TBUSUARIOS--
-SELECT u.nombre_usuario, u.apellido, u.fecha_nacimiento, u.correo, u.telefono, u.contraseña, tu.nombre_usuario
+SELECT u.id_usuario, u.nombre_usuario, u.apellido, u.fecha_nacimiento, u.correo, u.telefono, u.contraseña, tu.nombre_usuario
 FROM tbUsuarios u
 INNER JOIN tbTiposUsuarios tu ON u.id_tipo_usuario = tu.id_tipo_usuario;
 
 --INNER JOIN TBVALORACIONES--
-SELECT v.comentario, nu.nombre_usuario, nc.nombre_calificación
+SELECT v.id_valoracion, v.comentario, nu.nombre_usuario, nc.nombre_calificación
 FROM tbValoraciones v
 INNER JOIN tbUsuarios nu ON v.id_usuario = nu.id_usuario
 INNER JOIN tbCalificación nc ON v.id_calificación = nc.id_calificación;
 
 --INNER JOIN TBHABITACIONES--
-SELECT h.entrada, h.salida,  h.numero_tarjeta,  h.fecha_caducidad_tarjeta, h.nombre_titular_tarjeta, h.cvv, th.nombre_tipo_habitacion, nh.nombre,  nd.nombre_departamento, nu.nombre_usuario
+SELECT h.id_habitacion, h.entrada, h.salida,  h.numero_tarjeta,  h.fecha_caducidad_tarjeta, h.nombre_titular_tarjeta, h.cvv, th.nombre_tipo_habitacion, nh.nombre,  nd.nombre_departamento, nu.nombre_usuario
 FROM tbHabitaciones h
 INNER JOIN tbTiposHabitaciones th ON h.id_tipo_habitacion = th.id_tipo_habitacion
 INNER JOIN tbHoteles nh ON h.id_hoteles = nh.id_hoteles
@@ -1199,17 +1223,17 @@ INNER JOIN tbTiposHabitaciones th ON h.id_tipo_habitacion = th.id_tipo_habitacio
 INNER JOIN tbEstado e ON r.id_estado = e.id_estado;
 
 --INNER JOIN TBOFERTAS--
-SELECT ofe.nombre_oferta, nh.nombre
-FROM tbOfertas ofe
-INNER JOIN tbHoteles nh ON ofe.id_hoteles = nh.id_hoteles;
+SELECT tof.nombre_oferta, th.nombre, tof.descuentoTotal, th.id_hoteles 
+FROM tbOfertas tof 
+INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles;
 
 --INNER JOIN TBDENUNCIAS--
-SELECT de.nombre_denuncia, nh.nombre
+SELECT de.id_denuncia, de.nombre_denuncia, nh.nombre
 FROM tbDenuncias de
 INNER JOIN tbHoteles nh ON de.id_hoteles = nh.id_hoteles;
 
 --INNER JOIN TBHISTORIALES--
-SELECT u.nombre_usuario AS nombre_usuario, ht.nombre AS nombre_hotel
+SELECT h.id_historial, u.nombre_usuario AS nombre_usuario, ht.nombre AS nombre_hotel
 FROM tbHistoriales h
 INNER JOIN tbReservas r ON h.id_reserva = r.id_reserva
 INNER JOIN tbUsuarios u ON r.id_usuario = u.id_usuario
@@ -1239,20 +1263,7 @@ FROM  tbIntermedia_Hoteles_Servicios ihs
 INNER JOIN tbHoteles nom ON ihs.id_hoteles = nom.id_hoteles
 INNER JOIN tbServiciosHotel ns ON ihs.id_servicio_hotel  = ns.id_servicio_hotel;
 
---INNER JOIN TBFILTROS--
-SELECT 
-    h.id_hoteles, 
-    h.nombre AS nombre_hotel, 
-    h.descripcion, 
-    h.direccion, 
-    h.correo, 
-    h.cantidad_habitaciones, 
-    h.img_url
-FROM 
-    tbFiltros f
-INNER JOIN 
-    tbHoteles h ON f.id_hoteles = h.id_hoteles
-INNER JOIN 
-    tbTiposHabitaciones ha ON f.id_tipo_habitacion = ha.id_tipo_habitacion
-INNER JOIN 
-    tbServiciosHotel sh ON f.id_servicio_hotel = sh.id_servicio_hotel
+--INNER JOIN TBHOTELES Y TBIMÁGENES_HOTELES--
+SELECT i.*
+FROM tbHoteles h
+INNER JOIN tbImagenes_Hoteles i ON h.id_hoteles = i.id_hoteles;
