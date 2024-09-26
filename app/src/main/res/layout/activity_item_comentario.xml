@@ -19,35 +19,13 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            style="@style/Widget.AppCompat.RatingBar.Small"
+        <ImageView
+            android:id="@+id/btnMas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="4.5"
-            android:stepSize="0.5" />
-
-        <TextView
-            android:id="@+id/textDate"
-            android:layout_width="95dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/poppins"
-            android:text="Hace 1 mes"
-            android:textSize="14sp" />
-
-
-        <ImageView
-            android:id="@+id/asd"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="220dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/iconotrespuntos" />
-
-
+            app:srcCompat="@drawable/ic_more" />
     </LinearLayout>
 
     <TextView
