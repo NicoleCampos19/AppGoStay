@@ -170,7 +170,7 @@ class activity_editar_perfil : AppCompatActivity() {
         }
         cargarImagenperfil(correoActual)
 
-
+/*
         btnGuardarPerfil.setOnClickListener{
 
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
@@ -217,10 +217,63 @@ class activity_editar_perfil : AppCompatActivity() {
                     "Completa todos los campos y selecciona una foto",
                     Toast.LENGTH_SHORT
                 ).show()
+            }*/
+
+        btnGuardarPerfil.setOnClickListener {
+            val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
+            val correo = correoActual
+            val clave = contrasenaActual
+
+            // Validación para campos vacíos
+            if (nuevoCorreo.text.toString().isEmpty() || clave.isEmpty()) {
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Validación del formato del correo
+            val correoTexto = nuevoCorreo.text.toString()
+            if (!correoTexto.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+                nuevoCorreo.error = "El correo no tiene un formato válido"
+                return@setOnClickListener
+            }
+
+            // Acceder al EditText y obtener el valor de la contraseña como String
+            val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)
+            txtNewContraP = editTextContra.text.toString()
+
+            // Validación de la contraseña
+            if (txtNewContraP.length <= 12) {
+                editTextContra.error = "La contraseña debe tener al menos 12 caracteres"
+                return@setOnClickListener
+            }
+
+            if (correo.isNotEmpty() && clave.isNotEmpty()) {
+                // Subir imagen a Firebase y obtener la URL
+                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                subirimagenFirebase(bitmap) { imageUrl ->
+                    miPath = imageUrl
+                    // Actualizar la imagen en la base de datos Oracle
+                    guardarUsuarioConFoto(correo, clave, miPath)
+                    // También puedes actualizar el correo y la contraseña si es necesario
+                    actualizarCorreo(nuevoCorreo.text.toString(), correoActual)
+                    actualizarContraseña(correoActual, txtNewContraP)
+
+                    // Navegar a la siguiente pantalla
+                    val siguientePantalla = Intent(this, activity_iniciar_sesion::class.java)
+                    startActivity(siguientePantalla)
+                }
+            } else {
+                Toast.makeText(
+                    this,
+                    "Completa todos los campos y selecciona una foto",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
 
-            val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
+
+
+        val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
              startActivity(siguientepantalla)
 
 

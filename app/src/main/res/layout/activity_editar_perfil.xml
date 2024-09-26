@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".activity_editar_perfil">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="491dp"
+        android:layout_height="446dp"
+        android:layout_marginBottom="140dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtCorreoPerfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/cuadro_celeste_perfil" />
 
     <TextView
         android:id="@+id/textView1"
