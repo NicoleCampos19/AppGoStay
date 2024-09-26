@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.PaginaInicio
+import emily.jacobo.gostay.PaginaInicio.Companion.idUsuarioGlobalL
 import emily.jacobo.gostay.R
 import kotlinx.coroutines.*
 
@@ -98,32 +99,30 @@ class ComentarioAdapter(var Datos: List<tbComentarios>) : RecyclerView.Adapter<V
         val item = Datos[position]
         val context = holder.itemView.context
         holder.txtComentarioCard.text = item.comentario
+        holder.txtUsuarioCard.text = item.nombre_usuario
+        Glide.with(context)
+            .load(item.foto_usuario)
+            .fitCenter()
+            .into(holder.imageProfile)
 
         CoroutineScope(Dispatchers.Main).launch {
             val idHotel = PaginaInicio.hotelIdGlobal
-           // holder.txtUsuarioCard.text = obtenerCorreoUsuario(idHotel)
             val idUsuarioActivo = PaginaInicio.idUsuarioGlobalL
-            //val imagen = obtenerImagenUsuario(idHotel)
 
-            holder.imvMas.visibility = if (idUsuarioActivo == item.id_usuario) View.VISIBLE else View.GONE
 
-            /*if (!imagen.isNullOrEmpty()) {
-                try {
-                    Log.e("imagen", imagen)
-                    Glide.with(context)
-                        .load(imagen)
-                        .fitCenter()
-                        .into(holder.imageProfile)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }*/
+            // Mostrar los tres puntos solo si es el propio comentario del usuario normal
+            holder.imvMas.visibility = if (idUsuarioActivo == item.id_usuario) {
+                View.VISIBLE // Un usuario normal ve sus propios comentarios
+            } else {
+                View.GONE // Los administradores no deben ver sus propios comentarios ni otros comentarios de administradores
+            }
         }
 
         holder.imvMas.setOnClickListener { v: View ->
             showMenu(v, R.menu.popup_menu, context, item, position)
         }
     }
+
 
     private fun showMenu(v: View, @MenuRes menuRes: Int, context: Context, item: tbComentarios, position: Int) {
         val popup = PopupMenu(context, v)

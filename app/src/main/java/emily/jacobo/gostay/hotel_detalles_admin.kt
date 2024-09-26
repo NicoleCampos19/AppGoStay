@@ -29,6 +29,7 @@ import modelo.ServicioInfo
 import modelo.tbCarrusel
 import modelo.tbComentarios
 import modelo.tbHotel
+import java.sql.SQLException
 
 class hotel_detalles_admin : AppCompatActivity() {
 
@@ -172,28 +173,59 @@ class hotel_detalles_admin : AppCompatActivity() {
             }
         }
 
-        fun obtenerComentarios(): List<tbComentarios> {
-            //1- Creo un objeto de la clase conexion
-            val objConexion = ClaseConexion().cadenaConexion()
-
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones")!!
-
+        fun obtenerComentarios(idHotel: Int): List<tbComentarios> {
             val listaComentarios = mutableListOf<tbComentarios>()
 
-            while (resultSet.next()){
-                val id_valoracion = resultSet.getInt("id_valoracion")
-                val comentario = resultSet.getString("comentario")
-                val id_usuario = resultSet.getInt("id_usuario")
-                val comentarios = tbComentarios(id_valoracion, comentario,id_usuario)
+            try {
+                // 1- Creo un objeto de la clase conexión
+                val objConexion = ClaseConexion().cadenaConexion()
 
-                listaComentarios.add(comentarios)
+                // Verifico si la conexión es válida
+                if (objConexion != null) {
+                    // 2- Creo el PreparedStatement y añado el parámetro `idHotel`
+                    val comentarios_ = objConexion.prepareStatement(
+                        """
+                SELECT vl.id_valoracion, vl.comentario, us.id_usuario, us.nombre_usuario, us.imgfoto 
+                FROM tbValoraciones vl 
+                INNER JOIN tbUsuarios us ON vl.id_usuario = us.id_usuario 
+                WHERE vl.id_hoteles = ?
+                """
+                    )
+                    comentarios_.setInt(1, idHotel) // Añadimos el valor de id_hoteles a la consulta
+
+                    val resultSet = comentarios_.executeQuery()
+
+                    // 3- Recorro el resultSet y obtengo los resultados
+                    while (resultSet.next()) {
+                        val id_valoracion = resultSet.getInt("id_valoracion")
+                        val comentario = resultSet.getString("comentario")
+                        val id_usuario = resultSet.getInt("id_usuario")
+                        val nombre_usuario = resultSet.getString("nombre_usuario")
+                        val imgfoto = resultSet.getString("imgfoto")
+
+                        // 4- Creo el objeto tbComentarios y lo añado a la lista
+                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto)
+                        listaComentarios.add(comentarios)
+                    }
+
+                    // 5- Cierro los recursos para evitar fugas de memoria
+                    resultSet.close()
+                    comentarios_.close()
+                    objConexion.close()
+                } else {
+                    // Manejar el caso en que no se obtiene conexión
+                    throw SQLException("No se pudo establecer la conexión a la base de datos")
+                }
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
+
             return listaComentarios
         }
 
         CoroutineScope(Dispatchers.IO).launch{
-            val comentariosDB = obtenerComentarios()
+            val idHotel = PaginaInicio.hotelIdGlobal
+            val comentariosDB = obtenerComentarios(idHotel!!)
             withContext(Dispatchers.Main){
                 val miAdaptador = ComentarioAdapter(comentariosDB)
                 rcvComentarios.adapter = miAdaptador

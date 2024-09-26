@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import emily.jacobo.gostay.PaginaInicio.Companion.hotelIdGlobal
+import emily.jacobo.gostay.PaginaInicio.Companion.idUsuarioGlobalL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -258,10 +259,12 @@ class hotel_detalles : AppCompatActivity() {
                 if (objConexion != null) {
                     // 2- Creo el PreparedStatement y añado el parámetro `idHotel`
                     val comentarios_ = objConexion.prepareStatement(
-                        "SELECT vl.id_valoracion, vl.comentario, us.id_usuario " +
-                                "FROM tbValoraciones vl " +
-                                "INNER JOIN tbUsuarios us ON vl.id_usuario = us.id_usuario " +
-                                "WHERE vl.id_hoteles = ?"
+                        """
+                SELECT vl.id_valoracion, vl.comentario, us.id_usuario, us.nombre_usuario, us.imgfoto 
+                FROM tbValoraciones vl 
+                INNER JOIN tbUsuarios us ON vl.id_usuario = us.id_usuario 
+                WHERE vl.id_hoteles = ?
+                """
                     )
                     comentarios_.setInt(1, idHotel) // Añadimos el valor de id_hoteles a la consulta
 
@@ -272,9 +275,11 @@ class hotel_detalles : AppCompatActivity() {
                         val id_valoracion = resultSet.getInt("id_valoracion")
                         val comentario = resultSet.getString("comentario")
                         val id_usuario = resultSet.getInt("id_usuario")
+                        val nombre_usuario = resultSet.getString("nombre_usuario")
+                        val imgfoto = resultSet.getString("imgfoto")
 
                         // 4- Creo el objeto tbComentarios y lo añado a la lista
-                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario)
+                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto)
                         listaComentarios.add(comentarios)
                     }
 
@@ -292,9 +297,6 @@ class hotel_detalles : AppCompatActivity() {
 
             return listaComentarios
         }
-
-
-
         CoroutineScope(Dispatchers.IO).launch{
             val idHotel = PaginaInicio.hotelIdGlobal
             val comentariosDB = obtenerComentarios(idHotel!!)
@@ -351,6 +353,8 @@ class hotel_detalles : AppCompatActivity() {
             tvDescripcionDetalleHotel.text = hotel.descripcion
         }
     }
+
+
 
     private fun navigateBack() {
         when (prevActivity) {
