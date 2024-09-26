@@ -34,8 +34,7 @@ class activity_resenas : AppCompatActivity() {
         val imgVolverR = findViewById<ImageView>(R.id.imgVolverR)
 
         imgVolverR.setOnClickListener {
-            val siguientepantalla = Intent(this, hotel_detalles::class.java)
-            startActivity(siguientepantalla)
+            finish()
         }
 
         // Configuración de Spinners
