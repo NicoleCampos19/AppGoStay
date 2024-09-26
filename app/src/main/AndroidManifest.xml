@@ -62,11 +62,6 @@
         <activity
             android:name=".itemVerMasDenuncias"
             android:exported="false" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".hoteles_cerca"
             android:exported="false" />
@@ -186,6 +181,10 @@
         <activity
             android:name=".Perfil"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

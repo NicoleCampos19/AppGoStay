@@ -1,11 +1,11 @@
 package emily.jacobo.gostay
-
 import RecyclerViewHelpers.AdaptadorCarrusel
 import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.ComentarioAdapter
 import RecyclerViewHelpers.ServicioAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -29,12 +29,26 @@ import modelo.ServicioInfo
 import modelo.tbCarrusel
 import modelo.tbComentarios
 import modelo.tbHotel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-class hotel_detalles : AppCompatActivity() {
+class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
-
+    private lateinit var mapView: MapView
+    private lateinit var googleMap: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var prevActivity: String
     private lateinit var servicioAdapter: ServicioAdapter
+
+    companion object {
+        private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
+    }
 
     override fun onBackPressed() {
         // Ejecuta el código antes de regresar
@@ -44,8 +58,12 @@ class hotel_detalles : AppCompatActivity() {
         super.onBackPressed()
     }
 
+    var latitud : Double = 0.0;
+    var longitud : Double = 0.0;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         val reseñaGlobal = activity_resenas.resenaGlobal
 
@@ -53,15 +71,22 @@ class hotel_detalles : AppCompatActivity() {
        val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        mapView = findViewById(R.id.mapView)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        var mapViewBundle: Bundle? = null
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY)
+        }
+
+        mapView.onCreate(mapViewBundle)
+        mapView.getMapAsync(this)
+
         fun obtenerImagenes(): List<tbCarrusel> {
             val objConexion = ClaseConexion().cadenaConexion()
-
-
             val lista = mutableListOf<tbCarrusel>()
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery("SELECT * FROM tbImagenes_Hoteles")
-
-
 
             if (resultSet != null) {
                 while (resultSet.next()) {
@@ -78,6 +103,27 @@ class hotel_detalles : AppCompatActivity() {
             }
             return lista
         }
+        val ID_Hotel = intent.getIntExtra("id_hoteles", 0)
+        CoroutineScope(Dispatchers.IO).launch {
+            val conexion = ClaseConexion().cadenaConexion()
+            val statement = conexion?.prepareStatement("SELECT * FROM tbHoteles WHERE id_hoteles = ?")!!
+            statement.setInt(1, ID_Hotel)
+            val resultSet = statement.executeQuery()
+
+            withContext(Dispatchers.Main) {
+                if (resultSet.next()) {
+                    latitud = resultSet.getDouble("latitudHotel")
+                    longitud = resultSet.getDouble("longitudHotel")
+                    Log.e("Coordenadas", "$latitud Y $longitud")
+
+                    // Actualizar el mapa solo si ya está listo
+                    if (::googleMap.isInitialized) {
+                        updateMapLocation()
+                    }
+                }
+            }
+        }
+
 
         //asignarle el adptador al Recyclearview
          CoroutineScope(Dispatchers.IO).launch {
@@ -90,6 +136,7 @@ class hotel_detalles : AppCompatActivity() {
              }
 
          }
+
         val idHotelGlobal = PaginaInicio.hotelIdGlobal
         val recyclerView: RecyclerView = findViewById(R.id.rcvServiciosHotel)
 
@@ -256,7 +303,6 @@ class hotel_detalles : AppCompatActivity() {
 
 
         }
-
         hotel?.let {
             Glide.with(this)
             tvNombreDetalleHotel.text = hotel.nombreHotel
@@ -292,5 +338,45 @@ class hotel_detalles : AppCompatActivity() {
         }
         // Show the popup menu.
         popup.show()
+    }
+
+    private fun updateMapLocation() {
+        if (latitud != 0.0 && longitud != 0.0) {
+            val location = LatLng(latitud, longitud)
+            googleMap.addMarker(MarkerOptions().position(location).title("Ubicación del Hotel"))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
         }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
+        updateMapLocation() // Llamar para actualizar el mapa si las coordenadas ya están disponibles
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val mapViewBundle = Bundle()
+        mapView.onSaveInstanceState(mapViewBundle)
+        outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
+    }
 }

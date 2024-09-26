@@ -6,10 +6,10 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="1dp">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="364dp"
+        android:layout_width="365dp"
         android:layout_height="195dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"

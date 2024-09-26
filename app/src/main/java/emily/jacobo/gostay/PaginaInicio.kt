@@ -1,6 +1,7 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.HotelAdapter
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -39,17 +37,30 @@ class PaginaInicio : AppCompatActivity() {
         var idUsuarioGlobalL: Int? = null
     }
 
-    val correUsuarioRecivido  = activity_iniciar_sesion.txtCorreoInciarSesionV
-
-
+    lateinit var correoIngresado: String
 
     // Variable SQL global
     var sql: String = "SELECT * FROM tbHoteles"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_inicio)
+
+        // Recuperar el correo del usuario desde SharedPreferences
+        val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+        correoIngresado = userPreferences.getString("email", "") ?: ""
+
+        if (correoIngresado.isNotEmpty()) {
+            // Cargar nombre de usuario y ID
+            obtenerNombreUsuarioEnGl(correoIngresado)
+            obteneridUsuarioEnGl(correoIngresado)
+            cargarImagenperfil(correoIngresado)
+        } else {
+            // Si no se encuentra el correo, redirigir al login
+            val intent = Intent(this, activity_iniciar_sesion::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         // Configuración del RecyclerView
         val rcvHotel = findViewById<RecyclerView>(R.id.rcvHotel)
@@ -67,76 +78,9 @@ class PaginaInicio : AppCompatActivity() {
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
         val imgFiltro = findViewById<ImageButton>(R.id.imgFiltros)
 
-        val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
-
-        if (correUsuarioRecivido != null) {
-            obtenerNombreUsuarioEnGl(correUsuarioRecivido)
-            obteneridUsuarioEnGl(correUsuarioRecivido)
-        }
-
         imgFiltro.setOnClickListener {
             showBottomSheet()
         }
-
-        fun cargarImagenperfil(correoIngresado: String) {
-
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    // Realizar la consulta para obtener la imagen
-                    println("conexion")
-                    val conexion = ClaseConexion().cadenaConexion()
-                    println("query")
-                    val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
-                    println("antes preparedStatement")
-                    val preparedStatement = conexion!!.prepareStatement(query)
-                    println("despues preparedStatement")
-                    preparedStatement.setString(1, correoIngresado)
-                    println("despues del correo")
-
-                    val resultSet = preparedStatement.executeQuery()
-                    println("ANTES DEL IF")
-                    if (resultSet.next()) {
-                        println("DESPUES DEL IF")
-                        val imgFotoUrl = resultSet.getString("imgFoto")
-                        val imgFotoUrl2 = "https://fotografias.lasexta.com/clipping/cmsimages02/2020/09/21/86828440-B1FB-43AC-9E9C-A94AC6A4B8BD/default.jpg?crop=1300,731,x0,y0&width=1900&height=1069&optimize=low"
-                        println(imgFotoUrl)
-
-                        println("urlimg")
-
-                        withContext(Dispatchers.Main) {
-                            println("dentro del withContext")
-
-                            Log.d("Perfil", "URL de imagen: $imgFotoUrl")
-
-                            println("url imagen $imgFotoUrl ")
-
-                            println(" antes Glide")
-                            Glide.with(this@PaginaInicio)
-                                .load(imgFotoUrl)
-                                .apply(RequestOptions().circleCrop())
-                                .into(imvFotoPerfil)
-                            println("Glide")
-                        }
-                    } else {
-
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(this@PaginaInicio, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-
-                    resultSet.close()
-                    preparedStatement.close()
-                    conexion.close()
-                } catch (e: SQLException) {
-                    e.printStackTrace()
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@PaginaInicio, "Error al cargar la imagen de perfil", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-        cargarImagenperfil(correoIngresado)
 
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
@@ -169,24 +113,59 @@ class PaginaInicio : AppCompatActivity() {
         }
     }
 
-    //buscar nombre usuario
+    // Método para cargar la imagen de perfil del usuario
+    private fun cargarImagenperfil(correoIngresado: String) {
+        val imvFotoPerfil = findViewById<ImageView>(R.id.imvPerfilInicio)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val conexion = ClaseConexion().cadenaConexion()
+                val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
+                val preparedStatement = conexion!!.prepareStatement(query)
+                preparedStatement.setString(1, correoIngresado)
+
+                val resultSet = preparedStatement.executeQuery()
+                if (resultSet.next()) {
+                    val imgFotoUrl = resultSet.getString("imgFoto")
+                    withContext(Dispatchers.Main) {
+                        Glide.with(this@PaginaInicio)
+                            .load(imgFotoUrl)
+                            .apply(RequestOptions().circleCrop())
+                            .into(imvFotoPerfil)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@PaginaInicio, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                resultSet.close()
+                preparedStatement.close()
+                conexion.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@PaginaInicio, "Error al cargar la imagen de perfil", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    // Método para obtener el nombre del usuario
     private fun obtenerNombreUsuarioEnGl(correoUsuario: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val nombreUsuario = cargarNombreUsuario(correoUsuario)
             withContext(Dispatchers.Main) {
-
                 nombreUsuarioGlobalL = nombreUsuario
-
             }
         }
     }
+
     private fun cargarNombreUsuario(correoUsuario: String): String? {
         var nombreUsuario: String? = null
         val conexion = ClaseConexion().cadenaConexion()
 
-        val query = """
-        SELECT nombre_usuario FROM tbUsuarios WHERE correo = ?
-    """
+        val query = "SELECT nombre_usuario FROM tbUsuarios WHERE correo = ?"
         val statement = conexion?.prepareStatement(query)
         statement?.setString(1, correoUsuario)
         val resultSet = statement?.executeQuery()
@@ -199,24 +178,21 @@ class PaginaInicio : AppCompatActivity() {
         return nombreUsuario
     }
 
-    //buscar id usuario
+    // Método para obtener el ID del usuario
     private fun obteneridUsuarioEnGl(correoUsuario: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val idUsuario = cargaridUsuario(correoUsuario)
             withContext(Dispatchers.Main) {
-
                 idUsuarioGlobalL = idUsuario
-
             }
         }
     }
+
     private fun cargaridUsuario(correoUsuario: String): Int? {
         var idUsuario: Int? = null
         val conexion = ClaseConexion().cadenaConexion()
 
-        val query = """
-        SELECT id_usuario FROM tbUsuarios WHERE correo = ?
-    """
+        val query = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
         val statement = conexion?.prepareStatement(query)
         statement?.setString(1, correoUsuario)
         val resultSet = statement?.executeQuery()
@@ -269,6 +245,10 @@ class PaginaInicio : AppCompatActivity() {
             val hotel = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_usuario)
             listaHoteles.add(hotel)
         }
+        resultSet.close()
+        statement.close()
+        objConexion.close()
+
         return listaHoteles
     }
 
@@ -309,7 +289,7 @@ class PaginaInicio : AppCompatActivity() {
 
 
         val rangeSlider = bottomSheetView.findViewById<RangeSlider>(R.id.rangeSlider)
-        val thumbDrawable = ResourcesCompat.getDrawable(resources, R.drawable.circulo_thumb, null)
+        val thumbDrawable = ContextCompat.getDrawable(this, R.drawable.circulo_thumb)
 
         thumbDrawable?.let {
             rangeSlider.setCustomThumbDrawable(it)

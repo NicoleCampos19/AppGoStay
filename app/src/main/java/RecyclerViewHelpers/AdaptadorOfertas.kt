@@ -48,7 +48,7 @@ class AdaptadorOfertas(var Datos: List<tbOfertas>): RecyclerView.Adapter<ViewHol
         PaginaInicio.hotelIdGlobal = item.id_hoteles
 
 
-        val correUsuarioRecivido  = activity_iniciar_sesion.txtCorreoInciarSesionV
+        val correUsuarioRecivido  = activity_iniciar_sesion.correoIngresado
 
 
         if (correUsuarioRecivido != null) {

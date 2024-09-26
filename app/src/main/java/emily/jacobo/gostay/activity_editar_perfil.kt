@@ -78,8 +78,8 @@ class activity_editar_perfil : AppCompatActivity() {
 
 
         //  variables del companion object de activity_iniciar_sesion
-        correoActual = activity_iniciar_sesion.variableGloalLogin.txtCorreoInciarSesionV
-        contrasenaActual = activity_iniciar_sesion.variableGloalLogin.txtContrasenaIniciarSesionV
+        correoActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
+        contrasenaActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
 
         // Acceder al EditText y obtener el valor de la contraseña como String
         val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)

@@ -62,7 +62,6 @@ class HotelAdapter(
             }
         }
 
-
         holder.tbToogleFavoritos.setOnCheckedChangeListener { _, isChecked ->
             CoroutineScope(Dispatchers.Main).launch {
                 val idUsuario = obtenerIdUsuario(correoIngresado)
