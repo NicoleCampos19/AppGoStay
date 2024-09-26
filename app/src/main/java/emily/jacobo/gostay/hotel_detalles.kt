@@ -1,4 +1,5 @@
 package emily.jacobo.gostay
+
 import RecyclerViewHelpers.AdaptadorCarrusel
 import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.ComentarioAdapter
@@ -12,14 +13,22 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import emily.jacobo.gostay.PaginaInicio.Companion.hotelIdGlobal
+import emily.jacobo.gostay.PaginaInicio.Companion.idUsuarioGlobalL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,14 +38,6 @@ import modelo.ServicioInfo
 import modelo.tbCarrusel
 import modelo.tbComentarios
 import modelo.tbHotel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
@@ -50,25 +51,15 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     }
 
-    override fun onBackPressed() {
-        // Ejecuta el código antes de regresar
-        AdaptadorOfertas.descuentoTotalGlobal = 0.0
-
-        // Luego llama al comportamiento predeterminado de volver atrás
-        super.onBackPressed()
-    }
-
-    var latitud : Double = 0.0;
-    var longitud : Double = 0.0;
+    var latitud: Double = 0.0
+    var longitud: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(R.layout.activity_hotel_detalles)
 
         val reseñaGlobal = activity_resenas.resenaGlobal
-
-        setContentView(R.layout.activity_hotel_detalles)
-       val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
+        val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         mapView = findViewById(R.id.mapView)
@@ -87,36 +78,27 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
             val lista = mutableListOf<tbCarrusel>()
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery("SELECT * FROM tbImagenes_Hoteles")
-
             if (resultSet != null) {
                 while (resultSet.next()) {
-
                     val id_imagenes = resultSet.getInt("id_imagenes")
                     val id_hoteles = resultSet.getInt("id_hoteles")
                     val url_imagen = resultSet.getString("url_imagen")
-
-                    val valoresJuntos = tbCarrusel(id_imagenes, id_hoteles, url_imagen)
-
-
-                    lista.add(valoresJuntos)
+                    lista.add(tbCarrusel(id_imagenes, id_hoteles, url_imagen))
                 }
             }
             return lista
         }
+
         val ID_Hotel = intent.getIntExtra("id_hoteles", 0)
         CoroutineScope(Dispatchers.IO).launch {
             val conexion = ClaseConexion().cadenaConexion()
             val statement = conexion?.prepareStatement("SELECT * FROM tbHoteles WHERE id_hoteles = ?")!!
             statement.setInt(1, ID_Hotel)
             val resultSet = statement.executeQuery()
-
             withContext(Dispatchers.Main) {
                 if (resultSet.next()) {
                     latitud = resultSet.getDouble("latitudHotel")
                     longitud = resultSet.getDouble("longitudHotel")
-                    Log.e("Coordenadas", "$latitud Y $longitud")
-
-                    // Actualizar el mapa solo si ya está listo
                     if (::googleMap.isInitialized) {
                         updateMapLocation()
                     }
@@ -124,71 +106,56 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-
-        //asignarle el adptador al Recyclearview
-         CoroutineScope(Dispatchers.IO).launch {
-             val ImagenesBD = obtenerImagenes()
-
-             withContext(Dispatchers.Main){
-                 val adapter = AdaptadorCarrusel(ImagenesBD)
-                 rcvCarrusels.adapter = adapter
-
-             }
-
-         }
+        CoroutineScope(Dispatchers.IO).launch {
+            val imagenesBD = obtenerImagenes()
+            withContext(Dispatchers.Main) {
+                val adapter = AdaptadorCarrusel(imagenesBD)
+                rcvCarrusels.adapter = adapter
+            }
+        }
 
         val idHotelGlobal = PaginaInicio.hotelIdGlobal
         val recyclerView: RecyclerView = findViewById(R.id.rcvServiciosHotel)
 
-        //aqui
-        fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
-            val ServiciosList = mutableListOf<ServicioInfo>()
+        suspend fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
+            val serviciosList = mutableListOf<ServicioInfo>()
             val query = """
-         SELECT sh.nombre_servicio, sh.img_icono_hotel
-         from tbIntermedia_Hoteles_Servicios ish
-         INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
-            where id_hoteles = ?
-         """.trimIndent()
-
+                SELECT sh.nombre_servicio, sh.img_icono_hotel
+                FROM tbIntermedia_Hoteles_Servicios ish
+                INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
+                WHERE id_hoteles = ?
+            """.trimIndent()
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 objConexion?.use { connection ->
                     val statement = connection.prepareStatement(query).apply {
                         setInt(1, idHotelGlobal)
                     }
-
                     statement.use { preparedStatement ->
                         val resultSet = preparedStatement.executeQuery()
                         resultSet.use { rs ->
                             while (rs.next()) {
                                 val nombre_servicio = rs.getString("nombre_servicio")
                                 val img_icono_hotel = rs.getString("img_icono_hotel")
-                                ServiciosList.add(ServicioInfo(nombre_servicio, img_icono_hotel))
+                                serviciosList.add(ServicioInfo(nombre_servicio, img_icono_hotel))
                             }
                         }
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace() // Log the exception to debug
+                e.printStackTrace()
             }
-
-            return ServiciosList
+            return serviciosList
         }
+
         CoroutineScope(Dispatchers.IO).launch {
-            val servicios = idHotelGlobal?.let { loadServiciosFromDatabase(it) }
+            val servicios = loadServiciosFromDatabase(idHotelGlobal!!)
             withContext(Dispatchers.Main) {
-                servicios?.let {
-                    servicioAdapter = ServicioAdapter(it)
-                    recyclerView.adapter = servicioAdapter
-                    recyclerView.layoutManager = LinearLayoutManager(this@hotel_detalles, LinearLayoutManager.HORIZONTAL, false)
-                }?: run {
-                    // Maneja el caso en que reservas sea null, quizás mostrando un mensaje de error o un mensaje de "No hay datos"
-                    println("No se encontraron servicios para el hotel.")
-                }
+                servicioAdapter = ServicioAdapter(servicios)
+                recyclerView.adapter = servicioAdapter
+                recyclerView.layoutManager = LinearLayoutManager(this@hotel_detalles, LinearLayoutManager.HORIZONTAL, false)
             }
         }
-
-        prevActivity = intent.getStringExtra("prev_activity") ?: "PaginaInicio"
 
         val imageViewBack = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         imageViewBack.setOnClickListener {
@@ -200,157 +167,89 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
 
         val btnTipoHabitacion: Button = findViewById(R.id.btnTipoHabitacion)
-        val idHotelRecivido = PaginaInicio.hotelIdGlobal
         btnTipoHabitacion.setOnClickListener {
-            if (idHotelRecivido != -1) {
+            if (idHotel != -1) {
                 val intent = Intent(this, activity_eleccion_habitacion::class.java)
                 startActivity(intent)
-            }else{
-
-                println("No se encontro el id del hotel")
             }
         }
 
-        val imvVolverDetallesHotel = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         val tvNombreDetalleHotel = findViewById<TextView>(R.id.tvNombreDetalleHotel)
         val tvDescripcionDetalleHotel = findViewById<TextView>(R.id.tvDescripcionDetalleHotel)
         val txtComentario = findViewById<EditText>(R.id.txtComentario)
         val imvEnviar = findViewById<ImageView>(R.id.imvEnviar)
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
-        val imvReportar = findViewById<ImageView>(R.id.imvReportar)
-        val btnReportar = findViewById<Button>(R.id.btnReportar)
-        val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
-
-        //txtCalificacion.text = reseñaGlobal.promedio
-
-        imvReportar.setOnClickListener {
-            val irADenuncias = Intent(this, RealizarDenuncia::class.java)
-            irADenuncias.putExtra("idHotel", idHotel)
-            startActivity(irADenuncias)
-        }
-
-        btnReportar.setOnClickListener {
-            val irADenuncias = Intent(this, RealizarDenuncia::class.java)
-            irADenuncias.putExtra("idHotel", idHotel)
-            startActivity(irADenuncias)
-        }
 
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        suspend fun obtenerIdUsuario(correo: String): Int? {
-            return withContext(Dispatchers.IO) {
-                val objConexion = ClaseConexion().cadenaConexion()
-                val getId = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
-                getId?.setString(1, correo)
-                val resultSet = getId?.executeQuery()
-                if (resultSet != null && resultSet.next()) {
-                    resultSet.getInt("id_usuario")
-                } else {
-                    null
-                }
-            }
-        }
-
-        fun obtenerComentarios(): List<tbComentarios> {
-            //1- Creo un objeto de la clase conexion
-            val objConexion = ClaseConexion().cadenaConexion()
-
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbValoraciones")!!
-
+        suspend fun obtenerComentarios(idHotel: Int): List<tbComentarios> {
             val listaComentarios = mutableListOf<tbComentarios>()
-
-            while (resultSet.next()){
-                val id_valoracion = resultSet.getInt("id_valoracion")
-                val comentario = resultSet.getString("comentario")
-                val id_usuario = resultSet.getInt("id_usuario")
-                val comentarios = tbComentarios(id_valoracion, comentario,id_usuario)
-
-                listaComentarios.add(comentarios)
+            val objConexion = ClaseConexion().cadenaConexion()
+            val statement = objConexion?.prepareStatement(
+                """
+                    SELECT vl.id_valoracion, vl.comentario, us.id_usuario, us.nombre_usuario, us.imgfoto 
+                    FROM tbValoraciones vl 
+                    INNER JOIN tbUsuarios us ON vl.id_usuario = us.id_usuario 
+                    WHERE vl.id_hoteles = ?
+                """.trimIndent()
+            )
+            statement?.setInt(1, idHotel)
+            val resultSet = statement?.executeQuery()
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    val id_valoracion = resultSet.getInt("id_valoracion")
+                    val comentario = resultSet.getString("comentario")
+                    val id_usuario = resultSet.getInt("id_usuario")
+                    val nombre_usuario = resultSet.getString("nombre_usuario")
+                    val imgfoto = resultSet.getString("imgfoto")
+                    listaComentarios.add(tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto))
+                }
             }
             return listaComentarios
         }
 
-        CoroutineScope(Dispatchers.IO).launch{
-            val comentariosDB = obtenerComentarios()
-            withContext(Dispatchers.Main){
-                val miAdaptador = ComentarioAdapter(comentariosDB)
-                rcvComentarios.adapter = miAdaptador
+        CoroutineScope(Dispatchers.IO).launch {
+            val comentarios = obtenerComentarios(hotelIdGlobal!!)
+            withContext(Dispatchers.Main) {
+                val adapter = ComentarioAdapter(comentarios)
+                rcvComentarios.adapter = adapter
             }
         }
 
         imvEnviar.setOnClickListener {
-
             CoroutineScope(Dispatchers.IO).launch {
-                val objConexion = ClaseConexion().cadenaConexion()
-                val addComentario = objConexion?.prepareStatement("insert into tbValoraciones(comentario,id_usuario,id_calificación) values(?,?,?)")!!
-                addComentario.setString(1, txtComentario.text.toString())
-                addComentario.setInt(2, obtenerIdUsuario(activity_iniciar_sesion.correoIngresado)!!)
-                addComentario.setInt(3,3)
-                addComentario.executeUpdate()
+                try {
+                    val comentario = txtComentario.text.toString()
+                    val idUsuario = idUsuarioGlobalL
+                    val objConexion = ClaseConexion().cadenaConexion()
+                    val sentencia = objConexion?.prepareStatement("INSERT INTO tbValoraciones (comentario, id_usuario, id_hoteles) VALUES (?, ?, ?)")
+                    sentencia?.setString(1, comentario)
+                    sentencia?.setInt(2, idUsuario!!)
+                    sentencia?.setInt(3, hotelIdGlobal!!)
+                    sentencia?.executeUpdate()
 
-                val nuevocomentario = obtenerComentarios()
-                withContext(Dispatchers.Main){
-                    (rcvComentarios.adapter as? ComentarioAdapter)?.actualizarListado(nuevocomentario)
-                    txtComentario.setText("")
-
-                    val intent = Intent(this@hotel_detalles, activity_resenas::class.java)
-                    startActivity(intent)
-
-
+                    val comentarios = obtenerComentarios(hotelIdGlobal!!)
+                    withContext(Dispatchers.Main) {
+                        val adapter = ComentarioAdapter(comentarios)
+                        rcvComentarios.adapter = adapter
+                        txtComentario.text.clear()
+                    }
+                } catch (e: Exception) {
+                    Log.d("Error", e.toString())
                 }
             }
-
-
-        }
-        hotel?.let {
-            Glide.with(this)
-            tvNombreDetalleHotel.text = hotel.nombreHotel
-            tvDescripcionDetalleHotel.text = hotel.descripcion
-            tvNombreDetalleHotel.text = hotel.nombreHotel
-            tvDescripcionDetalleHotel.text = hotel.descripcion
         }
     }
 
-    private fun navigateBack() {
-        when (prevActivity) {
-            "PaginaInicio" -> {
-                val intent = Intent(this, PaginaInicio::class.java)
-                startActivity(intent)
-            }
-            "InicioAdmin" -> {
-                val intent = Intent(this, InicioAdmin::class.java)
-                startActivity(intent)
-            }
-            else -> {
-                // En caso de que no se reconozca la Activity previa, regresar a una Activity por defecto
-                val intent = Intent(this, PaginaInicio::class.java)
-                startActivity(intent)
-            }
-        }
-        finish()
-    }
-    private fun showMenu(v: View, @MenuRes menuRes: Int) {
-        val popup = PopupMenu(this, v)
-        popup.menuInflater.inflate(menuRes, popup.menu)
-        popup.setOnDismissListener {
-            // Respond to popup being dismissed.
-        }
-        // Show the popup menu.
-        popup.show()
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        updateMapLocation()
     }
 
     private fun updateMapLocation() {
-        if (latitud != 0.0 && longitud != 0.0) {
-            val location = LatLng(latitud, longitud)
-            googleMap.addMarker(MarkerOptions().position(location).title("Ubicación del Hotel"))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
-        }
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        this.googleMap = googleMap
-        updateMapLocation() // Llamar para actualizar el mapa si las coordenadas ya están disponibles
+        val location = LatLng(latitud, longitud)
+        googleMap.addMarker(MarkerOptions().position(location).title("Ubicación del Hotel"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
     }
 
     override fun onResume() {
@@ -358,14 +257,24 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         mapView.onResume()
     }
 
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
     override fun onPause() {
-        super.onPause()
         mapView.onPause()
+        super.onPause()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         mapView.onDestroy()
+        super.onDestroy()
     }
 
     override fun onLowMemory() {
@@ -373,10 +282,12 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         mapView.onLowMemory()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val mapViewBundle = Bundle()
-        mapView.onSaveInstanceState(mapViewBundle)
-        outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
+    private fun navigateBack() {
+        when (prevActivity) {
+            "PaginaInicio" -> startActivity(Intent(this, PaginaInicio::class.java))
+            "ofertasUsuarios" -> startActivity(Intent(this, Ofertas::class.java))
+            else -> finish()
+        }
     }
 }
+

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -22,9 +23,11 @@ import kotlinx.coroutines.launch
 class RecuperacionCuentaActivity : AppCompatActivity() {
 
     companion object variablesGobalesRecuperacion {
-        val codigoRecuperacion = (100000..999999).random()
+        var codigoRecuperacion = (100000..999999).random()
         lateinit var Correo: String
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("MissingInflatedId")
@@ -39,9 +42,11 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             insets
         }
 
+
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
+
 
         imvAtras.setOnClickListener {
             val volverAtras = Intent(this, metodos_contras::class.java)
@@ -49,8 +54,11 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
+
+
         btnRecuperacion.setOnClickListener {
             Correo = txtCorreo.text.toString()
+
 
             var hayVacios = false
             var hayErrores = false
@@ -68,8 +76,10 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
 
-                val codigoRecuperacion = (100000..999999).random().toString()
-                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
+                codigoRecuperacion = (100000..999999).random()  // Aquí se genera y almacena el código
+
+                // Usa la variable global en el correo
+                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion.toString())
 
                 CoroutineScope(Dispatchers.Main).launch {
                     enviarCorreo(Correo, "Recuperacion de contraseña", htmlCorreo)
@@ -80,6 +90,11 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                 overridePendingTransition(0, 0)
             }
         }
+
+
+
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

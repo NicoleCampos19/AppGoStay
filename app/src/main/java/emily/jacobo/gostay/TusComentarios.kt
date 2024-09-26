@@ -48,41 +48,72 @@ class TusComentarios : AppCompatActivity() {
         }
         fun obtenerMisComentarios(idUsuario: Int): List<tbComentarios> {
             val listaComentarios = mutableListOf<tbComentarios>()
+            var objConexion: Connection? = null
+            var preparedStatement: PreparedStatement? = null
+            var resultSet: ResultSet? = null
 
             try {
-                // Crea un objeto de la clase conexion
-                val objConexion = ClaseConexion().cadenaConexion()
-                val query = "SELECT id_valoracion, comentario, id_usuario FROM tbValoraciones WHERE id_usuario = ?"
-                val preparedStatement = objConexion?.prepareStatement(query)
-                preparedStatement?.setInt(1, idUsuario)
-                val resultSet = preparedStatement?.executeQuery()
+                // Crea un objeto de la clase conexión
+                objConexion = ClaseConexion().cadenaConexion()
 
-                // Recorre el ResultSet
-                while (resultSet?.next() == true) {
-                    val id_valoracion = resultSet.getInt("id_valoracion")
-                    val comentario = resultSet.getString("comentario")
-                    val id_usuario = resultSet.getInt("id_usuario")
+                // Verifica si la conexión es válida
+                if (objConexion != null) {
+                    val query = """
+                SELECT 
+    vl.id_valoracion, 
+    vl.comentario, 
+    us.id_usuario, 
+    us.nombre_usuario, 
+    us.imgfoto,
+    us.id_tipo_usuario 
+FROM 
+    tbValoraciones vl 
+INNER JOIN 
+    tbUsuarios us ON vl.id_usuario = us.id_usuario 
+WHERE 
+    vl.id_usuario = ?
+            """
+                    preparedStatement = objConexion.prepareStatement(query)
+                    preparedStatement.setInt(1, idUsuario)
+                    resultSet = preparedStatement.executeQuery()
 
-                    // Log cada comentario recuperado
-                    Log.d("ComentariosDebug", "Comentario encontrado: id_valoracion=$id_valoracion, comentario=$comentario, id_usuario=$id_usuario")
+                    // Recorre el ResultSet
+                    while (resultSet.next()) {
+                        val id_valoracion = resultSet.getInt("id_valoracion")
+                        val comentario = resultSet.getString("comentario")
+                        val id_usuario = resultSet.getInt("id_usuario")
+                        val nombre_usuario = resultSet.getString("nombre_usuario")
+                        val imgfoto = resultSet.getString("imgfoto")
 
-                    val comentarios = tbComentarios(id_valoracion, comentario, id_usuario)
-                    listaComentarios.add(comentarios)
+                        // Log cada comentario recuperado
+                        Log.d("ComentariosDebug", "Comentario encontrado: id_valoracion=$id_valoracion, comentario=$comentario, id_usuario=$id_usuario, nombre_usuario=$nombre_usuario, imgfoto=$imgfoto")
+
+                        // Crear el objeto tbComentarios y añadirlo a la lista
+                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto)
+                        listaComentarios.add(comentarios)
+                    }
+
+                    // Log la cantidad de comentarios
+                    Log.d("ComentariosDebug", "Número total de comentarios obtenidos: ${listaComentarios.size}")
+                } else {
+                    Log.e("DatabaseError", "No se pudo establecer la conexión a la base de datos")
                 }
-
-                // Log la cantidad de comentarios
-                Log.d("ComentariosDebug", "Número total de comentarios obtenidos: ${listaComentarios.size}")
-
             } catch (e: SQLException) {
                 // Manejo de excepciones SQL
                 Log.e("DatabaseError", "SQL Error: ${e.message}")
             } catch (e: Exception) {
                 // Manejo de otras excepciones
                 Log.e("GeneralError", "Error: ${e.message}")
+            } finally {
+                // Cierra los recursos para evitar fugas de memoria
+                resultSet?.close()
+                preparedStatement?.close()
+                objConexion?.close()
             }
 
             return listaComentarios
         }
+
 
 
 

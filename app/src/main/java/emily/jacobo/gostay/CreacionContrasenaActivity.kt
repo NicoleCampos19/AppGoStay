@@ -2,9 +2,9 @@ package emily.jacobo.gostay
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -42,10 +42,32 @@ class CreacionContrasenaActivity : AppCompatActivity() {
 
         }
 
-        txtNewContra = findViewById<EditText>(R.id.txtContraseñaNuevaCel)
+        txtNewContra = findViewById<EditText>(R.id.txtNuevaContrasena1)
+        val imvVerNewContra = findViewById<ImageView>(R.id.imvVerNewContra)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
-        val btnCrearContrasena = findViewById<Button>(R.id.btnCrearcontrasenaCel)
+        val btnCrearContrasena = findViewById<Button>(R.id.btnCrearcontrasena1)
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
+        var isPasswordVisible = false
+
+        val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
+        txtNewContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        txtNewContra.typeface = poppinsFont
+
+        imvVerNewContra.setOnClickListener {
+            if (isPasswordVisible) {
+                // Si la contraseña es visible, la ocultamos y cambiamos la imagen
+                txtNewContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                imvVerNewContra.setImageResource(R.drawable.ojocerrado)
+            } else {
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
+                txtNewContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerNewContra.setImageResource(R.drawable.ojo)
+            }
+            // Solicita que el EditText se vuelva a dibujar para aplicar los cambios
+
+            txtNewContra.setSelection(txtNewContra.text.length) // Mantiene el cursor al final
+            isPasswordVisible = !isPasswordVisible
+        }
 
        btnCrearContrasena.setOnClickListener {
            val nuevaContra = txtNewContra.text.toString()

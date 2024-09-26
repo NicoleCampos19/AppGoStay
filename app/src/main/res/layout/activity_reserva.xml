@@ -20,6 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -72,27 +73,26 @@
                 app:layout_constraintStart_toEndOf="@id/textView24"
                 app:layout_constraintTop_toBottomOf="@id/textView23" />
 
+
             <Spinner
                 android:id="@+id/spCantidadH"
                 android:layout_width="148dp"
                 android:layout_height="41dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/spinner_background"
-                android:theme="@style/CustomSpinnerText"
                 app:layout_constraintEnd_toStartOf="@id/spDepartamento"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView24" />
+                app:layout_constraintTop_toBottomOf="@id/textView24"
+                android:background="@drawable/spinner_background"
+                />
+
 
             <Spinner
                 android:id="@+id/spDepartamento"
                 android:layout_width="176dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/spinner_background"
-                android:theme="@style/CustomSpinnerText"
+                android:layout_height="41dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/spCantidadH"
-                app:layout_constraintTop_toBottomOf="@id/textView25" />
+                app:layout_constraintTop_toBottomOf="@id/textView25"
+                android:background="@drawable/spinner_background"/>
 
             <TextView
                 android:id="@+id/textView26"

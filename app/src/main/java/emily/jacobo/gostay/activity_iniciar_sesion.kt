@@ -14,7 +14,6 @@ import java.security.MessageDigest
 class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin {
-        const val InicioSesionGoogle = 100
         lateinit var correoIngresado: String
     }
 
@@ -25,19 +24,13 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val txtCorreoIniciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
-        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
-
-        imvAtrasc.setOnClickListener {
-            val intent = Intent(this, activity_registrarse::class.java)
-            startActivity(intent)
-        }
 
         // Verificar si el usuario ya está logueado
         val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
         val isLoggedIn = userPreferences.getBoolean("IsLogedIn", false)
 
         if (isLoggedIn) {
-            // Inicializar la variable global `correoIngresado` desde SharedPreferences
+            // Inicializar la variable global correoIngresado desde SharedPreferences
             correoIngresado = userPreferences.getString("email", "") ?: ""
             val intent = Intent(this, PaginaInicio::class.java)
             startActivity(intent)
@@ -54,7 +47,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
             val clave = txtContrasenaIniciarSesion.text.toString().trim()
 
             if (correoIngresado.isEmpty() || clave.isEmpty()) {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
@@ -73,7 +67,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
 
-                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
+                val query =
+                    "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
                 val statement = conexion?.prepareStatement(query)
                 statement?.setString(1, correoIngresado)
                 statement?.setString(2, contrasenaEncriptada)
@@ -103,3 +98,5 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
     }
 }
+
+

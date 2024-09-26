@@ -31,6 +31,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.InputType
+import android.util.Log
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -39,7 +40,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
+import emily.jacobo.gostay.RecuperacionCuentaActivity.variablesGobalesRecuperacion
+import emily.jacobo.gostay.RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 import emily.jacobo.gostay.activity_iniciar_sesion.variableGloalLogin
+import kotlinx.coroutines.CoroutineScope
 import org.checkerframework.checker.regex.qual.Regex
 import java.io.ByteArrayOutputStream
 import java.sql.SQLException
@@ -59,6 +63,8 @@ class activity_registrarse : AppCompatActivity() {
         lateinit var txtContraI: EditText
         lateinit var imageView: ImageView
         lateinit var miPath: String
+
+        var CodigoRegis = (100000..999999).random()
 
     }
     private val InicioSesionGoogle = 100
@@ -232,8 +238,8 @@ class activity_registrarse : AppCompatActivity() {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
                 // Generar código de verificación
-                val codigoRecuperacion = (100000..999999).random().toString()
-                val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
+                CodigoRegis = (100000..999999).random() // Genera el código
+                val htmlCorreo = generarHTMLCorreo(CodigoRegis.toString()) // Usa el mismo código para el correo
 
                 GlobalScope.launch(Dispatchers.IO) {
                     val objConexion = ClaseConexion().cadenaConexion()
@@ -252,7 +258,15 @@ class activity_registrarse : AppCompatActivity() {
                     crearUsuario.executeUpdate()
 
                     // Enviar correo con el código de verificación
-                    enviarCorreo(correo, "Código de Verificación", htmlCorreo)
+                    //enviarCorreo(correo, "Código de Verificación", htmlCorreo)
+
+
+                    Log.d("Registro", "Código de recuperación: $CodigoRegis")
+
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        enviarCorreo(correo, "Confirmación de contraseña", htmlCorreo)
+                    }
 
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
@@ -321,7 +335,7 @@ class activity_registrarse : AppCompatActivity() {
     }
 
     //Función para que al mandar el código de recuperación contenga diseño
-    fun generarHTMLCorreo(codigoRecuperacion: String): String {
+    fun generarHTMLCorreo(CodigoRegis: String): String {
         return """
         <!DOCTYPE HTML>
         <html>
@@ -337,7 +351,7 @@ class activity_registrarse : AppCompatActivity() {
             <h2>¡Bienvenido a GoStay!</h2>
             <p>Estamos comprobando que tu correo sea una cuenta existente</p>
             <p>Por favor, ingresa el siguiente código: </p>
-            <div class="code">$codigoRecuperacion</div>
+            <div class="code">$CodigoRegis</div>
             <p>Equipo GoStay</p>
         </body>
         </html>
