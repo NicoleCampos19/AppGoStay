@@ -1,11 +1,14 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.AdaptorTipoHabitacion
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
@@ -51,6 +54,9 @@ class activity_reserva : AppCompatActivity() {
             emptyList()  // Para guardar las fechas reservadas
     }
 
+
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -74,6 +80,7 @@ class activity_reserva : AppCompatActivity() {
         val txtNombreTitular = findViewById<EditText>(R.id.txtNombreTitular)
         val txtNumeroTarjeta = findViewById<EditText>(R.id.txtNumeroTarjeta)
         val txtCVV = findViewById<EditText>(R.id.txtCVV)
+        val spCantidadH = findViewById<Spinner>(R.id.spCantidadH)
 
         // Obtener las fechas reservadas de la base de datos antes de mostrar el DateRangePicker
         CoroutineScope(Dispatchers.IO).launch {
@@ -92,6 +99,7 @@ class activity_reserva : AppCompatActivity() {
                 }
             }
         }
+
 
         fun obtenerDepartamentos(): List<tbDepartamentos> {
             val objConexion = ClaseConexion().cadenaConexion()
@@ -115,12 +123,11 @@ class activity_reserva : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 val adapter = ArrayAdapter(
                     this@activity_reserva,
-                    android.R.layout.simple_spinner_item,
+                    android.R.layout.simple_list_item_1,
                     nombresDepartamentos
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spDepartamento.adapter = adapter
-
             }
         }
 
