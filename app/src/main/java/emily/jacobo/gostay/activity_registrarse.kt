@@ -62,7 +62,7 @@ class activity_registrarse : AppCompatActivity() {
         lateinit var txtCorreoI: EditText
         lateinit var txtContraI: EditText
         lateinit var imageView: ImageView
-        lateinit var miPath: String
+        var miPath: String = ""
 
         var CodigoRegis = (100000..999999).random()
 
@@ -480,7 +480,7 @@ class activity_registrarse : AppCompatActivity() {
                         }
                     }
                 }
-                emily.jacobo.gostay.activity_iniciar_sesion.InicioSesionGoogle -> {
+               InicioSesionGoogle -> {
                     val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
                     try {
                         val cuenta = tarea.getResult(ApiException::class.java)

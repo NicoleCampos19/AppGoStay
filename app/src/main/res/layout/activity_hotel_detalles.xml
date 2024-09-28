@@ -1,97 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="4sp"
-    android:layout_marginEnd="4sp"
-    android:foreground="?attr/selectableItemBackground"
-    app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge"
+    android:fillViewport="true"
     tools:context=".hotel_detalles">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/carrusel_recycler_views"
-        android:layout_width="400dp"
-        android:layout_height="360dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:radius="700dp"
-        android:topLeftRadius="700dp"
-        android:topRightRadius="700dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <!-- ImageView y TextView que están fuera del ScrollView -->
+    <ImageView
+        android:id="@+id/imvVolverDetallesHotel"
+        android:layout_width="31dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:srcCompat="@drawable/ic_back_blanco"
+        app:tint="#000000" />
 
+    <TextView
+        android:id="@+id/tvNombreDetalleHotel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="Hotel Detalles"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/imvVolverDetallesHotel"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- ScrollView que contiene el contenido desplazable -->
     <ScrollView
-        android:id="@+id/scrollView4"
-        android:layout_width="409dp"
-        android:layout_height="450dp"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreDetalleHotel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Contenido del ScrollView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/carrusel_recycler_views"
+            android:layout_width="400dp"
+            android:layout_height="360dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:radius="700dp"
+            android:topLeftRadius="700dp"
+            android:topRightRadius="700dp" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="187dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/poppins"
+            android:paddingLeft="20dp"
+            android:text="Servicios de Hotel"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvServiciosHotel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="131dp" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="187dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/poppins"
-                android:paddingLeft="20dp"
-                android:text="Servicios de Hotel"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DAD4D4" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvServiciosHotel"
-                android:layout_width="match_parent"
-                android:layout_height="131dp" />
+        <TextView
+            android:id="@+id/tvDescripcionDetalleHotel"
+            android:layout_width="386dp"
+            android:layout_height="159dp"
+            android:fontFamily="@font/poppins"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:textColor="#000000"
+            android:textSize="14dp" />
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD4D4"
-                android:backgroundTint="#DAD4D4" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DAD4D4" />
 
-            <TextView
-                android:id="@+id/tvDescripcionDetalleHotel"
-                android:layout_width="386dp"
-                android:layout_height="159dp"
-                android:fontFamily="@font/poppins"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:textColor="#000000"
-                android:textSize="14dp" />
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp" />
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD4D4" />
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"/>
-
-            <View
+        <View
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -139,9 +155,7 @@
                     android:layout_height="24dp"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/iconoenviar" />
-
             </LinearLayout>
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvComentarios"
@@ -204,31 +218,6 @@
                 android:text="Elige tu habitación"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+    </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/tvNombreDetalleHotel"
-        android:layout_width="335dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/poppins"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.764"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imvVolverDetallesHotel"
-        android:layout_width="31dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.043"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back_blanco" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

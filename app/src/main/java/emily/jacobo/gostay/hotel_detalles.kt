@@ -53,11 +53,13 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
     var latitud: Double = 0.0
     var longitud: Double = 0.0
+    var desc: String = ""
+    var nombreHotel: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hotel_detalles)
-
+        prevActivity = intent.getStringExtra("prev_activity") ?: "default_value"
         val reseñaGlobal = activity_resenas.resenaGlobal
         val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -99,6 +101,8 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                 if (resultSet.next()) {
                     latitud = resultSet.getDouble("latitudHotel")
                     longitud = resultSet.getDouble("longitudHotel")
+                    desc = resultSet.getString("descripcion")
+                    nombreHotel = resultSet.getString("nombre")
                     if (::googleMap.isInitialized) {
                         updateMapLocation()
                     }
@@ -182,7 +186,7 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        suspend fun obtenerComentarios(idHotel: Int): List<tbComentarios> {
+        fun obtenerComentarios(idHotel: Int): List<tbComentarios> {
             val listaComentarios = mutableListOf<tbComentarios>()
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.prepareStatement(
@@ -213,6 +217,8 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
             withContext(Dispatchers.Main) {
                 val adapter = ComentarioAdapter(comentarios)
                 rcvComentarios.adapter = adapter
+                tvDescripcionDetalleHotel.text = desc
+                tvNombreDetalleHotel.text = nombreHotel
             }
         }
 
