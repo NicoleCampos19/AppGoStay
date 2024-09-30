@@ -36,12 +36,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         lateinit var direccionHotelGlobal: String
     }
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_confirmacion_reserva)
@@ -71,20 +66,8 @@ class activity_confirmacionReserva : AppCompatActivity() {
         Log.d("ConfirmacionUsuario", "ID del usuario recivido: $idUsuario")
         Log.d("ConfirmacionTipoHabitacion", "ID del tipo habitacion recivido: $idTipoHabitacionRecivido")
 
-
-
-
-
-
-
-
-
-
-
-
         //mostrar
         val tvTotalAmount = findViewById<TextView>(R.id.tvTotalAmount)
-
         // Calcular la cantidad de días
         val diasEstancia = if (fechaEntrada != null && fechaSalida != null) {
             calcularDiasEstancia(fechaEntrada, fechaSalida)
@@ -107,10 +90,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
         findViewById<TextView>(R.id.tvEntradaDate).text = fechaEntrada
         findViewById<TextView>(R.id.tvSalidaDate).text = fechaSalida
 
-
-
-
-
        val volverAtras = findViewById<ImageView>(R.id.imgVolverTrasxd)
 
         volverAtras.setOnClickListener {
@@ -123,86 +102,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
             obtenerNombreTipoHabitacionEnTv(idTipoHabitacionRecivido ?: -1)
             findViewById<TextView>(R.id.tvReservaNombre).text = nombreUsuario
         }
-        /*btnConfirmar.setOnClickListener {
-            // Construir el AlertDialog inicial
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("¿Estás seguro de realizar tu reserva?")
-            builder.setMessage("No se podrá cancelar ni reembolsar la reserva una vez realizada.")
-
-            // Configurar el botón "Sí"
-            builder.setPositiveButton("Sí") { dialog, which ->
-                // Acción al presionar "Sí"
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        // Obtener los valores a insertar
-                        val idHotelRecibido = PaginaInicio.hotelIdGlobal
-                        val idTipoHabitacionRecibido = AdaptorTipoHabitacion.idTipoHabitacionGlobal
-                        val cvv = activity_reserva.cvv
-                        val fechaCaducidad = activity_reserva.fechaCaducidad
-                        val numeroTarjeta = activity_reserva.numeroTarjeta
-                        val nombreTitular = activity_reserva.nombreTitular
-                        val fechaEntrada = activity_reserva.fechaEntrada
-                        val fechaSalida = activity_reserva.fechaSalida
-                        val idUsuario = idUsuarioGlobalL
-                        val idDepartamento = activity_reserva.idDepartamento
-
-                        // Verifica que los campos idHotelRecibido e idUsuario no sean nulos
-                        if (idHotelRecibido == null || idUsuario == null) {
-                            withContext(Dispatchers.Main) {
-                                Toast.makeText(this@activity_confirmacionReserva, "Error: Datos incompletos.", Toast.LENGTH_SHORT).show()
-                            }
-                            return@launch
-                        }
-
-                        // Aquí realizas la inserción directamente
-                        val conexion = ClaseConexion().cadenaConexion()
-                        val query = """
-                INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """
-                        val statement = conexion?.prepareStatement(query)
-                        statement?.apply {
-                            setInt(1, idHotelRecibido)
-                            setString(2, fechaEntrada) //tiene que ser date
-                            setString(3, fechaSalida) // tiene que ser date
-                            setString(4, numeroTarjeta)
-                            setString(5, fechaCaducidad) // tiene que ser date
-                            setString(6, nombreTitular)
-                            setInt(7, cvv ?: 0) // Manejo de null, asume 0 si es null
-                            setInt(8, idTipoHabitacionRecibido)
-                            setInt(9, idDepartamento ?: 0) // Manejo de null, asume 0 si es null
-                            setInt(10, idUsuario)
-                            executeUpdate()
-
-                        }
-
-
-                        withContext(Dispatchers.Main) {
-                            // Redirigir a PaginaInicio si la inserción fue exitosa
-                            val intent = Intent(this@activity_confirmacionReserva, Reservas::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-                        }
-                    } catch (e: Exception) {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(this@activity_confirmacionReserva, "Error al realizar la reserva", Toast.LENGTH_SHORT).show()
-                        }
-                        e.printStackTrace()
-                    }
-                }
-            }
-
-            // Configurar el botón "No"
-            builder.setNegativeButton("No") { dialog, which ->
-                // Acción al presionar "No"
-                dialog.dismiss() // Solo se cierra el diálogo
-            }
-
-            // Mostrar el diálogo
-            val dialog = builder.create()
-            dialog.show()
-        }*/
-
-
 
         btnConfirmar.setOnClickListener{
             aceptarReserva()

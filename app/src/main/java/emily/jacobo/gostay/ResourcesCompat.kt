@@ -5,12 +5,17 @@ import android.graphics.Typeface
 class ResourcesCompat {
     companion object {
         fun getFont(
-            creacionContrasenaActivity: CreacionContrasenaActivity,
+            creacionContrasenaActivity: activity_iniciar_sesion,
             poppinsRegular: Any
         ): Typeface? {
+            return null
+        }
 
-        return null
-
+        fun getFontLogin(
+            activityIniciarSesion: activity_iniciar_sesion,
+            poppinsRegular: Any
+        ): Typeface? {
+            return null
         }
     }
 

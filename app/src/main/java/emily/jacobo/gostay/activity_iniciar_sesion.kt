@@ -2,9 +2,17 @@ package emily.jacobo.gostay
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,6 +23,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
     companion object variableGloalLogin {
         lateinit var correoIngresado: String
+        const val InicioSesionGoogle = 100
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +33,12 @@ class activity_iniciar_sesion : AppCompatActivity() {
         // Obtener referencias de los elementos en la UI
         val txtCorreoIniciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
+        val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val btnIniciar = findViewById<Button>(R.id.btnIniciar)
+        val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
+        val imvVerContra3 = findViewById<ImageView>(R.id.imvVerContra3)
+        var isPasswordVisible = false
 
         // Obtener SharedPreferences
         val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
@@ -44,6 +58,18 @@ class activity_iniciar_sesion : AppCompatActivity() {
         fun hashSHA256(input: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
+        }
+
+        //Validación para campos
+        @RequiresApi(Build.VERSION_CODES.P)
+        fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
+            val typeface = ResourcesCompat.getFontLogin(this, fontResId)
+            val spannableString = android.text.SpannableString(errorMessage)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                spannableString.setSpan(
+                    typeface?.let { android.text.style.TypefaceSpan(it) }, 0, spannableString.length, android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            editText.error = spannableString
         }
 
         // Acción al hacer clic en el botón de inicio de sesión
@@ -113,6 +139,68 @@ class activity_iniciar_sesion : AppCompatActivity() {
                         ).show()
                     }
                 }
+            }
+        }
+        imvIniciarconGoogle.setOnClickListener {
+            val configuracionGoogle =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
+                    .build()
+            val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
+            startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
+        }
+        txtOlvidasteContrasena.setOnClickListener {
+            val siguientepantalla = Intent(this, metodos_contras::class.java)
+            startActivity(siguientepantalla)
+        }
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, activity_registrarse::class.java)
+            startActivity(volverAtras)
+        }
+
+
+        val poppinsFont = androidx.core.content.res.ResourcesCompat.getFont(this, R.font.poppins)
+
+        txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        txtContrasenaIniciarSesion.typeface = poppinsFont
+
+        imvVerContra3.setOnClickListener {
+            if (isPasswordVisible) {
+                // Si la contraseña es visible, la ocultamos y cambiamos la imagen
+                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                imvVerContra3.setImageResource(R.drawable.ojocerrado)
+            } else {
+                // Si la contraseña está oculta, la mostramos y cambiamos la imagen
+                txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                imvVerContra3.setImageResource(R.drawable.ojo)
+            }
+            // Reaplica la fuente personalizada
+            txtContrasenaIniciarSesion.typeface = poppinsFont
+            isPasswordVisible = !isPasswordVisible
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == InicioSesionGoogle) {
+            val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val cuenta = tarea.getResult(ApiException::class.java)
+                if (cuenta != null) {
+                    val credenciales = GoogleAuthProvider.getCredential(cuenta.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credenciales)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                val paginaInicio = Intent(this, PaginaInicio::class.java)
+                                startActivity(paginaInicio)
+                                overridePendingTransition(0, 0)
+                            } else {
+                                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
             }
         }
     }
