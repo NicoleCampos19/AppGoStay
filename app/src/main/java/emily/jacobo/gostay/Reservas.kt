@@ -27,10 +27,6 @@ import java.util.Date
 import java.util.Locale
 
 class Reservas : AppCompatActivity() {
-
-
-
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,43 +37,48 @@ class Reservas : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Mando a llamar los elementos de la vista
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscarb)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservaa)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
 
-
+        // Para ir a la página de inicio
         imvBuscar.setOnClickListener {
             val siguientepantalla = Intent(this, PaginaInicio::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        // Para ir a favoritos
         imvFavorito.setOnClickListener {
             val siguientepantalla = Intent(this, Favoritos::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        // Para ir a reservas
         imvReseva.setOnClickListener {
             val siguientepantalla = Intent(this, Reservas::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        // Para ir al perfil del usuario
         imvPerfil.setOnClickListener {
             val siguientepantalla = Intent(this, Perfil::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
-
+        // Asigna el ID de usuario global.
         val idUsuarioGLobal = PaginaInicio.idUsuarioGlobalL
 
-
+        // Crea una lista mutable para las reservas activas.
         fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
             val reservasActivas = mutableListOf<ReservaInfo>()
-
+            // Consulta SQL para obtener detalles de las habitaciones reservadas por un usuario.
             val query = """
         select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre_usuario, hot.img_url, th.nombre_tipo_habitacion
         from tbHabitaciones ha
@@ -97,6 +98,7 @@ class Reservas : AppCompatActivity() {
                     statement.use { preparedStatement ->
                         val resultSet = preparedStatement.executeQuery()
                         resultSet.use { rs ->
+                            // Obtiene los datos de cada reserva del `ResultSet`.
                             while (rs.next()) {
                                 val entrada = rs.getString("entrada")
                                 val salida = rs.getString("salida")
@@ -139,9 +141,5 @@ class Reservas : AppCompatActivity() {
 
             }
         }
-
-
-
-
     }
 }

@@ -19,23 +19,24 @@ class opcionesdebusquedad : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_opciones_busquedad)
 
-        //Mando a llamar al botón
+        //Mando a llamar al botones
         val btnHotelesCerca = findViewById<Button>(R.id.btnHotelesCerca)
         val btnProxDestino = findViewById<Button>(R.id.btnProxDestino)
-
-
         val btnAtras = findViewById<ImageView>(R.id.RegresarInicio)
 
+        // Para poder ir a la página de inicio
         btnAtras.setOnClickListener {
             val volverAtras = Intent(this, PaginaInicio::class.java)
             startActivity(volverAtras)
         }
 
+        // Para poder ir a la la activity de hoteles cerca
         btnHotelesCerca.setOnClickListener {
             val siguientepantallita = Intent(this, hoteles_cerca::class.java)
             startActivity(siguientepantallita)
         }
 
+        // Para poder ir a la la activity de próximo destino
         btnProxDestino.setOnClickListener {
             val siguientepantallita = Intent(this, proximo_destino::class.java)
             startActivity(siguientepantallita)

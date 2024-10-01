@@ -51,18 +51,22 @@ import java.util.UUID
 
 class activity_editar_perfil : AppCompatActivity() {
 
+    // Códigos de opción para seleccionar la galería o tomar una foto
     val codigo_opcion_galeria = 102
     val codigo_opcion_tomar_foto = 103
+
+    // Códigos de solicitud para permisos de cámara y almacenamiento
     val CAMERA_REQUEST_CODE = 0
     val STORAGE_REQUEST_CODE = 1
 
-
+    // Variables que se inicializarán más tarde
     lateinit var correoActual: String
     lateinit var contrasenaActual: String
     lateinit var txtNewContraP: String
     lateinit var imageView: ImageView
     lateinit var miPath: String
 
+    // Genera un UUID único
     val uuid = UUID.randomUUID().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,16 +79,15 @@ class activity_editar_perfil : AppCompatActivity() {
             insets
         }
 
-
-
-        //  variables del companion object de activity_iniciar_sesion
+        //Variables del companion object de activity_iniciar_sesion
         correoActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
         contrasenaActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
 
-        // Acceder al EditText y obtener el valor de la contraseña como String
+        //Acceder al EditText y obtener el valor de la contraseña como String
         val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)
         txtNewContraP = editTextContra.text.toString()
 
+        //Se mandan a llamar los elementos de la vista
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
         val btnGuardarPerfil = findViewById<Button>(R.id.btnGuardarPerfil)
         val imvGaleriaPerfil = findViewById<ImageView>(R.id.imvGaleriaPerfil)
@@ -92,8 +95,6 @@ class activity_editar_perfil : AppCompatActivity() {
         imageView = findViewById(R.id.imvPerfil2)
         val imvCamaraPerfil = findViewById<ImageView>(R.id.imvCamaraPerfil)
         var isPasswordVisible = false
-
-
 
         imvGaleriaPerfil.setOnClickListener {
             //Al darle clic al botón de la galeria pedimos los permisos primero
@@ -105,6 +106,7 @@ class activity_editar_perfil : AppCompatActivity() {
             checkCameraPermission()
         }
 
+        // Función para cargar la imágen de perfil
         fun cargarImagenperfil(correoIngresado: String) {
 
             CoroutineScope(Dispatchers.IO).launch {
@@ -144,14 +146,12 @@ class activity_editar_perfil : AppCompatActivity() {
                                 .into(imageView)
                             println("Glide")
                         }
+                        // Si no se encuentra la foto mostrar un toast
                     } else {
-
                         withContext(Dispatchers.Main) {
                             Toast.makeText(this@activity_editar_perfil, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
                         }
                     }
-
-
                     resultSet.close()
                     preparedStatement.close()
                     conexion.close()
@@ -162,63 +162,10 @@ class activity_editar_perfil : AppCompatActivity() {
                     }
                 }
             }
-
-
-
-
-
         }
         cargarImagenperfil(correoActual)
 
-/*
-        btnGuardarPerfil.setOnClickListener{
-
-            val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
-            val correo = correoActual
-            val clave = contrasenaActual
-
-            // Validación para campos vacíos
-            if (nuevoCorreo.text.toString().isEmpty() || clave.isEmpty()) {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Validación del formato del correo
-            val correoTexto = nuevoCorreo.text.toString()
-            if (!correoTexto.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
-                nuevoCorreo.error = "El correo no tiene un formato válido"
-                return@setOnClickListener
-            }
-
-            // Validación de la contraseña
-            if (clave.length <= 12) {
-                editTextContra.error = "La contraseña debe tener al menos 12 caracteres"
-                return@setOnClickListener
-            }
-
-            if (correo.isNotEmpty() && clave.isNotEmpty()) {
-                // Subir imagen a Firebase y obtener la URL
-                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-                subirimagenFirebase(bitmap) { imageUrl ->
-                    miPath = imageUrl
-                    // Actualizar la imagen en la base de datos Oracle
-                    guardarUsuarioConFoto(correo, clave, miPath)
-                    // También puedes actualizar el correo y la contraseña si es necesario
-                    actualizarCorreo(nuevoCorreo.text.toString(), correoActual)
-                    actualizarContraseña(correoActual, txtNewContraP)
-
-                    // Navegar a la siguiente pantalla
-                    val siguientePantalla = Intent(this, activity_iniciar_sesion::class.java)
-                    startActivity(siguientePantalla)
-                }
-            } else {
-                Toast.makeText(
-                    this,
-                    "Completa todos los campos y selecciona una foto",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }*/
-
+        //Para que se guarde el nuevo correo y la nueva contraseña
         btnGuardarPerfil.setOnClickListener {
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
             val correo = correoActual
@@ -262,6 +209,7 @@ class activity_editar_perfil : AppCompatActivity() {
                     val siguientePantalla = Intent(this, activity_iniciar_sesion::class.java)
                     startActivity(siguientePantalla)
                 }
+                // Para solicitarle que seleccione una foto de perfil
             } else {
                 Toast.makeText(
                     this,
@@ -270,15 +218,12 @@ class activity_editar_perfil : AppCompatActivity() {
                 ).show()
             }
 
-
-
-
+            //Navegación para ir a la activity de iniciar sesión
         val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
              startActivity(siguientepantalla)
-
-
         }
 
+        //Para que la letra del ojito salga con la fuente de poppins
         val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
         editTextContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         editTextContra.typeface = poppinsFont
@@ -298,30 +243,25 @@ class activity_editar_perfil : AppCompatActivity() {
             isPasswordVisible = !isPasswordVisible
         }
 
-
-
-
+        // Navegación para ir atrás
         imvAtrasPerfil.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
         }
-
-
         }
 
-
-
+    //Encriptación
 fun hashSHA256(contrasenaEscrita: String): String {
     val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
     return bytes.joinToString("") { "%02x".format(it) }
 }
 
+    //Función para actualizar la contraseña
 private fun actualizarContraseña(correo: String, contraseña: String) {
 
     CoroutineScope(Dispatchers.IO).launch {
 
         try {
-
             // Encripta la contraseña que se pasa como parámetro
             val contrasenaEncriptada = hashSHA256(contraseña)
 
@@ -349,8 +289,7 @@ private fun actualizarContraseña(correo: String, contraseña: String) {
     }
 }
 
-
-
+    // Función para poder actualizar el correo
 private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
     CoroutineScope(Dispatchers.IO).launch {
@@ -358,7 +297,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
         try {
             val objConexion = ClaseConexion().cadenaConexion()
             if (objConexion != null) {
-            println("este es el correo con el que hago ele select $correoActual")
+            println("este es el correo con el que hago el select $correoActual")
                 // Verificar si el correo actual existe en la base de datos
                 val selectQuery = "SELECT id_usuario FROM tbUsuarios WHERE correo = ?"
                 val selectStatement = objConexion.prepareStatement(selectQuery)
@@ -379,6 +318,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
                     val commit = objConexion.prepareStatement("commit")
                     commit.executeUpdate()
+                    //Si en dado caso no existe un usuario con ese correo
                 } else {
                     println("No se encontró ningún usuario con el correo: $correoActual")
                 }
@@ -396,7 +336,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
 
     }
 }
-
+    //Función para pedir el persmiso de la cámara
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //El permiso no está aceptado, entonces se lo pedimos
@@ -420,6 +360,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
         }
     }
 
+    //Función para pedir el permiso de la cámara
     private fun pedirPermisoCamara() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)
         ) {
@@ -431,6 +372,7 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
         }
     }
 
+    //Función para pedir el permiso de la galería
     private fun pedirPermisoAlmacenamiento() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
             //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
@@ -505,8 +447,6 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
         }
     }
 
-
-
     //Subir la imagen a Firebase Storage
     private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit) {
         val storageRef = Firebase.storage.reference
@@ -554,7 +494,6 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
                         Toast.makeText(this@activity_editar_perfil, "Error: Usuario no encontrado", Toast.LENGTH_SHORT).show()
                     }
                 }
-
                 resultSet.close()
                 selectStatement.close()
                 objConexion.close()
@@ -563,7 +502,6 @@ private fun actualizarCorreo(nuevoCorreo: String, correoActual: String) {
             println("Error al guardar usuario: $e")
         }
     }
-
 }
 
 

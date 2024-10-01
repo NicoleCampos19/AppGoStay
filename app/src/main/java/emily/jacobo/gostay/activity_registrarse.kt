@@ -51,19 +51,21 @@ import java.util.UUID
 
 class activity_registrarse : AppCompatActivity() {
 
+    // Códigos de solicitud para permisos de cámara y almacenamiento
     val codigo_opcion_galeria = 102
     val codigo_opcion_tomar_foto = 103
     val CAMERA_REQUEST_CODE = 0
     val STORAGE_REQUEST_CODE = 1
 
+    // Para que se genere un código random para el uuid
     val uuid = UUID.randomUUID().toString()
 
+    // Variables que se inicializarán más tarde
     companion object variableGloalLogin{
         lateinit var txtCorreoI: EditText
         lateinit var txtContraI: EditText
         lateinit var imageView: ImageView
         var miPath: String = ""
-
         var CodigoRegis = (100000..999999).random()
 
     }
@@ -99,14 +101,11 @@ class activity_registrarse : AppCompatActivity() {
         val imvCamara = findViewById<ImageView>(R.id.imvCamara)
         var isPasswordVisible = false
 
+        //Encriptación
         fun hashSHA256(contrasenaEscrita: String): String {
             val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
         }
-
-       // txtCorreoI = findViewById(R.id.txtCorreoElectronico)
-        //txtContraI = findViewById(R.id.txtContrasenaRegistrarse)
-
 
         imvGaleria.setOnClickListener {
             //Al darle clic al botón de la galeria pedimos los permisos primero
@@ -156,6 +155,7 @@ class activity_registrarse : AppCompatActivity() {
                 editText.error = spannableString
             }
 
+        //Convertir a String las variables
         btnRegistrarse.setOnClickListener {
             val idTipoUsuario = tipousuario
             val nombre = txtNombre.text.toString()
@@ -179,6 +179,7 @@ class activity_registrarse : AppCompatActivity() {
                 setErrorWithCustomFont(txtNombre, "El nombre contiene solo letras", R.font.poppins)
                 hayErrores = true
             }
+            //Para el campo de apellido
             else if(apellido.isEmpty()){
                 setErrorWithCustomFont(txtApellido, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -259,15 +260,13 @@ class activity_registrarse : AppCompatActivity() {
 
                     // Enviar correo con el código de verificación
                     //enviarCorreo(correo, "Código de Verificación", htmlCorreo)
-
-
                     Log.d("Registro", "Código de recuperación: $CodigoRegis")
-
 
                     CoroutineScope(Dispatchers.Main).launch {
                         enviarCorreo(correo, "Confirmación de contraseña", htmlCorreo)
                     }
 
+                    //Toast para mostrar que el usuario fue creado
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
                         txtCorreoI.setText("")
@@ -276,15 +275,13 @@ class activity_registrarse : AppCompatActivity() {
                         imageView.tag = null
                     }
                 }
-
-
-
+                // Navegación para la siguiente pantalla
                 val siguientepantalla = Intent(this, activity_ConfirmarCorreo::class.java)
                 startActivity(siguientepantalla)
             }
 
         }
-
+        // Inicio de sesión con google
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -292,15 +289,16 @@ class activity_registrarse : AppCompatActivity() {
                     .build()
 
             val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
-
             startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
         }
 
+        //Navegación para ir a la activity de inicio de sesión
         txtIniciarsesion.setOnClickListener {
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(siguientepantalla)
         }
 
+        //Para que el txt al darle al ojito tenga poppins
         val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
 
         imvVerContra1.setOnClickListener {
@@ -358,6 +356,7 @@ class activity_registrarse : AppCompatActivity() {
     """.trimIndent()
     }
 
+    //Función para el permiso de la cámara
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //El permiso no está aceptado, entonces se lo pedimos
@@ -368,7 +367,7 @@ class activity_registrarse : AppCompatActivity() {
             startActivityForResult(intent, codigo_opcion_tomar_foto)
         }
     }
-
+    //Función para pedir el permiso
     private fun pedirPermisoCamara() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)
         ) {
@@ -380,6 +379,7 @@ class activity_registrarse : AppCompatActivity() {
         }
     }
 
+    //Función para pedir el permiso de la cámara
     private fun checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //El permiso no está aceptado, entonces se lo pedimos
@@ -392,6 +392,7 @@ class activity_registrarse : AppCompatActivity() {
         }
     }
 
+    //Función para habilitar el permiso
     private fun pedirPermisoAlmacenamiento() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
             //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
@@ -436,8 +437,6 @@ class activity_registrarse : AppCompatActivity() {
             }
         }
     }
-
-
     //Subir la imagen a Firebase Storage
     private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit) {
         val storageRef = Firebase.storage.reference
@@ -458,12 +457,17 @@ class activity_registrarse : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // Llama al método del super para mantener el comportamiento predeterminado.
         super.onActivityResult(requestCode, resultCode, data)
+        // Verifica si el resultado fue exitoso (RESULT_OK).
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                // Si la opción seleccionada fue de galería de imágenes.
                 codigo_opcion_galeria -> {
                     val imageUri: Uri? = data?.data
+                    // Obtiene la URI de la imagen seleccionada.
                     imageUri?.let {
+                        // Sube la imagen a Firebase y guarda la URL.
                         val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
                         subirimagenFirebase(imageBitmap) { url ->
                             miPath = url
@@ -471,6 +475,7 @@ class activity_registrarse : AppCompatActivity() {
                         }
                     }
                 }
+                // Si la opción seleccionada fue tomar una foto.
                 codigo_opcion_tomar_foto -> {
                     val imageBitmap = data?.extras?.get("data") as? Bitmap
                     imageBitmap?.let {
@@ -480,6 +485,7 @@ class activity_registrarse : AppCompatActivity() {
                         }
                     }
                 }
+                // Si el usuario selecciona iniciar sesión con Google.
                InicioSesionGoogle -> {
                     val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
                     try {

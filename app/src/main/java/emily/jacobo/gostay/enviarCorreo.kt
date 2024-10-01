@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage
 
 suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = withContext(
     Dispatchers.IO) {
+
     // Configuración del servidor SMTP
     val props = Properties().apply {
         put("mail.smtp.host", "smtp.gmail.com")
@@ -21,7 +22,6 @@ suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = wi
         put("mail.smtp.auth", "true")
         put("mail.smtp.port", "465")
     }
-
     // Iniciamos Sesión
     val session = Session.getInstance(props, object : javax.mail.Authenticator() {
         override fun getPasswordAuthentication(): PasswordAuthentication {
@@ -40,9 +40,9 @@ suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = wi
 
         Transport.send(message)
         println("Correo enviado satisfactoriamente")
-
-
     }
+
+    // Muestra el error en caso que se de
     catch (e: MessagingException) {
         e.printStackTrace()
         println("CORREO NO ENVIADO EXE")

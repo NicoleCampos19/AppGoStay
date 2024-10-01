@@ -1,3 +1,4 @@
+// Campos de la tbHotelConDenuncias
 package modelo
 
 data class tbHotelConDenuncias(

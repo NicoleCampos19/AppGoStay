@@ -1,3 +1,5 @@
+// Campos de la tbDepartamentos
+
 package modelo
 
 data class tbDepartamentos(

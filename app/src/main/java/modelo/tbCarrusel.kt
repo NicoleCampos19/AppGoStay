@@ -1,3 +1,5 @@
+// Campos de la tbImagenes_Hoteles
+
 package modelo
 
 data class tbCarrusel(

@@ -1,3 +1,5 @@
+// Campos de la tbReservas
+
 package modelo
 
 data class tbReservas(

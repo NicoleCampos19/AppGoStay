@@ -26,18 +26,17 @@ class recuperacion_cuenta_cel : AppCompatActivity() {
             insets
         }
 
+        // Mando a llamar los elementos de la vista
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val editTextNumber = findViewById<EditText>(R.id.editTextNumber)
         val btnRecuperacionCel = findViewById<Button>(R.id.btnRecuperacionCel)
 
-        //Navegación
+        //Navegación para ir a metodos_contras
         imvAtras.setOnClickListener {
             val volverAtras = Intent(this, metodos_contras::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
-
-
 
         //Validación para campos
         @RequiresApi(Build.VERSION_CODES.P)
@@ -53,10 +52,11 @@ class recuperacion_cuenta_cel : AppCompatActivity() {
         btnRecuperacionCel.setOnClickListener {
             val numero = editTextNumber.text.toString()
 
+            // Variables que guardar los posibles errores
             var hayVacios = false
             var hayErrores = false
 
-            //Para el campo de correo
+            //Para validar el campo del número
             if(numero.isEmpty()){
                 setErrorWithCustomFont(editTextNumber, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -66,6 +66,7 @@ class recuperacion_cuenta_cel : AppCompatActivity() {
                 setErrorWithCustomFont(editTextNumber, "El teléfono debe contener 8 carácteres", R.font.poppins)
                 hayErrores = true
             }
+            // Si hay uno de esos errores mostrar con poppins
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
             }else{

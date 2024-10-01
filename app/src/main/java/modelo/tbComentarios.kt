@@ -1,3 +1,5 @@
+// Campos de la tbValoraciones
+
 package modelo
 
 data class tbComentarios(

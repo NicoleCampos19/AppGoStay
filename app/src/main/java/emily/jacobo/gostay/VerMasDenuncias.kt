@@ -28,17 +28,21 @@ class VerMasDenuncias : AppCompatActivity() {
             insets
         }
 
+        // Mando a llamar los elementos de la vista
         val rcvMasDenuncias = findViewById<RecyclerView>(R.id.rcvMasDenuncias)
         rcvMasDenuncias.layoutManager = LinearLayoutManager(this@VerMasDenuncias)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
 
+        // Navegación para ir a Denuncias
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Denuncias::class.java)
             startActivity(volverAtras)
         }
 
+        // Obtiene el ID del hotel pasado en el Intent
         val id_hoteles = intent.getIntExtra("id_hoteles", -1)
 
+        // Llama a la función para obtener más denuncias en segundo plano.
         CoroutineScope(Dispatchers.IO).launch {
             val masDenuncias = verMasDenuncias(id_hoteles)
             withContext(Dispatchers.Main) {
@@ -48,6 +52,7 @@ class VerMasDenuncias : AppCompatActivity() {
         }
     }
 
+    // Select para poder ver los detalles de la denuncia
     fun verMasDenuncias(id_hoteles: Int): List<tbDenuncias> {
         val objConexion = ClaseConexion().cadenaConexion()
         val statement = objConexion?.prepareStatement(
@@ -57,11 +62,14 @@ class VerMasDenuncias : AppCompatActivity() {
                     "WHERE h.id_hoteles = ?"
         )
 
+        // Establece el ID del hotel en la consulta
         statement?.setInt(1, id_hoteles)
         val resultSet = statement?.executeQuery()
 
+        // Crea una lista mutable para almacenar las denuncias
         val listaDenuncias = mutableListOf<tbDenuncias>()
 
+        // Obtiene los datos de cada denuncia del resultado
         while (resultSet?.next() == true) {
             val idDenuncia = resultSet.getInt("id_denuncia")
             val nombreDenuncia = resultSet.getString("nombre_denuncia")

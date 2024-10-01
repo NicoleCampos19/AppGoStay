@@ -21,6 +21,7 @@ import java.security.MessageDigest
 
 class activity_iniciar_sesion : AppCompatActivity() {
 
+    // Variables globales
     companion object variableGloalLogin {
         lateinit var correoIngresado: String
         const val InicioSesionGoogle = 100
@@ -30,7 +31,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_iniciar_sesion)
 
-        // Obtener referencias de los elementos en la UI
+        // Obtener referencias de los elementos en la vista
         val txtCorreoIniciarSesion = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtContrasenaIniciarSesion = findViewById<EditText>(R.id.txtContrasenaIniciarSesion)
         val txtOlvidasteContrasena = findViewById<TextView>(R.id.txtOlvidasteContrasena)
@@ -103,7 +104,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
 
-                // Consulta SQL para verificar las credenciales del usuario
+                // Consulta SQL para verificar las credenciales del usuario (es un select)
                 val query = """
                     SELECT tu.nombre_usuario 
                     FROM tbTiposUsuarios tu 
@@ -141,6 +142,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 }
             }
         }
+        // Inicio de sesión con google
         imvIniciarconGoogle.setOnClickListener {
             val configuracionGoogle =
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -149,18 +151,19 @@ class activity_iniciar_sesion : AppCompatActivity() {
             val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
             startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
         }
+        //Navegación para poder ir a los métodos de recuperación de contraseña
         txtOlvidasteContrasena.setOnClickListener {
             val siguientepantalla = Intent(this, metodos_contras::class.java)
             startActivity(siguientepantalla)
         }
+        //Navegación para ir a la activity anterior
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
         }
 
-
+        // Para que los txt tengan la fuente de poppins
         val poppinsFont = androidx.core.content.res.ResourcesCompat.getFont(this, R.font.poppins)
-
         txtContrasenaIniciarSesion.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         txtContrasenaIniciarSesion.typeface = poppinsFont
 
@@ -179,6 +182,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
             isPasswordVisible = !isPasswordVisible
         }
     }
+
+    // Para que suceda el inicio de sesión con google
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == InicioSesionGoogle) {

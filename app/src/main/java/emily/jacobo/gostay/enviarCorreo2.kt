@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage
 
 suspend fun enviarCorreo2(receptor: String, sujeto: String, mensaje: String) = withContext(
     Dispatchers.IO) {
+
     // Configuración del servidor SMTP
     val props = Properties().apply {
         put("mail.smtp.host", "smtp.gmail.com")
@@ -22,12 +23,14 @@ suspend fun enviarCorreo2(receptor: String, sujeto: String, mensaje: String) = w
         put("mail.smtp.port", "465")
     }
 
+    // Iniciamos Sesión
     val session = Session.getInstance(props, object : javax.mail.Authenticator() {
         override fun getPasswordAuthentication(): PasswordAuthentication {
             return PasswordAuthentication("gostay2024@gmail.com", "dekt szbp iwoe swut")
         }
     })
 
+    // Hacemos el envío
     try {
         val message = MimeMessage(session).apply {
             setFrom(InternetAddress("gostay2024@gmail.com"))
@@ -36,8 +39,10 @@ suspend fun enviarCorreo2(receptor: String, sujeto: String, mensaje: String) = w
             setContent(mensaje, "text/html; charset=utf-8")
         }
 
+        // Cofirma si el correo fue enviado exitosamente
         Transport.send(message)
         println("Correo enviado satisfactoriamente")
+        // Muestra el error en caso que se de
     } catch (e: MessagingException) {
         println("Error de envío de correo: ${e.message}")
         e.printStackTrace()

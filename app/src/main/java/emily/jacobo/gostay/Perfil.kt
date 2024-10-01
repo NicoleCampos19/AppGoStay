@@ -63,11 +63,11 @@ class Perfil : AppCompatActivity() {
         val txtHistorialReservas = findViewById<TextView>(R.id.txtHistorialReservas)
         val imvHistorialReservas = findViewById<ImageView>(R.id.imvHistorialReservas)
         val imvHistorialReserva = findViewById<ImageView>(R.id.imvHistorialReserva)
-
         val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
 
         println("correo $correoIngresado")
 
+        // Select para mostrar la foto de perfil
         fun cargarImagenperfil(correoIngresado: String) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -98,12 +98,13 @@ class Perfil : AppCompatActivity() {
                                 .apply(RequestOptions().circleCrop())
                                 .into(imvPerfilUsu)
                         }
+                        // Mostrar una toast si la img no pudo ser cargada
                     } else {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(this@Perfil, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
                         }
                     }
-
+                    // Mostrar una toast si la img no pudo ser cargada
                     resultSet.close()
                     preparedStatement.close()
                     conexion.close()
@@ -116,6 +117,7 @@ class Perfil : AppCompatActivity() {
             }
         }
 
+        // Cargar la img dependiendo del correo ingresado
         cargarImagenperfil(correoIngresado)
 
         // Configuración del click para cerrar sesión
@@ -173,19 +175,18 @@ class Perfil : AppCompatActivity() {
                     startActivity(intent)
                     finish() // Finalizar la actividad actual para que no pueda volver atrás
                 }
-
                 dialog.dismiss()
             }
-
             dialog.show()
         }
     }
-
+    // Recibe un `view` (el elemento de la interfaz) y `clazz` (la clase a la que se quiere navegar).
     private fun <T> setClickListener(view: View, clazz: Class<T>) {
         view.setOnClickListener {
             val intent = Intent(this, clazz)
             startActivity(intent)
             overridePendingTransition(0, 0)
+            // Elimina la animación de transición entre actividades para que sea instantánea
         }
     }
 }

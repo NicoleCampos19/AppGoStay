@@ -1,3 +1,5 @@
+// Campos de la tbTipoUsuarios
+
 package modelo
 
 data class tbTipoUsuarios(

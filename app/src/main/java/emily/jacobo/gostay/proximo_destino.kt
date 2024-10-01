@@ -48,6 +48,7 @@ class proximo_destino : AppCompatActivity() {
             startActivity(volverAtras)
         }
 
+        // Para que el micrófono se inicie
         btnVoz.setOnClickListener {
             iniciarReconocimientoDeVoz()
         }

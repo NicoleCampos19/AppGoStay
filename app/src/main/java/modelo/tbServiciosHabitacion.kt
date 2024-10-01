@@ -1,3 +1,5 @@
+// Campos de la tbServiciosHabitacion
+
 package modelo
 
 data class tbServiciosHabitacion(

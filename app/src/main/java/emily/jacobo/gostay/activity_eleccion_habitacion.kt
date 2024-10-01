@@ -18,6 +18,7 @@ import modelo.tbTipoHabitacion
 
 class activity_eleccion_habitacion : AppCompatActivity() {
 
+    // Variables que se inicializarán más tarde
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdaptorTipoHabitacion
 
@@ -30,16 +31,20 @@ class activity_eleccion_habitacion : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        //Mando a llamar la imágen que está en la vista
         val imvRegresaralHotel = findViewById<ImageView>(R.id.imvRegresaralHotel)
         imvRegresaralHotel.setOnClickListener {
             finish()
         }
 
+        //Mando a llamar el rvc de la vista
         val rcvTiposHabitaciones = findViewById<RecyclerView>(R.id.rcvTiposHabitaciones)
         rcvTiposHabitaciones.layoutManager = LinearLayoutManager(this)
 
+        //El id del hotel recibido será igual al id del hotel al que se le de click en la página de inicio
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
 
+        //Hago un select para traer la información del tipo de habitación
         fun loadTipoHabitacionesFromDatabase(idHotelRecivido: Int): List<tbTipoHabitacion> {
             val tipoHabitacionList = mutableListOf<tbTipoHabitacion>()
             val query = """
@@ -56,7 +61,6 @@ class activity_eleccion_habitacion : AppCompatActivity() {
                     val statement = connection.prepareStatement(query).apply {
                         setInt(1, idHotelRecivido)
                     }
-
                     statement.use { preparedStatement ->
                         val resultSet = preparedStatement.executeQuery()
                         resultSet.use { rs ->
@@ -77,9 +81,8 @@ class activity_eleccion_habitacion : AppCompatActivity() {
             return tipoHabitacionList
         }
         if (idHotelRecivido != -1) {
-            // Usar el id_hoteles para cargar las habitaciones del hotel
+            // Uso el id_hoteles para cargar las habitaciones del hotel
             CoroutineScope(Dispatchers.IO).launch {
-
                 val idHotelporsiacaso = idHotelRecivido ?: -1
                 val tipoHabitacionDB = loadTipoHabitacionesFromDatabase(idHotelporsiacaso)
                 withContext(Dispatchers.Main) {

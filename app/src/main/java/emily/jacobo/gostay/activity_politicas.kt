@@ -19,8 +19,10 @@ class activity_politicas : AppCompatActivity() {
             insets
         }
 
+        // Mandar a llamar los elementos de la vista
         val imvAtrasPoliticas = findViewById<ImageView>(R.id.imvAtrasPoliticas)
 
+        // Navegación para volver a la activity anterior
         imvAtrasPoliticas.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)

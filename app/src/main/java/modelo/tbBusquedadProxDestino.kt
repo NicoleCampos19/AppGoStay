@@ -1,3 +1,4 @@
+// Campos de la tbHoteles
 package modelo
 
 import java.io.Serializable

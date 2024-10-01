@@ -42,19 +42,27 @@ import java.util.Date
 class activity_reserva : AppCompatActivity() {
 
     companion object {
+        // Almacena el CVV de la tarjeta, es opcional (puede ser nulo).
         var cvv: Int? = null
+        // Almacena la fecha de caducidad de la tarjeta, es opcional.
         var fechaCaducidad: String? = null
+        // Almacena el número de la tarjeta, es opcional.
         var numeroTarjeta: String? = null
+        // Almacena el nombre del titular de la tarjeta, es opcional
         var nombreTitular: String? = null
+        // Almacena la fecha de entrada de la reserva, es opcional.
         var fechaEntrada: String? = null
+        // Almacena la fecha de salida de la reserva, es opcional.
         var fechaSalida: String? = null
+        // Almacena el nombre del departamento reservado, se inicializa más tarde.
         lateinit var departamento: String
+        // Almacena el ID del departamento, es opcional.
         var idDepartamento: Int? = null
+        // Almacena una lista de pares de fechas reservadas (fecha de entrada, fecha de salida).
+        // Se inicializa como una lista vacía.
         var fechasReservadas: List<Pair<String, String>> =
             emptyList()  // Para guardar las fechas reservadas
     }
-
-
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +79,7 @@ class activity_reserva : AppCompatActivity() {
         //#queremoscodigolimpio
         setupCantidadSpinner()
 
-
+        // Se mandan a llamar los elementos de la vista
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         val txtFechaCaducidad = findViewById<EditText>(R.id.txtFechaCaducidad)
         val txtFechaReserva = findViewById<EditText>(R.id.txtFechaReserva)
@@ -100,7 +108,7 @@ class activity_reserva : AppCompatActivity() {
             }
         }
 
-
+        // Función para obtener el departamento en el que el usuario vive
         fun obtenerDepartamentos(): List<tbDepartamentos> {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()
@@ -113,13 +121,16 @@ class activity_reserva : AppCompatActivity() {
                 val valoresJuntos = tbDepartamentos(id_departamento, nombre_departamento)
                 listaDepartamentos.add(valoresJuntos)
             }
+            // Se retorna la lista
             return listaDepartamentos
         }
 
         CoroutineScope(Dispatchers.IO).launch {
+            // Se inicia una nueva coroutine en el Dispatcher de I/O (hilo secundario).
             val listaDepartamentos = obtenerDepartamentos()
+            // Crea una lista de los nombres de los departamentos mapeando el campo 'nombre_departamento' de cada elemento.
             val nombresDepartamentos = listaDepartamentos.map { it.nombre_departamento }
-
+            // Cambia al Dispatcher Main (hilo principal) para actualizar la interfaz de usuario.
             withContext(Dispatchers.Main) {
                 val adapter = ArrayAdapter(
                     this@activity_reserva,
@@ -131,6 +142,7 @@ class activity_reserva : AppCompatActivity() {
             }
         }
 
+        // Para que se cierre la activity
         imgVolverAtrars.setOnClickListener {
             finish()
         }
@@ -166,16 +178,13 @@ class activity_reserva : AppCompatActivity() {
             val cvvText = txtCVV.text.toString()
             nombreTitular = findViewById<EditText>(R.id.txtNombreTitular).text.toString()
 
-
             // Obtener el texto completo del campo de reserva
             val reservaText = txtFechaReserva.text.toString()
-
-
-// Variables para controlar los errores
+            // Variables para controlar los errores
             var hayVacios = false
             var hayErrores = false
 
-// Validación para txtFechaReserva: Verificar que no esté vacío y que las fechas de entrada y salida sean válidas
+            // Validación para txtFechaReserva: Verificar que no esté vacío y que las fechas de entrada y salida sean válidas
             if (fechaEntrada.isNullOrEmpty() || fechaSalida.isNullOrEmpty()) {
                 setErrorWithCustomFont(txtFechaReserva, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -198,7 +207,7 @@ class activity_reserva : AppCompatActivity() {
             }
 
 
-// Validación para nombreTitular: No vacío y longitud máxima de 30 caracteres
+             // Validación para nombreTitular: No vacío y longitud máxima de 30 caracteres
             if (nombreTitular!!.isEmpty()) {
                 setErrorWithCustomFont(
                     txtNombreTitular,
@@ -215,7 +224,7 @@ class activity_reserva : AppCompatActivity() {
                 hayErrores = true
             }
 
-// Validación para numeroTarjeta: No vacío, longitud de 16 dígitos, y permite guiones
+            // Validación para numeroTarjeta: No vacío, longitud de 16 dígitos, y permite guiones
             if (txtNumeroTarjeta.text.isEmpty()) {
                 setErrorWithCustomFont(
                     txtNumeroTarjeta,
@@ -235,8 +244,7 @@ class activity_reserva : AppCompatActivity() {
                 hayErrores = true
             }
 
-
-// Validación para fechaCaducidad: Verificar que no esté vacía y que sea una fecha válida
+        // Validación para fechaCaducidad: Verificar que no esté vacía y que sea una fecha válida
             if (txtFechaCaducidad.text.isEmpty()) {
                 setErrorWithCustomFont(
                     txtFechaCaducidad,
@@ -248,7 +256,7 @@ class activity_reserva : AppCompatActivity() {
                 txtFechaCaducidad.error = null  // Limpiar el error si la fecha es válida
             }
 
-// Validación para CVV: No vacío y exactamente 3 dígitos
+           // Validación para CVV: No vacío y exactamente 3 dígitos
             if (cvvText.isEmpty()) {
                 setErrorWithCustomFont(txtCVV, "El CVV no puede estar vacío.", R.font.poppins)
                 hayVacios = true
@@ -261,7 +269,7 @@ class activity_reserva : AppCompatActivity() {
                 hayErrores = true
             }
 
-// Si hay vacíos o errores, mostrar mensaje y no proceder
+           // Si hay vacíos o errores, mostrar mensaje y no proceder
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -297,8 +305,6 @@ class activity_reserva : AppCompatActivity() {
                     }
                 }
             }
-
-
         }
 
     }
@@ -317,7 +323,6 @@ class activity_reserva : AppCompatActivity() {
             val salida = resultSet.getString("salida")
             fechas.add(Pair(entrada, salida)) // Guardar las fechas reservadas
         }
-
         resultSet?.close()
         statement?.close()
         conexion?.close()
@@ -395,10 +400,10 @@ class activity_reserva : AppCompatActivity() {
         }
     }
 
+    // Función para cargar el departamento (se hace un select)
     private fun cargaridDepartamento(departamento: String): Int? {
         var idDepartamento: Int? = null
         val conexion = ClaseConexion().cadenaConexion()
-
         val query = """
         SELECT id_departamento FROM tbDepartamentos WHERE nombre_departamento = ?
     """
@@ -416,7 +421,6 @@ class activity_reserva : AppCompatActivity() {
 
     private fun setupCantidadSpinner() {
         val spinner = findViewById<Spinner>(R.id.spCantidadH)
-
         // Lista de números del 1 al 5
         val cantidadList = listOf(1, 2, 3, 4, 5)
 
@@ -431,11 +435,13 @@ class activity_reserva : AppCompatActivity() {
     }
 
     private fun showDatePickerDialog(onDateSet: (String) -> Unit) {
-
+    // Obtiene una instancia del calendario con la fecha y hora actuales.
         val calendar = Calendar.getInstance()
+        // Define el formato de fecha como "yyyy-MM-dd".
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        // Obtiene la fecha actual a partir del calendario.
         val currentDate = calendar.time
-
+        // Crea un cuadro de diálogo para seleccionar la fecha (DatePickerDialog).
         val datePickerDialog = DatePickerDialog(
             this,
             { _: DatePicker, year: Int, month: Int, day: Int ->
@@ -449,7 +455,6 @@ class activity_reserva : AppCompatActivity() {
 
         // Configura el rango de fechas
         datePickerDialog.datePicker.minDate = currentDate.time
-
         datePickerDialog.show()
     }
 }

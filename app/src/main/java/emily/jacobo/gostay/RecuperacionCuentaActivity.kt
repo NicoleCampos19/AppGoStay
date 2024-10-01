@@ -22,15 +22,16 @@ import kotlinx.coroutines.launch
 
 class RecuperacionCuentaActivity : AppCompatActivity() {
 
+    // Variable estática que guarda un código de recuperación aleatorio de 6 dígitos
     companion object variablesGobalesRecuperacion {
         var codigoRecuperacion = (100000..999999).random()
         lateinit var Correo: String
     }
 
-
-
+    // Un requerimiento de api P
     @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("MissingInflatedId")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,28 +43,26 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
             insets
         }
 
-
+        // Mando a llamar los elementos de la vista
         val imvAtras = findViewById<ImageView>(R.id.imvAtras)
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val btnRecuperacion = findViewById<Button>(R.id.btnRecuperacion)
 
-
+        // Navegación para ir a metodos_contras
         imvAtras.setOnClickListener {
             val volverAtras = Intent(this, metodos_contras::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
 
-
-
         btnRecuperacion.setOnClickListener {
             Correo = txtCorreo.text.toString()
 
-
+            // Variables en las que se guardarán los posibles errores
             var hayVacios = false
             var hayErrores = false
 
-            // Validación para campos
+            // Validación para el campo de correo
             if (Correo.isEmpty()) {
                 setErrorWithCustomFont(txtCorreo, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -72,6 +71,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                 hayErrores = true
             }
 
+            // Si hay errores se mostrará una toast
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
@@ -85,18 +85,15 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
                     enviarCorreo(Correo, "Recuperacion de contraseña", htmlCorreo)
                 }
 
+                // Para ir a Confirmacion_Cuenta
                 val siguientePantalla = Intent(this, Confirmacion_Cuenta::class.java)
                 startActivity(siguientePantalla)
                 overridePendingTransition(0, 0)
             }
         }
-
-
-
-
-
     }
 
+    // Para que las validaciones se muestren bonitas con poppins
     @RequiresApi(Build.VERSION_CODES.P)
     private fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
         val typeface = ResourcesCompat.getFont(this, fontResId)
@@ -109,9 +106,8 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
         editText.error = spannableString
     }
 
-
+// Función que le da diseño al correo que manda el código
 private fun generarHTMLCorreo(codigoRecuperacion: String): String{
-
                     return """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -192,8 +188,6 @@ a[x-apple-data-detectors='true'] {
 table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-background-color { background-color: #5cb5c4 !important; } #u_content_text_3 .v-color { color: #000000 !important; } #u_content_text_3 .v-text-align { text-align: center !important; } #u_content_text_4 .v-color { color: #000000 !important; } #u_column_2 .v-col-background-color { background-color: #5cb5c4 !important; } #u_content_text_12 .v-color { color: #ffffff !important; } #u_content_text_11 .v-color { color: #000000 !important; } }
     </style>
   
-  
-
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet" type="text/css">
 
 </head>
@@ -205,9 +199,6 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
   <tr style="vertical-align: top">
     <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
     
-    
-  
-  
 <div class="u-row-container" style="padding: 0px;background-color: #f9f9f9">
   <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #f9f9f9;">
     <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
@@ -243,10 +234,6 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
   </div>
   </div>
   
-
-
-  
-  
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
   <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;">
     <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
@@ -267,7 +254,6 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
       
       <a href="https://imgbb.com/"><img src="https://i.ibb.co/nr1HHQH/image-1.png" alt="image-1" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
 
-      
     </td>
   </tr>
 </table>
@@ -284,11 +270,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
     </div>
   </div>
   </div>
-  
 
-
-  
-  
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
   <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;">
     <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
@@ -336,9 +318,6 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
                 text-decoration: none;">$codigoRecuperacion</div>
   
   </div>
-  
-
-
       </td>
     </tr>
   </tbody>
@@ -351,10 +330,6 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
     </div>
   </div>
   </div>
-  
-
-
-  
   
 <div class="u-row-container" style="padding: 0px;background-color: #f9f9f9">
   <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #1c103b;">
@@ -385,10 +360,6 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
     </div>
   </div>
   </div>
-  
-
-
-  
   
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
   <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #f9f9f9;">
@@ -425,34 +396,5 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_column_1 .v-col-bac
 </html>
 """.trimIndent()
                 }
-/*
-
-                btnRecuperacion.setOnClickListener{
-
-                    val codigoRecuperacion = (100000..999999).random().toString()
-                    val htmlCorreo = generarHTMLCorreo(codigoRecuperacion)
-
-                    CoroutineScope(Dispatchers.Main).launch {
-                        Correo = txtCorreo.text.toString()
-                        enviarCorreo(
-                            "${Correo}",
-                            "Recuperacion de contraseña",
-                            htmlCorreo )
-
-                        //VARIABLE MANDADA
-                    }
-                    val siguientepantalla = Intent(this, Confirmacion_Cuenta::class.java)
-                    startActivity(siguientepantalla)
-                    overridePendingTransition(0, 0)
-                }
-
-                imvAtras.setOnClickListener {
-                    val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
-                    startActivity(volverAtras)
-                    overridePendingTransition(0, 0)
-                }*/
-
-
-
 
             }

@@ -33,7 +33,9 @@ import java.sql.SQLException
 
 class hotel_detalles_admin : AppCompatActivity() {
 
+    // Nombre de la actividad anterior
     private lateinit var prevActivity: String
+    // Adaptador para servicios
     private lateinit var servicioAdapter: ServicioAdapter
 
     override fun onBackPressed() {
@@ -47,16 +49,16 @@ class hotel_detalles_admin : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Asigna la reseña global de la actividad a una variable
         val reseñaGlobal = activity_resenas.resenaGlobal
 
         setContentView(R.layout.activity_hotel_detalles_admin)
         val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        // Select para obtener las imágenes de los hoteles
         fun obtenerImagenes(): List<tbCarrusel> {
-            val objConexion = ClaseConexion().cadenaConexion()
-
-
+            val objConexion = ClaseConexion().cadenaConexion() // Obtiene la conexión a la base de datos
             val lista = mutableListOf<tbCarrusel>()
             val statement = objConexion?.createStatement()
             val resultSet = statement?.executeQuery("SELECT * FROM tbImagenes_Hoteles")
@@ -79,7 +81,6 @@ class hotel_detalles_admin : AppCompatActivity() {
         //Asignarle el adaptador al Recyclearview
         CoroutineScope(Dispatchers.IO).launch {
             val ImagenesBD = obtenerImagenes()
-
             withContext(Dispatchers.Main){
                 val adapter = AdaptadorCarrusel(ImagenesBD)
                 rcvCarrusels.adapter = adapter
@@ -87,28 +88,29 @@ class hotel_detalles_admin : AppCompatActivity() {
             }
 
         }
+        // Obtiene el ID global del hotel desde la página de inicio
         val idHotelGlobal = PaginaInicio.hotelIdGlobal
+        // Inicializa el RecyclerView para mostrar servicios
         val recyclerView: RecyclerView = findViewById(R.id.rcvServiciosHotel)
 
         //Para hacer select a los servicios
         fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
-            val ServiciosList = mutableListOf<ServicioInfo>()
+            val ServiciosList = mutableListOf<ServicioInfo>() // Lista para almacenar los servicios obtenidos
             val query = """
          SELECT sh.nombre_servicio, sh.img_icono_hotel
          from tbIntermedia_Hoteles_Servicios ish
          INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
             where id_hoteles = ?
-         """.trimIndent()
-
+         """.trimIndent() // Consulta SQL para obtener los servicios del hotel
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 objConexion?.use { connection ->
                     val statement = connection.prepareStatement(query).apply {
-                        setInt(1, idHotelGlobal)
+                        setInt(1, idHotelGlobal) // Asigna el id del hotel a la consulta
                     }
 
                     statement.use { preparedStatement ->
-                        val resultSet = preparedStatement.executeQuery()
+                        val resultSet = preparedStatement.executeQuery() // Ejecuta la consulta
                         resultSet.use { rs ->
                             while (rs.next()) {
                                 val nombre_servicio = rs.getString("nombre_servicio")
@@ -124,6 +126,7 @@ class hotel_detalles_admin : AppCompatActivity() {
 
             return ServiciosList
         }
+        // Lanza una corrutina para cargar los servicios y actualizar el RecyclerView
         CoroutineScope(Dispatchers.IO).launch {
             val servicios = idHotelGlobal?.let { loadServiciosFromDatabase(it) }
             withContext(Dispatchers.Main) {
@@ -140,25 +143,27 @@ class hotel_detalles_admin : AppCompatActivity() {
 
         prevActivity = intent.getStringExtra("prev_activity") ?: "PaginaInicio"
 
+        // Inicializa el ImageView para el botón de retroceso
         val imageViewBack = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         imageViewBack.setOnClickListener {
             AdaptadorOfertas.descuentoTotalGlobal = 0.0
             navigateBack()
         }
 
+        // Obtiene el id del hotel y los detalles del hotel desde el intent
         val idHotel = intent.getIntExtra("id_hoteles", -1)
         val hotel = intent.getSerializableExtra("hotel") as tbHotel
 
-
+        // Manda a llamar los elementos de la vista
         val tvNombreDetalleHotel = findViewById<TextView>(R.id.tvNombreDetalleHotel)
         val tvDescripcionDetalleHotel = findViewById<TextView>(R.id.tvDescripcionDetalleHotel)
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
         val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
 
-        //txtCalificacion.text = reseñaGlobal.promedio
-
+        // Configura el RecyclerView para mostrar los comentarios en una disposición horizontal
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        // Select para obtener el id del usuario a través del campo de correo
         suspend fun obtenerIdUsuario(correo: String): Int? {
             return withContext(Dispatchers.IO) {
                 val objConexion = ClaseConexion().cadenaConexion()
@@ -173,6 +178,7 @@ class hotel_detalles_admin : AppCompatActivity() {
             }
         }
 
+        // Función para obtener el comentario a través de un select
         fun obtenerComentarios(idHotel: Int): List<tbComentarios> {
             val listaComentarios = mutableListOf<tbComentarios>()
 
@@ -223,6 +229,7 @@ class hotel_detalles_admin : AppCompatActivity() {
             return listaComentarios
         }
 
+        // Lanza una corrutina para obtener y cargar los comentarios en el RecyclerView
         CoroutineScope(Dispatchers.IO).launch{
             val idHotel = PaginaInicio.hotelIdGlobal
             val comentariosDB = obtenerComentarios(idHotel!!)
@@ -232,7 +239,9 @@ class hotel_detalles_admin : AppCompatActivity() {
             }
         }
 
+        // Si el objeto hotel no es nulo, ejecuta el siguiente bloque de código
         hotel?.let {
+            // Usa la biblioteca Glide para cargar imágenes u otros recursos (aunque no se muestra la imagen aquí)
             Glide.with(this)
             tvNombreDetalleHotel.text = hotel.nombreHotel
             tvDescripcionDetalleHotel.text = hotel.descripcion
@@ -241,6 +250,7 @@ class hotel_detalles_admin : AppCompatActivity() {
         }
     }
 
+    // Función privada para gestionar la navegación hacia atrás en función de la actividad previa
     private fun navigateBack() {
         when (prevActivity) {
             "PaginaInicio" -> {
@@ -259,6 +269,7 @@ class hotel_detalles_admin : AppCompatActivity() {
         }
         finish()
     }
+    // Función privada para mostrar un menú emergente (popup menu) al hacer clic en una vista
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(this, v)
         popup.menuInflater.inflate(menuRes, popup.menu)

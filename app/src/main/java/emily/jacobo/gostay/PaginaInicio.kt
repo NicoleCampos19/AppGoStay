@@ -31,12 +31,15 @@ import java.sql.SQLException
 
 class PaginaInicio : AppCompatActivity() {
 
+    // Estas variables dentro del companion object son globales y pueden ser accedidas
+// desde cualquier parte del código sin necesidad de una instancia de la clase.
     companion object {
         var hotelIdGlobal: Int? = null
         var nombreUsuarioGlobalL: String? = null
         var idUsuarioGlobalL: Int? = null
     }
 
+    // `correoIngresado` es una variable que se inicializa más adelante (lateinit)
     lateinit var correoIngresado: String
 
     // Variable SQL global
@@ -82,30 +85,35 @@ class PaginaInicio : AppCompatActivity() {
             showBottomSheet()
         }
 
+        //Para poder ir a opcionesdebusquedad
         txtAggBusquedad.setOnClickListener {
             val siguientepantalla = Intent(this, opcionesdebusquedad::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        //Para poder ir a PaginaInicio
         imvBuscar.setOnClickListener {
             val siguientepantalla = Intent(this, PaginaInicio::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        //Para poder ir a Favoritos
         imvFavorito.setOnClickListener {
             val siguientepantalla = Intent(this, Favoritos::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        //Para poder ir a Reservas
         imvReseva.setOnClickListener {
             val siguientepantalla = Intent(this, Reservas::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        //Para poder ir a Perfil
         imvPerfil.setOnClickListener {
             val siguientepantalla = Intent(this, Perfil::class.java)
             startActivity(siguientepantalla)
@@ -161,10 +169,10 @@ class PaginaInicio : AppCompatActivity() {
         }
     }
 
+    // Para cargar el nombre del usuario
     private fun cargarNombreUsuario(correoUsuario: String): String? {
         var nombreUsuario: String? = null
         val conexion = ClaseConexion().cadenaConexion()
-
         val query = "SELECT nombre_usuario FROM tbUsuarios WHERE correo = ?"
         val statement = conexion?.prepareStatement(query)
         statement?.setString(1, correoUsuario)
@@ -328,7 +336,6 @@ WHERE
         """.trimIndent()
 
         // Filtro basado en la selección de servicios hotel
-
         val cbPetfriendly = bottomSheetView.findViewById<CheckBox>(R.id.cbPetfriendly)
         if (cbPetfriendly.isChecked) {
             sqlQuery += " AND sh.id_servicio_hotel = 1"
@@ -355,7 +362,6 @@ WHERE
         }
 
         // Filtro basado en la selección de servicios habitación
-
         val cbAC = bottomSheetView.findViewById<CheckBox>(R.id.cbAC)
         if (cbAC.isChecked){
             sqlQuery += " AND ha.id_servicio_habitacion = 1"
@@ -382,7 +388,6 @@ WHERE
         }
 
         // Filtro basado en la selección de capacidad de personas
-
         val cbCant2 = bottomSheetView.findViewById<CheckBox>(R.id.cbCant2)
         if (cbCant2.isChecked){
             sqlQuery += " AND sa.capacidad_habitacion = 2"
@@ -399,7 +404,6 @@ WHERE
         }
 
         // Filtro basado en el precio de habitacion
-
         val rangeSlider = bottomSheetView.findViewById<RangeSlider>(R.id.rangeSlider)
         val values = rangeSlider.values
         val minValue = values[0]

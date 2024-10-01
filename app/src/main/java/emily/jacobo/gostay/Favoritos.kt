@@ -31,6 +31,8 @@ class Favoritos : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Se mandan a llamar los elementos de la vsita
         val rcvFavoritos = findViewById<RecyclerView>(R.id.rcvFavoritos)
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscarb)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritoa)
@@ -39,29 +41,35 @@ class Favoritos : AppCompatActivity() {
         val correo = activity_iniciar_sesion.correoIngresado
         rcvFavoritos.layoutManager = LinearLayoutManager(this)
 
+        // Navegación para ir a la página de inicio
         imvBuscar.setOnClickListener {
             val siguientepantalla = Intent(this, PaginaInicio::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        // Navegación para ir a Favoritos
         imvFavorito.setOnClickListener {
             val siguientepantalla = Intent(this, Favoritos::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        // Navegación para ir a Reservas
         imvReseva.setOnClickListener {
             val siguientepantalla = Intent(this, Reservas::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
 
+        // Navegación para ir a Perfil
         imvPerfil.setOnClickListener {
             val siguientepantalla = Intent(this, Perfil::class.java)
             startActivity(siguientepantalla)
             overridePendingTransition(0, 0)
         }
+
+        // Para obtener el id del usuario
         suspend fun obtenerIdUsuario(correo: String): Int {
             return withContext(Dispatchers.IO) {
                 val objConexion = ClaseConexion().cadenaConexion()
@@ -76,6 +84,7 @@ class Favoritos : AppCompatActivity() {
             }
         }
 
+        // Obtener el hotel que se quiere agregar a favoritos (es un select)
         fun obtenerHotelesFavoritos(idUsuario: Int): List<tbHotel> {
             val listaHotelesFavoritos = mutableListOf<tbHotel>()
             val objConexion = ClaseConexion().cadenaConexion()
@@ -118,8 +127,10 @@ class Favoritos : AppCompatActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
+            // Obtiene el ID del usuario a partir del correo electrónico
             val id_usuario = obtenerIdUsuario(correo)
             val hotelDB = obtenerHotelesFavoritos(id_usuario)
+            // Cambia el contexto de ejecución al hilo principal
             withContext(Dispatchers.Main){
                 val adapter = HotelAdapter(hotelDB, true){ hotel ->
                     val intent = Intent(this@Favoritos, hotel_detalles::class.java).apply {
@@ -130,6 +141,7 @@ class Favoritos : AppCompatActivity() {
                     startActivity(intent)
                     overridePendingTransition(0, 0)
                 }
+                // Asigna el adaptador al RecyclerView para mostrar la lista de hoteles favoritos en la UI
                 rcvFavoritos.adapter = adapter
             }
         }

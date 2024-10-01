@@ -23,6 +23,7 @@ class creacion_contrasena_cel : AppCompatActivity() {
             insets
         }
 
+        // Se mandan a llamar los elementos de la vista
         val btnCrearContrasena = findViewById<Button>(R.id.btnCrearcontrasena)
         val  txtContraseñaNueva = findViewById<EditText>(R.id.txtContraseñaNueva)
 
@@ -39,17 +40,21 @@ class creacion_contrasena_cel : AppCompatActivity() {
         }
 
         btnCrearContrasena.setOnClickListener {
+
+            // Variable que contiene la contraseña
             val contrasena = txtContraseñaNueva.text.toString()
 
+            // Variables que captan los posibles errores
             var hayVacios = false
             var hayErrores = false
 
-            //Para el campo de contraseña
+            //Para el campo no sea vacío
              if(contrasena.isEmpty()){
             setErrorWithCustomFont(txtContraseñaNueva, "Llena este campo", R.font.poppins)
             hayVacios = true
         }
 
+        // Que la conytaseña no contenga más de 12 carácteres
         else if (contrasena.length < 12) {
             setErrorWithCustomFont(txtContraseñaNueva, "La contraseña debe contener 12 carácteres", R.font.poppins)
             hayErrores = true

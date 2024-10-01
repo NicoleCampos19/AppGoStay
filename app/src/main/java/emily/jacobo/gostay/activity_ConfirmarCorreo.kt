@@ -29,6 +29,7 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
             insets
         }
 
+        // Se llaman los elementos que se encuentran en la vista
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtCodigoCorreo = findViewById<TextView>(R.id.txtCodigoCorreo)
         val btnConfirmaCorreo = findViewById<Button>(R.id.btnConfirmaCorreo)
@@ -36,22 +37,22 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
         val codigoRegis = activity_registrarse.variableGloalLogin.CodigoRegis.toString().trim()
         val txtCorreoI = activity_registrarse.variableGloalLogin.txtCorreoI
 
-
+        // Para poder regresar a la pantalla anterior
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
 
+        // Configura el evento de clic para el botón "Reenviar"
         btnReenviarExis.setOnClickListener {
-
+         // Inicia una nueva coroutine en el contexto principal
             CoroutineScope(Dispatchers.Main).launch {
+                // Llama a la función para enviar un correo de recuperación de contraseña
                 enviarCorreo(
-                    "${txtCorreoI}",
-                    "Recuperacion de contraseña",
-                    "Este es tu código de recuperación de cuenta $codigoRegis" )
-
-
+                    "${txtCorreoI}", //Correo del usuario
+                    "Recuperacion de contraseña", //Asunto del correo
+                    "Este es tu código de recuperación de cuenta $codigoRegis" ) // Código del correo
             }
         }
 
@@ -67,18 +68,23 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
             editText.error = spannableString
         }
 
+        // Registra un mensaje en el log antes de confirmar el registro
         Log.d("Confirmacion_Cuenta", "ANTES DEL METODO DE CONFIRMAR REGIS")
+        // Configura el evento de clic para el botón de confirmación de correo
         btnConfirmaCorreo.setOnClickListener {
-
+        // Registra un mensaje cuando se presiona el botón
             Log.d("Confirmacion_Cuenta", "BOTÓN confirmar presionado REGIS")
 
+            // Obtiene el código ingresado por el usuario
             val codigo = txtCodigoCorreo.text.toString()
 
+            // Registra el código ingresado en el log
             Log.d("Confirmacion_Cuenta", "Código INGRESADO: $codigoRegis")
 
-            var hayVacios = false
-            var hayErrores = false
+            var hayVacios = false // Indica si hay campos vacíos
+            var hayErrores = false // Indica si hay errores en el formato
 
+            //Verifica si los campos están vacíos o si cumplen con condiciones y asigna acciones
             if(codigo.isEmpty()){
                 setErrorWithCustomFont(txtCodigoCorreo, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -90,20 +96,13 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
             // Si hay errores, no procede a guardar los datos
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
+                //Si las condiciones se cumplen pasa lo siguiente
             } else{
-
-
                 try {
-                    // Asegúrate de que el código de recuperación es un String
-
-
                     Log.d("Confirmacion_Cuenta", "DESPUES DEL METODO DE CONFIRMAR REGIS")
-
                     if (codigo.trim() == codigoRegis.trim()) {
-
                         Log.d("Confirmacion_Cuenta", "DENTRO DEL METODO DE CONFIRMAR REGIS")
                         Log.d("Confirmacion_Cuenta", "Código de recuperación: $codigoRegis")
-
                         val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
                         startActivity(siguientepantalla)
                         overridePendingTransition(0, 0)
@@ -114,8 +113,6 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
                     Log.e("Confirmacion_Cuenta", "Error: ${e.message}")
                     Toast.makeText(this, "Error inesperado. Intenta de nuevo.", Toast.LENGTH_SHORT).show()
                 }
-
-
             }
         }
     }

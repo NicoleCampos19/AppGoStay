@@ -35,17 +35,20 @@ class TusComentarios : AppCompatActivity() {
             insets
         }
 
+        // Mando a llamar los elementos de la vista
         val rcvTusComentarios = findViewById<RecyclerView>(R.id.rcvTusComentarios)
         rcvTusComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
 
+        // Asigna el ID de usuario global; si es nulo, asigna -1 como valor por defecto
         val idUsuario = PaginaInicio.idUsuarioGlobalL ?: -1
 
+        // Para que la activity se cierre
         imvAtrasc.setOnClickListener {
             finish()
         }
+
+        // Función para poder obtener toda la información del comentario
         fun obtenerMisComentarios(idUsuario: Int): List<tbComentarios> {
             val listaComentarios = mutableListOf<tbComentarios>()
             var objConexion: Connection? = null
@@ -110,14 +113,11 @@ WHERE
                 preparedStatement?.close()
                 objConexion?.close()
             }
-
+            //Retorna la lista
             return listaComentarios
         }
 
-
-
-
-
+        // Actualiza la UI con los comentarios usando un adaptador.
         CoroutineScope(Dispatchers.IO).launch {
             val comentariosDB = obtenerMisComentarios(idUsuario)
             withContext(Dispatchers.Main) {

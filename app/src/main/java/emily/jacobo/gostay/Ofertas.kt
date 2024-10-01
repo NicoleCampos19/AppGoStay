@@ -30,16 +30,19 @@ class Ofertas : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Mando a llamar los elementos de la vista
         val rcvOfertas = findViewById<RecyclerView>(R.id.rcvOfertas)
         rcvOfertas.layoutManager = LinearLayoutManager(this)
-
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
 
-
+        // Para poder ir a Perfil
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
         }
+
+        // Obtener la información de la oferta
         fun obtenerOfertas(): List<tbOfertas> {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()
@@ -47,8 +50,11 @@ class Ofertas : AppCompatActivity() {
                     "FROM tbOfertas tof \n" +
                     "INNER JOIN tbHoteles th ON tof.id_hoteles = th.id_hoteles")!!
 
+            // Se crea una lista mutable de tipo 'tbOfertas' para almacenar los resultados obtenidos de la base de datos
             val listaOfertas = mutableListOf<tbOfertas>()
 
+            // Se crean las variables para almacenar los valores de cada columna del resultado.
+            // Luego, se crea un objeto 'tbOfertas' con esos valores.
             while (resultSet.next()) {
                 val nombre = resultSet.getString("nombre")
                 val nombre_oferta = resultSet.getString("nombre_oferta")
@@ -60,7 +66,8 @@ class Ofertas : AppCompatActivity() {
             }
             return listaOfertas
         }
-
+// se actualiza la interfaz principal en el hilo principal (Dispatchers.Main).
+        // Se asigna el adaptador con las ofertas al RecyclerView.
         CoroutineScope(Dispatchers.IO).launch{
             val ofertasDB = obtenerOfertas()
             withContext(Dispatchers.Main){

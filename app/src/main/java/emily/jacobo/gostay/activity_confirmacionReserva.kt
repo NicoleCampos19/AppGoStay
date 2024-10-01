@@ -35,7 +35,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
     companion object {
         lateinit var direccionHotelGlobal: String
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,41 +44,53 @@ class activity_confirmacionReserva : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        //Se manda a llamar los elementos de la vista
         val btnConfirmar = findViewById<TextView>(R.id.btnConfirmar)
 
-        //recividos de verdad XD
-
+        // Asignar el ID del hotel desde una variable global que se obtiene de la página de inicio
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
+        // Asignar el ID del tipo de habitación desde una variable global del adaptador de tipos de habitación
         val idTipoHabitacionRecivido = AdaptorTipoHabitacion.idTipoHabitacionGlobal
+        // Obtener el CVV de la tarjeta desde la actividad de reserva
         val cvv = activity_reserva.cvv
+        // Obtener la fecha de caducidad de la tarjeta desde la actividad de reserva
         val fechaCaducidad = activity_reserva.fechaCaducidad
+        // Obtener el número de la tarjeta de crédito desde la actividad de reserva
         val numeroTarjeta = activity_reserva.numeroTarjeta
+        // Obtener el nombre del titular de la tarjeta desde la actividad de reserva
         val nombreTitular = activity_reserva.nombreTitular
+        // Obtener la fecha de entrada de la reserva desde la actividad de reserva
         val fechaEntrada = activity_reserva.fechaEntrada
+        // Obtener la fecha de salida de la reserva desde la actividad de reserva
         val fechaSalida = activity_reserva.fechaSalida
+        // Asignar el ID del usuario desde una variable global obtenida en la página de inicio
         val idUsuario = idUsuarioGlobalL
+        // Obtener el ID del departamento (probablemente relacionado con el destino o tipo de habitación) desde la actividad de reserva
         val idDepartamento = activity_reserva.idDepartamento
-
+        // Asignar el nombre del usuario desde una variable global obtenida en la página de inicio
         val nombreUsuario = PaginaInicio.nombreUsuarioGlobalL
+
+        // Mostrar en el log los datos recibidos (departamento, usuario, tipo de habitación)
         Log.d("ConfirmacionDepartamento", "Departamento recibido: $idDepartamento")
         Log.d("ConfirmacionUsuario", "nombre del usuario recivido: $nombreUsuario")
         Log.d("ConfirmacionUsuario", "ID del usuario recivido: $idUsuario")
         Log.d("ConfirmacionTipoHabitacion", "ID del tipo habitacion recivido: $idTipoHabitacionRecivido")
 
-        //mostrar
+        // Referencia al TextView que muestra el monto total
         val tvTotalAmount = findViewById<TextView>(R.id.tvTotalAmount)
-        // Calcular la cantidad de días
+
+        // Calcular la cantidad de días de estancia si las fechas no son nulas
         val diasEstancia = if (fechaEntrada != null && fechaSalida != null) {
             calcularDiasEstancia(fechaEntrada, fechaSalida)
         }else {
-            0L // Valor predeterminado si alguna fecha es nula
+            0L // Si alguna fecha es nula, se asigna 0
         }
 
-        // Obtener el precio de la habitación
+        // Obtener el precio de la habitación en un hilo secundario
         CoroutineScope(Dispatchers.IO).launch {
             val precioHabitacion = obtenerPrecioHabitacion(idTipoHabitacionRecivido)
 
-            // Calcular el total y mostrarlo en el TextView
+            // Calcular el total con descuento y mostrarlo en el TextView en el hilo principal
             withContext(Dispatchers.Main) {
                 val total = diasEstancia * precioHabitacion
                 val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
@@ -87,27 +98,36 @@ class activity_confirmacionReserva : AppCompatActivity() {
                 tvTotalAmount.text = "$$totalDescuento + impuestos"
             }
         }
+        // Mostrar las fechas de entrada y salida en los TextViews correspondientes
         findViewById<TextView>(R.id.tvEntradaDate).text = fechaEntrada
         findViewById<TextView>(R.id.tvSalidaDate).text = fechaSalida
 
-       val volverAtras = findViewById<ImageView>(R.id.imgVolverTrasxd)
+       // Mando a llamar la img desde la vista
+        val volverAtras = findViewById<ImageView>(R.id.imgVolverTrasxd)
 
+        // Para poder volver atrás
         volverAtras.setOnClickListener {
             finish()
         }
 
+// Verifica si el ID del hotel, el ID del tipo de habitación y el nombre de usuario son válidos
         if (idHotelRecivido != -1 && idTipoHabitacionRecivido != -1 && nombreUsuario != null) {
+            // Llama a funciones para obtener la dirección, nombre del hotel y tipo de habitación
             obtenerDireccionHotelEnTv(idHotelRecivido ?: -1)
             obtenerNombreHotelEnTv(idHotelRecivido ?: -1)
             obtenerNombreTipoHabitacionEnTv(idTipoHabitacionRecivido ?: -1)
+
+            // Asigna el nombre de usuario al TextView de la reserva
             findViewById<TextView>(R.id.tvReservaNombre).text = nombreUsuario
         }
 
+        // Configura el botón "Confirmar" para que al hacer clic se ejecute la función de aceptar reserva
         btnConfirmar.setOnClickListener{
             aceptarReserva()
         }
     }
 
+    // Función para poder aceptar la reserva
     private fun aceptarReserva() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@activity_confirmacionReserva)
@@ -206,6 +226,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         }
     }
 
+    // Función de cuando la reserva este realizada
     private fun reservaHecha() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@activity_confirmacionReserva)
@@ -221,7 +242,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
-
             dialog.show()
         }
     }
@@ -231,7 +251,6 @@ class activity_confirmacionReserva : AppCompatActivity() {
         val formatoFecha = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
         val entrada = formatoFecha.parse(fechaEntrada)
         val salida = formatoFecha.parse(fechaSalida)
-
         val diff = salida.time - entrada.time
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
     }
@@ -256,6 +275,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         return precioHabitacion
     }
 
+    // Función para mostrar la alerta de éxito
     private fun mostrarAlertaExito() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(null)
@@ -271,7 +291,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         dialog.show()
     }
 
-//encontrar direccion del hotel
+// Función para encontrar la dirección del hotel
     private fun obtenerDireccionHotelEnTv(idHotel: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             val direccionHotel = cargarDireccionHotel(idHotel)
@@ -281,10 +301,11 @@ class activity_confirmacionReserva : AppCompatActivity() {
             }
         }
     }
+
+    // Función para cargar la dirección del hotel (es un select)
     private fun cargarDireccionHotel(idHotel: Int): String? {
         var direccionHotel: String? = null
         val conexion = ClaseConexion().cadenaConexion()
-
         val query = """
         SELECT direccion 
         FROM tbHoteles 
@@ -301,7 +322,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         conexion?.close()
         return direccionHotel
     }
-    //encontrar nombre del hotel
+    // Obtener el nombre del hotel
     private fun obtenerNombreHotelEnTv(idHotel: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             val nombreHotel = cargarNombreHotel(idHotel)
@@ -310,10 +331,10 @@ class activity_confirmacionReserva : AppCompatActivity() {
             }
         }
     }
+    // Función para cargar el nombre del hotel (es un select)
     private fun cargarNombreHotel(idHotel: Int): String? {
         var nombreHotel: String? = null
         val conexion = ClaseConexion().cadenaConexion()
-
         val query = """
         SELECT nombre
         FROM tbHoteles 
@@ -340,10 +361,11 @@ class activity_confirmacionReserva : AppCompatActivity() {
             }
         }
     }
+
+    // Para cargar el nombre del tipo de habitación (es un select)
     private fun cargarNombreTipoHabitacion(idTipoHabitacion: Int): String? {
         var nombreTipoHabitacion: String? = null
         val conexion = ClaseConexion().cadenaConexion()
-
         val query = """
         SELECT nombre_tipo_habitacion FROM tbTiposHabitaciones WHERE id_tipo_habitacion = ?
     """
@@ -358,8 +380,11 @@ class activity_confirmacionReserva : AppCompatActivity() {
         conexion?.close()
         return nombreTipoHabitacion
     }
+
+    // Función para mostrar un diálogo personalizado
     private fun showCustomDialog() {
         CoroutineScope(Dispatchers.Main).launch {
+            // Crea un nuevo dialog
             val dialog = Dialog(this@activity_confirmacionReserva)
             dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_denuncia_realizada)
@@ -368,6 +393,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
             btnClose.setOnClickListener {
                 dialog.dismiss()
             }
+            // Muestra el diálogo en pantalla
             dialog.show()
         }
     }

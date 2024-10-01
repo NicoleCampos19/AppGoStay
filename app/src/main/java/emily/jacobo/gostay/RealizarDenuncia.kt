@@ -20,6 +20,7 @@ import modelo.ClaseConexion
 
 class RealizarDenuncia : AppCompatActivity() {
 
+    // Variable privada que guarda el ID del hotel, inicializada con -1 como valor por defecto.
     private var idHotel: Int = -1
 
     @SuppressLint("MissingInflatedId")
@@ -32,6 +33,8 @@ class RealizarDenuncia : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Mandar a llamar los elementos de la vista
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         val radioButton = findViewById<RadioButton>(R.id.radio_button_1)
@@ -40,6 +43,7 @@ class RealizarDenuncia : AppCompatActivity() {
 
         println("idHotel recibido: $idHotel")
 
+        // Cuando se hace clic en el botón de agregar denuncia, se ejecuta este bloque.
         btnAgregarDenuncia.setOnClickListener {
             val selectedRadioButtonId = radioGroup.checkedRadioButtonId
             if (selectedRadioButtonId != -1) {
@@ -68,7 +72,7 @@ class RealizarDenuncia : AppCompatActivity() {
             }
         }
 
-
+        // Para ir a la página de inicio
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, PaginaInicio::class.java)
             startActivity(volverAtras)
@@ -88,16 +92,19 @@ class RealizarDenuncia : AppCompatActivity() {
         }
     }
 
+    // Función privada para mostrar un diálogo personalizado en la interfaz.
     private fun showCustomDialog() {
         CoroutineScope(Dispatchers.Main).launch {
             val dialog = Dialog(this@RealizarDenuncia)
             dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_denuncia_realizada)
 
+            // Cierra el diálogo cuando se hace clic en el botón de cierre.
             val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
             btnClose.setOnClickListener {
                 dialog.dismiss()
             }
+            // Muestra el diálogo en la pantalla.
             dialog.show()
         }
     }

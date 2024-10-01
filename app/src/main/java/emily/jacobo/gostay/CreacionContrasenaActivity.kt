@@ -25,6 +25,7 @@ import java.sql.PreparedStatement
 
 class CreacionContrasenaActivity : AppCompatActivity() {
 
+    // Variables que se inicializarán después
     lateinit var txtNewContra: EditText
     lateinit var Correo: String
 
@@ -33,6 +34,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Validación con las fuentes de poppins
         enableEdgeToEdge()
         setContentView(R.layout.activity_creacion_contrasena)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -42,6 +44,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
 
         }
 
+        // Se mandan a llamar los elementos de la vista
         txtNewContra = findViewById<EditText>(R.id.txtNuevaContrasena1)
         val imvVerNewContra = findViewById<ImageView>(R.id.imvVerNewContra)
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
@@ -49,6 +52,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
         var isPasswordVisible = false
 
+        // Para que la letra de los ojitos salga con poppins
         val poppinsFont = ResourcesCompat.getFont(this, R.font.poppins)
         txtNewContra.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         txtNewContra.typeface = poppinsFont
@@ -69,9 +73,9 @@ class CreacionContrasenaActivity : AppCompatActivity() {
             isPasswordVisible = !isPasswordVisible
         }
 
+        // Confirmación de que la actualización fue correcta
        btnCrearContrasena.setOnClickListener {
            val nuevaContra = txtNewContra.text.toString()
-           // Validar la contraseña
            if (validatePassword(nuevaContra)) {
                actualizarContraseña(Correo, nuevaContra)
                val intent = Intent(this, activity_iniciar_sesion::class.java)
@@ -82,6 +86,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
                 }
        }
 
+        // Navegación para volver atrás
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Confirmacion_Cuenta::class.java)
             startActivity(volverAtras)
@@ -89,12 +94,13 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         }
     }
 
+    // Para que la cpntraseña sea encriptada
     fun hashSHA256(contrasenaEscrita: String): String {
         val bytes = MessageDigest.getInstance("SHA-256").digest(contrasenaEscrita.toByteArray())
         return bytes.joinToString("") { "%02x".format(it) }
     }
 
-    //Validación para campos
+    //Validación para campos con poppins
     fun setErrorWithCustomFont(editText: TextView, errorMessage: String, fontResId: Int) {
         val typeface = ResourcesCompat.getFont(this, fontResId)
         val spannableString = android.text.SpannableString(errorMessage)
@@ -105,6 +111,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         editText.error = spannableString
     }
 
+    // Para que el campo no este vacío y que no contenga más de 12 carácteres
     @RequiresApi(Build.VERSION_CODES.P)
     private fun validatePassword(password: String): Boolean {
         return if (password.isEmpty()) {
@@ -118,6 +125,7 @@ class CreacionContrasenaActivity : AppCompatActivity() {
         }
     }
 
+    // Función para que se actualice la contraseña
     private fun actualizarContraseña(correo: String, contraseña: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {

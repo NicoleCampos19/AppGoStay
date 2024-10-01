@@ -1,3 +1,4 @@
+// Campos de la tbServiciosHotel
 package modelo
 
 data class ServicioInfo(

@@ -20,21 +20,24 @@ class metodos_contras : AppCompatActivity() {
             insets
         }
 
+        // Mandar a llamar a los elementos de la vista
         val btnRecuCorreo = findViewById<Button>(R.id.btnRecuCorreo)
         val btnRecuNum = findViewById<Button>(R.id.btnRecuNum)
-
         val btnAtras = findViewById<ImageView>(R.id.imvAtras)
 
+        // Para poder ir a activity_iniciar_sesion
         btnAtras.setOnClickListener {
             val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(volverAtras)
         }
 
+        // Para poder ir a RecuperacionCuentaActivity
         btnRecuCorreo.setOnClickListener {
             val siguientepantallita = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(siguientepantallita)
         }
 
+        // Para poder ir a recuperacion_cuenta_cel
         btnRecuNum.setOnClickListener {
             val siguientepantallita = Intent(this, recuperacion_cuenta_cel::class.java)
             startActivity(siguientepantallita)

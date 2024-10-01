@@ -1,3 +1,5 @@
+// Campos de la tbOfertas
+
 package modelo
 
 data class tbOfertas(

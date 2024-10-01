@@ -25,10 +25,12 @@ class confirmacion_cuenta_cel : AppCompatActivity() {
             insets
         }
 
+        // Se mandan a llamar los elementos de la vista
         val btnRecuperacionCel = findViewById<Button>(R.id.btnRecuperacionCel)
         val imvAtrascel = findViewById<ImageView>(R.id.imvAtrascel)
         val txtCodigoCel = findViewById<EditText>(R.id.txtCodigoCel)
 
+        // Navegación para volver atrás
         imvAtrascel.setOnClickListener {
             val volverAtras = Intent(this, recuperacion_cuenta_cel::class.java)
             startActivity(volverAtras)
@@ -48,15 +50,20 @@ class confirmacion_cuenta_cel : AppCompatActivity() {
         }
         btnRecuperacionCel.setOnClickListener {
 
+            // Variable para validar el código
             val codigocel = txtCodigoCel.text.toString()
 
+            // Variables que captan los posibles errores
             var hayVacios = false
             var hayErrores = false
 
+            // Si el código esta vacío se muestra una alertita
             if(codigocel.isEmpty()){
                 setErrorWithCustomFont(txtCodigoCel, "Llena este campo", R.font.poppins)
                 hayVacios = true
             }
+
+            // No permite que el código sea mayor a 6
             else if (codigocel.length != 6) {
                 setErrorWithCustomFont(txtCodigoCel, "El código debe contener 6 carácteres", R.font.poppins)
                 hayErrores = true

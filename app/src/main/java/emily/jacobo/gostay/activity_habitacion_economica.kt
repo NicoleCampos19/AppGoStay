@@ -27,8 +27,8 @@ import modelo.tbServiciosHabitacion
 
 class activity_habitacion_economica : AppCompatActivity() {
 
+    // Variable que se inicializará más tarde
     private lateinit var servicioAdapter: AdaptadorServiciosHabitacion
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,39 +40,37 @@ class activity_habitacion_economica : AppCompatActivity() {
             insets
         }
 
-
+       //Mando a llamar todos los elementos que se encuentran en la vista
         val imageViewBack = findViewById<ImageView>(R.id.imgVolver)
         val btnReservar = findViewById<Button>(R.id.btnReservar)
         val idTipoHabitacion = AdaptorTipoHabitacion.idTipoHabitacionGlobal
         val recyclerView: RecyclerView = findViewById(R.id.rcvEspecificaciones)
 
-
-
+        // Btn para finalizar la activity
         imageViewBack.setOnClickListener {
             finish()
         }
 
+        //Navegación para ir a la activity de reservas
         btnReservar.setOnClickListener {
             val intent = Intent(this, activity_reserva::class.java)
             startActivity(intent)
         }
 
 
-// Variable para almacenar la URL de la imagen
+       // Variable para almacenar la URL de la imagen
         var imgTipoHabitacionUrl: String? = null
         var nombreTipoHabitacion: String? = null
 
-// Realiza la consulta en un hilo separado (por ejemplo, usando una corrutina)
+       // Realiza la consulta de un select en un hilo separado (por ejemplo, usando una corrutina)
         CoroutineScope(Dispatchers.IO).launch {
             val query = "SELECT nombre_tipo_habitacion, img_tipo_habitacion FROM tbTiposHabitaciones WHERE id_tipo_habitacion = ?"
-
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 objConexion?.use { connection ->
                     val statement = connection.prepareStatement(query).apply {
                         setInt(1, idTipoHabitacion)
                     }
-
                     statement.use { preparedStatement ->
                         val resultSet = preparedStatement.executeQuery()
                         resultSet.use { rs ->
@@ -105,14 +103,13 @@ class activity_habitacion_economica : AppCompatActivity() {
             }
         }
 
-
+        // Función para traer los servicios de habitación que hay que la base
         fun loadServiciosFromDatabase(idTipoHabitacion: Int): List<tbServiciosHabitacion> {
             val ServiciosList = mutableListOf<tbServiciosHabitacion>()
             val query = """
         select nombre_servicio_habitacion, img_icono_habitacion from tbServiciosHabitacion where id_tipo_habitacion = ?
 
     """.trimIndent()
-
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 objConexion?.use { connection ->
@@ -134,9 +131,10 @@ class activity_habitacion_economica : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace() // Log the exception to debug
             }
-
-            return ServiciosList
+            return ServiciosList // Retorno la lista
         }
+
+        // Traer los servicios dependiendo del id_habitación
         CoroutineScope(Dispatchers.IO).launch {
             val servicios = idTipoHabitacion?.let { loadServiciosFromDatabase(it) }
             withContext(Dispatchers.Main) {

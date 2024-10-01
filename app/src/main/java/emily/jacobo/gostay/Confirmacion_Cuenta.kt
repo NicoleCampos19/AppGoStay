@@ -31,6 +31,7 @@ class Confirmacion_Cuenta : AppCompatActivity() {
             insets
         }
 
+        // Se mandan a llamar los elementos de la vista
         val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
         val txtCodigoConf = findViewById<TextView>(R.id.txtCodigo)
         val btnConfirmaCuenta = findViewById<Button>(R.id.btnRecuperacion)
@@ -38,6 +39,7 @@ class Confirmacion_Cuenta : AppCompatActivity() {
         val codigoRecuperacion = RecuperacionCuentaActivity.variablesGobalesRecuperacion.codigoRecuperacion.toString().trim()
         val Correo = RecuperacionCuentaActivity.variablesGobalesRecuperacion.Correo
 
+        // Navegación para ir a la siguiente activity
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(volverAtras)
@@ -56,86 +58,37 @@ class Confirmacion_Cuenta : AppCompatActivity() {
             editText.error = spannableString
         }
 
+        // Para reenviar el código de recu
         btnReenviar.setOnClickListener {
-
             CoroutineScope(Dispatchers.Main).launch {
                 enviarCorreo(
                     "${Correo}",
                     "Recuperacion de contraseña",
                     "Este es tu código de recuperación de cuenta $codigoRecuperacion" )
-
-
             }
         }
 
+        // Navegación para ir a la siguiente activity
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }
-/*
-        btnConfirmaCuenta.setOnClickListener {
 
-            val codigo = txtCodigoConf.text.toString()
-
-            var hayVacios = false
-            var hayErrores = false
-
-            if(codigo.isEmpty()){
-                setErrorWithCustomFont(txtCodigoConf, "Llena este campo", R.font.poppins)
-                hayVacios = true
-            }
-            else if (codigo.length != 6) {
-                setErrorWithCustomFont(txtCodigoConf, "El código debe contener 6 carácteres", R.font.poppins)
-                hayErrores = true
-            }
-            // Si hay errores, no procede a guardar los datos
-            if (hayVacios || hayErrores) {
-                Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG)
-            } else{
-
-
-
-                    //try {
-                        val codigoIngresado = txtCodigoConf.text.toString().toInt()
-
-                        if (codigoIngresado == codigoRecuperacion) {
-                            val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
-                            startActivity(siguientepantalla)
-                        } else if (codigoIngresado != codigoRecuperacion) {
-                            Toast.makeText(this, "Código Incorrecto", Toast.LENGTH_SHORT).show()
-                           // val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
-                           // startActivity(siguientepantalla)
-                        }
-                   /* } catch (e: NumberFormatException) {
-                        // Manejar el caso donde el texto ingresado no es un número válido
-                        Toast.makeText(this, "Ingrese un código válido", Toast.LENGTH_SHORT).show()
-                    }*/
-
-
-
-                    val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
-                    startActivity(siguientepantalla)
-                    overridePendingTransition(0, 0)
-
-            }
-        }*/
-
+        // Mostrar en el log los datos recibidos
         Log.d("Confirmacion_Cuenta", "ANTES DEL METODO DE CONFIRMAR")
         btnConfirmaCuenta.setOnClickListener {
-
 
             Log.d("Confirmacion_Cuenta", "BOTÓN confirmar presionado")
             val codigo = txtCodigoConf.text.toString()
 
             Log.d("Confirmacion_Cuenta", "Código INGRESADO: $codigoRecuperacion")
 
-
-
-
+            // Variables para que cuenten si hay valores vacíos o incorrectos
             var hayVacios = false
             var hayErrores = false
 
+            // Validación para el código
             if (codigo.isEmpty()) {
                 setErrorWithCustomFont(txtCodigoConf, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -152,14 +105,16 @@ class Confirmacion_Cuenta : AppCompatActivity() {
                 try {
                     // Asegúrate de que el código de recuperación es un String
 
-
+                    // Mostrar en el log los datos recibidos
                     Log.d("Confirmacion_Cuenta", "DESPUES DEL METODO DE CONFIRMAR")
 
                     if (codigo.trim() == codigoRecuperacion.trim()) {
 
+                        // Mostrar en el log los datos recibidos
                         Log.d("Confirmacion_Cuenta", "DENTRO DEL METODO DE CONFIRMAR")
                         Log.d("Confirmacion_Cuenta", "Código de recuperación: $codigoRecuperacion")
 
+                        // Navegación para otra pantalla
                         val siguientepantalla = Intent(this, CreacionContrasenaActivity::class.java)
                         startActivity(siguientepantalla)
                         overridePendingTransition(0, 0)
@@ -172,7 +127,6 @@ class Confirmacion_Cuenta : AppCompatActivity() {
                 }
             }
         }
-
         }
 
     }

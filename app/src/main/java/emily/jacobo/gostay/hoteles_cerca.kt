@@ -26,10 +26,14 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
 
+    // Variable para la instancia del mapa de Google Maps
     private lateinit var map: GoogleMap
+    // Cliente para acceder a la ubicación del dispositivo
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    // Callback para recibir actualizaciones de ubicación
     private lateinit var locationCallback: LocationCallback
 
+    // Código de solicitud para permisos de ubicación
     companion object {
         const val LOCATION_REQUEST_CODE = 0
     }
@@ -38,7 +42,6 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_hoteles_cerca)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         createFragment()
 
@@ -57,11 +60,13 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Para que se cree el fragment del mapa
     private fun createFragment() {
         val mapFragment: SupportMapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
+    // Para que al tener los permisos el mapa se inicie
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
@@ -85,6 +90,7 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Solicita los permisos
     private fun isPermissionsGranted() = ContextCompat.checkSelfPermission(
         this,
         Manifest.permission.ACCESS_FINE_LOCATION
@@ -101,6 +107,7 @@ class hoteles_cerca : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Si los permisos son rechazados
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
         if (isPermissionsGranted()) {

@@ -1,3 +1,5 @@
+// Campos de la tbFavoritos
+
 package modelo
 
 data class tbFavoritos (

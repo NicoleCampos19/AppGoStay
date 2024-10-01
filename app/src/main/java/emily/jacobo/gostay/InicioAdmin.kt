@@ -46,6 +46,7 @@ class InicioAdmin : AppCompatActivity() {
         val rcvHotelAdmin = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
         rcvHotelAdmin.layoutManager = LinearLayoutManager(this)
         cargarHoteles(sql)
+
         //Navegación entre pantallas
         imvHotelNavegacion.setOnClickListener {
             val siguientePantalla = Intent(this, InicioAdmin::class.java)
@@ -62,11 +63,10 @@ class InicioAdmin : AppCompatActivity() {
             false
         }
 
+        // Inicia el reconocimiento de voz
         btnVoz.setOnClickListener {
             iniciarReconocimientoDeVoz()
         }
-
-
     }
 
     // Método para iniciar el reconocimiento de voz
@@ -102,6 +102,7 @@ class InicioAdmin : AppCompatActivity() {
         }
     }
 
+    // Función para realizar las búsquedad
     private fun realizarBusqueda(query: String) {
         val rcvHotelAdmin = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
         rcvHotelAdmin.layoutManager = LinearLayoutManager(this)
@@ -160,6 +161,7 @@ class InicioAdmin : AppCompatActivity() {
         return listaHoteles
     }
 
+    // Función para obtener los favoritos agregados
     private fun obtenerFavoritos(): List<tbFavoritos> {
         val objConexion = ClaseConexion().cadenaConexion()
 
@@ -180,6 +182,7 @@ class InicioAdmin : AppCompatActivity() {
         return listaFav2
     }
 
+    // Select para cargar los hoteles
     private fun cargarHoteles(sqlQuery: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val hotelesDB = obtenerHoteles(sqlQuery, "")  // Aquí sólo se pasa un parámetro de búsqueda

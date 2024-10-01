@@ -29,12 +29,12 @@ class historial_reservas : AppCompatActivity() {
             insets
         }
 
+        // Se asigna el valor del ID de usuario global de la página de inicio.
         val idUsuarioGLobal = PaginaInicio.idUsuarioGlobalL
 
-
+        // Se crea una lista mutable para almacenar reservas inactivas
         fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
             val reservasInactivas = mutableListOf<ReservaInfo>()
-
             val query = """
         select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre_usuario, hot.img_url, th.nombre_tipo_habitacion
         from tbHabitaciones ha
@@ -43,7 +43,8 @@ class historial_reservas : AppCompatActivity() {
         INNER JOIN tbTiposHabitaciones th ON ha.id_tipo_habitacion = th.id_tipo_habitacion
         where ha.id_usuario = ?
     """.trimIndent()
-
+// Consulta SQL que une varias tablas para obtener información de las reservas y habitaciones
+            // basándose en el ID del usuario.
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 objConexion?.use { connection ->
@@ -51,6 +52,7 @@ class historial_reservas : AppCompatActivity() {
                         setInt(1, idUsuarioRecivido)
                     }
 
+                    // Se crea una conexión y se prepara la consulta SQL, configurando el ID de usuario recibido
                     statement.use { preparedStatement ->
                         val resultSet = preparedStatement.executeQuery()
                         resultSet.use { rs ->
@@ -96,8 +98,5 @@ class historial_reservas : AppCompatActivity() {
                 recyclerViewInactivas.layoutManager = LinearLayoutManager(this@historial_reservas)
             }
         }
-
-
-
     }
 }

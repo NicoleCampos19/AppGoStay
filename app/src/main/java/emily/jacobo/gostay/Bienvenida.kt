@@ -19,8 +19,10 @@ class Bienvenida : AppCompatActivity() {
             insets
         }
 
+        // Se manda a llamar el btn de la vista
         val btn = findViewById<Button>(R.id.btnContinuarBienvenida)
 
+        // Para ir a la activity de registrarse
         btn.setOnClickListener {
             val siguientepantalla = Intent(this, activity_registrarse::class.java)
             startActivity(siguientepantalla)

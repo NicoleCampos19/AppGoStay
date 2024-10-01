@@ -1,3 +1,5 @@
+// Campos de la tbHabitaciones
+
 package modelo
 
 data class tbHabitaciones(

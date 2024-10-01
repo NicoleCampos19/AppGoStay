@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class activity_resenas : AppCompatActivity() {
 
+    // Se declara una variable global
     companion object resenaGlobal {
         lateinit var promedio : String
     }
@@ -31,8 +32,10 @@ class activity_resenas : AppCompatActivity() {
             insets
         }
 
+        //Se manda a llamar el elemento de la vista
         val imgVolverR = findViewById<ImageView>(R.id.imgVolverR)
 
+        //Para que la activity se cierre
         imgVolverR.setOnClickListener {
             finish()
         }
@@ -93,8 +96,8 @@ class activity_resenas : AppCompatActivity() {
         }
     }
 
+    // Validación de spinners
     private fun validarSpinnersLlenos(): Boolean {
-        // validacion
         return valoracionG != null &&
                 valoracionLimpi != null &&
                 valoracionUbi != null &&
@@ -102,6 +105,7 @@ class activity_resenas : AppCompatActivity() {
                 valoracionInstalaciones != null
     }
 
+    //Función para calcular el promedio
     private fun calcularPromedio() {
         val valores = listOf(valoracionG, valoracionLimpi, valoracionUbi, valoracionPersonal, valoracionInstalaciones)
          promedio = valores.filterNotNull().average().toString()
@@ -109,6 +113,7 @@ class activity_resenas : AppCompatActivity() {
         startActivity(intent)
     }
 
+    // Función para mostrar el mensaje
     private fun mostrarMensaje(mensaje: String) {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
     }
