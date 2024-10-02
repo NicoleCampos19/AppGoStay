@@ -48,11 +48,8 @@ class activity_eleccion_habitacion : AppCompatActivity() {
         fun loadTipoHabitacionesFromDatabase(idHotelRecivido: Int): List<tbTipoHabitacion> {
             val tipoHabitacionList = mutableListOf<tbTipoHabitacion>()
             val query = """
-        SELECT th.id_tipo_habitacion, th.nombre_tipo_habitacion, th.precio_habitacion, th.img_tipo_habitacion
-        FROM tbIntermedia_Hoteles_TipoHabitacion thb  
-        INNER JOIN tbTiposHabitaciones th 
-        ON thb.id_tipo_habitacion = th.id_tipo_habitacion 
-        WHERE thb.id_hoteles = ?
+        select id_tipo_habitacion, nombre_tipo_habitacion, precio_habitacion, img_tipo_habitacion from tbTiposHabitaciones where id_hoteles = ? AND estado = 'activo'
+
     """.trimIndent()
 
             try {
