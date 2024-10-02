@@ -9,8 +9,9 @@ data class tbHotel(
     val nombreHotel: String,
     val descripcion: String,
     val direccion: String,
+    val latitudHotel: Double,
+    val longitudHotel: Double,
     val correo: String,
-    val cantidad_habitaciones: Int,
     val img_url: String,
     val id_usuario : Int
 ) : Serializable

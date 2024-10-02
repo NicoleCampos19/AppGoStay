@@ -245,12 +245,14 @@ class PaginaInicio : AppCompatActivity() {
             val nombre = resultSet.getString("nombre")
             val descripcion = resultSet.getString("descripcion")
             val direccion = resultSet.getString("direccion")
+            val latitudHotel = resultSet.getDouble("latitudHotel")
+            val longitudHotel = resultSet.getDouble("longitudHotel")
             val correo = resultSet.getString("correo")
-            val cantidad_habitaciones = resultSet.getInt("cantidad_habitaciones")
             val img_url = resultSet.getString("img_url")
             val id_usuario = resultSet.getInt("id_usuario")
 
-            val hotel = tbHotel(id_hoteles, nombre, descripcion, direccion, correo, cantidad_habitaciones, img_url, id_usuario)
+            // Crea un objeto hotel y lo añade a la lista
+            val hotel = tbHotel(id_hoteles, nombre, descripcion, direccion, latitudHotel, longitudHotel, correo, img_url, id_usuario)
             listaHoteles.add(hotel)
         }
         resultSet.close()

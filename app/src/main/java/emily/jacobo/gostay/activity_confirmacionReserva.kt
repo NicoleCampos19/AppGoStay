@@ -51,6 +51,8 @@ class activity_confirmacionReserva : AppCompatActivity() {
         val idHotelRecivido = PaginaInicio.hotelIdGlobal
         // Asignar el ID del tipo de habitación desde una variable global del adaptador de tipos de habitación
         val idTipoHabitacionRecivido = AdaptorTipoHabitacion.idTipoHabitacionGlobal
+        // Asignar la cantidad de habitaciones desde una variable global de la actividad de reserva
+        val cantidadHabitaciones = activity_reserva.cantidadHabitaciones
         // Obtener el CVV de la tarjeta desde la actividad de reserva
         val cvv = activity_reserva.cvv
         // Obtener la fecha de caducidad de la tarjeta desde la actividad de reserva
@@ -92,9 +94,9 @@ class activity_confirmacionReserva : AppCompatActivity() {
 
             // Calcular el total con descuento y mostrarlo en el TextView en el hilo principal
             withContext(Dispatchers.Main) {
-                val total = diasEstancia * precioHabitacion
+                val total = diasEstancia * precioHabitacion * cantidadHabitaciones!! // Multiplicar por cantidadHabitaciones
                 val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
-                val totalDescuento = total * (1- descuentoTotal/100)
+                val totalDescuento = total * (1 - descuentoTotal / 100)
                 tvTotalAmount.text = "$$totalDescuento + impuestos"
             }
         }
@@ -167,6 +169,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         val nombreTitular = activity_reserva.nombreTitular
                         val totalI = diasEstancia * precioHabitacion
                         val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
+                        val cantidadHabitaciones = activity_reserva.cantidadHabitaciones
                         val totalDescuento = totalI * (1- descuentoTotal/100)
                         val fechaEntrada = activity_reserva.fechaEntrada
                         val fechaSalida = activity_reserva.fechaSalida
@@ -184,7 +187,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         // Realizar la inserción en la base de datos
                         val conexion = ClaseConexion().cadenaConexion()
                         val query = """
-                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total,cantidad_habitaciones_reservadas, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)
                     """
                         val statement = conexion?.prepareStatement(query)
                         statement?.apply {
@@ -196,9 +199,10 @@ class activity_confirmacionReserva : AppCompatActivity() {
                             setString(6, nombreTitular)
                             setInt(7, cvv ?: 0) // Si cvv es null, se asume 0
                             setDouble(8, totalDescuento)
-                            setInt(9, idTipoHabitacionRecibido)
-                            setInt(10, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
-                            setInt(11, idUsuario)
+                            setInt(9, cantidadHabitaciones ?: 0) // Si cantidadHabitaciones es null, se asume 0
+                            setInt(10, idTipoHabitacionRecibido)
+                            setInt(11, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
+                            setInt(12, idUsuario)
                             executeUpdate()
                         }
 

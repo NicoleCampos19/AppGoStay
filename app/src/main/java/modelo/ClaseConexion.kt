@@ -20,11 +20,11 @@ class ClaseConexion {
             val ipprueba = "jdbc:oracle:thin:@192.168.1.20:1521:xe"
 
             // Variables que contienen el usuario y contraseña de la base de datos
-            val usuario = "system"
-            val contrasena = "ITR2024"
+            val usuario = "GoStay"
+            val contrasena = "ricaldone2024e"
 
             // Todo lo necesario para la conexión
-            val conexion = DriverManager.getConnection(ipGabriela, usuario, contrasena)
+            val conexion = DriverManager.getConnection(ipLeonardo, usuario, contrasena)
 
             return conexion
         }catch (e: Exception){

@@ -58,6 +58,8 @@ class activity_reserva : AppCompatActivity() {
         lateinit var departamento: String
         // Almacena el ID del departamento, es opcional.
         var idDepartamento: Int? = null
+        // Almacena la cantidad de habitaciones reservadas, es opcional.
+        var cantidadHabitaciones: Int? = null
         // Almacena una lista de pares de fechas reservadas (fecha de entrada, fecha de salida).
         // Se inicializa como una lista vacía.
         var fechasReservadas: List<Pair<String, String>> =
@@ -172,6 +174,7 @@ class activity_reserva : AppCompatActivity() {
 
         btnSiguiente.setOnClickListener {
             departamento = spDepartamento.selectedItem.toString()
+            cantidadHabitaciones = spCantidadH.selectedItem.toString().toInt()
             fechaCaducidad = txtFechaCaducidad.text.toString()
             // Obtener el número de tarjeta y CVV como números
             val numeroTarjetaText = txtNumeroTarjeta.text.toString()
@@ -422,7 +425,7 @@ class activity_reserva : AppCompatActivity() {
     private fun setupCantidadSpinner() {
         val spinner = findViewById<Spinner>(R.id.spCantidadH)
         // Lista de números del 1 al 5
-        val cantidadList = listOf(1, 2, 3, 4, 5)
+        val cantidadList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
         // Crear el ArrayAdapter usando la lista de números
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cantidadList)
