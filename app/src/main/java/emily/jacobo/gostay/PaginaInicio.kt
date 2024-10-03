@@ -317,8 +317,9 @@ SELECT
     h.nombre , 
     h.descripcion, 
     h.direccion, 
+    h.latitudHotel,
+    h.longitudHotel,
     h.correo, 
-    h.cantidad_habitaciones, 
     h.img_url,
     u.id_usuario
 FROM 
