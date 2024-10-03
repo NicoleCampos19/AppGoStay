@@ -39,7 +39,7 @@ class RealizarDenuncia : AppCompatActivity() {
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         val radioButton = findViewById<RadioButton>(R.id.radio_button_1)
         val btnAgregarDenuncia = findViewById<Button>(R.id.btnAgregarDenuncias)
-        idHotel = intent.getIntExtra("idHotel", idHotel)
+        val ID_Hotel = intent.getIntExtra("id_hotel", idHotel)
 
         println("idHotel recibido: $idHotel")
 
@@ -58,7 +58,7 @@ class RealizarDenuncia : AppCompatActivity() {
                                 "INSERT INTO tbDenuncias (nombre_denuncia, id_hoteles) VALUES (?, ?)"
                             )!!
                             agregarDenuncia.setString(1, denunciaTexto)
-                            agregarDenuncia.setInt(2, idHotel)
+                            agregarDenuncia.setInt(2, ID_Hotel)
                             agregarDenuncia.executeUpdate()
                             agregarDenuncia.close()
 
@@ -94,17 +94,16 @@ class RealizarDenuncia : AppCompatActivity() {
 
     // Función privada para mostrar un diálogo personalizado en la interfaz.
     private fun showCustomDialog() {
-        CoroutineScope(Dispatchers.Main).launch {
+        runOnUiThread {
             val dialog = Dialog(this@RealizarDenuncia)
             dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_denuncia_realizada)
 
-            // Cierra el diálogo cuando se hace clic en el botón de cierre.
             val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
             btnClose.setOnClickListener {
                 dialog.dismiss()
+                finish()
             }
-            // Muestra el diálogo en la pantalla.
             dialog.show()
         }
     }

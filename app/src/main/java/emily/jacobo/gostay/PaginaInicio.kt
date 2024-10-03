@@ -51,7 +51,7 @@ class PaginaInicio : AppCompatActivity() {
 
         // Recuperar el correo del usuario desde SharedPreferences
         val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-        correoIngresado = userPreferences.getString("email", "") ?: ""
+        correoIngresado = userPreferences.getString("email", null) ?: ""
 
         if (correoIngresado.isNotEmpty()) {
             // Cargar nombre de usuario y ID
@@ -218,7 +218,7 @@ class PaginaInicio : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val hotelesDB = obtenerHoteles(sqlQuery)
             withContext(Dispatchers.Main) {
-                val adapter = HotelAdapter(hotelesDB, false) { hotel ->
+                val adapter = HotelAdapter(hotelesDB, true) { hotel ->
                     hotelIdGlobal = hotel.id_hoteles
                     val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)

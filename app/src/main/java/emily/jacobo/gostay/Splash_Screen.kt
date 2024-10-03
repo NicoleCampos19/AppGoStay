@@ -1,6 +1,7 @@
 package emily.jacobo.gostay
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class Splash_Screen : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,13 +23,32 @@ class Splash_Screen : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        //Se crea corrutina
+
+        // Obtener SharedPreferences
+        val sharedPreferences: SharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+        val correoIngresado = sharedPreferences.getString("email", null)
+
         GlobalScope.launch(Dispatchers.Main) {
-            //El tiempo que va a durar la pantalla
             delay(3000)
-            //Inicia la activity
-            startActivity(Intent(this@Splash_Screen, Bienvenida::class.java))
-            //Para que no se pueda volver atrás la activity
+
+            if (correoIngresado != null) {
+                // Si ya hay un correo guardado, el usuario está logueado, redirigir a PaginaInicio
+                startActivity(Intent(this@Splash_Screen, PaginaInicio::class.java))
+            } else {
+                // Si el usuario no está logueado, verificar si es la primera vez que usa la app
+                val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
+                if (isFirstTime) {
+                    startActivity(Intent(this@Splash_Screen, Bienvenida::class.java))
+
+                    // Actualizar SharedPreferences para que no vuelva a mostrar la bienvenida
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isFirstTime", false)
+                    editor.apply()
+                } else {
+                    startActivity(Intent(this@Splash_Screen, activity_iniciar_sesion::class.java))
+                }
+            }
+
             finish()
         }
     }

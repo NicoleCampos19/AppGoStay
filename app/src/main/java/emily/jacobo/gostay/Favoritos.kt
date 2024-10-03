@@ -1,23 +1,25 @@
 package emily.jacobo.gostay
 
-import RecyclerViewHelpers.AdaptadorFavoritos
 import RecyclerViewHelpers.HotelAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
-import modelo.tbFavoritos
 import modelo.tbHotel
 
 class Favoritos : AppCompatActivity() {
@@ -38,8 +40,21 @@ class Favoritos : AppCompatActivity() {
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritoa)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
-        val correo = activity_iniciar_sesion.correoIngresado
+        val lottie2 = findViewById<LottieAnimationView>(R.id.lottie2)
+        val txt1 = findViewById<TextView>(R.id.txtReservas)
+        val txt2 = findViewById<TextView>(R.id.txt2)
+        val btnBuscar = findViewById<Button>(R.id.btnBuscar)
         rcvFavoritos.layoutManager = LinearLayoutManager(this)
+
+        val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+        val correo = sharedPreferences.getString("email", null)
+
+        // Navegación para ir a la página de inicio
+        btnBuscar.setOnClickListener {
+            val siguientepantalla = Intent(this, PaginaInicio::class.java)
+            startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
+        }
 
         // Navegación para ir a la página de inicio
         imvBuscar.setOnClickListener {
@@ -83,12 +98,10 @@ class Favoritos : AppCompatActivity() {
                 }
             }
         }
-
-        // Obtener el hotel que se quiere agregar a favoritos (es un select)
-        fun obtenerHotelesFavoritos(idUsuario: Int): List<tbHotel> {
+        //Función para mostrar hoteles favoritos
+        suspend fun obtenerHotelesFavoritos(idUsuario: Int): List<tbHotel> {
             val listaHotelesFavoritos = mutableListOf<tbHotel>()
             val objConexion = ClaseConexion().cadenaConexion()
-
             try {
                 val statement = objConexion?.prepareStatement(
                     "SELECT h.* FROM tbPreferenciales p " +
@@ -98,7 +111,14 @@ class Favoritos : AppCompatActivity() {
                 statement?.setInt(1, idUsuario)
                 val resultSet = statement?.executeQuery()
 
-                if (resultSet != null) {
+                if (resultSet != null && resultSet.isBeforeFirst) {
+                    withContext(Dispatchers.Main) {
+                        rcvFavoritos.visibility = View.VISIBLE
+                        lottie2.visibility = View.GONE
+                        txt1.visibility = View.GONE
+                        txt2.visibility = View.GONE
+                        btnBuscar.visibility = View.GONE
+                    }
                     while (resultSet.next()) {
                         val id_hoteles = resultSet.getInt("id_hoteles")
                         val nombre = resultSet.getString("nombre")
@@ -108,6 +128,7 @@ class Favoritos : AppCompatActivity() {
                         val cantidad_habitaciones = resultSet.getInt("cantidad_habitaciones")
                         val img_url = resultSet.getString("img_url")
                         val id_usuario = resultSet.getInt("id_usuario")
+                        println("$id_usuario")
 
                         val hotel = tbHotel(
                             id_hoteles, nombre, descripcion, direccion, correo,
@@ -115,6 +136,15 @@ class Favoritos : AppCompatActivity() {
                         )
 
                         listaHotelesFavoritos.add(hotel)
+                    }
+                } else {
+                    // No se encuentran hoteles favoritos y muestra informacion alterna
+                    withContext(Dispatchers.Main) {
+                        rcvFavoritos.visibility = View.GONE
+                        lottie2.visibility = View.VISIBLE
+                        txt1.visibility = View.VISIBLE
+                        txt2.visibility = View.VISIBLE
+                        btnBuscar.visibility = View.VISIBLE
                     }
                 }
             } catch (e: Exception) {
@@ -128,11 +158,11 @@ class Favoritos : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             // Obtiene el ID del usuario a partir del correo electrónico
-            val id_usuario = obtenerIdUsuario(correo)
+            val id_usuario = obtenerIdUsuario(correo!!)
             val hotelDB = obtenerHotelesFavoritos(id_usuario)
             // Cambia el contexto de ejecución al hilo principal
             withContext(Dispatchers.Main){
-                val adapter = HotelAdapter(hotelDB, true){ hotel ->
+                val adapter = HotelAdapter(hotelDB, false){ hotel ->
                     val intent = Intent(this@Favoritos, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
                         putExtra("id_hoteles", hotel.id_hoteles)

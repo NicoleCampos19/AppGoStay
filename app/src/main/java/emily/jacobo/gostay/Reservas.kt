@@ -7,13 +7,16 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +46,18 @@ class Reservas : AppCompatActivity() {
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservaa)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
+        val lottie = findViewById<LottieAnimationView>(R.id.lottiee)
+        val txtReservas = findViewById<TextView>(R.id.txtReservas)
+        val btnBuscar = findViewById<Button>(R.id.btnBuscar)
+        val recyclerViewActivas: RecyclerView = findViewById(R.id.rcvMostrarReservaciones)
+        val txt2 = findViewById<TextView>(R.id.txt2)
+
+        // Navegación para ir a la página de inicio
+        btnBuscar.setOnClickListener {
+            val siguientepantalla = Intent(this, PaginaInicio::class.java)
+            startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
+        }
 
         // Para ir a la página de inicio
         imvBuscar.setOnClickListener {
@@ -76,16 +91,17 @@ class Reservas : AppCompatActivity() {
         val idUsuarioGLobal = PaginaInicio.idUsuarioGlobalL
 
         // Crea una lista mutable para las reservas activas.
-        fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
+        // Crea una lista mutable para las reservas activas.
+        suspend fun loadHabitacionesFromDatabase(idUsuarioRecivido: Int): List<ReservaInfo> {
             val reservasActivas = mutableListOf<ReservaInfo>()
             // Consulta SQL para obtener detalles de las habitaciones reservadas por un usuario.
             val query = """
-        select hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre_usuario, hot.img_url, th.nombre_tipo_habitacion
-        from tbHabitaciones ha
+        SELECT hot.nombre as hotel_nombre, ha.entrada, ha.salida, us.nombre_usuario, hot.img_url, th.nombre_tipo_habitacion
+        FROM tbHabitaciones ha
         INNER JOIN tbHoteles hot ON ha.id_hoteles = hot.id_hoteles
         INNER JOIN tbUsuarios us ON ha.id_usuario = us.id_usuario
         INNER JOIN tbTiposHabitaciones th ON ha.id_tipo_habitacion = th.id_tipo_habitacion
-        where ha.id_usuario = ?
+        WHERE ha.id_usuario = ?
     """.trimIndent()
 
             try {
@@ -94,29 +110,36 @@ class Reservas : AppCompatActivity() {
                     val statement = connection.prepareStatement(query).apply {
                         setInt(1, idUsuarioRecivido)
                     }
-
                     statement.use { preparedStatement ->
                         val resultSet = preparedStatement.executeQuery()
                         resultSet.use { rs ->
-                            // Obtiene los datos de cada reserva del `ResultSet`.
-                            while (rs.next()) {
-                                val entrada = rs.getString("entrada")
-                                val salida = rs.getString("salida")
-                                val usuario_nombre = rs.getString("nombre_usuario")
-                                val img_url = rs.getString("img_url")
-                                val nombre_tipo_habitacion = rs.getString("nombre_tipo_habitacion")
-                                val hotel_nombre = rs.getString("hotel_nombre")
+                            if (rs != null && rs.isBeforeFirst) {
 
-                                val reserva = ReservaInfo(entrada, salida, usuario_nombre, img_url, nombre_tipo_habitacion, hotel_nombre)
+                                // Obtiene los datos de cada reserva del `ResultSet`.
+                                while (rs.next()) {
+                                    val entrada = rs.getString("entrada")
+                                    val salida = rs.getString("salida")
+                                    val usuario_nombre = rs.getString("nombre_usuario")
+                                    val img_url = rs.getString("img_url")
+                                    val nombre_tipo_habitacion =
+                                        rs.getString("nombre_tipo_habitacion")
+                                    val hotel_nombre = rs.getString("hotel_nombre")
 
-                                // Cambiar el formato para que coincida con "yyyy-MM-dd"
-                                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                val fechaSalida = dateFormat.parse(salida)
-                                val fechaActual = Date() // Fecha actual
+                                    val reserva = ReservaInfo(
+                                        entrada, salida, usuario_nombre, img_url,
+                                        nombre_tipo_habitacion, hotel_nombre
+                                    )
 
-                                // Solo agregar a las reservas activas si la fecha de salida es mayor o igual a la actual
-                                if (fechaSalida != null && !fechaSalida.before(fechaActual)) {
-                                    reservasActivas.add(reserva) // Reserva activa
+                                    // Cambiar el formato para que coincida con "yyyy-MM-dd"
+                                    val dateFormat =
+                                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                    val fechaSalida = dateFormat.parse(salida)
+                                    val fechaActual = Date() // Fecha actual
+
+                                    // Solo agregar a las reservas activas si la fecha de salida es mayor o igual a la actual
+                                    if (fechaSalida != null && !fechaSalida.before(fechaActual)) {
+                                        reservasActivas.add(reserva) // Reserva activa
+                                    }
                                 }
                             }
                         }
@@ -126,8 +149,28 @@ class Reservas : AppCompatActivity() {
                 e.printStackTrace() // Log the exception to debug
             }
 
+            // Verificar si hay reservas activas después de cargar los datos
+            withContext(Dispatchers.Main) {
+                if (reservasActivas.isEmpty()) {
+                    // Si no hay reservas activas, mostrar el contenido alternativo
+                    lottie.visibility = View.VISIBLE
+                    txtReservas.visibility = View.VISIBLE
+                    txt2.visibility = View.VISIBLE
+                    btnBuscar.visibility = View.VISIBLE
+                    recyclerViewActivas.visibility = View.GONE
+                } else {
+                    // Si hay reservas, ocultar la animación y mostrar la lista
+                    lottie.visibility = View.GONE
+                    txtReservas.visibility = View.GONE
+                    txt2.visibility = View.GONE
+                    btnBuscar.visibility = View.GONE
+                    recyclerViewActivas.visibility = View.VISIBLE
+                }
+            }
+
             return reservasActivas // Solo retorna las reservas activas
         }
+
         CoroutineScope(Dispatchers.IO).launch {
             // Obtener solo las reservas activas
             val reservasActivas = idUsuarioGLobal?.let { loadHabitacionesFromDatabase(it) } ?: emptyList()
@@ -135,7 +178,6 @@ class Reservas : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 // Adaptador para reservas activas
                 val reservaAdapterActivas = ReservaAdapter(reservasActivas)
-                val recyclerViewActivas: RecyclerView = findViewById(R.id.rcvMostrarReservaciones)
                 recyclerViewActivas.adapter = reservaAdapterActivas
                 recyclerViewActivas.layoutManager = LinearLayoutManager(this@Reservas)
 

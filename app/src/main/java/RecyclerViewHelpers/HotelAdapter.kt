@@ -24,7 +24,8 @@ class HotelAdapter(
 
     // Método para inflar la vista de cada hotel
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHotel {
-        val vistaHotel = LayoutInflater.from(parent.context).inflate(R.layout.item_hotel, parent, false)
+        val vistaHotel =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_hotel, parent, false)
         return ViewHolderHotel(vistaHotel)
     }
 
@@ -34,13 +35,18 @@ class HotelAdapter(
     // Método para vincular los datos con las vistas
     override fun onBindViewHolder(holder: ViewHolderHotel, position: Int) {
         val item = datos[position]
-        val correoIngresado = activity_iniciar_sesion.correoIngresado
+        val sharedPreferences = holder.itemView.context.getSharedPreferences(
+            "mis_preferencias",
+            android.content.Context.MODE_PRIVATE
+        )
+        val correoIngresado = sharedPreferences.getString("correoIngresado", null)
 
         // Función para obtener el id del usuario a partir del correo ingresado
         suspend fun obtenerIdUsuario(correo: String): Int? {
             return withContext(Dispatchers.IO) {
                 val objConexion = ClaseConexion().cadenaConexion()
-                val getId = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
+                val getId =
+                    objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
                 getId?.setString(1, correo)
                 val resultSet = getId?.executeQuery()
                 if (resultSet != null && resultSet.next()) {
@@ -52,16 +58,17 @@ class HotelAdapter(
         }
 
         // Función para verificar si un hotel está en favoritos para el usuario
-        suspend fun estaFavorito(id_hotel: Int, id_usuario: Int): Boolean{
+        suspend fun estaFavorito(id_hotel: Int, id_usuario: Int): Boolean {
             return withContext(Dispatchers.IO) {
                 val objConexion = ClaseConexion().cadenaConexion()
-                val query = objConexion?.prepareStatement("SELECT 1 FROM tbPreferenciales WHERE id_hoteles = ? AND id_usuario = ?")!!
+                val query =
+                    objConexion?.prepareStatement("SELECT 1 FROM tbPreferenciales WHERE id_hoteles = ? AND id_usuario = ?")!!
                 query.setInt(1, id_hotel)
                 query.setInt(2, id_usuario)
                 val resultSet = query.executeQuery()
-                if(resultSet.next()){
+                if (resultSet.next()) {
                     true;
-                } else{
+                } else {
                     false
                 }
             }
@@ -70,52 +77,61 @@ class HotelAdapter(
         // Lanza una coroutine en el hilo principal para manejar el cambio de estado del toggle de favoritos
         holder.tbToogleFavoritos.setOnCheckedChangeListener { _, isChecked ->
             CoroutineScope(Dispatchers.Main).launch {
-                val idUsuario = obtenerIdUsuario(correoIngresado) // Obtiene el id del usuario actual
-                if (idUsuario != null) {
-                    withContext(Dispatchers.IO) {
-                        val objConexion = ClaseConexion().cadenaConexion() // Conexión a la base de datos
-                        if (!esFavoritos && isChecked && !estaFavorito(item.id_hoteles,idUsuario)) {
-                            val agregarFavoritos = objConexion?.prepareStatement("INSERT INTO tbPreferenciales (id_hoteles, id_usuario) VALUES (?, ?)")!!
-                            agregarFavoritos.setInt(1, item.id_hoteles)
-                            agregarFavoritos.setInt(2, idUsuario)
-                            agregarFavoritos.executeUpdate()
-                            val commit = objConexion.prepareStatement("commit")
-                            commit.executeUpdate()
-                        } else {
-                            if(!isChecked){
-                                // Si no es la lista de favoritos, el toggle está activado y el hotel no está en favoritos,
-                                // inserta el hotel como favorito en la tabla 'tbPreferenciales'
+                if (correoIngresado != null) {
+                    val idUsuario =
+                        obtenerIdUsuario(correoIngresado) // Obtiene el id del usuario actual
+                    if (idUsuario != null) {
+                        withContext(Dispatchers.IO) {
+                            val objConexion =
+                                ClaseConexion().cadenaConexion() // Conexión a la base de datos
+                            if (!esFavoritos && isChecked && !estaFavorito(
+                                    item.id_hoteles,
+                                    idUsuario
+                                )
+                            ) {
+                                val agregarFavoritos =
+                                    objConexion?.prepareStatement("INSERT INTO tbPreferenciales (id_hoteles, id_usuario) VALUES (?, ?)")!!
+                                agregarFavoritos.setInt(1, item.id_hoteles)
+                                agregarFavoritos.setInt(2, idUsuario)
+                                agregarFavoritos.executeUpdate()
+                                val commit = objConexion.prepareStatement("commit")
+                                commit.executeUpdate()
+                            } else if (!isChecked) {
                                 val deleteFavorito =
-                                    // Si el toggle está desactivado, elimina el hotel de la tabla de favoritos
                                     objConexion?.prepareStatement("DELETE FROM tbPreferenciales WHERE id_hoteles = ? AND id_usuario = ?")!!
                                 deleteFavorito.setInt(1, item.id_hoteles)
                                 deleteFavorito.setInt(2, idUsuario)
                                 deleteFavorito.executeUpdate()
-                                // Realiza un commit a la base de datos para confirmar la transacción
                                 val commit = objConexion.prepareStatement("commit")
                                 commit.executeUpdate()
+
+                                if (esFavoritos) {
+                                    withContext(Dispatchers.Main) {
+                                        datos = datos.toMutableList().also { it.removeAt(position) }
+                                        notifyItemRemoved(position)
+                                        notifyDataSetChanged()
+                                    }
                                 }
-                            // Si es la lista de favoritos y el toggle se desactiva, elimina el hotel de la lista visible
-                            if(esFavoritos && !isChecked)
-                                withContext(Dispatchers.Main) {
-                                    datos = datos.toMutableList().also { it.removeAt(position) }
-                                    notifyItemRemoved(position)
-                                    notifyDataSetChanged()
                             }
+                            val commit =
+                                objConexion?.prepareStatement("COMMIT")!! // Confirma la transacción final
+                            commit.executeUpdate()
                         }
-                        val commit = objConexion?.prepareStatement("COMMIT")!! // Confirma la transacción final
-                        commit.executeUpdate()
                     }
                 }
             }
         }
+
         // Lanza otra coroutine para verificar si el hotel está en favoritos al cargar el ítem
         CoroutineScope(Dispatchers.Main).launch {
-            val id_usuario = obtenerIdUsuario(correoIngresado)
-            if(id_usuario!= null){
-                holder.tbToogleFavoritos.isChecked = estaFavorito(item.id_hoteles, id_usuario)
+            if (correoIngresado != null) {
+                val id_usuario = obtenerIdUsuario(correoIngresado)
+                if (id_usuario != null) {
+                    holder.tbToogleFavoritos.isChecked = estaFavorito(item.id_hoteles, id_usuario)
+                }
             }
         }
+
         // Vincula el item del hotel con el listener de clics
         holder.bind(item, clickListener)
         // Carga la imagen del hotel usando Glide

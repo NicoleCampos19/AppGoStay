@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:backgroundTint="#EBEAEA"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     tools:context=".Reservas">
 
     <TextView
@@ -22,6 +22,70 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottiee"
+        android:layout_width="wrap_content"
+        android:layout_height="190dp"
+        android:layout_marginTop="160dp"
+        android:backgroundTint="#fffcfc"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/reservas" />
+
+    <TextView
+        android:id="@+id/txtReservas"
+        android:layout_width="260dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppinsemibold"
+        android:text="Aún no tienes
+        reservas"
+        android:textAlignment="center"
+        android:textColor="#101010"
+        android:textSize="22sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lottiee" />
+
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="280dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppins"
+        android:text="Haz realidad tu próxima aventura con todas tus reservas en un solo lugar."
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtReservas" />
+
+    <Button
+        android:id="@+id/btnBuscar"
+        android:layout_width="235dp"
+        android:layout_height="63dp"
+        android:backgroundTint="#5CB5C4"
+        android:fontFamily="@font/poppins"
+        android:text="Empieza a buscar"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt2"
+        app:layout_constraintVertical_bias="0.082" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView2"
@@ -89,8 +153,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvMostrarReservaciones"
-        android:layout_width="407dp"
-        android:layout_height="682dp"
+        android:layout_width="match_parent"
+        android:layout_height="680dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

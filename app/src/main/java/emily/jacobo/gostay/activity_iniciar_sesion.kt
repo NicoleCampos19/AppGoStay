@@ -23,7 +23,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
     // Variables globales
     companion object variableGloalLogin {
-        lateinit var correoIngresado: String
+        var correoIngresado: String = ""
         const val InicioSesionGoogle = 100
     }
 
@@ -40,7 +40,6 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val imvIniciarconGoogle = findViewById<ImageView>(R.id.imvIniciarconGoogle)
         val imvVerContra3 = findViewById<ImageView>(R.id.imvVerContra3)
         var isPasswordVisible = false
-
         // Obtener SharedPreferences
         val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
 
@@ -92,7 +91,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             }
 
             // Validar longitud de la contraseña
-            if (clave.length <= 12) {
+            if (clave.length < 12) {
                 txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
                 return@setOnClickListener
             }

@@ -215,6 +215,14 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         val txtComentario = findViewById<EditText>(R.id.txtComentario)
         val imvEnviar = findViewById<ImageView>(R.id.imvEnviar)
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
+        val btnReportar = findViewById<Button>(R.id.btnReportar)
+
+        btnReportar.setOnClickListener {
+            val siguientepantalla = Intent(this, RealizarDenuncia::class.java)
+            siguientepantalla.putExtra("id_hotel", idHotel)
+            startActivity(siguientepantalla)
+            overridePendingTransition(0, 0)
+        }
 
         // Configura el RecyclerView para mostrar los comentarios en una disposición horizontal
         rcvComentarios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
