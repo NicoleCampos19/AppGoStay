@@ -18,12 +18,12 @@ class ClaseConexion {
             val ipMirna = "jdbc:oracle:thin:@10.10.0.57:1521:xe"
 
             // Variables que contienen el usuario y contraseña de la base de datos
-            val usuario = "system"
-            val contrasena = "ITR2024"
+            val usuario = "GoStay"
+            val contrasena = "ricaldone2024e"
 
             // Todo lo necesario para la conexión
-            val conexion = DriverManager.getConnection(ipEmily, usuario, contrasena)
-
+            val conexion = DriverManager.getConnection(ipLeonardo, usuario, contrasena)
+            
             return conexion
         }catch (e: Exception){
             println("El error es este: $e")

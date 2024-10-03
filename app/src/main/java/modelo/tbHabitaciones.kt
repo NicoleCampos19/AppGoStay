@@ -11,6 +11,7 @@ data class tbHabitaciones(
     val nombre_titular_tarjeta: String,
     val CVV: Int,
     val Total: Int,
+    val cantidad_habitaciones_reservadas: Int,
     val id_tipo_habitacion: Int,
     val id_hoteles: Int,
     val id_departamento: Int

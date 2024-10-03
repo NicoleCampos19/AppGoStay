@@ -107,12 +107,19 @@ class activity_habitacion_economica : AppCompatActivity() {
         fun loadServiciosFromDatabase(idTipoHabitacion: Int): List<tbServiciosHabitacion> {
             val ServiciosList = mutableListOf<tbServiciosHabitacion>()
             val query = """
-        select nombre_servicio_habitacion, img_icono_habitacion from tbServiciosHabitacion where id_tipo_habitacion = ?
-
+        SELECT nombre_servicio_habitacion, img_icono_habitacion 
+        FROM tbServiciosHabitacion 
+        WHERE id_tipo_habitacion = ?
     """.trimIndent()
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
-                objConexion?.use { connection ->
+                println("ID Tipo Habitación: $idTipoHabitacion")
+                if (objConexion == null) {
+                    println("Error: No se pudo establecer conexión a la base de datos.")
+                    return ServiciosList
+                }
+
+                objConexion.use { connection ->
                     val statement = connection.prepareStatement(query).apply {
                         setInt(1, idTipoHabitacion)
                     }
@@ -130,13 +137,16 @@ class activity_habitacion_economica : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace() // Log the exception to debug
+                println("Error al cargar servicios: ${e.message}")
             }
             return ServiciosList // Retorno la lista
         }
 
+
         // Traer los servicios dependiendo del id_habitación
         CoroutineScope(Dispatchers.IO).launch {
             val servicios = idTipoHabitacion?.let { loadServiciosFromDatabase(it) }
+            println("Servicios recuperados: ${servicios?.size}")
             withContext(Dispatchers.Main) {
                 servicios?.let {
                     servicioAdapter = AdaptadorServiciosHabitacion(it)

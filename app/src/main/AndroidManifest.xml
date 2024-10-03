@@ -166,7 +166,8 @@
             android:exported="false" />
         <activity
             android:name=".activity_iniciar_sesion"
-            android:exported="false" />
+            android:exported="false" >
+        </activity>
         <activity
             android:name=".activity_registrarse"
             android:exported="false"

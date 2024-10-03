@@ -23,8 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.ReservaInfo
-import modelo.tbHabitaciones
-import modelo.tbTipoHabitacion
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

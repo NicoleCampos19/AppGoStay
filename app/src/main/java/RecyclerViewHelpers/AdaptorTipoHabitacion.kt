@@ -40,12 +40,13 @@ class AdaptorTipoHabitacion(val Datos: List<tbTipoHabitacion>) : RecyclerView.Ad
             .load(item.img_url)
             .into(holder.imgTipoHabitacion)
 
-        // Guarda el ID del tipo de habitación actual en la variable global.
-        idTipoHabitacionGlobal = item.id_tipo_habitacion
+
 
         // Configura el clic en el botón "Ver Más" para iniciar la actividad 'activity_habitacion_economica'.
         holder.btnVerMas.setOnClickListener {
             val context = holder.itemView.context
+            // Guarda el ID del tipo de habitación actual en la variable global.
+            idTipoHabitacionGlobal = item.id_tipo_habitacion
             val intent = Intent(context, activity_habitacion_economica::class.java)
             context.startActivity(intent)  // Inicia la actividad de la habitación económica.
         }

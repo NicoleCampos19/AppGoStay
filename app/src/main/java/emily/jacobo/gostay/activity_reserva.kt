@@ -7,9 +7,9 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
-import android.view.View
-import android.widget.AdapterView
+
 import android.widget.ArrayAdapter
+import androidx.core.util.Pair as AndroidxPair
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
@@ -58,6 +58,8 @@ class activity_reserva : AppCompatActivity() {
         lateinit var departamento: String
         // Almacena el ID del departamento, es opcional.
         var idDepartamento: Int? = null
+        // Almacena la cantidad de habitaciones reservadas, es opcional.
+        var cantidadHabitaciones: Int? = null
         // Almacena una lista de pares de fechas reservadas (fecha de entrada, fecha de salida).
         // Se inicializa como una lista vacía.
         var fechasReservadas: List<Pair<String, String>> =
@@ -89,25 +91,14 @@ class activity_reserva : AppCompatActivity() {
         val txtNumeroTarjeta = findViewById<EditText>(R.id.txtNumeroTarjeta)
         val txtCVV = findViewById<EditText>(R.id.txtCVV)
         val spCantidadH = findViewById<Spinner>(R.id.spCantidadH)
-
-        // Obtener las fechas reservadas de la base de datos antes de mostrar el DateRangePicker
-        CoroutineScope(Dispatchers.IO).launch {
-            val tipoHabitacionId =
-                AdaptorTipoHabitacion.idTipoHabitacionGlobal // Supongo que ya tienes el ID del tipo de habitación seleccionado
-            fechasReservadas = obtenerFechasReservadas(tipoHabitacionId)
-
-            withContext(Dispatchers.Main) {
-                // Mostrar el DateRangePicker cuando se hace clic en el campo de fecha
+            // Mostrar el DateRangePicker cuando se hace clic en el campo de fecha
                 txtFechaReserva.setOnClickListener {
-                    showDateRangePicker(fechasReservadas) { entrada, salida ->
+                    showDateRangePicker { entrada, salida ->
                         txtFechaReserva.setText("$entrada, $salida")
                         fechaEntrada = entrada
                         fechaSalida = salida
                     }
                 }
-            }
-        }
-
         // Función para obtener el departamento en el que el usuario vive
         fun obtenerDepartamentos(): List<tbDepartamentos> {
             val objConexion = ClaseConexion().cadenaConexion()
@@ -149,8 +140,11 @@ class activity_reserva : AppCompatActivity() {
 
         // Configura el DatePickerDialog para la fecha de caducidad
         txtFechaCaducidad.setOnClickListener {
-            showDatePickerDialog { date ->
-                txtFechaCaducidad.setText(date)
+            showDatePickerDialog { date, year, month, day ->
+                // Establece el texto en el formato "MM-dd" para mostrar
+                txtFechaCaducidad.setText(String.format("%02d-%02d", month + 1, day))
+                // Almacena la fecha completa en formato "yyyy-MM-dd"
+                fechaCaducidad = String.format("%04d-%02d-%02d", year, month + 1, day)
             }
         }
 
@@ -172,6 +166,7 @@ class activity_reserva : AppCompatActivity() {
 
         btnSiguiente.setOnClickListener {
             departamento = spDepartamento.selectedItem.toString()
+            cantidadHabitaciones = spCantidadH.selectedItem.toString().toInt()
             fechaCaducidad = txtFechaCaducidad.text.toString()
             // Obtener el número de tarjeta y CVV como números
             val numeroTarjetaText = txtNumeroTarjeta.text.toString()
@@ -330,63 +325,58 @@ class activity_reserva : AppCompatActivity() {
         return fechas
     }
 
-    // Mostrar el DateRangePicker con las fechas reservadas bloqueadas y sin permitir fechas anteriores a hoy
-    private fun showDateRangePicker(
-        fechasReservadas: List<Pair<String, String>>,
-        onDatesSelected: (String, String) -> Unit
-    ) {
-        val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+    // Mostrar el DateRangePicker con las fechas reservadas bloqueadas y sin permitir selección del día actual ni días anteriores
+    private fun showDateRangePicker(onDateSelected: (entrada: String, salida: String) -> Unit) {
+        val calendar = Calendar.getInstance()
+
+        // Establece la fecha actual
+        val today = calendar.time
+
+        // Ajusta la fecha de inicio al día siguiente
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
+        val minDate = calendar.time  // Día siguiente al actual
+
+        // Configura el DatePickerDialog
+        val dateRangePickerDialog = MaterialDatePicker.Builder.dateRangePicker()
+            .setTitleText("Selecciona las fechas de reserva")
             .setTheme(R.style.ThemeMaterialCalendar)
-            .setTitleText("Seleccione fecha de entrada y salida")
-            .setCalendarConstraints(configureCalendarConstraints(fechasReservadas))  // Pasar las fechas reservadas para deshabilitarlas
+            .setSelection(AndroidxPair(minDate.time, minDate.time))  // Usa AndroidxPair aquí
+            .setCalendarConstraints(
+                CalendarConstraints.Builder()
+                    .setStart(minDate.time)  // No permitir selección del día actual ni días anteriores
+                    .setValidator(object : CalendarConstraints.DateValidator {
+                        override fun describeContents(): Int {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun writeToParcel(dest: Parcel, flags: Int) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun isValid(date: Long): Boolean {
+                            // Solo permitir selección a partir del día siguiente
+                            return date >= minDate.time
+                        }
+                    })
+                    .build()
+            )
             .build()
 
-        dateRangePicker.addOnPositiveButtonClickListener { selection ->
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val entrada = dateFormat.format(selection.first)
-            val salida = dateFormat.format(selection.second)
-            onDatesSelected(entrada, salida)
+        dateRangePickerDialog.addOnPositiveButtonClickListener { selection ->
+            val dateRange = selection as AndroidxPair<Long, Long>  // Asegúrate de usar AndroidxPair aquí
+            val entrada = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(dateRange.first))
+            val salida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(dateRange.second))
+            onDateSelected(entrada, salida)
         }
 
-        dateRangePicker.show(supportFragmentManager, "date_range_picker")
+        // Muestra el DateRangePicker
+        dateRangePickerDialog.show(supportFragmentManager, "dateRangePicker")
     }
 
-    // Configurar las restricciones del calendario para no permitir fechas anteriores a hoy y bloquear fechas reservadas
-    private fun configureCalendarConstraints(fechasReservadas: List<Pair<String, String>>): CalendarConstraints {
-        val today = Calendar.getInstance()  // Fecha actual
 
-        val dateValidator = object : CalendarConstraints.DateValidator {
-            override fun isValid(date: Long): Boolean {
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val currentDate = dateFormat.format(Date(date))
 
-                // Verificar si la fecha es anterior a hoy
-                if (date < today.timeInMillis) {
-                    return false
-                }
 
-                // Deshabilitar si la fecha está dentro de los rangos reservados
-                for (fecha in fechasReservadas) {
-                    val entrada = fecha.first
-                    val salida = fecha.second
-                    if (currentDate in entrada..salida) {
-                        return false  // Deshabilitar esta fecha
-                    }
-                }
 
-                return true  // Permitir la selección si no está reservada y no es anterior a hoy
-            }
-
-            override fun describeContents(): Int = 0
-
-            override fun writeToParcel(dest: Parcel, flags: Int) {}
-        }
-
-        return CalendarConstraints.Builder()
-            .setValidator(dateValidator)
-            .setStart(today.timeInMillis)  // Establecer la fecha mínima como hoy
-            .build()
-    }
 
     //buscar id departamento por nombre
     private fun obteneridDepartamentoEnVal(departamento: String) {
@@ -422,7 +412,7 @@ class activity_reserva : AppCompatActivity() {
     private fun setupCantidadSpinner() {
         val spinner = findViewById<Spinner>(R.id.spCantidadH)
         // Lista de números del 1 al 5
-        val cantidadList = listOf(1, 2, 3, 4, 5)
+        val cantidadList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
         // Crear el ArrayAdapter usando la lista de números
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cantidadList)
@@ -434,8 +424,8 @@ class activity_reserva : AppCompatActivity() {
         spinner.adapter = adapter
     }
 
-    private fun showDatePickerDialog(onDateSet: (String) -> Unit) {
-    // Obtiene una instancia del calendario con la fecha y hora actuales.
+    private fun showDatePickerDialog(onDateSet: (String, Int, Int, Int) -> Unit) {
+        // Obtiene una instancia del calendario con la fecha y hora actuales.
         val calendar = Calendar.getInstance()
         // Define el formato de fecha como "yyyy-MM-dd".
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -445,8 +435,8 @@ class activity_reserva : AppCompatActivity() {
         val datePickerDialog = DatePickerDialog(
             this,
             { _: DatePicker, year: Int, month: Int, day: Int ->
-                calendar.set(year, month, day)
-                onDateSet(dateFormat.format(calendar.time))
+                // Llama a la función onDateSet con la fecha completa
+                onDateSet(dateFormat.format(calendar.time), year, month, day)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
