@@ -88,6 +88,7 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY)
         }
 
+
         // Crea el mapView
         mapView.onCreate(mapViewBundle)
         // Inicia el mapa de manera asíncrona
@@ -218,7 +219,9 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
         val btnReportar = findViewById<Button>(R.id.btnReportar)
         val ratingBar = findViewById<RatingBar>(R.id.ratingBar)
-        val ratinScale = findViewById<TextView>(R.id.ratingScale)
+        val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
+
+
 
         btnReportar.setOnClickListener {
             val siguientepantalla = Intent(this, RealizarDenuncia::class.java)
@@ -272,6 +275,57 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
+
+
+        fun obtenerCalificacionHotel(idHotel: Int): String {
+            val objConexion = ClaseConexion().cadenaConexion() // Obtener la conexión ya existente
+            val statement = """
+        SELECT id_hoteles, 
+               COUNT(id_valoracion) AS cantidad_valoraciones, 
+               AVG(id_calificación) AS calificacion_final 
+        FROM tbValoraciones 
+        WHERE id_hoteles = ?
+        GROUP BY id_hoteles
+    """.trimIndent()
+
+            var resultado = "" // Valor por defecto
+
+            objConexion?.let { connection ->
+                try {
+                    val preparedStatement = connection.prepareStatement(statement)
+                    preparedStatement.setInt(1, idHotel) // Establece el ID del hotel
+                    val resultSet = preparedStatement.executeQuery()
+
+                    while (resultSet.next()) { // Solo un hotel, por eso se utiliza `next()`
+                        val cantidadValoraciones = resultSet.getInt("cantidad_valoraciones")
+                        val calificacionFinal = resultSet.getDouble("calificacion_final")
+
+                        resultado = "%.1f".format(calificacionFinal) // Formato de dos decimales
+
+                    }
+                } catch (e: Exception) {
+                    Log.e("CalificacionHotel", "Error: ${e.message}", e)
+                }
+            }
+
+            return resultado.toString() // Devuelve el resultado
+        }
+
+        // Función para obtener la calificación y actualizar el TextView
+        fun actualizarCalificacionHotel(idHotel: Int) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val calificacion = obtenerCalificacionHotel(idHotel) // Llama a la función que obtiene la calificación
+                withContext(Dispatchers.Main) {
+                    txtCalificacion.text = calificacion // Actualiza el TextView en el hilo principal
+                    Log.d("CalificacionHotel", calificacion) // Agregar log para verificar el resultado
+
+                }
+            }
+        }
+
+        // Llamada a la función para actualizar el TextView
+        actualizarCalificacionHotel(hotelIdGlobal!!)
+
         var ratingValue = 0 // Variable para almacenar el valor de calificación
 
 
@@ -307,6 +361,8 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+
+
     }
 
     // Se ejecuta cuando el mapa está listo para ser usado

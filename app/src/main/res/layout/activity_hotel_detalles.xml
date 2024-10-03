@@ -126,6 +126,22 @@
                 android:orientation="horizontal"
                 android:padding="8dp">
 
+                <ImageView
+                    android:id="@+id/imvEstrella"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/iconoestrella" />
+
+                <TextView
+                    android:id="@+id/txtCalificacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
                 <EditText
                     android:id="@+id/txtComentario"
                     android:layout_width="0dp"
