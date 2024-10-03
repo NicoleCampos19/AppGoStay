@@ -167,10 +167,10 @@ class activity_registrarse : AppCompatActivity() {
             val password = txtContraI.text.toString()
             val confirmPassword = txtConfirmarContraRegis.text.toString()
 
-                var hayVacios = false
-                var hayErrores = false
+            var hayVacios = false
+            var hayErrores = false
 
-                //Para el campo de nombre
+            // Validaciones...
             if(nombre.isEmpty()){
                 setErrorWithCustomFont(txtNombre, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -179,7 +179,6 @@ class activity_registrarse : AppCompatActivity() {
                 setErrorWithCustomFont(txtNombre, "El nombre contiene solo letras", R.font.poppins)
                 hayErrores = true
             }
-            //Para el campo de apellido
             else if(apellido.isEmpty()){
                 setErrorWithCustomFont(txtApellido, "Llena este campo", R.font.poppins)
                 hayVacios = true
@@ -189,52 +188,9 @@ class activity_registrarse : AppCompatActivity() {
                 hayErrores = true
             }
 
-            //Para el campo de fecha nacimiento
-            else if(fechanacimiento.isEmpty()){
-                setErrorWithCustomFont(txtFechaNacimiento, "Llena este campo", R.font.poppins)
-                hayVacios = true
-            }
+            // Validaciones para otros campos...
 
-                //Para el campo de correo
-                else if(correo.isEmpty()){
-                    setErrorWithCustomFont(txtCorreoI, "Llena este campo", R.font.poppins)
-                    hayVacios = true
-
-                }
-            else if (!correo.matches (Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
-                setErrorWithCustomFont(txtCorreoI, "El formato del correo no es válido", R.font.poppins)
-                    hayErrores = true
-                }
-
-            //Para el campo de telefono
-            else if(telefono.isEmpty()){
-                setErrorWithCustomFont(txtTelefono, "Llena este campo", R.font.poppins)
-                hayVacios = true
-            }
-            else if (telefono.length != 8) {
-                setErrorWithCustomFont(txtTelefono, "El teléfono solo debe contener 8 carácteres", R.font.poppins)
-                hayErrores = true
-            }
-
-            //Para el campo de contraseña
-            else if(contrasena.isEmpty()){
-                setErrorWithCustomFont(txtContraI, "Llena este campo", R.font.poppins)
-                hayVacios = true
-            }
-            else if (contrasena.length < 12) {
-                setErrorWithCustomFont(txtContraI, "La contraseña debe contener 12 carácteres", R.font.poppins)
-                hayErrores = true
-            }
-
-
-            // Validar que las contraseñas coinciden
-            if (password != confirmPassword) {
-                setErrorWithCustomFont(txtConfirmarContraRegis, "Las contraseñas no coinciden", R.font.poppins)
-                hayErrores = true
-            }
-
-
-            // Si hay errores, no procede
+            // Si hay errores, no proceder
             if (hayVacios || hayErrores) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
@@ -242,45 +198,56 @@ class activity_registrarse : AppCompatActivity() {
                 CodigoRegis = (100000..999999).random() // Genera el código
                 val htmlCorreo = generarHTMLCorreo(CodigoRegis.toString()) // Usa el mismo código para el correo
 
+                // Enviar correo primero
                 GlobalScope.launch(Dispatchers.IO) {
-                    val objConexion = ClaseConexion().cadenaConexion()
-                    val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
-                    val crearUsuario = objConexion?.prepareStatement(
-                        "INSERT INTO tbUsuarios(nombre_usuario, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-                    )!!
-                    crearUsuario.setString(1, txtNombre.text.toString())
-                    crearUsuario.setString(2, txtApellido.text.toString())
-                    crearUsuario.setString(3, txtFechaNacimiento.text.toString())
-                    crearUsuario.setString(4, txtCorreoI.text.toString())
-                    crearUsuario.setString(5, txtTelefono.text.toString())
-                    crearUsuario.setString(6, contrasenaEncriptada)
-                    crearUsuario.setInt(7, idTipoUsuario)
-                    crearUsuario.setString(8, miPath) // Guarda la URL de la imagen en la base de datos
-                    crearUsuario.executeUpdate()
-
-                    // Enviar correo con el código de verificación
-                    //enviarCorreo(correo, "Código de Verificación", htmlCorreo)
-                    Log.d("Registro", "Código de recuperación: $CodigoRegis")
-
-                    CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        // Intenta enviar el correo
                         enviarCorreo(correo, "Confirmación de contraseña", htmlCorreo)
-                    }
 
-                    //Toast para mostrar que el usuario fue creado
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
-                        txtCorreoI.setText("")
-                        txtContraI.setText("")
-                        imageView.setImageResource(0)
-                        imageView.tag = null
+                        // Si el correo fue enviado, procede con la inserción
+                        withContext(Dispatchers.IO) {
+                            val objConexion = ClaseConexion().cadenaConexion()
+                            val contrasenaEncriptada = hashSHA256(txtContraI.text.toString())
+                            val crearUsuario = objConexion?.prepareStatement(
+                                "INSERT INTO tbUsuarios(nombre_usuario, apellido, fecha_nacimiento, correo, telefono, contraseña, id_tipo_usuario, imgFoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                            )!!
+
+                            crearUsuario.setString(1, txtNombre.text.toString())
+                            crearUsuario.setString(2, txtApellido.text.toString())
+                            crearUsuario.setString(3, txtFechaNacimiento.text.toString())
+                            crearUsuario.setString(4, txtCorreoI.text.toString())
+                            crearUsuario.setString(5, txtTelefono.text.toString())
+                            crearUsuario.setString(6, contrasenaEncriptada)
+                            crearUsuario.setInt(7, idTipoUsuario)
+                            crearUsuario.setString(8, miPath) // Guarda la URL de la imagen en la base de datos
+                            crearUsuario.executeUpdate()
+
+                            // Muestra un mensaje en el hilo principal después de que se haya creado el usuario
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@activity_registrarse, "Usuario creado", Toast.LENGTH_LONG).show()
+
+                                // Limpiar campos
+                                txtCorreoI.setText("")
+                                txtContraI.setText("")
+                                imageView.setImageResource(0)
+                                imageView.tag = null
+
+                                // Navegar a la pantalla de confirmación de correo
+                                val siguientePantalla = Intent(this@activity_registrarse, activity_ConfirmarCorreo::class.java)
+                                startActivity(siguientePantalla)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        // Manejo de errores si falla el envío del correo
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@activity_registrarse, "Error al enviar el correo. Inténtalo de nuevo.", Toast.LENGTH_LONG).show()
+                            Log.e("Registro", "Error al enviar el correo", e)
+                        }
                     }
                 }
-                // Navegación para la siguiente pantalla
-                val siguientepantalla = Intent(this, activity_ConfirmarCorreo::class.java)
-                startActivity(siguientepantalla)
             }
-
         }
+
         // Inicio de sesión con google
         imvIniciargoogle.setOnClickListener {
             val configuracionGoogle =

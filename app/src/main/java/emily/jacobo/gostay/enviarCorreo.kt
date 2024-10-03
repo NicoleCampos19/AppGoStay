@@ -14,20 +14,20 @@ import javax.mail.internet.MimeMessage
 suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = withContext(
     Dispatchers.IO) {
 
-    // Configuración del servidor SMTP
     val props = Properties().apply {
         put("mail.smtp.host", "smtp.gmail.com")
-        put("mail.smtp.socketFactory.port", "465")
-        put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
+        put("mail.smtp.port", "587") // Cambiamos a 587 para STARTTLS
         put("mail.smtp.auth", "true")
-        put("mail.smtp.port", "465")
+        put("mail.smtp.starttls.enable", "true") // Habilitamos STARTTLS
+        put("mail.smtp.ssl.protocols", "TLSv1.2") // Especificamos TLSv1.2
     }
-    // Iniciamos Sesión
+
     val session = Session.getInstance(props, object : javax.mail.Authenticator() {
         override fun getPasswordAuthentication(): PasswordAuthentication {
             return PasswordAuthentication("gostay2024@gmail.com", "dekt szbp iwoe swut")
         }
     })
+
 
     // Hacemos el envío
     try {
