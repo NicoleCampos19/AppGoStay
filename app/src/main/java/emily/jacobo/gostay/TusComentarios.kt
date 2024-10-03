@@ -65,6 +65,7 @@ class TusComentarios : AppCompatActivity() {
                 SELECT 
     vl.id_valoracion, 
     vl.comentario, 
+    vl.id_calificación,
     us.id_usuario, 
     us.nombre_usuario, 
     us.imgfoto,
@@ -87,12 +88,13 @@ WHERE
                         val id_usuario = resultSet.getInt("id_usuario")
                         val nombre_usuario = resultSet.getString("nombre_usuario")
                         val imgfoto = resultSet.getString("imgfoto")
+                        val id_calificación = resultSet.getFloat("id_calificación")
 
                         // Log cada comentario recuperado
                         Log.d("ComentariosDebug", "Comentario encontrado: id_valoracion=$id_valoracion, comentario=$comentario, id_usuario=$id_usuario, nombre_usuario=$nombre_usuario, imgfoto=$imgfoto")
 
                         // Crear el objeto tbComentarios y añadirlo a la lista
-                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto)
+                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto, id_calificación)
                         listaComentarios.add(comentarios)
                     }
 

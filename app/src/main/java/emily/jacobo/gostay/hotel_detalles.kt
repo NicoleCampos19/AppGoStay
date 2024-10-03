@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.MenuRes
@@ -216,6 +217,8 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         val imvEnviar = findViewById<ImageView>(R.id.imvEnviar)
         val rcvComentarios = findViewById<RecyclerView>(R.id.rcvComentarios)
         val btnReportar = findViewById<Button>(R.id.btnReportar)
+        val ratingBar = findViewById<RatingBar>(R.id.ratingBar)
+        val ratinScale = findViewById<TextView>(R.id.ratingScale)
 
         btnReportar.setOnClickListener {
             val siguientepantalla = Intent(this, RealizarDenuncia::class.java)
@@ -233,7 +236,7 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
             val objConexion = ClaseConexion().cadenaConexion() // Obtiene la conexión a la base de datos
             val statement = objConexion?.prepareStatement(
                 """
-                    SELECT vl.id_valoracion, vl.comentario, us.id_usuario, us.nombre_usuario, us.imgfoto 
+                    SELECT vl.id_valoracion, vl.comentario, vl.id_calificación ,us.id_usuario, us.nombre_usuario, us.imgfoto 
                     FROM tbValoraciones vl 
                     INNER JOIN tbUsuarios us ON vl.id_usuario = us.id_usuario 
                     WHERE vl.id_hoteles = ?
@@ -246,10 +249,12 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                 while (resultSet.next()) {
                     val id_valoracion = resultSet.getInt("id_valoracion")
                     val comentario = resultSet.getString("comentario")
+                    val id_calificación = resultSet.getFloat("id_calificación")
                     val id_usuario = resultSet.getInt("id_usuario")
                     val nombre_usuario = resultSet.getString("nombre_usuario")
                     val imgfoto = resultSet.getString("imgfoto")
-                    listaComentarios.add(tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto))
+
+                    listaComentarios.add(tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto, id_calificación))
                 }
             }
             return listaComentarios // Retorna la lista
@@ -266,6 +271,15 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+
+        var ratingValue = 0 // Variable para almacenar el valor de calificación
+
+
+        ratingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+            ratingValue = fl.toInt() // Convierte el valor flotante en entero (1 a 5)
+
+        }
+
         // Configura el botón para enviar un comentario
         imvEnviar.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
@@ -275,10 +289,11 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                     val idUsuario = idUsuarioGlobalL
                     val objConexion = ClaseConexion().cadenaConexion()
                     // Prepara la inserción de un nuevo comentario en la base de datos
-                    val sentencia = objConexion?.prepareStatement("INSERT INTO tbValoraciones (comentario, id_usuario, id_hoteles) VALUES (?, ?, ?)")
+                    val sentencia = objConexion?.prepareStatement("INSERT INTO tbValoraciones (comentario, id_usuario, id_hoteles, id_calificación) VALUES (?, ?, ?, ?)")
                     sentencia?.setString(1, comentario)
                     sentencia?.setInt(2, idUsuario!!)
                     sentencia?.setInt(3, hotelIdGlobal!!)
+                    sentencia?.setInt(4, ratingValue)
                     sentencia?.executeUpdate()
 
                     val comentarios = obtenerComentarios(hotelIdGlobal!!)

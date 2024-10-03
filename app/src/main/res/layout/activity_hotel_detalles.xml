@@ -113,29 +113,18 @@
                 android:layout_height="1dp"
                 android:background="#DAD4D4" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="8dp">
-
-                <ImageView
-                    android:id="@+id/imvEstrella"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="4dp"
-                    android:src="@drawable/iconoestrella" />
-
-                <TextView
-                    android:id="@+id/txtCalificacion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/poppins"
-                    android:text="4.7"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/txtComentario"
@@ -157,7 +146,40 @@
                     android:src="@drawable/iconoenviar" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:layout_gravity="center"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/black"
+                android:progressTint="@color/tuquesa"
+                android:rating="4"
+
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:stepSize="1"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ratingScale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text=""
+                android:textAlignment="center"/>
+
+
+        </LinearLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvComentarios"
                 android:visibility="visible"
                 android:layout_width="match_parent"

@@ -108,6 +108,7 @@ class ComentarioAdapter(var Datos: List<tbComentarios>) : RecyclerView.Adapter<V
         val context = holder.itemView.context
         holder.txtComentarioCard.text = item.comentario // Muestra el texto del comentario
         holder.txtUsuarioCard.text = item.nombre_usuario // Muestra el nombre del usuario
+        holder.ratingBar.rating = item.id_calificación
 
         // Carga la imagen de perfil del usuario con Glide
         Glide.with(context)

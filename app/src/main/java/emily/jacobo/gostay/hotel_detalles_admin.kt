@@ -191,7 +191,7 @@ class hotel_detalles_admin : AppCompatActivity() {
                     // 2- Creo el PreparedStatement y añado el parámetro `idHotel`
                     val comentarios_ = objConexion.prepareStatement(
                         """
-                SELECT vl.id_valoracion, vl.comentario, us.id_usuario, us.nombre_usuario, us.imgfoto 
+                SELECT vl.id_valoracion, vl.comentario,vl.id_calificación, us.id_usuario, us.nombre_usuario, us.imgfoto 
                 FROM tbValoraciones vl 
                 INNER JOIN tbUsuarios us ON vl.id_usuario = us.id_usuario 
                 WHERE vl.id_hoteles = ?
@@ -208,9 +208,11 @@ class hotel_detalles_admin : AppCompatActivity() {
                         val id_usuario = resultSet.getInt("id_usuario")
                         val nombre_usuario = resultSet.getString("nombre_usuario")
                         val imgfoto = resultSet.getString("imgfoto")
+                        val id_calificación = resultSet.getFloat("id_calificación")
+
 
                         // 4- Creo el objeto tbComentarios y lo añado a la lista
-                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto)
+                        val comentarios = tbComentarios(id_valoracion, comentario, id_usuario, nombre_usuario, imgfoto, id_calificación)
                         listaComentarios.add(comentarios)
                     }
 
