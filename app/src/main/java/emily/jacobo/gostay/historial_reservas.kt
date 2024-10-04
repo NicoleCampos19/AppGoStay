@@ -1,7 +1,9 @@
 package emily.jacobo.gostay
 
 import RecyclerViewHelpers.ReservaAdapter
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -29,6 +31,14 @@ class historial_reservas : AppCompatActivity() {
             insets
         }
 
+        // Mando a llamar un elemento de la vista
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
+
+        //Navegación para ir a la activity anterior
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, Perfil::class.java)
+            startActivity(volverAtras)
+        }
         // Se asigna el valor del ID de usuario global de la página de inicio.
         val idUsuarioGLobal = PaginaInicio.idUsuarioGlobalL
 

@@ -96,8 +96,35 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+
             // Encriptar la contraseña ingresada
             val contrasenaEncriptada = hashSHA256(clave)
+
+            // Para que con credenciales especificas se inice sesión con admin
+            CoroutineScope(Dispatchers.IO).launch {
+                val conexion = ClaseConexion().cadenaConexion()
+
+                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
+                val statement = conexion?.prepareStatement(query)
+                statement?.setString(1, correoIngresado)
+                statement?.setString(2, contrasenaEncriptada)
+                val resultSet = statement?.executeQuery()
+
+                if (resultSet?.next() == true) {
+                    val nombreTipoUsuario = resultSet.getString("nombre_usuario")
+
+                    val siguientePantalla = when (nombreTipoUsuario) {
+                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
+                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+                    }
+                    // Asignación de valores globales
+                    startActivity(siguientePantalla)
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this@activity_iniciar_sesion, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
 
             // Iniciar corrutina para ejecutar la consulta de login en segundo plano
             CoroutineScope(Dispatchers.IO).launch {
@@ -117,9 +144,13 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 statement?.setString(2, contrasenaEncriptada)
                 val resultSet = statement?.executeQuery()
 
-                // Si las credenciales son correctas
                 if (resultSet?.next() == true) {
-                    // Guardar estado de sesión en SharedPreferences
+                    val nombreTipoUsuario = resultSet.getString("nombre_usuario")
+                    val siguientePantalla = when (nombreTipoUsuario) {
+                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
+                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+                    }
+                    startActivity(siguientePantalla)
                     val editor = userPreferences.edit()
                     editor.putBoolean("IsLogedIn", true) // Marcar que el usuario está logueado
                     editor.putString("email", correoIngresado) // Guardar el correo del usuario
