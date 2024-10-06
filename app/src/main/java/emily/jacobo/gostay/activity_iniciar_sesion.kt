@@ -43,7 +43,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         val imvVerContra3 = findViewById<ImageView>(R.id.imvVerContra3)
         var isPasswordVisible = false
         // Obtener SharedPreferences
-        val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+       val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
 
         // Verificar si el usuario ya está logueado
         val isLoggedIn = userPreferences.getBoolean("IsLogedIn", false)
@@ -51,6 +51,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         if (isLoggedIn) {
             // Si el usuario ya ha iniciado sesión, cargar correo desde SharedPreferences y redirigir a PaginaInicio
             correoIngresado = userPreferences.getString("email", "") ?: ""
+            clave = userPreferences.getString("password", "") ?: ""
             val intent = Intent(this, PaginaInicio::class.java)
             startActivity(intent)
             finish()

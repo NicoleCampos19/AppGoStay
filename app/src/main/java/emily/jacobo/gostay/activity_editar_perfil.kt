@@ -80,16 +80,14 @@ class activity_editar_perfil : AppCompatActivity() {
             insets
         }
 
-        val userPreferences2 = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
 
         //Variables del companion object de activity_iniciar_sesion
         //correoActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
-        contrasenaActual = activity_iniciar_sesion.variableGloalLogin.clave
+       // contrasenaActual = activity_iniciar_sesion.variableGloalLogin.clave
 
         //Acceder al EditText y obtener el valor de la contraseña como String
         val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)
         txtNewContraP = editTextContra.text.toString()
-        val contrasenaRecuperada = userPreferences2.getString("password", "")
 
         //Se mandan a llamar los elementos de la vista
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
@@ -103,8 +101,11 @@ class activity_editar_perfil : AppCompatActivity() {
         // Obtener SharedPreferences
         val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
 
+
         // Recuperar el correo almacenado
         correoActual = userPreferences.getString("email", "") ?: ""
+        contrasenaActual = userPreferences.getString("password", "") ?: ""
+
 
         imvGaleriaPerfil.setOnClickListener {
             //Al darle clic al botón de la galeria pedimos los permisos primero
@@ -180,21 +181,29 @@ class activity_editar_perfil : AppCompatActivity() {
 
             // Recuperar el correo almacenado
             correoActual = userPreferences.getString("email", "") ?: ""
+            contrasenaActual = userPreferences.getString("password", "") ?: ""
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
+            val nuevaContra = findViewById<EditText>(R.id.txtContraPerfil)
             val correo = correoActual
             val clave = contrasenaActual
+
+            val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)
+
             val nuevoCorreoTexto = nuevoCorreo.text.toString().trim()
             val nuevaContraTexto = editTextContra.text.toString().trim()
-            val contrasenaRecuperada = userPreferences.getString("password", "") ?: ""
+            // Recuperar la contraseña almacenada
+
+// Log para verificar la contraseña recuperada
+            Log.d("VALIDACION", "Contraseña recuperada: '$nuevaContra'")
+            Log.d("VALIDACION", "Contraseña recuperada: '$txtNewContraP'")
 
 
-            Log.d("VALIDACION", "Nuevo Correo: '$nuevoCorreoTexto'")
+            Log.d("VALIDACION", "Nuevo Correo: '$nuevoCorreo'")
             Log.d("VALIDACION", "Nueva Contraseña: '$nuevaContraTexto'")
             Log.d("VALIDACION", "Correo Actual: '$correoActual'")
-            Log.d("VALIDACION", "Contraseña Actual: '$contrasenaRecuperada'")
 
             // Validación para campos vacíos
-            if (nuevoCorreoTexto.isEmpty() || contrasenaRecuperada.isEmpty()) {
+            if (correoActual.isEmpty() || nuevaContraTexto.isEmpty()) {
                 Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -220,7 +229,7 @@ class activity_editar_perfil : AppCompatActivity() {
                     guardarUsuarioConFoto(correo, clave, miPath)
                     // También puedes actualizar el correo y la contraseña si es necesario
                     actualizarCorreo(nuevoCorreo.text.toString(), correoActual)
-                    actualizarContraseña(correoActual, txtNewContraP)
+                    actualizarContraseña(correoActual, nuevaContraTexto)
 
                     // Navegar a la siguiente pantalla
                     val siguientePantalla = Intent(this, PaginaInicio::class.java)
