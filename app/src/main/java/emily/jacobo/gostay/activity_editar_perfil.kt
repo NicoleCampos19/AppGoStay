@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
 import android.util.Log
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -79,13 +80,16 @@ class activity_editar_perfil : AppCompatActivity() {
             insets
         }
 
+        val userPreferences2 = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+
         //Variables del companion object de activity_iniciar_sesion
-        correoActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
-        contrasenaActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
+        //correoActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
+        contrasenaActual = activity_iniciar_sesion.variableGloalLogin.clave
 
         //Acceder al EditText y obtener el valor de la contraseña como String
         val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)
         txtNewContraP = editTextContra.text.toString()
+        val contrasenaRecuperada = userPreferences2.getString("password", "")
 
         //Se mandan a llamar los elementos de la vista
         val imvAtrasPerfil = findViewById<ImageView>(R.id.imvAtrasPerfil)
@@ -95,6 +99,12 @@ class activity_editar_perfil : AppCompatActivity() {
         imageView = findViewById(R.id.imvPerfil2)
         val imvCamaraPerfil = findViewById<ImageView>(R.id.imvCamaraPerfil)
         var isPasswordVisible = false
+
+        // Obtener SharedPreferences
+        val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+
+        // Recuperar el correo almacenado
+        correoActual = userPreferences.getString("email", "") ?: ""
 
         imvGaleriaPerfil.setOnClickListener {
             //Al darle clic al botón de la galeria pedimos los permisos primero
@@ -167,29 +177,36 @@ class activity_editar_perfil : AppCompatActivity() {
 
         //Para que se guarde el nuevo correo y la nueva contraseña
         btnGuardarPerfil.setOnClickListener {
+
+            // Recuperar el correo almacenado
+            correoActual = userPreferences.getString("email", "") ?: ""
             val nuevoCorreo = findViewById<EditText>(R.id.txtCorreoPerfil)
             val correo = correoActual
             val clave = contrasenaActual
+            val nuevoCorreoTexto = nuevoCorreo.text.toString().trim()
+            val nuevaContraTexto = editTextContra.text.toString().trim()
+            val contrasenaRecuperada = userPreferences.getString("password", "") ?: ""
+
+
+            Log.d("VALIDACION", "Nuevo Correo: '$nuevoCorreoTexto'")
+            Log.d("VALIDACION", "Nueva Contraseña: '$nuevaContraTexto'")
+            Log.d("VALIDACION", "Correo Actual: '$correoActual'")
+            Log.d("VALIDACION", "Contraseña Actual: '$contrasenaRecuperada'")
 
             // Validación para campos vacíos
-            if (nuevoCorreo.text.toString().isEmpty() || clave.isEmpty()) {
+            if (nuevoCorreoTexto.isEmpty() || contrasenaRecuperada.isEmpty()) {
                 Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Validación del formato del correo
-            val correoTexto = nuevoCorreo.text.toString()
-            if (!correoTexto.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.]+[a-z]+"))) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(nuevoCorreoTexto).matches()) {
                 nuevoCorreo.error = "El correo no tiene un formato válido"
                 return@setOnClickListener
             }
 
-            // Acceder al EditText y obtener el valor de la contraseña como String
-            val editTextContra = findViewById<EditText>(R.id.txtContraPerfil)
-            txtNewContraP = editTextContra.text.toString()
-
             // Validación de la contraseña
-            if (txtNewContraP.length <= 12) {
+            if (nuevaContraTexto.length < 12) {
                 editTextContra.error = "La contraseña debe tener al menos 12 caracteres"
                 return@setOnClickListener
             }
@@ -206,7 +223,7 @@ class activity_editar_perfil : AppCompatActivity() {
                     actualizarContraseña(correoActual, txtNewContraP)
 
                     // Navegar a la siguiente pantalla
-                    val siguientePantalla = Intent(this, activity_iniciar_sesion::class.java)
+                    val siguientePantalla = Intent(this, PaginaInicio::class.java)
                     startActivity(siguientePantalla)
                 }
                 // Para solicitarle que seleccione una foto de perfil
@@ -218,9 +235,7 @@ class activity_editar_perfil : AppCompatActivity() {
                 ).show()
             }
 
-            //Navegación para ir a la activity de iniciar sesión
-        val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
-             startActivity(siguientepantalla)
+
         }
 
         //Para que la letra del ojito salga con la fuente de poppins

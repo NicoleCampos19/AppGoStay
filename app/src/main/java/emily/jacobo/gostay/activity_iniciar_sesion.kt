@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
     // Variables globales
     companion object variableGloalLogin {
         var correoIngresado: String = ""
+        var clave: String = ""
         const val InicioSesionGoogle = 100
     }
 
@@ -76,7 +78,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         btnIniciar.setOnClickListener {
             // Obtener el correo y contraseña ingresados por el usuario
             correoIngresado = txtCorreoIniciarSesion.text.toString().trim()
-            val clave = txtContrasenaIniciarSesion.text.toString().trim()
+            clave = txtContrasenaIniciarSesion.text.toString().trim()
 
             // Validación de campos vacíos
             if (correoIngresado.isEmpty() || clave.isEmpty()) {
@@ -95,6 +97,9 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 txtContrasenaIniciarSesion.error = "La contraseña debe tener al menos 12 caracteres"
                 return@setOnClickListener
             }
+
+            Log.d("VALIDACION", "Correo ingresado antes de validación: '$correoIngresado'")
+            Log.d("VALIDACION", "Contraseña ingresada antes de encriptar: '$clave'")
 
 
             // Encriptar la contraseña ingresada
@@ -117,8 +122,16 @@ class activity_iniciar_sesion : AppCompatActivity() {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
-                    // Asignación de valores globales
+                    // Guardar el correo y la contraseña en SharedPreferences
+                    val editor = userPreferences.edit()
+                    editor.putBoolean("IsLogedIn", true) // Marcar que el usuario está logueado
+                    editor.putString("email", correoIngresado) // Guardar el correo del usuario
+                    editor.putString("password", contrasenaEncriptada) // Guardar la contraseña encriptada
+                    editor.apply()
+
+                    // Redirigir a PaginaInicio
                     startActivity(siguientePantalla)
+                    finish() // Finaliza la activity de login
                 } else {
                     runOnUiThread {
                         Toast.makeText(this@activity_iniciar_sesion, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
@@ -150,6 +163,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                         "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
                         else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     }
+                    /*
                     startActivity(siguientePantalla)
                     val editor = userPreferences.edit()
                     editor.putBoolean("IsLogedIn", true) // Marcar que el usuario está logueado
@@ -160,7 +174,20 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     val intent = Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
                     startActivity(intent)
                     finish() // Finaliza la activity de login
-                } else {
+                } */
+
+                    // Guardar el correo en SharedPreferences
+                    val editor = userPreferences.edit()
+                    editor.putBoolean("IsLogedIn", true) // Marcar que el usuario está logueado
+                    editor.putString("email", correoIngresado) // Guardar el correo del usuario
+                    editor.apply()
+
+                    // Redirigir a PaginaInicio
+                    startActivity(siguientePantalla)
+                    finish() // Finaliza la activity de login
+                     }
+
+                    else {
                     // Si las credenciales no son correctas, mostrar un mensaje en el hilo principal
                     runOnUiThread {
                         Toast.makeText(
