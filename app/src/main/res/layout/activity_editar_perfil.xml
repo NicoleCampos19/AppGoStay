@@ -7,14 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".activity_editar_perfil">
 
-
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Editar perfil"
+        android:text="@string/editarperfil"
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -30,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Foto de perfil"
+        android:text="@string/fotoperfil"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -46,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Contraseña"
+        android:text="@string/Contraseña"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -56,12 +54,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.643" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Correo electrónico"
+        android:text="@string/correoelectro"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -92,7 +91,7 @@
         android:layout_height="50dp"
         android:ems="10"
         android:fontFamily="@font/poppins"
-        android:hint="Contraseña"
+        android:hint="@string/Contraseña"
         android:inputType="text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -108,7 +107,7 @@
         android:layout_height="50dp"
         android:ems="10"
         android:fontFamily="@font/poppins"
-        android:hint="Correo electrónico"
+        android:hint="@string/correoelectro"
         android:inputType="text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -124,7 +123,7 @@
         android:layout_height="57dp"
         android:backgroundTint="#5CB5C4"
         android:fontFamily="@font/poppinsemibold"
-        android:text="Guardar"
+        android:text="@string/Guardar"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

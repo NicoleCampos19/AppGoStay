@@ -72,8 +72,6 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_hotel_detalles)
         prevActivity = intent.getStringExtra("prev_activity") ?: "default_value"
 
-        // Asigna la reseña global de la actividad a una variable
-        val reseñaGlobal = activity_resenas.resenaGlobal
         // Mando a llamar el rcv
         val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

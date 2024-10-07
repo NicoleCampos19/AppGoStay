@@ -55,6 +55,8 @@ class Perfil : AppCompatActivity() {
         val txtPoliticas = findViewById<TextView>(R.id.txtPoliticas)
         val txtCerrarSesion = findViewById<TextView>(R.id.txtCerrarSesion)
         val imvOfertas = findViewById<ImageView>(R.id.imvOfertas)
+        val imvAjustes = findViewById<ImageView>(R.id.imvAjustes)
+        val txtAjustes = findViewById<TextView>(R.id.txtAjustes)
         val imvOferta = findViewById<ImageView>(R.id.imvOferta)
         val txtOfertas = findViewById<TextView>(R.id.txtOfertas)
         val imvComentario = findViewById<ImageView>(R.id.imvComentario)
@@ -138,6 +140,8 @@ class Perfil : AppCompatActivity() {
         setClickListener(txtComentarios, TusComentarios::class.java)
         setClickListener(imvOfertas, Ofertas::class.java)
         setClickListener(imvOferta, Ofertas::class.java)
+        setClickListener(imvAjustes, Configuraciones::class.java)
+        setClickListener(txtAjustes, Configuraciones::class.java)
         setClickListener(txtOfertas, Ofertas::class.java)
         setClickListener(imvPoliticas, activity_politicas::class.java)
         setClickListener(txtPoliticas, activity_politicas::class.java)
@@ -187,6 +191,7 @@ class Perfil : AppCompatActivity() {
             dialog.show()
         }
     }
+
     // Recibe un `view` (el elemento de la interfaz) y `clazz` (la clase a la que se quiere navegar).
     private fun <T> setClickListener(view: View, clazz: Class<T>) {
         view.setOnClickListener {

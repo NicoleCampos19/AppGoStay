@@ -46,7 +46,7 @@
                 android:layout_marginTop="70dp"
                 android:layout_marginEnd="68dp"
                 android:fontFamily="@font/poppins"
-                android:text="Habitación económica"
+                android:text="@string/habitaeco"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="24sp"
@@ -71,7 +71,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvEspecificaciones"
                 android:layout_width="418dp"
-                android:layout_height="wrap_content"
+                android:layout_height="302dp"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="#49A8B5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/poppins"
-                android:text="Lo que esta habitacion ofrece"
+                android:text="@string/servishabi"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -112,12 +112,11 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#49A8B5"
                 android:fontFamily="@font/poppinsemibold"
-                android:text="Reservar"
-                android:layout_marginTop="25dp"
+                android:text="@string/Reservar"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rcvEspecificaciones" />
+                tools:layout_editor_absoluteY="671dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

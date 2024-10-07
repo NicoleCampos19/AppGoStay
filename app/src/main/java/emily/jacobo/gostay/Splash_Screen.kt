@@ -25,28 +25,26 @@ class Splash_Screen : AppCompatActivity() {
         }
 
         // Obtener SharedPreferences
-        val sharedPreferences: SharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+        val sharedPreferences: SharedPreferences =
+            getSharedPreferences("userPreferences", MODE_PRIVATE)
         val correoIngresado = sharedPreferences.getString("email", null)
+        val isAdmin = sharedPreferences.getBoolean("isAdmin", false) // Valor del tipo de usuario
 
         GlobalScope.launch(Dispatchers.Main) {
             delay(3000)
 
             if (correoIngresado != null) {
-                // Si ya hay un correo guardado, el usuario está logueado, redirigir a PaginaInicio
-                startActivity(Intent(this@Splash_Screen, PaginaInicio::class.java))
-            } else {
-                // Si el usuario no está logueado, verificar si es la primera vez que usa la app
-                val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
-                if (isFirstTime) {
-                    startActivity(Intent(this@Splash_Screen, Bienvenida::class.java))
-
-                    // Actualizar SharedPreferences para que no vuelva a mostrar la bienvenida
-                    val editor = sharedPreferences.edit()
-                    editor.putBoolean("isFirstTime", false)
-                    editor.apply()
+                // Si ya hay un correo guardado, el usuario está logueado
+                if (isAdmin) {
+                    // Redirigir a la pantalla de administración si es ADMIN
+                    startActivity(Intent(this@Splash_Screen, InicioAdmin::class.java))
                 } else {
-                    startActivity(Intent(this@Splash_Screen, activity_iniciar_sesion::class.java))
+                    // Redirigir a la página de inicio normal si no es ADMIN
+                    startActivity(Intent(this@Splash_Screen, PaginaInicio::class.java))
                 }
+            } else {
+                // Si el usuario no está logueado, dirigir a la pantalla de inicio de sesión
+                startActivity(Intent(this@Splash_Screen, activity_iniciar_sesion::class.java))
             }
 
             finish()

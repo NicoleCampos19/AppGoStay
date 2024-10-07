@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Hotel Detalles"
+        android:text="@string/Hoteldeta"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -66,7 +66,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"
             android:paddingLeft="20dp"
-            android:text="Servicios de Hotel"
+            android:text="@string/servihotel"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -149,7 +149,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/cuadrito_comentario"
                     android:fontFamily="@font/poppins"
-                    android:hint="Opina sobre nuestro hotel"
+                    android:hint="@string/opinion"
                     android:inputType="text"
                     android:padding="8dp"
                     android:textSize="18sp" />
@@ -193,8 +193,6 @@
 
         </LinearLayout>
 
-
-
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvComentarios"
                 android:visibility="visible"
@@ -230,7 +228,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="#FDF6FE"
                     android:fontFamily="@font/poppins"
-                    android:text="Reporta este anuncio"
+                    android:text="@string/btnReporta"
                     android:textAlignment="textStart"
                     android:textColor="#000000"
                     android:textSize="18sp"
@@ -253,7 +251,7 @@
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="#5CB5C4"
                 android:fontFamily="@font/poppinsemibold"
-                android:text="Elige tu habitación"
+                android:text="@string/eligehabi"
                 android:textSize="18sp"
                 android:textStyle="bold" />
     </LinearLayout>

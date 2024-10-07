@@ -98,7 +98,7 @@ class proximo_destino : AppCompatActivity() {
         rcvHoteles.layoutManager = LinearLayoutManager(this)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val hotelDB = obtenerHoteles(query, query)
+            val hotelDB = obtenerHoteles(query, query).toMutableList()
             val favDB = obtenerFavoritos()
             withContext(Dispatchers.Main) {
                 val esFavoritos = favDB.any { it.id_hoteles in hotelDB.map { hotel -> hotel.id_hoteles } }

@@ -176,7 +176,7 @@ class activity_registrarse : AppCompatActivity() {
                 hayVacios = true
             }
             else if (!nombre.matches(Regex("^[a-zA-Z]+$"))) {
-                setErrorWithCustomFont(txtNombre, "El nombre contiene solo letras", R.font.poppins)
+                setErrorWithCustomFont(txtNombre, "El nombre contiene debe contener solo letras", R.font.poppins)
                 hayErrores = true
             }
             else if(apellido.isEmpty()){
@@ -184,7 +184,7 @@ class activity_registrarse : AppCompatActivity() {
                 hayVacios = true
             }
             else if (!apellido.matches(Regex("^[a-zA-Z]+$"))) {
-                setErrorWithCustomFont(txtApellido, "El apellido debe contener letras", R.font.poppins)
+                setErrorWithCustomFont(txtApellido, "El apellido debe solo contener letras", R.font.poppins)
                 hayErrores = true
             }
 
