@@ -49,9 +49,6 @@ class hotel_detalles_admin : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Asigna la reseña global de la actividad a una variable
-        val reseñaGlobal = activity_resenas.resenaGlobal
-
         setContentView(R.layout.activity_hotel_detalles_admin)
         val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

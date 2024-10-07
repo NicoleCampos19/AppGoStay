@@ -46,7 +46,6 @@ class InicioAdmin : AppCompatActivity() {
         val rcvHotelAdmin = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
         rcvHotelAdmin.layoutManager = LinearLayoutManager(this)
         cargarHoteles(sql)
-
         //Navegación entre pantallas
         imvHotelNavegacion.setOnClickListener {
             val siguientePantalla = Intent(this, InicioAdmin::class.java)
@@ -63,10 +62,11 @@ class InicioAdmin : AppCompatActivity() {
             false
         }
 
-        // Inicia el reconocimiento de voz
         btnVoz.setOnClickListener {
             iniciarReconocimientoDeVoz()
         }
+
+
     }
 
     // Método para iniciar el reconocimiento de voz
@@ -102,7 +102,6 @@ class InicioAdmin : AppCompatActivity() {
         }
     }
 
-    // Función para realizar las búsquedad
     private fun realizarBusqueda(query: String) {
         val rcvHotelAdmin = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
         rcvHotelAdmin.layoutManager = LinearLayoutManager(this)
@@ -146,14 +145,23 @@ class InicioAdmin : AppCompatActivity() {
             val img_url = resultSet.getString("img_url")
             val id_usuario = resultSet.getInt("id_usuario")
 
-            // Crea un objeto hotel y lo añade a la lista
-            val hotel = tbHotel(id_hoteles, nombre, descripcion, direccion, latitudHotel, longitudHotel, correo, img_url, id_usuario)
-            listaHoteles.add(hotel)
+            val valoresJuntos = tbHotel(
+                id_hoteles,
+                nombre,
+                descripcion,
+                direccion,
+                latitudHotel,
+                longitudHotel,
+                correo,
+                img_url,
+                id_usuario
+            )
+
+            listaHoteles.add(valoresJuntos)
         }
         return listaHoteles
     }
 
-    // Función para obtener los favoritos agregados
     private fun obtenerFavoritos(): List<tbFavoritos> {
         val objConexion = ClaseConexion().cadenaConexion()
 
@@ -174,14 +182,13 @@ class InicioAdmin : AppCompatActivity() {
         return listaFav2
     }
 
-    // Select para cargar los hoteles
     private fun cargarHoteles(sqlQuery: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val hotelesDB = obtenerHoteles(sqlQuery, "")  // Aquí sólo se pasa un parámetro de búsqueda
             withContext(Dispatchers.Main) {
                 val adapter = HotelAdapter(hotelesDB, false) { hotel ->
                     hotelIdGlobal = hotel.id_hoteles
-                    val intent = Intent(this@InicioAdmin, hotel_detalles::class.java).apply {
+                    val intent = Intent(this@InicioAdmin, hotel_detalles_admin::class.java).apply {
                         putExtra("hotel", hotel)
                         putExtra("id_hoteles", hotel.id_hoteles)
                         putExtra("prev_activity", "PaginaInicio")
@@ -204,5 +211,3 @@ class InicioAdmin : AppCompatActivity() {
         popup.show()
     }
 }
-
-

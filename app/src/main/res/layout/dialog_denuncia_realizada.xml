@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Denuncia agregada correctamente"
+        android:text="@string/denunciaexitosa"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="26sp"
@@ -36,7 +36,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/tuquesa"
         android:fontFamily="@font/poppinsemibold"
-        android:text="Cerrar"
+        android:text="@string/Cerrar"
         android:textSize="18dp"
         android:textStyle="bold" />
 </LinearLayout>

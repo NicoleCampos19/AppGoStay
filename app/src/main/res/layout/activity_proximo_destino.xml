@@ -25,7 +25,7 @@
         android:layout_height="45dp"
         android:background="@drawable/cuadritobusquedadprox"
         android:fontFamily="@font/poppins"
-        android:hint="Agrega tu próximo destino"
+        android:hint="@string/busquedad2"
         android:inputType="text"
         android:textColor="@color/letrainicio"
         android:textSize="16sp"

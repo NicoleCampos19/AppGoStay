@@ -14,7 +14,7 @@
         android:layout_height="45dp"
         android:background="@drawable/cuadritobusquedadprox"
         android:fontFamily="@font/poppins"
-        android:hint="Agrega tu próximo destino"
+        android:hint="@string/buscahotel"
         android:inputType="text"
         android:textColor="@color/letrainicio"
         android:textSize="16sp"
@@ -100,17 +100,28 @@
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="318dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:fontFamily="@font/poppins"
-        android:text="Hoteles disponibles"
+        android:text="@string/hotelesdispo"
         android:textColor="#000000"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.305"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imvSalir"
+        android:layout_width="44dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cerrarrojito" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

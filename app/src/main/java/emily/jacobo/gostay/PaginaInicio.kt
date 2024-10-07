@@ -39,8 +39,6 @@ class PaginaInicio : AppCompatActivity() {
         var idUsuarioGlobalL: Int? = null
     }
 
-    // `correoIngresado` es una variable que se inicializa más adelante (lateinit)
-    lateinit var correoIngresado: String
 
     // Variable SQL global
     var sql: String = "SELECT * FROM tbHoteles"
@@ -48,12 +46,10 @@ class PaginaInicio : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pagina_inicio)
+        val sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+        val correoIngresado = sharedPreferences.getString("email", null)
 
-        // Recuperar el correo del usuario desde SharedPreferences
-        val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-        correoIngresado = userPreferences.getString("email", null) ?: ""
-
-        if (correoIngresado.isNotEmpty()) {
+        if (correoIngresado?.isNotEmpty() == true) {
             // Cargar nombre de usuario y ID
             obtenerNombreUsuarioEnGl(correoIngresado)
             obteneridUsuarioEnGl(correoIngresado)
@@ -76,7 +72,6 @@ class PaginaInicio : AppCompatActivity() {
         val imvBuscar = findViewById<ImageView>(R.id.imvBuscar)
         val imvFavorito = findViewById<ImageView>(R.id.imvFavoritos)
         val imvReseva = findViewById<ImageView>(R.id.imvReservas)
-        val imvFotoPerfil = findViewById<ImageView>(R.id.imvPerfilInicio)
         val imvPerfil = findViewById<ImageView>(R.id.imvPerfil)
         val txtAggBusquedad = findViewById<TextView>(R.id.txtAggBusquedad)
         val imgFiltro = findViewById<ImageButton>(R.id.imgFiltros)
@@ -122,30 +117,53 @@ class PaginaInicio : AppCompatActivity() {
     }
 
     // Método para cargar la imagen de perfil del usuario
-    private fun cargarImagenperfil(correoIngresado: String) {
-        val imvFotoPerfil = findViewById<ImageView>(R.id.imvPerfilInicio)
+    fun cargarImagenperfil(correoIngresado: String) {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                // Realizar la consulta para obtener la imagen
+                println("conexion")
                 val conexion = ClaseConexion().cadenaConexion()
+                println("query")
                 val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
+                println("antes preparedStatement")
                 val preparedStatement = conexion!!.prepareStatement(query)
+                println("despues preparedStatement")
                 preparedStatement.setString(1, correoIngresado)
+                println("despues del correo")
 
                 val resultSet = preparedStatement.executeQuery()
+                println("ANTES DEL IF")
                 if (resultSet.next()) {
+                    println("DESPUES DEL IF")
                     val imgFotoUrl = resultSet.getString("imgFoto")
+                    val imgFotoUrl2 = "https://fotografias.lasexta.com/clipping/cmsimages02/2020/09/21/86828440-B1FB-43AC-9E9C-A94AC6A4B8BD/default.jpg?crop=1300,731,x0,y0&width=1900&height=1069&optimize=low"
+                    println(imgFotoUrl)
+
+                    println("urlimg")
+
                     withContext(Dispatchers.Main) {
+                        println("dentro del withContext")
+
+                        Log.d("Perfil", "URL de imagen: $imgFotoUrl")
+
+                        println("url imagen $imgFotoUrl ")
+                        val imvFotoPerfil = findViewById<ImageView>(R.id.imvPerfilInicio)
+
+                        println(" antes Glide")
                         Glide.with(this@PaginaInicio)
                             .load(imgFotoUrl)
                             .apply(RequestOptions().circleCrop())
                             .into(imvFotoPerfil)
+                        println("Glide")
                     }
                 } else {
+
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@PaginaInicio, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
                     }
                 }
+
 
                 resultSet.close()
                 preparedStatement.close()
@@ -160,6 +178,7 @@ class PaginaInicio : AppCompatActivity() {
     }
 
     // Método para obtener el nombre del usuario
+    //buscar nombre usuario
     private fun obtenerNombreUsuarioEnGl(correoUsuario: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val nombreUsuario = cargarNombreUsuario(correoUsuario)
@@ -218,7 +237,7 @@ class PaginaInicio : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val hotelesDB = obtenerHoteles(sqlQuery)
             withContext(Dispatchers.Main) {
-                val adapter = HotelAdapter(hotelesDB, true) { hotel ->
+                val adapter = HotelAdapter(hotelesDB, false) { hotel ->
                     hotelIdGlobal = hotel.id_hoteles
                     val intent = Intent(this@PaginaInicio, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)

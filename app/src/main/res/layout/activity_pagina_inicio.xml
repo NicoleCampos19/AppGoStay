@@ -10,21 +10,22 @@
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="372dp"
-        android:layout_height="83dp"
+        android:layout_width="228dp"
+        android:layout_height="74dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins"
-        android:text="Descubre                                 tu próximo destino"
+        android:text="@string/txtInicio"
+        android:textAlignment="textStart"
         android:textColor="#000000"
         android:textSize="27sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBottomOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.207"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.032" />
+        app:layout_constraintVertical_bias="0.035" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imvPerfilInicio"
@@ -59,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="¿A dónde quieres ir?"
+        android:text="@string/busqueinicio"
         android:textColor="@color/letrainicio"
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView23"

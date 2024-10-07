@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/poppins"
-        android:text="Reservaciones"
+        android:text="@string/Reservaciones"
         android:textColor="#000000"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -40,18 +40,16 @@
 
     <TextView
         android:id="@+id/txtReservas"
-        android:layout_width="260dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="259dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/poppinsemibold"
-        android:text="Aún no tienes
-        reservas"
+        android:text="@string/txtreservas1"
         android:textAlignment="center"
         android:textColor="#101010"
         android:textSize="22sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lottiee" />
 
@@ -59,15 +57,16 @@
         android:id="@+id/txt2"
         android:layout_width="280dp"
         android:layout_height="75dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins"
-        android:text="Haz realidad tu próxima aventura con todas tus reservas en un solo lugar."
+        android:text="@string/mensajereservas"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtReservas" />
 
@@ -77,7 +76,7 @@
         android:layout_height="63dp"
         android:backgroundTint="#5CB5C4"
         android:fontFamily="@font/poppins"
-        android:text="Empieza a buscar"
+        android:text="@string/buscar"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="visible"
@@ -155,12 +154,11 @@
         android:id="@+id/rcvMostrarReservaciones"
         android:layout_width="match_parent"
         android:layout_height="680dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.591" />
+        app:layout_constraintTop_toBottomOf="@+id/view7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

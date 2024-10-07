@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins"
                 android:paddingBottom="16dp"
-                android:text="Colonia Libertad, Avenida Morazán, Pasaje Morelos #111\nSan Salvador, El Salvador."
+                android:text="@string/direccion"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -72,7 +72,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
             editText.error = spannableString
         }
 
-        // Acción al hacer clic en el botón de inicio de sesión
+        // Accion al hacer clic en el botón de inicio de sesión
         btnIniciar.setOnClickListener {
             // Obtener el correo y contraseña ingresados por el usuario
             correoIngresado = txtCorreoIniciarSesion.text.toString().trim()
@@ -96,35 +96,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-
             // Encriptar la contraseña ingresada
             val contrasenaEncriptada = hashSHA256(clave)
-
-            // Para que con credenciales especificas se inice sesión con admin
-            CoroutineScope(Dispatchers.IO).launch {
-                val conexion = ClaseConexion().cadenaConexion()
-
-                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
-                val statement = conexion?.prepareStatement(query)
-                statement?.setString(1, correoIngresado)
-                statement?.setString(2, contrasenaEncriptada)
-                val resultSet = statement?.executeQuery()
-
-                if (resultSet?.next() == true) {
-                    val nombreTipoUsuario = resultSet.getString("nombre_usuario")
-
-                    val siguientePantalla = when (nombreTipoUsuario) {
-                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
-                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
-                    }
-                    // Asignación de valores globales
-                    startActivity(siguientePantalla)
-                } else {
-                    runOnUiThread {
-                        Toast.makeText(this@activity_iniciar_sesion, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
 
             // Iniciar corrutina para ejecutar la consulta de login en segundo plano
             CoroutineScope(Dispatchers.IO).launch {
@@ -132,12 +105,12 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
                 // Consulta SQL para verificar las credenciales del usuario (es un select)
                 val query = """
-                    SELECT tu.nombre_usuario 
-                    FROM tbTiposUsuarios tu 
-                    INNER JOIN tbUsuarios u 
-                    ON tu.id_tipo_usuario = u.id_tipo_usuario 
-                    WHERE u.correo = ? AND u.contraseña = ?
-                """.trimIndent()
+            SELECT tu.nombre_usuario 
+            FROM tbTiposUsuarios tu 
+            INNER JOIN tbUsuarios u 
+            ON tu.id_tipo_usuario = u.id_tipo_usuario 
+            WHERE u.correo = ? AND u.contraseña = ?
+        """.trimIndent()
 
                 val statement = conexion?.prepareStatement(query)
                 statement?.setString(1, correoIngresado)
@@ -146,20 +119,25 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
                 if (resultSet?.next() == true) {
                     val nombreTipoUsuario = resultSet.getString("nombre_usuario")
-                    val siguientePantalla = when (nombreTipoUsuario) {
-                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
-                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
-                    }
-                    startActivity(siguientePantalla)
+
+                    // Guardar en SharedPreferences si el usuario es ADMIN
                     val editor = userPreferences.edit()
                     editor.putBoolean("IsLogedIn", true) // Marcar que el usuario está logueado
                     editor.putString("email", correoIngresado) // Guardar el correo del usuario
-                    editor.apply()
 
-                    // Redirigir a PaginaInicio
-                    val intent = Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
-                    startActivity(intent)
-                    finish() // Finaliza la activity de login
+                    // Verificar si el usuario es ADMIN
+                    if (nombreTipoUsuario == "ADMIN") {
+                        editor.putBoolean("isAdmin", true) // Guardar que el usuario es ADMIN
+                        val intent = Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
+                        startActivity(intent)
+                    } else {
+                        editor.putBoolean("isAdmin", false) // Guardar que el usuario no es ADMIN
+                        val intent = Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+                        startActivity(intent)
+                    }
+
+                    editor.apply() // Aplicar los cambios de SharedPreferences
+                    finish() // Finalizar la pantalla de inicio de sesión
                 } else {
                     // Si las credenciales no son correctas, mostrar un mensaje en el hilo principal
                     runOnUiThread {
@@ -172,6 +150,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
                 }
             }
         }
+
         // Inicio de sesión con google
         imvIniciarconGoogle.setOnClickListener {
             val configuracionGoogle =

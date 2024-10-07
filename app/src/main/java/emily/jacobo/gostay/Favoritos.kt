@@ -4,6 +4,7 @@ import RecyclerViewHelpers.HotelAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -48,6 +49,7 @@ class Favoritos : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
         val correo = sharedPreferences.getString("email", null)
+        Log.e("si", "$correo")
 
         // Navegación para ir a la página de inicio
         btnBuscar.setOnClickListener {
@@ -85,7 +87,7 @@ class Favoritos : AppCompatActivity() {
         }
 
         // Para obtener el id del usuario
-        suspend fun obtenerIdUsuario(correo: String): Int {
+        suspend fun obtenerIdUsuario(): Int {
             return withContext(Dispatchers.IO) {
                 val objConexion = ClaseConexion().cadenaConexion()
                 val getId = objConexion?.prepareStatement("SELECT id_usuario FROM tbUsuarios WHERE correo = ?")
@@ -156,11 +158,12 @@ class Favoritos : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             // Obtiene el ID del usuario a partir del correo electrónico
-            val id_usuario = obtenerIdUsuario(correo!!)
-            val hotelDB = obtenerHotelesFavoritos(id_usuario)
+            val id_usuario = obtenerIdUsuario()
+            Log.e("id", "$id_usuario")
+            val hotelDB = obtenerHotelesFavoritos(id_usuario).toMutableList()
             // Cambia el contexto de ejecución al hilo principal
             withContext(Dispatchers.Main){
-                val adapter = HotelAdapter(hotelDB, false){ hotel ->
+                val adapter = HotelAdapter(hotelDB, true){ hotel ->
                     val intent = Intent(this@Favoritos, hotel_detalles::class.java).apply {
                         putExtra("hotel", hotel)
                         putExtra("id_hoteles", hotel.id_hoteles)

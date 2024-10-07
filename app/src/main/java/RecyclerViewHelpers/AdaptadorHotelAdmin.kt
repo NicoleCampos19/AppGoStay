@@ -97,7 +97,6 @@ class AdaptadorHotelAdmin(var Datos: List<tbHotel>, val clickListener: (tbHotel)
         popup.setOnDismissListener {
             // Acción al cerrar el menú emergente, si es necesario
         }
-
         // Muestra el menú emergente
         popup.show()
     }

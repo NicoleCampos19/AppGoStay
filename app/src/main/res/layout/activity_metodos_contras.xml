@@ -25,7 +25,7 @@
         app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.006"
+        app:layout_constraintVertical_bias="0.014"
         app:srcCompat="@drawable/ic_back" />
 
     <com.airbnb.lottie.LottieAnimationView
@@ -50,7 +50,7 @@
         android:layout_marginTop="12dp"
         android:backgroundTint="#5CB5C4"
         android:fontFamily="@font/poppinsemibold"
-        android:text="Correo electrónico"
+        android:text="@string/correoelectro"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="#5CB5C4"
         android:fontFamily="@font/poppinsemibold"
-        android:text="Número de celular"
+        android:text="@string/Númerocel"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.087"
@@ -76,13 +76,14 @@
         android:id="@+id/textView71"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:fontFamily="@font/poppinsbold"
-        android:text="Escoge un método para recuperar tu contraseña"
+        android:layout_marginTop="44dp"
+        android:fontFamily="@font/poppinsemibold"
+        android:text="@string/txtmetodos"
+        android:textAlignment="center"
         android:textColor="#0C0C0C"
-        android:textSize="28sp"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

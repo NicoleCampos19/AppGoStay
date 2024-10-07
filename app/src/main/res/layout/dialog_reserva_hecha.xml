@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/poppins"
-        android:text="Reserva realizada con éxito"
+        android:text="@string/reservaexitosa"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="26sp"
@@ -37,7 +37,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/tuquesa"
         android:fontFamily="@font/poppinsemibold"
-        android:text="Cerrar"
+        android:text="@string/Cerrar"
         android:textSize="18sp"
         android:textStyle="bold" />
 </LinearLayout>
