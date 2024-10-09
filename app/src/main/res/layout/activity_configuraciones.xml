@@ -41,6 +41,21 @@
         app:layout_constraintVertical_bias="0.222" />
 
     <TextView
+        android:id="@+id/textView73"
+        android:layout_width="267dp"
+        android:layout_height="62dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/mensajecontac"
+        android:textColor="#636363"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView72"
         android:layout_width="246dp"
         android:layout_height="49dp"
@@ -60,12 +75,40 @@
         android:id="@+id/view6"
         android:layout_width="375dp"
         android:layout_height="3dp"
-        android:background="#333333"
+        android:background="#979797"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView72"
         app:layout_constraintVertical_bias="0.053" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="375dp"
+        android:layout_height="3dp"
+        android:background="#979797"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView72"
+        app:layout_constraintVertical_bias="0.33" />
+
+    <TextView
+        android:id="@+id/textView75"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="@string/soporteapar"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.41" />
 
     <ImageView
         android:id="@+id/imvIdiomas"
@@ -77,6 +120,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.257"
+        app:srcCompat="@drawable/icnext" />
+
+    <ImageView
+        android:id="@+id/imvContact"
+        android:layout_width="27sp"
+        android:layout_height="27sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.411"
         app:srcCompat="@drawable/icnext" />
 
     <ImageView

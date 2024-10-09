@@ -22,12 +22,20 @@ class Configuraciones : AppCompatActivity() {
             insets
         }
 
+        // Mando a llamar los elementos de la vista
         val imvIdiomas = findViewById<ImageView>(R.id.imvIdiomas)
+        val imvContacto = findViewById<ImageView>(R.id.imvContact)
 
         // Configuración para que el botón imvIdiomas abra la sección de idiomas
         imvIdiomas.setOnClickListener {
             val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
             startActivity(intent)
+        }
+
+        // Configuración para que el botón imvContact abra la sección de Contactános
+        imvContacto.setOnClickListener {
+            val siguientepantalla = Intent(this, contacto::class.java)
+            startActivity(siguientepantalla)
         }
     }
 }

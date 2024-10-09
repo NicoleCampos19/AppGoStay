@@ -40,6 +40,9 @@
     <string name="Configuraciones">设置</string>
     <string name="Idioma">语言</string>
     <string name="Indi">您将被重定向到您的设备设置</string>
+    <string name="Correo">电子邮件</string>
+    <string name="msj">信息</string>
+    <string name="enviar">发送</string>
     <string name="iniciosesion">登录</string>
     <string name="olvidastecontra">忘记密码了吗？</string>
     <string name="o">任何一个</string>
@@ -122,4 +125,7 @@
     <string name="reservaexitosa">预订成功</string>
     <string name="txtreservas1">您还没有预订</string>
     <string name="mensajereservas">您的所有预订都集中在一个地方，让您的下一次冒险成为现实。</string>
+    <string name="soporteapar">联系我们</string>
+    <string name="mensajecontac">将您对我们的应用程序的问题或建议发送给我们</string>
+    <string name="Titulo">資質</string>
 </resources>

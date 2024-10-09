@@ -30,10 +30,10 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
-            android:name=".Configuraciones"
+            android:name=".contacto"
             android:exported="false" />
         <activity
-            android:name=".favoritos_vacia"
+            android:name=".Configuraciones"
             android:exported="false" />
         <activity
             android:name=".hotel_detalles_admin"
@@ -73,9 +73,6 @@
             android:exported="false" />
         <activity
             android:name=".item_busquedas_hoteles"
-            android:exported="false" />
-        <activity
-            android:name=".activity_resenas"
             android:exported="false" />
         <activity
             android:name=".RealizarDenuncia"
@@ -169,7 +166,7 @@
             android:exported="false" />
         <activity
             android:name=".activity_iniciar_sesion"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activity_registrarse"
             android:exported="false"

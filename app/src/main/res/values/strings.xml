@@ -118,6 +118,12 @@
     <string name="Configuraciones">Ajustes</string>
     <string name="Idioma">Idioma</string>
     <string name="Indi">Se te redigirá a los ajustes de tu dispositivo</string>
+    <string name="soporteapar">Contáctanos</string>
+    <string name="mensajecontac">Envíanos tus dudas o sugerencias acerca de nuestra aplicación</string>
+    <string name="Correo">Correo electrónico</string>
+    <string name="Titulo">Titulo</string>
+    <string name="msj">Mensaje</string>
+    <string name="enviar">Enviar</string>
     <string-array name="rangeSlider">
         <item>0</item>
         <item>0</item>

@@ -40,6 +40,10 @@
     <string name="Configuraciones">Settings</string>
     <string name="Idioma">Language</string>
     <string name="Indi">You will be redirected to your device settings</string>
+    <string name="Correo">Email</string>
+    <string name="msj">Message</string>
+    <string name="Titulo">Title</string>
+    <string name="enviar">Send</string>
     <string name="iniciosesion">Login</string>
     <string name="olvidastecontra">Forgot your password?</string>
     <string name="o">or</string>
@@ -122,4 +126,6 @@
     <string name="reservaexitosa">Reservation made successfully</string>
     <string name="txtreservas1">You don\'t have reservations yet</string>
     <string name="mensajereservas">Make your next adventure a reality with all your reservations in one place.</string>
+    <string name="soporteapar">Contact us</string>
+    <string name="mensajecontac">Send us your questions or suggestions about our application</string>
 </resources>
