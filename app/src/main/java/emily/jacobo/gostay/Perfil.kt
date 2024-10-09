@@ -65,7 +65,14 @@ class Perfil : AppCompatActivity() {
         val txtHistorialReservas = findViewById<TextView>(R.id.txtHistorialReservas)
         val imvHistorialReservas = findViewById<ImageView>(R.id.imvHistorialReservas)
         val imvHistorialReserva = findViewById<ImageView>(R.id.imvHistorialReserva)
-        val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
+        //val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
+
+        // Obtener SharedPreferences
+        val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+
+
+        // Recuperar el correo almacenado
+        val correoIngresado = userPreferences.getString("email", "") ?: ""
 
         println("correo $correoIngresado")
 
