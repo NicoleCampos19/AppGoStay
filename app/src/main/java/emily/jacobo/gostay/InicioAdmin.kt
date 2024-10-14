@@ -1,11 +1,15 @@
 package emily.jacobo.gostay
 import RecyclerViewHelpers.AdaptadorHotelAdmin
 import RecyclerViewHelpers.HotelAdapter
+import android.app.Dialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
@@ -17,6 +21,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import emily.jacobo.gostay.PaginaInicio.Companion.hotelIdGlobal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +51,8 @@ class InicioAdmin : AppCompatActivity() {
         val etBuscarHotel = findViewById<EditText>(R.id.etBuscarHotel)
         val btnVoz = findViewById<ImageView>(R.id.btnVoz)
         val rcvHotelAdmin = findViewById<RecyclerView>(R.id.rcvHotelAdmin)
+        val imvSalir = findViewById<ImageView>(R.id.imvSalir)
+
         rcvHotelAdmin.layoutManager = LinearLayoutManager(this)
         cargarHoteles(sql)
         //Navegación entre pantallas
@@ -66,7 +75,48 @@ class InicioAdmin : AppCompatActivity() {
             iniciarReconocimientoDeVoz()
         }
 
+        imvSalir.setOnClickListener {
+            cerrarSesion()
+        }
+    }
 
+    // Función para cerrar sesión
+    private fun cerrarSesion() {
+        // Mostrar un diálogo de confirmación para cerrar sesión
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@InicioAdmin)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+            dialog.setContentView(R.layout.dialog_cerrar_sesion)
+
+            val btnClose = dialog.findViewById<Button>(R.id.btnNoCerrarSesion)
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            val btnCerrarSesion = dialog.findViewById<Button>(R.id.btnCerrarSesion)
+            btnCerrarSesion.setOnClickListener {
+                // Cerrar sesión de Firebase
+                FirebaseAuth.getInstance().signOut()
+
+                val googleSignInClient = GoogleSignIn.getClient(this@InicioAdmin, GoogleSignInOptions.DEFAULT_SIGN_IN)
+                googleSignInClient.signOut().addOnCompleteListener {
+                    // Limpiar solo las credenciales específicas en SharedPreferences
+                    val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                    with(userPreferences.edit()) {
+                        remove("email")     // Eliminar el correo ingresado
+                        remove("isAdmin")   // Eliminar el estado de admin
+                        apply()             // Aplicar los cambios
+                    }
+
+                    // Redirigir al login
+                    val intent = Intent(this@InicioAdmin, activity_iniciar_sesion::class.java)
+                    startActivity(intent)
+                    finish() // Finalizar la actividad actual para que no pueda volver atrás
+                }
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
     }
 
     // Método para iniciar el reconocimiento de voz
@@ -107,14 +157,11 @@ class InicioAdmin : AppCompatActivity() {
         rcvHotelAdmin.layoutManager = LinearLayoutManager(this)
         CoroutineScope(Dispatchers.IO).launch {
             val hotelDB = obtenerHoteles(query, query)
-            val favDB = obtenerFavoritos()
             withContext(Dispatchers.Main) {
-                val esFavoritos = favDB.any { it.id_hoteles in hotelDB.map { hotel -> hotel.id_hoteles } }
-                val adapter = HotelAdapter(hotelDB, esFavoritos) { hotel ->
-                    val intent = Intent(this@InicioAdmin, hotel_detalles::class.java).apply {
+                val adapter = AdaptadorHotelAdmin(hotelDB) { hotel ->
+                    val intent = Intent(this@InicioAdmin, hotel_detalles_admin::class.java).apply {
                         putExtra("hotel", hotel)
                         putExtra("id_hoteles", hotel.id_hoteles)
-                        putExtra("prev_activity", "PaginaInicio")
                     }
                     startActivity(intent)
                     overridePendingTransition(0, 0)
@@ -162,36 +209,16 @@ class InicioAdmin : AppCompatActivity() {
         return listaHoteles
     }
 
-    private fun obtenerFavoritos(): List<tbFavoritos> {
-        val objConexion = ClaseConexion().cadenaConexion()
-
-        val statement = objConexion?.createStatement()
-        val resultSet = statement?.executeQuery("select * from tbPreferenciales")!!
-
-        val listaFav2 = mutableListOf<tbFavoritos>()
-
-        while (resultSet.next()) {
-            val id_preferenciales = resultSet.getInt("id_preferencial")
-            val id_hoteles = resultSet.getInt("id_hoteles")
-            val id_usuario = resultSet.getInt("id_usuario")
-
-            val valoresJuntosFav = tbFavoritos(id_preferenciales, id_hoteles, id_usuario )
-
-            listaFav2.add(valoresJuntosFav)
-        }
-        return listaFav2
-    }
-
     private fun cargarHoteles(sqlQuery: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val hotelesDB = obtenerHoteles(sqlQuery, "")  // Aquí sólo se pasa un parámetro de búsqueda
             withContext(Dispatchers.Main) {
-                val adapter = HotelAdapter(hotelesDB, false) { hotel ->
+                val adapter = AdaptadorHotelAdmin(hotelesDB) { hotel ->
                     hotelIdGlobal = hotel.id_hoteles
+                    Log.d("HotelAdapter", "ID del hotel seleccionado: $hotelIdGlobal")
                     val intent = Intent(this@InicioAdmin, hotel_detalles_admin::class.java).apply {
                         putExtra("hotel", hotel)
                         putExtra("id_hoteles", hotel.id_hoteles)
-                        putExtra("prev_activity", "PaginaInicio")
                     }
                     startActivity(intent)
                     overridePendingTransition(0, 0)
@@ -210,4 +237,5 @@ class InicioAdmin : AppCompatActivity() {
         // Show the popup menu.
         popup.show()
     }
+
 }

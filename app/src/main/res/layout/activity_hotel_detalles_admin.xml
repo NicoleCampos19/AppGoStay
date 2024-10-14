@@ -82,14 +82,13 @@
                 android:layout_height="1dp"
                 android:background="#DAD4D4" />
 
-            <ImageView
-                android:id="@+id/imvDetalleHotel"
-                android:layout_width="396dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                app:srcCompat="@drawable/mapaejemplo" />
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp" />
 
             <View
                 android:id="@+id/view3"

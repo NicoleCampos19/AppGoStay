@@ -51,7 +51,6 @@
                 app:srcCompat="@drawable/reservablanca" />
 
 
-
             <ImageView
                 android:id="@+id/imvPerfila"
                 android:layout_width="6dp"
@@ -74,18 +73,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/cuadro_celeste_perfil" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imvPerfilUsu"
-        android:layout_width="141dp"
-        android:layout_height="139dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19"
-        app:shapeAppearanceOverlay="@style/RoundImage" />
-
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
@@ -97,6 +84,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.068" />
@@ -309,10 +297,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.917"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.194"
+        app:layout_constraintStart_toEndOf="@+id/imageView12"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.844" />
+        app:layout_constraintVertical_bias="0.846" />
 
     <TextView
         android:id="@+id/txtHistorialReservas"
@@ -374,5 +362,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/notificaciones" />
+
+    <ImageView
+        android:id="@+id/imvPerfilUsu"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="16dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        tools:visibility="visible" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

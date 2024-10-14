@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -18,6 +19,13 @@ class contacto : AppCompatActivity() {
         val edtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val edtMensaje = findViewById<EditText>(R.id.txtMensaje)
         val btnEnviar = findViewById<Button>(R.id.btnEnviar)
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
+
+        //Navegación para ir a la activity anterior
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, Configuraciones::class.java)
+            startActivity(volverAtras)
+        }
 
         btnEnviar.setOnClickListener {
             val tituloUsuario = edtCorreo.text.toString().trim()
@@ -39,6 +47,7 @@ class contacto : AppCompatActivity() {
             putExtra(Intent.EXTRA_EMAIL, arrayOf("equipogostay@gmail.com")) // Correo de destino
             putExtra(Intent.EXTRA_SUBJECT, tituloUsuario) // Título del correo
             putExtra(Intent.EXTRA_TEXT, mensaje) // Solo el mensaje
+            putExtra(Intent.EXTRA_CC, "equipogostay@gmail.com")
         }
 
         try {

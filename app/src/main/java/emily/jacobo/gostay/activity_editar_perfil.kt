@@ -79,8 +79,6 @@ class activity_editar_perfil : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
         //Variables del companion object de activity_iniciar_sesion
         //correoActual = activity_iniciar_sesion.variableGloalLogin.correoIngresado
        // contrasenaActual = activity_iniciar_sesion.variableGloalLogin.clave
@@ -132,7 +130,6 @@ class activity_editar_perfil : AppCompatActivity() {
                     println("despues preparedStatement")
                     preparedStatement.setString(1, correoIngresado)
                     println("despues del correo")
-
                     val resultSet = preparedStatement.executeQuery()
                     println("ANTES DEL IF")
                     if (resultSet.next()) {

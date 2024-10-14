@@ -42,6 +42,7 @@ class Perfil : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        var imgFotoUrl : String = "";
 
         // Inicialización de vistas
         val imvPerfilUsu = findViewById<ImageView>(R.id.imvPerfilUsu)
@@ -67,13 +68,12 @@ class Perfil : AppCompatActivity() {
         val imvHistorialReserva = findViewById<ImageView>(R.id.imvHistorialReserva)
         //val correoIngresado = activity_iniciar_sesion.variableGloalLogin.correoIngresado
 
+        imvPerfilUsu.bringToFront()
+
         // Obtener SharedPreferences
         val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-
-
         // Recuperar el correo almacenado
         val correoIngresado = userPreferences.getString("email", "") ?: ""
-
         println("correo $correoIngresado")
 
         // Select para mostrar la foto de perfil
@@ -81,36 +81,28 @@ class Perfil : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     // Realizar la consulta para obtener la imagen
-                    println("conexion")
                     val conexion = ClaseConexion().cadenaConexion()
-                    println("query")
                     val query = "SELECT imgFoto FROM tbUsuarios WHERE correo = ?"
-                    println("antes preparedStatement")
                     val preparedStatement = conexion!!.prepareStatement(query)
-                    println("despues preparedStatement")
                     preparedStatement.setString(1, correoIngresado)
-                    println("despues del correo")
 
                     val resultSet = preparedStatement.executeQuery()
-                    println("ANTES DEL IF")
                     if (resultSet.next()) {
-                        println("DESPUES DEL IF")
-                        val imgFotoUrl = resultSet.getString("imgFoto")
+                        imgFotoUrl = resultSet.getString("imgFoto")
 
                         withContext(Dispatchers.Main) {
-                            println("dentro del withContext")
                             Log.d("Perfil", "URL de imagen: $imgFotoUrl")
-                            println("url imagen $imgFotoUrl ")
-
-                            Glide.with(this@Perfil)
+                            imvPerfilUsu.bringToFront()
+                            Glide.with(imvPerfilUsu)
                                 .load(imgFotoUrl)
-                                .apply(RequestOptions().circleCrop())
+                                .circleCrop()
                                 .into(imvPerfilUsu)
                         }
-                        // Mostrar una toast si la img no pudo ser cargada
                     } else {
                         withContext(Dispatchers.Main) {
+                            // Mostrar una toast si la img no pudo ser cargada
                             Toast.makeText(this@Perfil, "No se encontró la imagen de perfil", Toast.LENGTH_SHORT).show()
+                            imvPerfilUsu.setImageResource(R.drawable.icuser)
                         }
                     }
                     // Mostrar una toast si la img no pudo ser cargada
@@ -174,12 +166,15 @@ class Perfil : AppCompatActivity() {
                 // Cerrar sesión de Firebase
                 FirebaseAuth.getInstance().signOut()
 
-                // Cerrar sesión de Google
                 val googleSignInClient = GoogleSignIn.getClient(this@Perfil, GoogleSignInOptions.DEFAULT_SIGN_IN)
                 googleSignInClient.signOut().addOnCompleteListener {
-                    // Limpiar SharedPreferences
+                    // Limpiar solo las credenciales específicas en SharedPreferences
                     val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-                    userPreferences.edit().clear().apply()
+                    with(userPreferences.edit()) {
+                        remove("email")     // Eliminar el correo ingresado
+                        remove("isAdmin")   // Eliminar el estado de admin
+                        apply()             // Aplicar los cambios
+                    }
 
                     // Redirigir al login
                     val intent = Intent(this@Perfil, activity_iniciar_sesion::class.java)

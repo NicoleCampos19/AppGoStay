@@ -55,7 +55,7 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
     // Clave para el bundle del mapa
     companion object {
-        private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
+        const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     }
 
     // Latitud

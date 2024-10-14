@@ -25,6 +25,13 @@ class Configuraciones : AppCompatActivity() {
         // Mando a llamar los elementos de la vista
         val imvIdiomas = findViewById<ImageView>(R.id.imvIdiomas)
         val imvContacto = findViewById<ImageView>(R.id.imvContact)
+        val imvAtrasc = findViewById<ImageView>(R.id.imvAtrasc)
+
+        //Navegación para ir a la activity anterior
+        imvAtrasc.setOnClickListener {
+            val volverAtras = Intent(this, Perfil::class.java)
+            startActivity(volverAtras)
+        }
 
         // Configuración para que el botón imvIdiomas abra la sección de idiomas
         imvIdiomas.setOnClickListener {

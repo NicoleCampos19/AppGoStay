@@ -20,6 +20,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import emily.jacobo.gostay.hotel_detalles.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,17 +40,30 @@ import modelo.tbComentarios
 import modelo.tbHotel
 import java.sql.SQLException
 
-class hotel_detalles_admin : AppCompatActivity() {
-
+class hotel_detalles_admin : AppCompatActivity(), OnMapReadyCallback {
+    // Vista del mapa
+    private lateinit var mapView: MapView
+    // Instancia del mapa de Google
+    private lateinit var googleMap: GoogleMap
+    // Cliente para ubicación
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     // Nombre de la actividad anterior
     private lateinit var prevActivity: String
     // Adaptador para servicios
     private lateinit var servicioAdapter: ServicioAdapter
 
+    // Latitud
+    var latitud: Double = 0.0
+    // Longitud
+    var longitud: Double = 0.0
+    // Descripción
+    var desc: String = ""
+    // Nombre del hotel
+    var nombreHotel: String = ""
+
     override fun onBackPressed() {
         // Ejecuta el código antes de regresar
         AdaptadorOfertas.descuentoTotalGlobal = 0.0
-
         // Luego llama al comportamiento predeterminado de volver atrás
         super.onBackPressed()
     }
@@ -52,6 +74,19 @@ class hotel_detalles_admin : AppCompatActivity() {
         setContentView(R.layout.activity_hotel_detalles_admin)
         val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
         rcvCarrusels.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        // Inicializa el mapView y el cliente de ubicación
+        mapView = findViewById(R.id.mapView)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        // Verifica si hay un estado guardado y extrae el bundle para el mapa
+        var mapViewBundle: Bundle? = null
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(hotel_detalles.MAP_VIEW_BUNDLE_KEY)
+        }
+        // Crea el mapView
+        mapView.onCreate(mapViewBundle)
+        // Inicia el mapa de manera asíncrona
+        mapView.getMapAsync(this)
 
         // Select para obtener las imágenes de los hoteles
         fun obtenerImagenes(): List<tbCarrusel> {
@@ -73,6 +108,29 @@ class hotel_detalles_admin : AppCompatActivity() {
                 }
             }
             return lista
+        }
+
+        // Obtiene el ID del hotel pasado como extra en el intent
+        val ID_Hotel = intent.getIntExtra("id_hoteles", 0)
+        // Lanza una corrutina en el contexto de I/O para realizar una consulta en segundo plano
+        CoroutineScope(Dispatchers.IO).launch {
+            val conexion = ClaseConexion().cadenaConexion()
+            // Establece la conexión a la base de datos
+            // Prepara una consulta SQL con el ID del hotel como parámetro
+            val statement = conexion?.prepareStatement("SELECT * FROM tbHoteles WHERE id_hoteles = ?")!!
+            statement.setInt(1, ID_Hotel)
+            val resultSet = statement.executeQuery()
+            withContext(Dispatchers.Main) {
+                if (resultSet.next()) {
+                    latitud = resultSet.getDouble("latitudHotel")
+                    longitud = resultSet.getDouble("longitudHotel")
+                    desc = resultSet.getString("descripcion")
+                    nombreHotel = resultSet.getString("nombre")
+                    if (::googleMap.isInitialized) {
+                        updateMapLocation()
+                    }
+                }
+            }
         }
 
         //Asignarle el adaptador al Recyclearview
@@ -143,8 +201,7 @@ class hotel_detalles_admin : AppCompatActivity() {
         // Inicializa el ImageView para el botón de retroceso
         val imageViewBack = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         imageViewBack.setOnClickListener {
-            AdaptadorOfertas.descuentoTotalGlobal = 0.0
-            navigateBack()
+            finish()
         }
 
         // Obtiene el id del hotel y los detalles del hotel desde el intent
@@ -249,6 +306,56 @@ class hotel_detalles_admin : AppCompatActivity() {
         }
     }
 
+    // Se ejecuta cuando el mapa está listo para ser usado
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        updateMapLocation()
+    }
+
+    // Función privada para actualizar la ubicación en el mapa
+    private fun updateMapLocation() {
+        val location = LatLng(latitud, longitud)
+        googleMap.addMarker(MarkerOptions().position(location).title("Ubicación del Hotel"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+    }
+
+    // Llama al método onResume del mapView cuando la actividad se reanuda
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    // Llama al método onStart del mapView cuando la actividad empieza
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    // Llama al método onStop del mapView cuando la actividad se detiene
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    // Llama al método onPause del mapView cuando la actividad se pausa
+    override fun onPause() {
+        mapView.onPause()
+        super.onPause()
+    }
+
+    // Llama al método onDestroy del mapView cuando la actividad se destruye
+    override fun onDestroy() {
+        mapView.onDestroy()
+        super.onDestroy()
+    }
+
+    // Llama al método onLowMemory del mapView cuando el sistema está bajo memoria
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    /*
     // Función privada para gestionar la navegación hacia atrás en función de la actividad previa
     private fun navigateBack() {
         when (prevActivity) {
@@ -268,6 +375,8 @@ class hotel_detalles_admin : AppCompatActivity() {
         }
         finish()
     }
+    */
+
     // Función privada para mostrar un menú emergente (popup menu) al hacer clic en una vista
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(this, v)

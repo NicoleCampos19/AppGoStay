@@ -110,7 +110,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
 
-                val query = "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
+                val query =
+                    "SELECT tu.nombre_usuario FROM tbTiposUsuarios tu INNER JOIN tbUsuarios u ON tu.id_tipo_usuario = u.id_tipo_usuario WHERE u.correo = ? AND u.contraseña = ?"
                 val statement = conexion?.prepareStatement(query)
                 statement?.setString(1, correoIngresado)
                 statement?.setString(2, contrasenaEncriptada)
@@ -118,24 +119,38 @@ class activity_iniciar_sesion : AppCompatActivity() {
 
                 if (resultSet?.next() == true) {
                     val nombreTipoUsuario = resultSet.getString("nombre_usuario")
+                    val editor = userPreferences.edit()
 
                     val siguientePantalla = when (nombreTipoUsuario) {
-                        "ADMIN" -> Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
-                        else -> Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+                        "ADMIN" -> {
+                            // Guardar en SharedPreferences que es Admin
+                            editor.putBoolean("isAdmin", true)
+                            Intent(this@activity_iniciar_sesion, InicioAdmin::class.java)
+                        }
+
+                        else -> {
+                            // Guardar en SharedPreferences que no es Admin
+                            editor.putBoolean("isAdmin", false)
+                            Intent(this@activity_iniciar_sesion, PaginaInicio::class.java)
+                        }
                     }
-                    // Guardar el correo y la contraseña en SharedPreferences
-                    val editor = userPreferences.edit()
-                    editor.putBoolean("IsLogedIn", true) // Marcar que el usuario está logueado
-                    editor.putString("email", correoIngresado) // Guardar el correo del usuario
-                    editor.putString("password", contrasenaEncriptada) // Guardar la contraseña encriptada
+
+                    // Guardar en SharedPreferences
+                    editor.putBoolean("IsLogedIn", true)
+                    editor.putString("email", correoIngresado)
+                    editor.putString("password", contrasenaEncriptada)
                     editor.apply()
 
-                    // Redirigir a PaginaInicio
+                    // Redirigir al usuario
                     startActivity(siguientePantalla)
-                    finish() // Finaliza la activity de login
+                    finish()
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this@activity_iniciar_sesion, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@activity_iniciar_sesion,
+                            "Usuario o contraseña incorrectos",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
