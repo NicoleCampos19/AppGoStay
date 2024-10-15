@@ -55,7 +55,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNumeroCel" />
 
     <Button
         android:id="@+id/btnRecuperacionCel"
@@ -70,10 +70,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView4"
@@ -104,7 +104,7 @@
         app:srcCompat="@drawable/ic_back" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/txtNumeroCel"
         android:layout_width="368dp"
         android:layout_height="58dp"
         android:layout_marginTop="28dp"

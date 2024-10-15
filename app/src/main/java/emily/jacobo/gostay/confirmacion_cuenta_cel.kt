@@ -32,7 +32,7 @@ class confirmacion_cuenta_cel : AppCompatActivity() {
 
         // Navegación para volver atrás
         imvAtrascel.setOnClickListener {
-            val volverAtras = Intent(this, recuperacion_cuenta_cel::class.java)
+            val volverAtras = Intent(this, RecuperacionCuentaCel::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }

@@ -39,7 +39,7 @@ class metodos_contras : AppCompatActivity() {
 
         // Para poder ir a recuperacion_cuenta_cel
         btnRecuNum.setOnClickListener {
-            val siguientepantallita = Intent(this, recuperacion_cuenta_cel::class.java)
+            val siguientepantallita = Intent(this, RecuperacionCuentaCel::class.java)
             startActivity(siguientepantallita)
         }
     }

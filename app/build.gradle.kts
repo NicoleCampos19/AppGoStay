@@ -30,6 +30,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,19 +38,21 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    viewBinding{
+    viewBinding {
         enable = true
     }
     buildFeatures {
         compose = true
-        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
+
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/LICENSE"
         }
     }
 }
@@ -78,6 +81,18 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+    // Librería para SMS
+    /*
+    implementation("com.twilio.sdk:twilio:8.31.1") {
+       exclude(group = "javax.activation") // Excluyendo la dependencia conflictiva
+        exclude(group = "org.apache.httpcomponents")
+   }*/
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+    //implementation("org.apache.httpcomponents:httpclient:4.5.13")
+    //implementation("org.apache.httpcomponents:httpcore:4.4.13")
+
 
     //libreria de glide imagenes
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -121,3 +136,4 @@ fun kapt(s: String) {
 
 }
 */
+

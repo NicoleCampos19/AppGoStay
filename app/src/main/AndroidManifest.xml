@@ -48,7 +48,7 @@
             android:name=".confirmacion_cuenta_cel"
             android:exported="false" />
         <activity
-            android:name=".recuperacion_cuenta_cel"
+            android:name=".RecuperacionCuentaCel"
             android:exported="false" />
         <activity
             android:name=".metodos_contras"
