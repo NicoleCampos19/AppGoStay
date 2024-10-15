@@ -152,10 +152,9 @@ class hotel_detalles_admin : AppCompatActivity(), OnMapReadyCallback {
         fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
             val ServiciosList = mutableListOf<ServicioInfo>() // Lista para almacenar los servicios obtenidos
             val query = """
-         SELECT sh.nombre_servicio, sh.img_icono_hotel
-         from tbIntermedia_Hoteles_Servicios ish
-         INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
-            where id_hoteles = ?
+        SELECT nombre_servicio, img_icono_hotel
+                FROM tbServiciosHotel           
+                WHERE id_hoteles = ?
          """.trimIndent() // Consulta SQL para obtener los servicios del hotel
             try {
                 val objConexion = ClaseConexion().cadenaConexion()

@@ -430,7 +430,30 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    private fun insertarVistaHotel() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Establece la conexión a la base de datos
+                val objConexion = ClaseConexion().cadenaConexion()
 
+                // Consulta SQL para insertar una nueva vista
+                val statement = objConexion?.prepareStatement("""
+                    INSERT INTO tbVistasHotel (fecha, id_hoteles)
+                    VALUES (SYSDATE, ?)
+                """.trimIndent())
+
+                // Reemplaza '?' con el ID del hotel
+                statement?.setInt(1, hotelIdGlobal!!)
+
+                // Ejecuta la inserción
+                statement?.executeUpdate()
+
+                Log.d("InsertVistaHotel", "Vista insertada correctamente en la tabla tbVistasHotel.")
+            } catch (e: Exception) {
+                Log.e("InsertVistaHotel", "Error al insertar vista: ${e.message}", e)
+            }
+        }
+    }
 
     // Se ejecuta cuando el mapa está listo para ser usado
     override fun onMapReady(map: GoogleMap) {
