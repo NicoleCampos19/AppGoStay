@@ -117,6 +117,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView52"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/valorahotel"
+                android:layout_marginLeft="8dp"/>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:layout_gravity="center"
+                android:numStars="5"
+                android:padding="0dp"
+                android:progressBackgroundTint="@color/gris"
+                android:progressTint="@color/black"
+                android:rating="0"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                android:stepSize="1"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -162,26 +200,6 @@
                     android:src="@drawable/iconoenviar" />
             </LinearLayout>
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="47dp"
-                android:layout_gravity="center"
-                android:numStars="5"
-                android:progressBackgroundTint="@color/black"
-                android:progressTint="@color/tuquesa"
-                android:rating="4"
-
-                android:scaleX="0.6"
-                android:scaleY="0.6"
-                android:stepSize="1"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/ratingScale"
                 android:layout_width="match_parent"
@@ -199,7 +217,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="270dp" />
 
-            <View
+        <Button
+            android:id="@+id/btnMasDetalles"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:text="@string/vermas"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            />
+
+        <View
                 android:id="@+id/view4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

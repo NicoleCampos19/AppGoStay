@@ -110,6 +110,15 @@
     <string name="Sí">Sí</string>
     <string name="No">No</string>
     <string name="pregunta2">¿Estas seguro de cerrar tu sesión?</string>
+    <string name="comentario">¿Estas seguro de tu comentario?</string>
+    <string name="comentario2">¡Gracias por tu comentario!</string>
+    <string name="comentario3">¿Quieres calificar otros servicios?</string>
+    <string name="valgeneral">Valoración general</string>
+    <string name="otros">Otros</string>
+    <string name="limpieza">limpieza</string>
+    <string name="ubicacion">Ubicación</string>
+    <string name="Personal">Personal</string>
+    <string name="Instalaciones">Instalaciones</string>
     <string name="denunciaexitosa">Denuncia agregada correctamente</string>
     <string name="Cerrar">Cerrar</string>
     <string name="reservaexitosa">Reserva realizada con éxito</string>
@@ -131,4 +140,10 @@
     <string name="iniciosesion">Inicia Sesión</string>
     <string name="aspectos">Aspectos Clave para los Turistas al Seleccionar un Hotel</string>
     <string name="conclu">Conclusión</string>
+    <string name="vermas">Más detalles</string>
+    <string name="valorahotel">Califica nuestro hotel</string>
+    <string name="valoraservicios">Califica nuestros servicios</string>
+    <string name="graciasServ">¡Gracias por calificar nuestros servicios!</string>
+
+
 </resources>

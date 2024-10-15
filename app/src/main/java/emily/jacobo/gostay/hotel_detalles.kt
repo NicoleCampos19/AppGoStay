@@ -4,6 +4,7 @@ import RecyclerViewHelpers.AdaptadorCarrusel
 import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.ComentarioAdapter
 import RecyclerViewHelpers.ServicioAdapter
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -71,6 +72,9 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hotel_detalles)
         prevActivity = intent.getStringExtra("prev_activity") ?: "default_value"
+
+        insertarVistaHotel()
+
 
         // Mando a llamar el rcv
         val rcvCarrusels = findViewById<RecyclerView>(R.id.carrusel_recycler_views)
@@ -150,8 +154,9 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         suspend fun loadServiciosFromDatabase(idHotelGlobal: Int): List<ServicioInfo> {
             val serviciosList = mutableListOf<ServicioInfo>() // Lista para almacenar los servicios obtenidos
             val query = """
-                SELECT nombre_servicio, img_icono_hotel
-                FROM tbServiciosHotel           
+                SELECT sh.nombre_servicio, sh.img_icono_hotel
+                FROM tbIntermedia_Hoteles_Servicios ish
+                INNER JOIN tbServiciosHotel sh ON ish.id_servicio_hotel = sh.id_servicio_hotel
                 WHERE id_hoteles = ?
             """.trimIndent() // Consulta SQL para obtener los servicios del hotel
             try {
@@ -217,6 +222,12 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         val btnReportar = findViewById<Button>(R.id.btnReportar)
         val ratingBar = findViewById<RatingBar>(R.id.ratingBar)
         val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
+        val btnVerMas = findViewById<Button>(R.id.btnMasDetalles)
+
+        btnVerMas.setOnClickListener {
+            val intent = Intent(this@hotel_detalles, verMas_servicios::class.java)
+            startActivity(intent) // Inicia la nueva actividad
+        }
 
 
 
@@ -294,7 +305,6 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                     val resultSet = preparedStatement.executeQuery()
 
                     while (resultSet.next()) { // Solo un hotel, por eso se utiliza `next()`
-                        val cantidadValoraciones = resultSet.getInt("cantidad_valoraciones")
                         val calificacionFinal = resultSet.getDouble("calificacion_final")
 
                         resultado = "%.1f".format(calificacionFinal) // Formato de dos decimales
@@ -331,8 +341,9 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
-        // Configura el botón para enviar un comentario
-        imvEnviar.setOnClickListener {
+        // Función para enviar la valoración sin ser privada
+        fun enviarValoracion() {
+
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     // Obtiene el comentario del campo de texto
@@ -357,9 +368,94 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                     Log.d("Error", e.toString())
                 }
             }
+
+
+        }
+
+        fun mostrarDialogExitoso() {
+            runOnUiThread {
+                val dialog = Dialog(this@hotel_detalles)
+                dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+                dialog.setContentView(R.layout.dialog_comentario_exitoso)
+
+                val btnOk = dialog.findViewById<Button>(R.id.btnSiQuiero)
+                val btnNo = dialog.findViewById<Button>(R.id.btnNoQuiero)
+
+
+                btnOk.setOnClickListener {
+                    dialog.dismiss() // Cierra el diálogo antes de abrir la nueva actividad
+                    val intent = Intent(this@hotel_detalles, valorarServicios::class.java)
+                    startActivity(intent) // Inicia la nueva actividad
+                }
+
+                btnNo.setOnClickListener{
+                    dialog.dismiss()
+                }
+                dialog.show()
+            }
+        }
+
+        fun dialogConfirmarComentario() {
+            runOnUiThread {
+                val dialog = Dialog(this@hotel_detalles)
+                dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+                dialog.setContentView(R.layout.dialog_confirmar_comentario)
+
+                val btnConfirm = dialog.findViewById<Button>(R.id.btnSi)
+                val btnClose = dialog.findViewById<Button>(R.id.btnNo)
+
+                // Si el usuario confirma, se envía la valoración
+                btnConfirm.setOnClickListener {
+                    dialog.dismiss()
+                    enviarValoracion() // Llama a la función para enviar la valoración
+                    mostrarDialogExitoso()
+            }
+
+                // Si el usuario cancela, se cierra el diálogo
+                btnClose.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.show()
+            }
         }
 
 
+        imvEnviar.setOnClickListener {
+            if (ratingValue > 0){
+                // Mostrar el diálogo de confirmación antes de enviar la valoración
+                dialogConfirmarComentario()
+            }else{
+                Toast.makeText(this@hotel_detalles, "Por favor, selecciona al menos una estrella", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+    }
+
+    private fun insertarVistaHotel() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Establece la conexión a la base de datos
+                val objConexion = ClaseConexion().cadenaConexion()
+
+                // Consulta SQL para insertar una nueva vista
+                val statement = objConexion?.prepareStatement("""
+                    INSERT INTO tbVistasHotel (fecha, id_hoteles)
+                    VALUES (SYSDATE, ?)
+                """.trimIndent())
+
+                // Reemplaza '?' con el ID del hotel
+                statement?.setInt(1, hotelIdGlobal!!)
+
+                // Ejecuta la inserción
+                statement?.executeUpdate()
+
+                Log.d("InsertVistaHotel", "Vista insertada correctamente en la tabla tbVistasHotel.")
+            } catch (e: Exception) {
+                Log.e("InsertVistaHotel", "Error al insertar vista: ${e.message}", e)
+            }
+        }
     }
 
     // Se ejecuta cuando el mapa está listo para ser usado

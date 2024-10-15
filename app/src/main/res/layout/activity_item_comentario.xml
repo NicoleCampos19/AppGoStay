@@ -17,38 +17,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
+
+        <RatingBar
+            android:id="@+id/ratingBarItem"
+
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/gris"
+            android:progressTint="@color/black"
+            android:rating="4"
+            android:stepSize="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/btnMas"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="220dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_marginStart="150dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_more" />
     </LinearLayout>
 
-    <RatingBar
-        android:id="@+id/ratingBarItem"
-        android:layout_width="wrap_content"
-        android:layout_height="47dp"
-        android:layout_gravity="center"
-        android:numStars="5"
-        android:progressBackgroundTint="@color/black"
-        android:progressTint="@color/tuquesa"
-        android:rating="4"
 
-        android:scaleX="0.6"
-        android:scaleY="0.6"
-        android:stepSize="1"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtComentarioCard"

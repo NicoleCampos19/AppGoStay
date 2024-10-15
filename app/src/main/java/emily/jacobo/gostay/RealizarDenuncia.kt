@@ -74,8 +74,7 @@ class RealizarDenuncia : AppCompatActivity() {
 
         // Para ir a la página de inicio
         imvAtrasc.setOnClickListener {
-            val volverAtras = Intent(this, PaginaInicio::class.java)
-            startActivity(volverAtras)
+            finish()
         }
 
         val checkedRadioButtonId = radioGroup.checkedRadioButtonId // Returns View.NO_ID if nothing is checked.
