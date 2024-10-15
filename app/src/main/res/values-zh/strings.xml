@@ -128,4 +128,18 @@
     <string name="soporteapar">联系我们</string>
     <string name="mensajecontac">将您对我们的应用程序的问题或建议发送给我们</string>
     <string name="Titulo">資質</string>
+    <string name="comentario">您發表評論安全嗎</string>
+    <string name="comentario2">感謝您的評論</string>
+    <string name="comentario3">您想評價其他服務嗎</string>
+    <string name="valgeneral">整體評價</string>
+    <string name="otros">其他的</string>
+    <string name="limpieza">打掃</string>
+    <string name="ubicacion">地點</string>
+    <string name="Personal">職員</string>
+    <string name="Instalaciones">設施</string>
+    <string name="vermas">更多詳情</string>
+    <string name="valorahotel">評價我們的飯店</string>
+    <string name="valoraservicios">評價我們的服務</string>
+    <string name="graciasServ">感謝您對我們服務的評價！</string>
+
 </resources>

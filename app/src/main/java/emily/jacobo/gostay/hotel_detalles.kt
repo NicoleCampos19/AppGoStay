@@ -4,6 +4,7 @@ import RecyclerViewHelpers.AdaptadorCarrusel
 import RecyclerViewHelpers.AdaptadorOfertas
 import RecyclerViewHelpers.ComentarioAdapter
 import RecyclerViewHelpers.ServicioAdapter
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -218,6 +219,12 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         val btnReportar = findViewById<Button>(R.id.btnReportar)
         val ratingBar = findViewById<RatingBar>(R.id.ratingBar)
         val txtCalificacion = findViewById<TextView>(R.id.txtCalificacion)
+        val btnVerMas = findViewById<Button>(R.id.btnMasDetalles)
+
+        btnVerMas.setOnClickListener {
+            val intent = Intent(this@hotel_detalles, verMas_servicios::class.java)
+            startActivity(intent) // Inicia la nueva actividad
+        }
 
 
 
@@ -295,7 +302,6 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                     val resultSet = preparedStatement.executeQuery()
 
                     while (resultSet.next()) { // Solo un hotel, por eso se utiliza `next()`
-                        val cantidadValoraciones = resultSet.getInt("cantidad_valoraciones")
                         val calificacionFinal = resultSet.getDouble("calificacion_final")
 
                         resultado = "%.1f".format(calificacionFinal) // Formato de dos decimales
@@ -332,8 +338,9 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
-        // Configura el botón para enviar un comentario
-        imvEnviar.setOnClickListener {
+        // Función para enviar la valoración sin ser privada
+        fun enviarValoracion() {
+
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     // Obtiene el comentario del campo de texto
@@ -358,10 +365,72 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                     Log.d("Error", e.toString())
                 }
             }
+
+
+        }
+
+        fun mostrarDialogExitoso() {
+            runOnUiThread {
+                val dialog = Dialog(this@hotel_detalles)
+                dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+                dialog.setContentView(R.layout.dialog_comentario_exitoso)
+
+                val btnOk = dialog.findViewById<Button>(R.id.btnSiQuiero)
+                val btnNo = dialog.findViewById<Button>(R.id.btnNoQuiero)
+
+
+                btnOk.setOnClickListener {
+                    dialog.dismiss() // Cierra el diálogo antes de abrir la nueva actividad
+                    val intent = Intent(this@hotel_detalles, valorarServicios::class.java)
+                    startActivity(intent) // Inicia la nueva actividad
+                }
+
+                btnNo.setOnClickListener{
+                    dialog.dismiss()
+                }
+                dialog.show()
+            }
+        }
+
+        fun dialogConfirmarComentario() {
+            runOnUiThread {
+                val dialog = Dialog(this@hotel_detalles)
+                dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
+                dialog.setContentView(R.layout.dialog_confirmar_comentario)
+
+                val btnConfirm = dialog.findViewById<Button>(R.id.btnSi)
+                val btnClose = dialog.findViewById<Button>(R.id.btnNo)
+
+                // Si el usuario confirma, se envía la valoración
+                btnConfirm.setOnClickListener {
+                    dialog.dismiss()
+                    enviarValoracion() // Llama a la función para enviar la valoración
+                    mostrarDialogExitoso()
+            }
+
+                // Si el usuario cancela, se cierra el diálogo
+                btnClose.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.show()
+            }
         }
 
 
+        imvEnviar.setOnClickListener {
+            if (ratingValue > 0){
+                // Mostrar el diálogo de confirmación antes de enviar la valoración
+                dialogConfirmarComentario()
+            }else{
+                Toast.makeText(this@hotel_detalles, "Por favor, selecciona al menos una estrella", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
     }
+
+
 
     // Se ejecuta cuando el mapa está listo para ser usado
     override fun onMapReady(map: GoogleMap) {

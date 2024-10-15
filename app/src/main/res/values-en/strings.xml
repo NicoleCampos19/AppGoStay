@@ -128,4 +128,19 @@
     <string name="mensajereservas">Make your next adventure a reality with all your reservations in one place.</string>
     <string name="soporteapar">Contact us</string>
     <string name="mensajecontac">Send us your questions or suggestions about our application</string>
+    <string name="comentario">Is it safe for you to comment?</string>
+    <string name="comentario2">Thank you for your comment!</string>
+    <string name="comentario3">Do you want to rate other services?</string>
+    <string name="valgeneral">Overall rating</string>
+    <string name="otros">Others</string>
+    <string name="limpieza">Cleaning</string>
+    <string name="ubicacion">Location</string>
+    <string name="Personal">Staff</string>
+    <string name="Instalaciones">Facilities</string>
+    <string name="vermas">More details</string>
+    <string name="valorahotel">Rate our hotel</string>
+    <string name="valoraservicios">Rate our services</string>
+    <string name="graciasServ">Thank you for rating our services!</string>
+
+
 </resources>

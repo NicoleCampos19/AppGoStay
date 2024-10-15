@@ -30,6 +30,12 @@
         android:theme="@style/Theme.GoStay"
         tools:targetApi="31">
         <activity
+            android:name=".verMas_servicios"
+            android:exported="false" />
+        <activity
+            android:name=".valorarServicios"
+            android:exported="false" />
+        <activity
             android:name=".contacto"
             android:exported="false" />
         <activity
