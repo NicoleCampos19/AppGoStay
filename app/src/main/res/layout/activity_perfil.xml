@@ -322,22 +322,24 @@
         android:id="@+id/imvHistorialReserva"
         android:layout_width="27sp"
         android:layout_height="27sp"
-        android:layout_marginBottom="324dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/txtHistorialReservas"
         app:layout_constraintHorizontal_bias="0.589"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.604"
         app:srcCompat="@drawable/ichistorial" />
 
     <ImageView
         android:id="@+id/imvHistorialReservas"
         android:layout_width="27sp"
         android:layout_height="27sp"
-        android:layout_marginBottom="324dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toEndOf="@+id/txtHistorialReservas"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.603"
         app:srcCompat="@drawable/icnext" />
 
     <ImageView
@@ -350,18 +352,6 @@
         app:layout_constraintHorizontal_bias="0.633"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/cerrarrojito" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/cuadro_perfil"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.932"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/notificaciones" />
 
     <ImageView
         android:id="@+id/imvPerfilUsu"

@@ -54,6 +54,8 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
                     "Recuperacion de contraseña", //Asunto del correo
                     "Este es tu código de recuperación de cuenta $codigoRegis" ) // Código del correo
             }
+            overridePendingTransition(0,0)
+
         }
 
         //Validación para campos
@@ -114,6 +116,8 @@ class activity_ConfirmarCorreo : AppCompatActivity() {
                     Toast.makeText(this, "Error inesperado. Intenta de nuevo.", Toast.LENGTH_SHORT).show()
                 }
             }
+            overridePendingTransition(0,0)
+
         }
     }
 

@@ -28,18 +28,24 @@ class opcionesdebusquedad : AppCompatActivity() {
         btnAtras.setOnClickListener {
             val volverAtras = Intent(this, PaginaInicio::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
 
         // Para poder ir a la la activity de hoteles cerca
         btnHotelesCerca.setOnClickListener {
             val siguientepantallita = Intent(this, hoteles_cerca::class.java)
             startActivity(siguientepantallita)
+            overridePendingTransition(0,0)
+
         }
 
         // Para poder ir a la la activity de próximo destino
         btnProxDestino.setOnClickListener {
             val siguientepantallita = Intent(this, proximo_destino::class.java)
             startActivity(siguientepantallita)
+            overridePendingTransition(0,0)
+
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

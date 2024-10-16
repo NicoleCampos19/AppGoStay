@@ -84,6 +84,8 @@ class CreacionContrasenaActivity : AppCompatActivity() {
            }
            else {
                 }
+           overridePendingTransition(0,0)
+
        }
 
         // Navegación para volver atrás

@@ -241,6 +241,7 @@ class activity_editar_perfil : AppCompatActivity() {
                 ).show()
             }
 
+            overridePendingTransition(0,0)
 
         }
 
@@ -268,6 +269,8 @@ class activity_editar_perfil : AppCompatActivity() {
         imvAtrasPerfil.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
         }
 

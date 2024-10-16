@@ -49,12 +49,15 @@ class activity_habitacion_economica : AppCompatActivity() {
         // Btn para finalizar la activity
         imageViewBack.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
+
         }
 
         //Navegación para ir a la activity de reservas
         btnReservar.setOnClickListener {
             val intent = Intent(this, activity_reserva::class.java)
             startActivity(intent)
+            overridePendingTransition(0,0)
         }
 
 

@@ -37,12 +37,16 @@ class Denuncias : AppCompatActivity() {
         imvHotelNavegacion.setOnClickListener {
             val siguientePantalla = Intent(this, InicioAdmin::class.java)
             startActivity(siguientePantalla)
+            overridePendingTransition(0,0)
+
         }
 
         // Navegación para ir a la activity de Denuncias
         imvDenunciasNavegacion.setOnClickListener {
             val siguientePantalla = Intent(this, Denuncias::class.java)
             startActivity(siguientePantalla)
+            overridePendingTransition(0,0)
+
         }
 
         // Se manda a llamar el rcv de laa denuncias

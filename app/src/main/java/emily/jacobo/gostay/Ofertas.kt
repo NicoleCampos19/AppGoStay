@@ -40,6 +40,8 @@ class Ofertas : AppCompatActivity() {
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
 
         // Obtener la información de la oferta

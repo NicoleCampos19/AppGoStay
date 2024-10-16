@@ -136,6 +136,8 @@ class activity_reserva : AppCompatActivity() {
         // Para que se cierre la activity
         imgVolverAtrars.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
+
         }
 
         // Configura el DatePickerDialog para la fecha de caducidad
@@ -300,6 +302,8 @@ class activity_reserva : AppCompatActivity() {
                     }
                 }
             }
+            overridePendingTransition(0,0)
+
         }
 
     }

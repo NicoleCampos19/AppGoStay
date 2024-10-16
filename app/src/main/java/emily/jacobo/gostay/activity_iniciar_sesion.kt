@@ -214,6 +214,8 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     }
                 }
             }
+            overridePendingTransition(0,0)
+
         }
         // Inicio de sesión con google
         imvIniciarconGoogle.setOnClickListener {
@@ -223,16 +225,22 @@ class activity_iniciar_sesion : AppCompatActivity() {
                     .build()
             val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
             startActivityForResult(ClienteGoogle.signInIntent, InicioSesionGoogle)
+            overridePendingTransition(0,0)
+
         }
         //Navegación para poder ir a los métodos de recuperación de contraseña
         txtOlvidasteContrasena.setOnClickListener {
-            val siguientepantalla = Intent(this, metodos_contras::class.java)
+            val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0,0)
+
         }
         //Navegación para ir a la activity anterior
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, activity_registrarse::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
 
         // Para que los txt tengan la fuente de poppins

@@ -70,11 +70,15 @@ class RealizarDenuncia : AppCompatActivity() {
                     }
                 }
             }
+            overridePendingTransition(0,0)
+
         }
 
         // Para ir a la página de inicio
         imvAtrasc.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
+
         }
 
         val checkedRadioButtonId = radioGroup.checkedRadioButtonId // Returns View.NO_ID if nothing is checked.

@@ -272,6 +272,8 @@ class activity_registrarse : AppCompatActivity() {
                 val siguientepantalla = Intent(this, activity_ConfirmarCorreo::class.java)
                 startActivity(siguientepantalla)
             }
+            overridePendingTransition(0,0)
+
         }
 
         // Inicio de sesión con google
@@ -289,6 +291,8 @@ class activity_registrarse : AppCompatActivity() {
         txtIniciarsesion.setOnClickListener {
             val siguientepantalla = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0,0)
+
         }
 
         //Para que el txt al darle al ojito tenga poppins

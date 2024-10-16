@@ -12,7 +12,7 @@ class ClaseConexion {
             val ipEmily = "jdbc:oracle:thin:@192.168.0.10:1521:xe"
             val ipGabriela = "jdbc:oracle:thin:@192.168.1.13:1521:xe"
             val ipAbigail = "jdbc:oracle:thin:@172.20.10.3:1521:xe"
-            val ipSofia = "jdbc:oracle:thin:@192.168.1.20:1521:xe"
+            val ipSofia = "jdbc:oracle:thin:@192.168.1.5:1521:xe"
             val ipDaniel = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
             val ipBryan = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
             val ipMirna = "jdbc:oracle:thin:@10.10.0.57:1521:xe"
@@ -23,6 +23,7 @@ class ClaseConexion {
 
             // Todo lo necesario para la conexión
             val conexion = DriverManager.getConnection(ipLeonardo, usuario, contrasena)
+
             
             return conexion
         }catch (e: Exception){

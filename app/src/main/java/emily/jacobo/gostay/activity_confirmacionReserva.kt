@@ -119,6 +119,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         // Para poder volver atrás
         volverAtras.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
         }
 
 // Verifica si el ID del hotel, el ID del tipo de habitación y el nombre de usuario son válidos
@@ -135,6 +136,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
         // Configura el botón "Confirmar" para que al hacer clic se ejecute la función de aceptar reserva
         btnConfirmar.setOnClickListener{
             aceptarReserva()
+            overridePendingTransition(0,0)
         }
     }
 
@@ -230,6 +232,7 @@ class activity_confirmacionReserva : AppCompatActivity() {
             }
 
             dialog.show()
+            overridePendingTransition(0,0)
         }
     }
 
@@ -365,6 +368,8 @@ class activity_confirmacionReserva : AppCompatActivity() {
                 val intent = Intent(this@activity_confirmacionReserva, Reservas::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
+                overridePendingTransition(0,0)
+
             }
             dialog.show()
         }
@@ -516,6 +521,8 @@ class activity_confirmacionReserva : AppCompatActivity() {
             val btnClose = dialog.findViewById<Button>(R.id.btnDialogClose)
             btnClose.setOnClickListener {
                 dialog.dismiss()
+                overridePendingTransition(0,0)
+
             }
             // Muestra el diálogo en pantalla
             dialog.show()

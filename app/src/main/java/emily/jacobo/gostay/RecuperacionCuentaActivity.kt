@@ -50,7 +50,7 @@ class RecuperacionCuentaActivity : AppCompatActivity() {
 
         // Navegación para ir a metodos_contras
         imvAtras.setOnClickListener {
-            val volverAtras = Intent(this, metodos_contras::class.java)
+            val volverAtras = Intent(this, activity_iniciar_sesion::class.java)
             startActivity(volverAtras)
             overridePendingTransition(0, 0)
         }

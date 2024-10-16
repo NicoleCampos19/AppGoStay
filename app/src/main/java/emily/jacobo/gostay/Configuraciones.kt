@@ -31,6 +31,8 @@ class Configuraciones : AppCompatActivity() {
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
 
         // Configuración para que el botón imvIdiomas abra la sección de idiomas
@@ -43,6 +45,8 @@ class Configuraciones : AppCompatActivity() {
         imvContacto.setOnClickListener {
             val siguientepantalla = Intent(this, contacto::class.java)
             startActivity(siguientepantalla)
+            overridePendingTransition(0,0)
+
         }
     }
 }

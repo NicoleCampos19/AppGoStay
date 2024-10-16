@@ -35,6 +35,8 @@ class activity_eleccion_habitacion : AppCompatActivity() {
         val imvRegresaralHotel = findViewById<ImageView>(R.id.imvRegresaralHotel)
         imvRegresaralHotel.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
+
         }
 
         //Mando a llamar el rvc de la vista

@@ -10,115 +10,85 @@
 
     <ScrollView
         android:id="@+id/scrollView3"
-        android:layout_width="438dp"
-        android:layout_height="863dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- LinearLayout para alinear los elementos de forma vertical -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/imgVolver"
                 android:layout_width="31dp"
                 android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="350dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
+                android:layout_marginTop="32dp"
+                android:src="@drawable/baseline_arrow_back_ios_new_24" />
 
             <TextView
                 android:id="@+id/tvNombreTipoHabitacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="70dp"
-                android:layout_marginEnd="68dp"
+                android:layout_gravity="center"
                 android:fontFamily="@font/poppins"
                 android:text="@string/habitaeco"
-                android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
+            <!-- Imagen más grande -->
             <ImageView
                 android:id="@+id/imgTipoHabitacion"
-                android:layout_width="478dp"
-                android:layout_height="222dp"
-                android:layout_marginStart="91dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="92dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvNombreTipoHabitacion"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+            android:layout_marginTop="18dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvEspecificaciones"
-                android:layout_width="418dp"
-                android:layout_height="302dp"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="#49A8B5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
+            <!-- Centrar el textView22 -->
             <TextView
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/poppins"
-                android:text="@string/servishabi"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/rcvEspecificaciones"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgTipoHabitacion" />
+                android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/servishabi"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
             <View
                 android:id="@+id/view11"
-                android:layout_width="415dp"
+                android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="9dp"
-                android:background="#BDBDBD"
-                app:layout_constraintBottom_toTopOf="@+id/rcvEspecificaciones"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                android:background="#BDBDBD" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvEspecificaciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#49A8B5" />
 
             <Button
                 android:id="@+id/btnReservar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:backgroundTint="#49A8B5"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="@string/Reservar"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="671dp" />
+                android:textSize="18sp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

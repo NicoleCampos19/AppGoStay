@@ -32,6 +32,8 @@ class valorarServicios : AppCompatActivity() {
 
         imvAtrasServicios.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
+
         }
 
         val rbLimpieza = findViewById<RatingBar>(R.id.rbLimpieza)
