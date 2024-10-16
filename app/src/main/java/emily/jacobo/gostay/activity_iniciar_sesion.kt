@@ -226,7 +226,7 @@ class activity_iniciar_sesion : AppCompatActivity() {
         }
         //Navegación para poder ir a los métodos de recuperación de contraseña
         txtOlvidasteContrasena.setOnClickListener {
-            val siguientepantalla = Intent(this, metodos_contras::class.java)
+            val siguientepantalla = Intent(this, RecuperacionCuentaActivity::class.java)
             startActivity(siguientepantalla)
         }
         //Navegación para ir a la activity anterior
