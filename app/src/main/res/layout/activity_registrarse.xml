@@ -213,6 +213,7 @@
             android:fontFamily="@font/poppins"
             android:hint="@string/Númerocel"
             android:inputType="number"
+            android:maxLength="8"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.522"

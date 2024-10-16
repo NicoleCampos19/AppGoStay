@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import emily.jacobo.gostay.PaginaInicio.Companion.idUsuarioGlobalL
+import emily.jacobo.gostay.activity_iniciar_sesion.variableGloalLogin.correoIngresado
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,7 +29,15 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.text.SimpleDateFormat
+import java.util.Properties
 import java.util.concurrent.TimeUnit
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 class activity_confirmacionReserva : AppCompatActivity() {
 
@@ -136,31 +145,23 @@ class activity_confirmacionReserva : AppCompatActivity() {
             dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_card)
             dialog.setContentView(R.layout.dialog_alerta_reserva)
 
-            // Configurar los botones del diálogo personalizado
             val btnAceptar = dialog.findViewById<Button>(R.id.btnAceptarReserva)
             val btnNoAceptar = dialog.findViewById<Button>(R.id.btnNoAceptarReserva)
 
-            // Configurar acción al presionar "Aceptar"
             btnAceptar.setOnClickListener {
-                // Acción al presionar "Aceptar"
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
-
                         val fechaEntrada1 = activity_reserva.fechaEntrada
                         val fechaSalida2 = activity_reserva.fechaSalida
                         val idTipoHabitacionRecivido2 = AdaptorTipoHabitacion.idTipoHabitacionGlobal
-
-
                         val precioHabitacion = obtenerPrecioHabitacion(idTipoHabitacionRecivido2)
-
 
                         val diasEstancia = if (fechaEntrada1 != null && fechaSalida2 != null) {
                             calcularDiasEstancia(fechaEntrada1, fechaSalida2)
-                        }else {
-                            0L // Valor predeterminado si alguna fecha es nula
+                        } else {
+                            0L
                         }
 
-                        // Obtener los valores a insertar
                         val idHotelRecibido = PaginaInicio.hotelIdGlobal
                         val idTipoHabitacionRecibido = AdaptorTipoHabitacion.idTipoHabitacionGlobal
                         val cvv = activity_reserva.cvv
@@ -170,13 +171,12 @@ class activity_confirmacionReserva : AppCompatActivity() {
                         val totalI = diasEstancia * precioHabitacion
                         val descuentoTotal = AdaptadorOfertas.descuentoTotalGlobal
                         val cantidadHabitaciones = activity_reserva.cantidadHabitaciones
-                        val totalDescuento = totalI * (1- descuentoTotal/100)
+                        val totalDescuento = totalI * (1 - descuentoTotal / 100)
                         val fechaEntrada = activity_reserva.fechaEntrada
                         val fechaSalida = activity_reserva.fechaSalida
                         val idUsuario = idUsuarioGlobalL
                         val idDepartamento = activity_reserva.idDepartamento
 
-                        // Verifica que los campos idHotelRecibido e idUsuario no sean nulos
                         if (idHotelRecibido == null || idUsuario == null) {
                             withContext(Dispatchers.Main) {
                                 Toast.makeText(this@activity_confirmacionReserva, "Error: Datos incompletos.", Toast.LENGTH_SHORT).show()
@@ -184,29 +184,34 @@ class activity_confirmacionReserva : AppCompatActivity() {
                             return@launch
                         }
 
-                        // Realizar la inserción en la base de datos
                         val conexion = ClaseConexion().cadenaConexion()
                         val query = """
-                        INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total,cantidad_habitaciones_reservadas, id_tipo_habitacion, id_departamento, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)
-                    """
+                            INSERT INTO tbHabitaciones (id_hoteles, entrada, salida, numero_tarjeta, fecha_caducidad_tarjeta, nombre_titular_tarjeta, CVV, Total, cantidad_habitaciones_reservadas, id_tipo_habitacion, id_departamento, id_usuario) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """
                         val statement = conexion?.prepareStatement(query)
                         statement?.apply {
                             setInt(1, idHotelRecibido)
-                            setString(2, fechaEntrada) // Fecha de entrada
-                            setString(3, fechaSalida)  // Fecha de salida
+                            setString(2, fechaEntrada)
+                            setString(3, fechaSalida)
                             setString(4, numeroTarjeta)
-                            setString(5, fechaCaducidad) // Fecha de caducidad
+                            setString(5, fechaCaducidad)
                             setString(6, nombreTitular)
-                            setInt(7, cvv ?: 0) // Si cvv es null, se asume 0
+                            setInt(7, cvv ?: 0)
                             setDouble(8, totalDescuento)
-                            setInt(9, cantidadHabitaciones ?: 0) // Si cantidadHabitaciones es null, se asume 0
+                            setInt(9, cantidadHabitaciones ?: 0)
                             setInt(10, idTipoHabitacionRecibido)
-                            setInt(11, idDepartamento ?: 0) // Si idDepartamento es null, se asume 0
+                            setInt(11, idDepartamento ?: 0)
                             setInt(12, idUsuario)
                             executeUpdate()
                         }
 
                         withContext(Dispatchers.Main) {
+                            val txtCorreoI = activity_iniciar_sesion.correoIngresado
+                            val nombreUsuario = PaginaInicio.nombreUsuarioGlobalL
+                            val fechaEntrada = activity_reserva.fechaEntrada
+                            val fechaSalida = activity_reserva.fechaSalida
+                            enviarCorreoConfirmacion(nombreUsuario!!, correoIngresado, fechaEntrada!!, fechaSalida!!, totalDescuento)
                             reservaHecha()
                             AdaptadorOfertas.descuentoTotalGlobal = 0.0
                         }
@@ -220,15 +225,130 @@ class activity_confirmacionReserva : AppCompatActivity() {
                 dialog.dismiss()
             }
 
-            // Configurar acción al presionar "No Aceptar"
             btnNoAceptar.setOnClickListener {
                 dialog.dismiss()
             }
 
-            // Mostrar el diálogo personalizado
             dialog.show()
         }
     }
+
+    private suspend fun enviarCorreoConfirmacion(nombreUsuario: String, correoReceptor: String, fechaEntrada: String, fechaSalida: String, totalDescuento: Double) {
+        val sujeto = "Confirmación de Reserva - GoStay"
+        val mensaje = """
+        <!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #5cb5c4;
+        }
+        h2 {
+            color: #5cb5c4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .details {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #e3f2fd;
+            border-left: 5px solid #5cb5c4;
+            margin: 20px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #5cb5c4;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #4caea2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Estimado/a $nombreUsuario,</h1>
+        <p>Gracias por su reserva en <strong>GoStay</strong>. Aquí están los detalles de su reserva:</p>
+        <div class="details">
+            <ul>
+                <li><strong>Fecha de entrada:</strong> $fechaEntrada</li>
+                <li><strong>Fecha de salida:</strong> $fechaSalida</li>
+                <li><strong>Total pagado:</strong> ${'$'}$totalDescuento</li>
+            </ul>
+        </div>
+        <p>Esperamos que disfrute de su estancia.</p>
+        <p class="footer">Atentamente,</p>
+        <p class="footer">El equipo de GoStay</p>
+    </div>
+</body>
+</html>
+    """.trimIndent()
+
+        // Llama a la función enviarCorreo
+        enviarCorreo(correoReceptor, sujeto, mensaje)
+    }
+
+    private suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) {
+        withContext(Dispatchers.IO) {
+            val props = Properties().apply {
+                put("mail.smtp.host", "smtp.gmail.com")
+                put("mail.smtp.port", "587")
+                put("mail.smtp.auth", "true")
+                put("mail.smtp.starttls.enable", "true")
+                put("mail.smtp.ssl.protocols", "TLSv1.2")
+            }
+
+            val session = Session.getInstance(props, object : javax.mail.Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    // Consider using environment variables or a secure method for storing credentials
+                    return PasswordAuthentication("gostay2024@gmail.com", "dekt szbp iwoe swut")
+                }
+            })
+
+            // Hacemos el envío
+            try {
+                val message = MimeMessage(session).apply {
+                    setFrom(InternetAddress("gostay2024@gmail.com"))
+                    setRecipients(Message.RecipientType.TO, InternetAddress.parse(receptor))
+                    setSubject(sujeto)
+                    setContent(mensaje, "text/html; charset=utf-8")
+                }
+
+                Transport.send(message)
+                Log.d("CorreoConfirmacion", "Correo enviado satisfactoriamente")
+            } catch (e: MessagingException) {
+                Log.e("CorreoConfirmacion", "Error al enviar el correo: ${e.message}")
+                // Aquí puedes mostrar un Toast o un AlertDialog para informar al usuario
+            }
+        }
+    }
+
 
     // Función de cuando la reserva este realizada
     private fun reservaHecha() {
