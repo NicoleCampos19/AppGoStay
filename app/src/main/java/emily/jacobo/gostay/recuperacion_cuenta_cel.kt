@@ -24,10 +24,10 @@ class RecuperacionCuentaCel : AppCompatActivity() {
     private lateinit var txtNumeroCel: EditText
     private lateinit var btnRecuperacionCel: Button
 
-    private val ACCOUNT_SID = "AC72c5823cab688199a114d6cded825545"
-    private val AUTH_TOKEN = "c9080d72383e232b3057abef1bc3f797"
-    private val FROM_NUMBER = "+50370294530" // Número Twilio
-    private val numeroDestino = "+50371741555" // Número de destino fijo
+    private val ACCOUNT_SID = "AC37c32ada8f3896e53defe65679aebfa0"
+    private val AUTH_TOKEN = "6f581a912b4884853481cc66f4f61f26"
+    private val FROM_NUMBER = "+50371741555" // Número Twilio
+    private val numeroDestino = "+50370294530" // Número de destino fijo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
