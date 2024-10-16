@@ -46,6 +46,8 @@ class TusComentarios : AppCompatActivity() {
         // Para que la activity se cierre
         imvAtrasc.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
+
         }
 
         // Función para poder obtener toda la información del comentario

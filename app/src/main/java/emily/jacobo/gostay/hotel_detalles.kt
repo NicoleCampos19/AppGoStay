@@ -210,6 +210,8 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
             if (idHotel != -1) {
                 val intent = Intent(this, activity_eleccion_habitacion::class.java)
                 startActivity(intent)
+                overridePendingTransition(0,0)
+
             }
         }
 
@@ -227,6 +229,8 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
         btnVerMas.setOnClickListener {
             val intent = Intent(this@hotel_detalles, verMas_servicios::class.java)
             startActivity(intent) // Inicia la nueva actividad
+            overridePendingTransition(0,0)
+
         }
 
 
@@ -386,6 +390,7 @@ class hotel_detalles : AppCompatActivity(), OnMapReadyCallback {
                     dialog.dismiss() // Cierra el diálogo antes de abrir la nueva actividad
                     val intent = Intent(this@hotel_detalles, valorarServicios::class.java)
                     startActivity(intent) // Inicia la nueva actividad
+
                 }
 
                 btnNo.setOnClickListener{

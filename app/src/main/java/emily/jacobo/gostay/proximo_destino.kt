@@ -46,6 +46,8 @@ class proximo_destino : AppCompatActivity() {
         btnAtras.setOnClickListener {
             val volverAtras = Intent(this, opcionesdebusquedad::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
 
         // Para que el micrófono se inicie

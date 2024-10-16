@@ -104,7 +104,7 @@
 
         <EditText
             android:id="@+id/txtConfirmarContraRegis"
-            android:layout_width="331dp"
+            android:layout_width="311dp"
             android:layout_height="66dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/cuadritos_registrarse"

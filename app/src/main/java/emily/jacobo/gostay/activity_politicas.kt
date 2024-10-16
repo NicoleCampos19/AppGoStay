@@ -26,6 +26,8 @@ class activity_politicas : AppCompatActivity() {
         imvAtrasPoliticas.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
     }
 

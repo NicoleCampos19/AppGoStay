@@ -201,6 +201,8 @@ class hotel_detalles_admin : AppCompatActivity(), OnMapReadyCallback {
         val imageViewBack = findViewById<ImageView>(R.id.imvVolverDetallesHotel)
         imageViewBack.setOnClickListener {
             finish()
+            overridePendingTransition(0,0)
+
         }
 
         // Obtiene el id del hotel y los detalles del hotel desde el intent

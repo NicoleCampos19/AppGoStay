@@ -37,6 +37,8 @@ class VerMasDenuncias : AppCompatActivity() {
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Denuncias::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
 
         // Obtiene el ID del hotel pasado en el Intent

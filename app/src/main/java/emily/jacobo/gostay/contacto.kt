@@ -25,6 +25,8 @@ class contacto : AppCompatActivity() {
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Configuraciones::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
 
         btnEnviar.setOnClickListener {
@@ -38,6 +40,8 @@ class contacto : AppCompatActivity() {
             }
 
                 enviarCorreo(tituloUsuario, mensajeUsuario)
+            overridePendingTransition(0,0)
+
         }
     }
 

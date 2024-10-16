@@ -38,6 +38,8 @@ class historial_reservas : AppCompatActivity() {
         imvAtrasc.setOnClickListener {
             val volverAtras = Intent(this, Perfil::class.java)
             startActivity(volverAtras)
+            overridePendingTransition(0,0)
+
         }
         // Se asigna el valor del ID de usuario global de la página de inicio.
         val idUsuarioGLobal = PaginaInicio.idUsuarioGlobalL

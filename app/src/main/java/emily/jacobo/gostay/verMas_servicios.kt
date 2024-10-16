@@ -88,7 +88,11 @@ class verMas_servicios : AppCompatActivity() {
 
         // Botón de retroceso
         val imvAtras = findViewById<ImageView>(R.id.imvAtrasvms)
-        imvAtras.setOnClickListener { finish() }
+        imvAtras.setOnClickListener {
+            finish()
+            overridePendingTransition(0,0)
+
+        }
 
 
         // Llamar a la función para obtener calificaciones
