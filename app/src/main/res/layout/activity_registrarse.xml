@@ -21,21 +21,22 @@
             android:layout_height="1409dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.535"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/fondo_registrarse" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="370dp"
-            android:layout_height="1180dp"
+            android:layout_width="354dp"
+            android:layout_height="1188dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtRegistrarse"
-            app:layout_constraintVertical_bias="0.115"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/cuadrotransparente" />
 
         <TextView
@@ -56,8 +57,8 @@
 
         <EditText
             android:id="@+id/txtNombre"
-            android:layout_width="330dp"
-            android:layout_height="65dp"
+            android:layout_width="311dp"
+            android:layout_height="66dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
@@ -71,8 +72,8 @@
 
         <EditText
             android:id="@+id/txtApellido"
-            android:layout_width="330dp"
-            android:layout_height="65dp"
+            android:layout_width="311dp"
+            android:layout_height="66dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
@@ -87,8 +88,8 @@
 
         <EditText
             android:id="@+id/txtContrasenaRegistrarse"
-            android:layout_width="330dp"
-            android:layout_height="65dp"
+            android:layout_width="311dp"
+            android:layout_height="66dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
@@ -103,8 +104,8 @@
 
         <EditText
             android:id="@+id/txtConfirmarContraRegis"
-            android:layout_width="330dp"
-            android:layout_height="65dp"
+            android:layout_width="331dp"
+            android:layout_height="66dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
@@ -148,15 +149,16 @@
             android:layout_width="118dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
-            android:layout_marginBottom="104dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/poppins"
             android:text="@string/inia"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView15" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/imvIniciarGoogle" />
 
         <TextView
             android:id="@+id/textView7"
@@ -176,20 +178,22 @@
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/poppins"
             android:text="@string/cuentaexis"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imvIniciarGoogle" />
+            app:layout_constraintTop_toBottomOf="@+id/imvIniciarGoogle"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/txtFechaNacimiento"
-            android:layout_width="330dp"
-            android:layout_height="65dp"
+            android:layout_width="311dp"
+            android:layout_height="66dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/cuadritos_registrarse"
             android:editable="false"
@@ -205,8 +209,8 @@
 
         <EditText
             android:id="@+id/txtTelefono"
-            android:layout_width="330dp"
-            android:layout_height="65dp"
+            android:layout_width="311dp"
+            android:layout_height="66dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
@@ -221,8 +225,8 @@
 
         <EditText
             android:id="@+id/txtCorreoElectronico"
-            android:layout_width="330dp"
-            android:layout_height="65dp"
+            android:layout_width="311dp"
+            android:layout_height="66dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/cuadritos_registrarse"
             android:ems="10"
