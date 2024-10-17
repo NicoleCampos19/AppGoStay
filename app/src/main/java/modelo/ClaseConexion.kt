@@ -8,7 +8,7 @@ class ClaseConexion {
     fun cadenaConexion(): Connection?{
         try {
             //cambiar ip dependiendo de la computadora
-            val ipLeonardo = "jdbc:oracle:thin:@192.168.0.11:1521:xe"
+            val ipLeonardo = "jdbc:oracle:thin:@192.168.66.88:1521:xe"
             val ipEmily = "jdbc:oracle:thin:@192.168.0.10:1521:xe"
             val ipGabriela = "jdbc:oracle:thin:@192.168.1.13:1521:xe"
             val ipAbigail = "jdbc:oracle:thin:@172.20.10.3:1521:xe"
