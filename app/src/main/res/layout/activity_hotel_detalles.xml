@@ -221,11 +221,16 @@
             android:id="@+id/btnMasDetalles"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:text="@string/vermas"
             android:layout_gravity="center"
             android:backgroundTint="@color/white"
+            android:elevation="2dp"
+            android:fontFamily="@font/poppins"
+            android:padding="10dp"
+            android:text="@string/vermas"
             android:textColor="@color/black"
-            />
+            app:cornerRadius="10dp"
+            app:strokeColor="@android:color/darker_gray"
+            app:strokeWidth="1dp" />
 
         <View
                 android:id="@+id/view4"
